@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd" >
+<configuration>
+	<settings>
+		<setting name="jdbcTypeForNull" value="NULL"/>
+	</settings>
+	
+	<!-- 충돌 날 우려가 많은 구역이니  충돌 발생시 기존값을 지우지 않도록 주의바랍니다. ps. 충돌났는데 모르겠으면 이도형 호출 -->	
+	<typeAliases>
+		<!-- typeAlias 세팅은 이곳에 -->
+		
+	</typeAliases>	
+</configuration>

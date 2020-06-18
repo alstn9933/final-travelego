@@ -1,0 +1,14 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+body > section {
+  width: 1200px;
+  min-height: calc(100vh - 10px);
+  margin: 0 auto;
+  padding-top: 150px;
+}

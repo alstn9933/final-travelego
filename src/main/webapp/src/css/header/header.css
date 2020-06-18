@@ -1,0 +1,42 @@
+@import url("/src/css/bootstrap/bootstrap-4.5.0.css");
+@import url("owl.carousel.min.css");
+@import url("magnific-popup.css");
+@import url("font-awesome.min.css");
+@import url("themify-icons.css");
+@import url("nice-select.css");
+@import url("flaticon.css");
+@import url("gijgo.css");
+@import url("animate.css");
+@import url("slick.css");
+@import url("slicknav.css");
+@import url("style.css");
+@import url("/src/css/jquery/jquery-ui.css");
+
+header {
+  width: 100%;
+  position: fixed;
+  display: flex;
+  background-color: white;
+}
+
+.alramIcon {
+  width: 50px;
+}
+.logout {
+  width: 30px;
+}
+.logoutIcon {
+  font-size: 20px;
+}
+.ringmybell {
+  font-size: 20px;
+}
+.col-xl-2 col-lg-2 {
+  width: 250px;
+}
+
+/* 네비게이션 메뉴 폰트 설정 */
+.col-xl-6 #navigation a {
+  font-weight: bold;
+  opacity: 0.65;
+}
