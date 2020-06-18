@@ -40,7 +40,7 @@ prefix="c"%>
                 <div class="alramIcon">
                   <i class="far fa-bell ringmybell"></i>
                 </div>
-                <c:if test="${empty sessionScope.member }">
+                <c:if test="${not empty sessionScope.member }">
                   <div class="main-menu d-none d-lg-block">
                     <nav>
                       <ul id="navigation">
@@ -60,7 +60,7 @@ prefix="c"%>
                     </nav>
                   </div>
                 </c:if>
-                <c:if test="${not empty sessionScope.member }">
+                <c:if test="${empty sessionScope.member }">
                   <a
                     href="#"
                     title="회원정보가 없습니다!"
