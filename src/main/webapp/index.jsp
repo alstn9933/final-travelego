@@ -8,6 +8,6 @@ pageEncoding="UTF-8"%>
   </head>
   <body>
     <h1>HELLO TEAM 5</h1>
-    <a href="base.jsp">go</a>
+    <a href="/tourList.do">go</a>
   </body>
 </html>
