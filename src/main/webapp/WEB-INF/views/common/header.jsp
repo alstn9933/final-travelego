@@ -40,7 +40,7 @@ prefix="c"%>
                 <div class="alramIcon">
                   <i class="far fa-bell ringmybell"></i>
                 </div>
-                <c:if test="${empty sessionScope.member }">
+                <c:if test="${not empty sessionScope.member }">
                   <div class="main-menu d-none d-lg-block">
                     <nav>
                       <ul id="navigation">
@@ -59,8 +59,9 @@ prefix="c"%>
                       </ul>
                     </nav>
                   </div>
+                  <a href="/logout.do"><i class="fas fa-sign-out-alt logoutIcon"></i></a>
                 </c:if>
-                <c:if test="${not empty sessionScope.member }"> </c:if>
+                <c:if test="${empty sessionScope.member }">
                   <a
                     href="#"
                     title="회원정보가 없습니다!"
@@ -68,14 +69,8 @@ prefix="c"%>
                     data-placement="bottom"
                     ><i class="far fa-user userIcon"></i
                   ></a>
-               
-                <div class="logout">
-                <c:if test="${not empty sessionScope.member }">
-                	<a href="/login.do">로그인</a>
+                	<a href="/loginFrm.do">로그인</a>
                 </c:if>
-                <c:if test="${empty sessionScope.member }">
-                  <a href="/logout.do"><i class="fas fa-sign-out-alt logoutIcon"></i></a>
-                  </c:if>
                 </div>
               </div>
             </div>
@@ -83,5 +78,5 @@ prefix="c"%>
         </div>
       </div>
     </div>
-  </div>
+
 </header>

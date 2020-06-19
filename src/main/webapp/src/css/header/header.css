@@ -17,6 +17,8 @@ header {
   position: fixed;
   display: flex;
   background-color: white;
+  z-index: 1000;
+  background-color: white;
 }
 
 .alramIcon {

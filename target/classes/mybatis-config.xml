@@ -9,6 +9,5 @@
 	<typeAliases>
 		<!-- typeAlias 세팅은 이곳에 -->
 		<typeAlias type="kr.or.iei.member.model.vo.Member" alias="member"/>
-		<typeAlias type="kr.or.iei.notice.model.vo.Notice" alias="notice"/>
 	</typeAliases>	
 </configuration>
