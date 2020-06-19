@@ -51,7 +51,7 @@ prefix="c"%>
                               <li>
                                 <a href="destination_details.html">내정보</a>
                               </li>
-                              <li><a href="elements.html">일정만들기</a></li>
+                              <li><a href="/mytripFrm.do">일정만들기</a></li>
                               <li><a href="elements.html">쪽지함</a></li>
                             </ul>
                           </li>
