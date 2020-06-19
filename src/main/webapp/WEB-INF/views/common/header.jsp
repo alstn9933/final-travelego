@@ -40,7 +40,7 @@ prefix="c"%>
                 <div class="alramIcon">
                   <i class="far fa-bell ringmybell"></i>
                 </div>
-                <c:if test="${empty sessionScope.member }">
+                <c:if test="${not empty sessionScope.member }"></c:if>
                   <div class="main-menu d-none d-lg-block">
                     <nav>
                       <ul id="navigation">
@@ -59,15 +59,21 @@ prefix="c"%>
                       </ul>
                     </nav>
                   </div>
-                </c:if>
-                <c:if test="${not empty sessionScope.member }">
-                  <a
+                
+                <c:if test="${empty sessionScope.member }">
+            <div class="notlogin">
+              <div class="logo2">
+               <a 
                     href="#"
                     title="회원정보가 없습니다!"
+                    
                     data-toggle="popover"
                     data-placement="bottom"
                     ><i class="far fa-user userIcon"></i
                   ></a>
+              </div>
+            </div>
+                  
                 </c:if>
                 <div class="logout">
                   <a href="#"><i class="fas fa-sign-out-alt logoutIcon"></i></a>
