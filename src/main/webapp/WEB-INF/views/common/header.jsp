@@ -11,7 +11,7 @@ prefix="c"%>
               <div class="logo">
                 <a href="index.html"
                   ><img
-                    src="/src/imgs/header/mainlogo.png"
+                    src="/src/imgs/header/mainlogo2.png"
                     style="width: 100%; height: 90px;"
                     alt=""
                   />
@@ -40,7 +40,7 @@ prefix="c"%>
                 <div class="alramIcon">
                   <i class="far fa-bell ringmybell"></i>
                 </div>
-                <c:if test="${not empty sessionScope.member }"></c:if>
+                <c:if test="${empty sessionScope.member }">
                   <div class="main-menu d-none d-lg-block">
                     <nav>
                       <ul id="navigation">
@@ -59,24 +59,23 @@ prefix="c"%>
                       </ul>
                     </nav>
                   </div>
-                
-                <c:if test="${empty sessionScope.member }">
-            <div class="notlogin">
-              <div class="logo2">
-               <a 
+                </c:if>
+                <c:if test="${not empty sessionScope.member }"> </c:if>
+                  <a
                     href="#"
                     title="회원정보가 없습니다!"
-                    
                     data-toggle="popover"
                     data-placement="bottom"
                     ><i class="far fa-user userIcon"></i
                   ></a>
-              </div>
-            </div>
-                  
-                </c:if>
+               
                 <div class="logout">
-                  <a href="#"><i class="fas fa-sign-out-alt logoutIcon"></i></a>
+                <c:if test="${not empty sessionScope.member }">
+                	<a href="/login.do">로그인</a>
+                </c:if>
+                <c:if test="${empty sessionScope.member }">
+                  <a href="/logout.do"><i class="fas fa-sign-out-alt logoutIcon"></i></a>
+                  </c:if>
                 </div>
               </div>
             </div>

@@ -8,6 +8,7 @@
 	<!-- 충돌 날 우려가 많은 구역이니  충돌 발생시 기존값을 지우지 않도록 주의바랍니다. ps. 충돌났는데 모르겠으면 이도형 호출 -->	
 	<typeAliases>
 		<!-- typeAlias 세팅은 이곳에 -->
-		
+		<typeAlias type="kr.or.iei.member.model.vo.Member" alias="member"/>
+		<typeAlias type="kr.or.iei.notice.model.vo.Notice" alias="notice"/>
 	</typeAliases>	
 </configuration>
