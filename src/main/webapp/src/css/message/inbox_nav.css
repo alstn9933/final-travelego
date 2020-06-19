@@ -1,0 +1,43 @@
+nav {
+  display: flex;
+  justify-content: space-between;
+}
+
+.inbox_navi {
+  display: flex;
+}
+
+.inbox_navi li {
+  padding: 10px 30px;
+}
+
+nav li a {
+  font-size: 18px;
+  font-weight: bold;
+  color: rgba(0, 0, 0, 0.8);
+}
+
+.selected_tab {
+  background-color: white;
+  border-radius: 5px 5px 0 0;
+}
+
+nav li:not(.selected_tab) > a {
+  color: rgb(221, 221, 221);
+}
+
+.btn_area {
+  margin-top: 5px;
+}
+
+.btn_area button {
+  font-size: 12px;
+}
+
+.btn_area a {
+  font-size: 12px;
+}
+
+nav li:not(.selected_tab) > a:hover {
+  color: rgb(250, 250, 250);
+}
