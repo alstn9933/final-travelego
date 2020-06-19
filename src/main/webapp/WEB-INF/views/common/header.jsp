@@ -11,7 +11,7 @@ prefix="c"%>
               <div class="logo">
                 <a href="index.html"
                   ><img
-                    src="/src/imgs/header/mainlogo.png"
+                    src="/src/imgs/header/mainlogo2.png"
                     style="width: 100%; height: 90px;"
                     alt=""
                   />
@@ -51,7 +51,7 @@ prefix="c"%>
                               <li>
                                 <a href="destination_details.html">내정보</a>
                               </li>
-                              <li><a href="elements.html">일정만들기</a></li>
+                              <li><a href="/mytripFrm.do">일정만들기</a></li>
                               <li><a href="elements.html">쪽지함</a></li>
                             </ul>
                           </li>
@@ -59,6 +59,7 @@ prefix="c"%>
                       </ul>
                     </nav>
                   </div>
+                  <a href="/logout.do"><i class="fas fa-sign-out-alt logoutIcon"></i></a>
                 </c:if>
                 <c:if test="${empty sessionScope.member }">
                   <a
@@ -68,9 +69,8 @@ prefix="c"%>
                     data-placement="bottom"
                     ><i class="far fa-user userIcon"></i
                   ></a>
+                	<a href="/loginFrm.do">로그인</a>
                 </c:if>
-                <div class="logout">
-                  <a href="#"><i class="fas fa-sign-out-alt logoutIcon"></i></a>
                 </div>
               </div>
             </div>
@@ -78,5 +78,5 @@ prefix="c"%>
         </div>
       </div>
     </div>
-  </div>
+
 </header>
