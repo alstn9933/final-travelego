@@ -68,4 +68,6 @@
 		</websocket:handshake-interceptors>
 	</websocket:handlers>
 	-->
+	<context:component-scan base-package="kr.or.iei.tour"/>
+	<context:component-scan base-package="kr.or.iei.resreve"/>
 </beans>

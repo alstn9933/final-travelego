@@ -31,8 +31,6 @@ prefix="c"%>
     <style></style>
   </head>
   <body>
-    <h1>HELLO TEAM 5</h1>
-    <a href="/tourList.do">go</a>
     <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 
     <!-- 웹 콘텐츠는 section 태그 안에 작성을 해주세요!-->
