@@ -10,5 +10,6 @@
 		<!-- typeAlias 세팅은 이곳에 -->
 		<typeAlias type="kr.or.iei.mytrip.model.vo.Mytrip" alias="mytrip"/>
 		<typeAlias type="kr.or.iei.member.model.vo.Member" alias="member"/>
+		<typeAlias type="kr.or.iei.message.model.vo.Message" alias="message"/>
 	</typeAliases>	
 </configuration>
