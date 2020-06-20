@@ -34,4 +34,23 @@ public class MemberController {
 			return "member/login";
 		}
 	}
+	@RequestMapping("/logout.do")
+	public String logoutMember(HttpSession session) {
+		session.invalidate();
+		return "redirect:/";
+		
+	}
+	@RequestMapping("/joinFrm.do")
+	public String joinFrm() {
+		return "member/joinFrm";
+	}
+	@RequestMapping("/memberjoinFrm.do")
+	public String memberjoinFrm() {
+		return "member/memberjoinFrm";
+	}
+	@RequestMapping("/companyjoinFrm.do")
+	public String companyjoinFrm() {
+		return "member/companyjoinFrm";
+	}
+	
 }
