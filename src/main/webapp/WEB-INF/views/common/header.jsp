@@ -40,6 +40,24 @@ prefix="c"%>
                 <div class="alramIcon">
                   <i class="far fa-bell ringmybell"></i>
                 </div>
+                 <c:if test="${sessionScope.member.memberId == 'admin'}">
+                  <div class="main-menu d-none d-lg-block">
+                    <nav>
+                      <ul id="navigation">
+                        <ul class="submenu">
+                          <li>
+                            <a href="#"><i class="fas fa-tools"></i></i></a>
+                            <ul class="submenu">
+                              <li>
+                                <a href="destination_details.html">관리자 페이지</a>
+                              </li>
+                            </ul>
+                          </li>
+                        </ul>
+                      </ul>
+                    </nav>
+                  </div>
+                </c:if>
                 <c:if test="${not empty sessionScope.member }">
                   <div class="main-menu d-none d-lg-block">
                     <nav>
@@ -61,6 +79,7 @@ prefix="c"%>
                   </div>
                   <a href="/logout.do"><i class="fas fa-sign-out-alt logoutIcon"></i></a>
                 </c:if>
+               
                 <c:if test="${empty sessionScope.member }">
                   <a
                     href="#"
@@ -69,7 +88,7 @@ prefix="c"%>
                     data-placement="bottom"
                     ><i class="far fa-user userIcon"></i
                   ></a>
-                	<a href="/loginFrm.do">로그인</a>
+                	<a href="/loginFrm.do" c>로그인</a>
                 </c:if>
                 </div>
               </div>

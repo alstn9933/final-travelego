@@ -1,0 +1,54 @@
+@charset "UTF-8";
+.joincontent{
+	margin : 0 auto;
+	width: 1200px;
+	height :1200px;
+	text-align: center;
+}
+.mainfrm{
+	margin-top:200px;
+	width: 1200px;
+	height : 800px;
+	text-align: center;
+	border : 1px solid black;
+	border-radius: 15px;
+	background-color: #FFFFFA;
+
+}
+.mainfrm>h1{
+	padding-top: 50px;
+}
+.memberlevel1>i,.memberlevel2>i{
+	margin-top:80px;
+	font-size: 200px;
+}
+.memberlevel1>h3,.memberlevel2>h3{
+	margin-top:30px;
+}
+.memberlevel1 input,.memberlevel2 input{
+	margin-top:100px;
+	width: 280px;
+	height: 60px;
+	border-radius:15px; 
+}
+
+.memberlevel1{
+	border: 1px solid black;
+	border-radius : 20px;
+	width: 35%;
+	height : 600px;
+	display: inline-block;
+	float: left;
+	margin-left: 120px;
+	margin-top:50px; 
+
+	
+}
+.memberlevel2{
+	width: 35%;
+	height : 600px;
+	display: inline-block;
+	border: 1px solid black;
+	border-radius : 20px;	
+	margin-top:50px; 
+}
