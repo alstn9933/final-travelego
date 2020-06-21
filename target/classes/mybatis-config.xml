@@ -11,5 +11,7 @@
 		<typeAlias type="kr.or.iei.tour.model.vo.TourVO" alias="tour"/>
 		<typeAlias type="kr.or.iei.tour.model.vo.MoreTourVal" alias="mtv"/>
 		<typeAlias type="kr.or.iei.tour.model.vo.ReviewVO" alias="review"/>
+		<typeAlias type="kr.or.iei.mytrip.model.vo.Mytrip" alias="mytrip"/>
+		<typeAlias type="kr.or.iei.member.model.vo.Member" alias="member"/>
 	</typeAliases>	
 </configuration>

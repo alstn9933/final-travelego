@@ -1,0 +1,17 @@
+section {
+  background-color: white;
+  padding: 20px 20px;
+  min-height: 92vh;
+  border-radius: 0 5px 5px 5px;
+}
+
+.alert_area {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 0;
+  margin-bottom: 10px;
+}
+
+.alert_area span {
+  font-size: 12px;
+}

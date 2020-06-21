@@ -70,4 +70,5 @@
 	-->
 	<context:component-scan base-package="kr.or.iei.tour"/>
 	<context:component-scan base-package="kr.or.iei.resreve"/>
+	<context:component-scan base-package="kr.or.iei.member"/>
 </beans>

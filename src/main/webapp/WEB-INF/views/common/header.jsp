@@ -11,7 +11,7 @@ prefix="c"%>
               <div class="logo">
                 <a href="index.html"
                   ><img
-                    src="/src/imgs/header/mainlogo.png"
+                    src="/src/imgs/header/mainlogo2.png"
                     style="width: 100%; height: 90px;"
                     alt=""
                   />
@@ -40,7 +40,25 @@ prefix="c"%>
                 <div class="alramIcon">
                   <i class="far fa-bell ringmybell"></i>
                 </div>
-                <c:if test="${not empty sessionScope.member }"></c:if>
+                 <c:if test="${sessionScope.member.memberId == 'admin'}">
+                  <div class="main-menu d-none d-lg-block">
+                    <nav>
+                      <ul id="navigation">
+                        <ul class="submenu">
+                          <li>
+                            <a href="#"><i class="fas fa-tools"></i></i></a>
+                            <ul class="submenu">
+                              <li>
+                                <a href="destination_details.html">관리자 페이지</a>
+                              </li>
+                            </ul>
+                          </li>
+                        </ul>
+                      </ul>
+                    </nav>
+                  </div>
+                </c:if>
+                <c:if test="${not empty sessionScope.member }">
                   <div class="main-menu d-none d-lg-block">
                     <nav>
                       <ul id="navigation">
@@ -51,7 +69,7 @@ prefix="c"%>
                               <li>
                                 <a href="destination_details.html">내정보</a>
                               </li>
-                              <li><a href="elements.html">일정만들기</a></li>
+                              <li><a href="/mytripFrm.do">일정만들기</a></li>
                               <li><a href="elements.html">쪽지함</a></li>
                             </ul>
                           </li>
@@ -59,24 +77,19 @@ prefix="c"%>
                       </ul>
                     </nav>
                   </div>
-                
+                  <a href="/logout.do"><i class="fas fa-sign-out-alt logoutIcon"></i></a>
+                </c:if>
+               
                 <c:if test="${empty sessionScope.member }">
-            <div class="notlogin">
-              <div class="logo2">
-               <a 
+                  <a
                     href="#"
                     title="회원정보가 없습니다!"
-                    
                     data-toggle="popover"
                     data-placement="bottom"
                     ><i class="far fa-user userIcon"></i
                   ></a>
-              </div>
-            </div>
-                  
+                	<a href="/loginFrm.do" c>로그인</a>
                 </c:if>
-                <div class="logout">
-                  <a href="#"><i class="fas fa-sign-out-alt logoutIcon"></i></a>
                 </div>
               </div>
             </div>
@@ -84,5 +97,5 @@ prefix="c"%>
         </div>
       </div>
     </div>
-  </div>
+
 </header>
