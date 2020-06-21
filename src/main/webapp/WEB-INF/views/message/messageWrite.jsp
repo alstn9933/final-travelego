@@ -29,7 +29,7 @@ prefix="c"%>
       </ul>
     </nav>
     <section>
-      <form>
+      <form action="/messageSend.do" method="POST">
         <div class="receiver_area form-group">
           <label for="inputReceiver">받는 사람</label>
           <span>회원이 존재하지 않습니다.</span>
@@ -54,6 +54,7 @@ prefix="c"%>
           <button type="button" class="btn btn-outline-danger">취소</button>
           <button type="submit" class="btn btn-outline-primary">보내기</button>
         </div>
+        <input type="hidden" name="messageSender" value="${sessionScope.member.memberId}">
       </form>
     </section>
   </body>

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import kr.or.iei.member.model.vo.Member;
 import kr.or.iei.message.model.dao.MessageDao;
+import kr.or.iei.message.model.vo.Message;
 
 @Service("messageService")
 public class MessageService {
@@ -19,5 +20,10 @@ public class MessageService {
 
 	public List selectMsgList(Member member) {
 		return dao.selectMsgList(member);
+	}
+
+
+	public int insertMessage(Message m) {
+		return dao.insertMessage(m);
 	}
 }

@@ -1,5 +1,6 @@
 package kr.or.iei.message.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -22,15 +23,34 @@ public class MessageController {
 	@Qualifier("messageService")
 	private MessageService service;
 	
+	@RequestMapping("/openInbox.do")
 	public String selectMemberMessage(HttpSession session, Model m) {
 		
 		Member member = (Member)session.getAttribute("member");
 		
 		if(member != null) {
-			List list = service.selectMsgList(member);			
+			List list = service.selectMsgList(member);
+			m.addAttribute((ArrayList<Message>)list);
 		}
 		
-		return null;
+		return "message/inbox";
 	}
+	
+	@RequestMapping("/messageSend.do")
+	public String messageSend(Message m, Model model) {		
+		
+		int result = service.insertMessage(m);
+		
+		if(result>0) {
+			model.addAttribute("msg", "메세지를 전송하였습니다.");
+		} else {
+			model.addAttribute("msg", "메세지를 전송에 실패하였습니다.");
+		}
+		
+		model.addAttribute("loc","/openInbox.do");
+		return "common/msg";
+	}
+	
+	
 		
 }

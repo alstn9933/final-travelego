@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import kr.or.iei.member.model.vo.Member;
+import kr.or.iei.message.model.vo.Message;
 
 @Repository("messageDao")
 public class MessageDao {
@@ -16,6 +17,10 @@ public class MessageDao {
 
 	public List selectMsgList(Member member) {
 		return session.selectList("message.selectMsgList", member);
+	}
+
+	public int insertMessage(Message m) {
+		return session.insert("message.insertMessage",m);
 	}
 	
 	
