@@ -21,7 +21,7 @@ public class MemberController {
 	
 	@RequestMapping("/loginFrm.do")
 	public String loginFrm() {
-		return "member/Login";
+		return "member/loginFrm";
 	}
 	@RequestMapping("/loginMember.do")
 	public String loginMember(Member m,HttpSession session) {
@@ -51,6 +51,10 @@ public class MemberController {
 	@RequestMapping("/companyjoinFrm.do")
 	public String companyjoinFrm() {
 		return "member/companyjoinFrm";
+	}
+	@RequestMapping("/memberTerms.do")
+	public String memberTerms() {
+		return "member/memberTerms";
 	}
 	
 }
