@@ -27,7 +27,7 @@ prefix="c"%>
     <link rel="stylesheet" href="/src/css/header/header.css" />
     <link rel="stylesheet" href="/src/css/footer/footer.css" />
     <link rel="stylesheet" href="/src/css/main/web_default.css" />
-    <title>Travelego</title>
+    <title>Admin</title>
     <style></style>
   </head>
   <body>
@@ -35,8 +35,8 @@ prefix="c"%>
 
     <!-- 웹 콘텐츠는 section 태그 안에 작성을 해주세요!-->
     <section>
-      <!-- 여기서부터 작성하시면 됨!!!!!!! -->
-      <div></div>
+      <h1>관리자 페이지로 가기</h1>
+      <a href="/adminPage.do">관리자 페이지</a>
     </section>
 
     <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
