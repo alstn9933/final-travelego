@@ -2,6 +2,9 @@ package kr.or.iei.reserve.model.vo;
 
 import java.sql.Date;
 
+import lombok.Data;
+
+@Data
 public class ReserveVO {
 	private int reserveNo;
 	private int itemNo;
