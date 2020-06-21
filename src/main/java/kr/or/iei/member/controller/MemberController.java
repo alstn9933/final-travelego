@@ -21,7 +21,7 @@ public class MemberController {
 	
 	@RequestMapping("/loginFrm.do")
 	public String loginFrm() {
-		return "member/Login";
+		return "member/loginFrm";
 	}
 	@RequestMapping("/loginMember.do")
 	public String loginMember(Member m,HttpSession session) {
@@ -34,4 +34,27 @@ public class MemberController {
 			return "member/login";
 		}
 	}
+	@RequestMapping("/logout.do")
+	public String logoutMember(HttpSession session) {
+		session.invalidate();
+		return "redirect:/";
+		
+	}
+	@RequestMapping("/joinFrm.do")
+	public String joinFrm() {
+		return "member/joinFrm";
+	}
+	@RequestMapping("/memberjoinFrm.do")
+	public String memberjoinFrm() {
+		return "member/memberjoinFrm";
+	}
+	@RequestMapping("/companyjoinFrm.do")
+	public String companyjoinFrm() {
+		return "member/companyjoinFrm";
+	}
+	@RequestMapping("/memberTerms.do")
+	public String memberTerms() {
+		return "member/memberTerms";
+	}
+	
 }

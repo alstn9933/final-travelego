@@ -6,7 +6,7 @@ prefix="c"%>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>로그인페이지</title>
 <!-- Bootstrap script -->
  <script src="/src/js/jquery/jquery-3.5.1.js"></script>
  <script src="/src/js/bootstrap/popper.min.js"></script>
@@ -43,8 +43,9 @@ prefix="c"%>
                 <button class="btn btn-lg btn-primary btn-block btn-login text-uppercase font-weight-bold mb-2" type="submit">Login</button>
                 <div class="text-center">
               </form>
-                <a href="#"><input class="btn btn-lg btn-primary btn-block btn-login text-uppercase font-weight-bold mb-2" type="button" value="회원가입"></a>
-                  <a class="small" href="#">아이디/비밀번호 찾기</a></div>
+           <a href="/memberTerms.do"><input class="btn btn-lg btn-primary btn-block btn-login text-uppercase font-weight-bold mb-2" type="button" value="회원가입"></a>
+           <a class="small" href="#">아이디/비밀번호 찾기</a></div>
+                  </div>
             </div>
           </div>
         </div>
