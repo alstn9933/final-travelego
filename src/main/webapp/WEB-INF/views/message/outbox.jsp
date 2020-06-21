@@ -16,35 +16,7 @@ prefix="c"%>
     <title>쪽지함</title>
   </head>
   <body>
-    <nav>
-      <ul class="inbox_navi">
-        <li>
-          <a href="/open.do">받은 쪽지</a>
-        </li>
-        <li class="selected_tab">
-          <a href="/outbox.do">보낸 쪽지</a>
-        </li>
-        <li>
-          <a href="/write.do">쪽지 보내기</a>
-        </li>
-      </ul>
-      <div class="btn_area">
-        <button
-          type="button"
-          class="btn btn-sm btn-danger dropdown-toggle"
-          data-toggle="dropdown"
-          aria-haspopup="true"
-          aria-expanded="false"
-        >
-          메시지 삭제
-        </button>
-        <div class="dropdown-menu">
-          <a class="dropdown-item" href="#">전체 삭제</a>
-          <a class="dropdown-item" href="#">선택 삭제</a>
-          <a class="dropdown-item" href="#">읽은 쪽지만 삭제</a>
-        </div>
-      </div>
-    </nav>
+  <jsp:include page="/WEB-INF/views/message/inboxNav.jsp"></jsp:include>
     <section>
       <div class="alert_area">
         <div>

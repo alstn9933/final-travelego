@@ -23,20 +23,26 @@ public class MessageController {
 	@Qualifier("messageService")
 	private MessageService service;
 	
-	@RequestMapping("/openInbox.do")
+	@RequestMapping("/write.do")
+	public String messageWriteFrm() {
+		return "message/write";
+	}
+	
+	@RequestMapping("/inbox.do")
 	public String selectMemberMessage(HttpSession session, Model m) {
 		
 		Member member = (Member)session.getAttribute("member");
 		
 		if(member != null) {
 			List list = service.selectMsgList(member);
-			m.addAttribute((ArrayList<Message>)list);
+			System.out.println(list.size());
+			m.addAttribute("list", (ArrayList<Message>)list);
 		}
 		
 		return "message/inbox";
 	}
 	
-	@RequestMapping("/messageSend.do")
+	@RequestMapping("/send.do")
 	public String messageSend(Message m, Model model) {		
 		
 		int result = service.insertMessage(m);
@@ -47,7 +53,7 @@ public class MessageController {
 			model.addAttribute("msg", "메세지를 전송에 실패하였습니다.");
 		}
 		
-		model.addAttribute("loc","/openInbox.do");
+		model.addAttribute("loc","/message/inbox.do");
 		return "common/msg";
 	}
 	

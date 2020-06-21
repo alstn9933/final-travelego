@@ -15,21 +15,9 @@ prefix="c"%>
     <title>쪽지함</title>
   </head>
   <body>
-    <nav>
-      <ul class="inbox_navi">
-        <li>
-          <a href="/open.do">받은 쪽지</a>
-        </li>
-        <li>
-          <a href="/outbox.do">보낸 쪽지</a>
-        </li>
-        <li class="selected_tab">
-          <a href="/write.do">쪽지 보내기</a>
-        </li>
-      </ul>
-    </nav>
+    <jsp:include page="/WEB-INF/views/message/inboxNav.jsp"></jsp:include>
     <section>
-      <form action="/messageSend.do" method="POST">
+      <form action="/message/send.do" method="POST">
         <div class="receiver_area form-group">
           <label for="inputReceiver">받는 사람</label>
           <span>회원이 존재하지 않습니다.</span>
