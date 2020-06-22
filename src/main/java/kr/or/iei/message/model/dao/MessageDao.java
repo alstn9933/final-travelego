@@ -22,6 +22,18 @@ public class MessageDao {
 	public int insertMessage(Message m) {
 		return session.insert("message.insertMessage",m);
 	}
+
+	public Message selectOneMessage(int messageNo) {
+		return session.selectOne("message.selectOneMessage", messageNo);
+	}
+
+	public int countUncheckMsg(Member member) {		
+		return session.selectOne("message.countUncheckMsg",member);
+	}
+
+	public int countAllMsg(Member member) {
+		return session.selectOne("message.countAllMsg",member);
+	}
 	
 	
 }

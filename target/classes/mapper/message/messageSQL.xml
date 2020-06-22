@@ -24,4 +24,27 @@
 			0
 		)
 	</insert>
+	<select id="selectOneMessage" parameterType="_int" resultType="msg">
+		select
+			message_no as messageNo,
+			message_sender as messageSender,
+			message_receiver as messageReceiver,
+			message_content as messageContent,
+			send_date as sendDate,
+			message_check as messageCheck,
+			delete_level as deleteLevel
+		from message
+		where message_no = #{_parameter}
+	</select>
+	<select id="countAllMsg" parameterType="member">
+		select
+			count(*)
+		from message
+	</select>
+	<select id="countUnchkMsg" parameterType="member">
+		select
+			count(message_no)
+		from message
+		where member_receiver = #{memberId} 
+	</select>
 </mapper>
