@@ -12,6 +12,10 @@
   -ms-flex-pack: start;
   justify-content: start;
 }
+.emptyuser{
+	width: 50px;
+	font-size: 20px;
+}
 
 /* Normal desktop :1200px. */
 /* Normal desktop :992px. */
