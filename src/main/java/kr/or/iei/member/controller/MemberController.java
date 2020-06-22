@@ -31,7 +31,7 @@ public class MemberController {
 			session.setAttribute("member",member);
 			return "redirect:/";
 		}else {
-			return "member/login";
+			return "member/loginFrm";
 		}
 	}
 	@RequestMapping("/logout.do")

@@ -34,7 +34,6 @@ public class TourService {
 			int sum = 0;
 			float avg=0;
 			ArrayList<ReviewVO> rvList = (ArrayList<ReviewVO>)dao.selectReviewList(tv.getItemNo());
-			System.out.println(rvList.size());
 			for(ReviewVO rv : rvList) {
 				sum+=rv.getReviewRate();
 			}
