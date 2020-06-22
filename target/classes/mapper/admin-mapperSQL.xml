@@ -3,4 +3,17 @@
 <mapper namespace="admin">
 <!-- d여기다 쿼리문 작성 -->
 
+	<select id="selectAllMember" resultType="membervo">
+		select
+		member_id as memberId,
+		member_pw as memberPw,
+		member_nickname as memberNickname,
+		member_name as memberName,
+		age,
+		gender,
+		phone,
+		email,
+		member_level as memberLevel
+		from member
+	</select>
 </mapper>

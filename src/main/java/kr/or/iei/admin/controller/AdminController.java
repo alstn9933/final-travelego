@@ -1,15 +1,24 @@
 package kr.or.iei.admin.controller;
 
+import java.util.ArrayList;
+
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import kr.or.iei.member.model.service.AdminService;
+import com.google.gson.Gson;
+
+import kr.or.iei.admin.model.service.AdminService;
+import kr.or.iei.member.model.vo.MemberVO;
 
 @Controller
-
 public class AdminController {
+	
 	@Autowired
 	@Qualifier("adminService")
 	private AdminService service;
@@ -21,7 +30,19 @@ public class AdminController {
 
 	@RequestMapping(value = "/adminPage.do")
 	public String adminPage() {
-		return "admin/adminPage";
+		return "admin//adminPage";
 	}
+	@RequestMapping(value = "/memberManagement.do")
+	public String management(Model model) {
+		ArrayList<MemberVO> list = service.selectAllMmember();
+		model.addAttribute("list",list);
+		return "admin/memberManagement";
 
+	}
+	/*
+	 * MEMBER_LEVEL 1:일반회원 2:법인회원 3:관리자
+	 * COFIRM 0:승인전 1:승인후
+	 */
+	
+	
 }

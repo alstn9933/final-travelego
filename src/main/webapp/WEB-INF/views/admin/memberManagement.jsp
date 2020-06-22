@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
 <!DOCTYPE html>
 <html class="no-js" lang="zxx">
 <head>
@@ -28,6 +29,9 @@
 	<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 
 	<!-- 웹 콘텐츠는 section 태그 안에 작성을 해주세요!-->
+	<!-- 스크립트 -->
+	
+	
 	<section>
 		<!DOCTYPE html>
 		<html>
@@ -37,6 +41,56 @@
 <title>관리자 페이지</title>
 </head>
 <style>
+<!--컨텐츠 스타일-->
+    #member_container {
+        
+        width: 960px;
+        margin: 0 auto;
+    }
+
+    #member_container #input-form {
+       
+        text-align: center;
+    }
+
+    #user-table {
+        margin: 0 auto;
+        text-align: center;
+    }
+
+    #input-form {
+         
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+
+    #user-table {
+        border-collapse: collapse;
+    }
+
+    #user-table>thead>tr {
+        background-color: #333;
+        color: #fff;
+    }
+
+    #user-table>thead>tr>th {
+        padding: 8px;
+        width: 150px;
+    }
+
+    #user-table>tbody>tr>td {
+        border-bottom: 1px solid gray;
+        padding: 8px;
+    }
+    #member_type{
+       
+        padding-left: 2px;
+        padding-right: 2px;
+        padding-top: 1px;
+        padding-bottom: 5px;
+        
+    }
+  <!--사이드바 메뉴 스타일-->  
 .admin_page {
 
 	font-family: "Lato", sans-serif;
@@ -96,6 +150,7 @@ main .admin_sidebar {
 	}
 }
 </style>
+<!-- 게시글 스타일 -->
 
 <body>
 	<div class="admin_page">
@@ -103,17 +158,56 @@ main .admin_sidebar {
 			href="https://fonts.googleapis.com/icon?family=Material+Icons" />
 
 		<div id="mySidebar" class="admin_sidebar">
-			<a href="memberManagement.do"><span class="admin_title"></span>회원
+			<a href="member_management.do"><span class="admin_title"></span>회원
 				관리</a></span><a href="local_management.do"><span><span
 					class="admin_title">여행지 관리</span><br></a> <a
 				href="QA_member_management.do" /><span class="admin_QA">회원문의사항</span><br>
-			<a href="report_mamnagement.do" ><span class="admin_title">신고글
+			<a href="report_mamnagement.do" /><span class="admin_title">신고글
 				관리</span></a>
 		</div>
-		<div id="Contents">
-			<h1>관리자 페이지 입니다.</h1>
-		</div>
-	</div>
+		 <div id="member_container">
+       
+        <div id="input-form">
+            <form name="search">
+            <label>
+           <input type="radio" name="search" value="id">아이디
+                </label>
+            <label>
+            <input type="radio" name="search" value="stop">정지회원</label>
+            <label>
+            <input type="radio" name="search" value="nickname">닉네임/회사명 조회</label>
+            <label><input type="radio" name="search" value="disapproval">미승인 회원</label>
+            <label><input type="radio" name="search" value="corporation">법인 회원</label>
+                &nbsp;   &nbsp; &nbsp;
+            <input type="text" id="keyword" />
+            <input type="submit" name="submit" value="찾기">
+                </form>
+        </div>
+        <div id="search_result">    
+        <table id="user-table">
+            <thead>
+                <tr>
+                   
+                    <th>회원 아이디</th>
+                    <th>닉네임/회사명</th>
+                    <th>이름</th>
+                    <th>이메일</th>
+                    <th>회원 레벨</th>
+                </tr>
+            </thead>
+			<c:forEach items="${list }" var="m">
+			<tr>
+				<td>${m.memberId }</td>
+				<td>${m.memberNickname }</td>
+				<td>${m.memberName }</td>
+				<td>${m.email }</td>
+				<td>${m.level }</td>
+			</tr>
+		</c:forEach>
+            
+        </table>
+            </div>
+    </div>
 </body>
 
 		</html>
