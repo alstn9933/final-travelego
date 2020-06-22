@@ -21,12 +21,12 @@ public class MemberController {
 	
 	@RequestMapping("/loginFrm.do")
 	public String loginFrm() {
-		return "member/Login";
+		return "member/login";
 	}
 	@RequestMapping("/loginMember.do")
 	public String loginMember(Member m,HttpSession session) {
+		
 		Member member =  service.loginMember(m);
-
 		if(member != null) {
 			session.setAttribute("member",member);
 			return "redirect:/";
