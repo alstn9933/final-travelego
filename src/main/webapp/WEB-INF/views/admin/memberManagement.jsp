@@ -22,16 +22,29 @@
 <link rel="stylesheet" href="/src/css/header/header.css" />
 <link rel="stylesheet" href="/src/css/footer/footer.css" />
 <link rel="stylesheet" href="/src/css/main/web_default.css" />
-<title>Admin</title>
+<title>회원관리</title>
 <style></style>
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 
 	<!-- 웹 콘텐츠는 section 태그 안에 작성을 해주세요!-->
-	<!-- 스크립트 -->
-	
-	
+	<!--컨텐츠 스크립트 -->
+<script>
+
+$(document).ready(function() {
+    $("#keyword").keyup(function() {
+        var k = $(this).val();
+        $("#user-table > tbody > tr").hide();
+        var temp = $("#user-table > tbody > tr > td:nth-child(5n+2):contains('" + k + "')");
+
+        $(temp).parent().show();
+    })
+})
+</script>
+
+</script>
+
 	<section>
 		<!DOCTYPE html>
 		<html>
@@ -41,69 +54,65 @@
 <title>관리자 페이지</title>
 </head>
 <style>
-<!--컨텐츠 스타일-->
-    #member_container {
-        
-        width: 960px;
-        margin: 0 auto;
-    }
+<!--
+컨텐츠 스타일-->#member_container {
+	width: 960px;
+	margin: 0 auto;
+}
 
-    #member_container #input-form {
-       
-        text-align: center;
-    }
+#member_container #input-form {
+	text-align: center;
+}
 
-    #user-table {
-        margin: 0 auto;
-        text-align: center;
-    }
+#user-table {
+	margin: 0 auto;
+	text-align: center;
+}
 
-    #input-form {
-         
-        margin-top: 10px;
-        margin-bottom: 10px;
-    }
+#input-form {
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
 
-    #user-table {
-        border-collapse: collapse;
-    }
+#user-table {
+	border-collapse: collapse;
+}
 
-    #user-table>thead>tr {
-        background-color: #333;
-        color: #fff;
-    }
+#user-table>thead>tr {
+	background-color: #333;
+	color: #fff;
+}
 
-    #user-table>thead>tr>th {
-        padding: 8px;
-        width: 150px;
-    }
+#user-table>thead>tr>th {
+	padding: 8px;
+	width: 150px;
+}
 
-    #user-table>tbody>tr>td {
-        border-bottom: 1px solid gray;
-        padding: 8px;
-    }
-    #member_type{
-       
-        padding-left: 2px;
-        padding-right: 2px;
-        padding-top: 1px;
-        padding-bottom: 5px;
-        
-    }
-  <!--사이드바 메뉴 스타일-->  
-.admin_page {
+#user-table>tbody>tr>td {
+	border-bottom: 1px solid gray;
+	padding: 8px;
+}
 
+#member_type {
+	padding-left: 2px;
+	padding-right: 2px;
+	padding-top: 1px;
+	padding-bottom: 5px;
+}
+
+<!--
+사이드바 메뉴 스타일-->.admin_page {
 	font-family: "Lato", sans-serif;
 }
 
 .admin_sidebar {
-	margin-top:15%;
+	margin-top: 15%;
 	height: 40%;
 	width: 200px;
 	position: fixed;
 	top: 0;
 	left: 0;
-	background-color:white;
+	background-color: white;
 	padding-top: 60px;
 }
 
@@ -165,49 +174,49 @@ main .admin_sidebar {
 			<a href="report_mamnagement.do" /><span class="admin_title">신고글
 				관리</span></a>
 		</div>
-		 <div id="member_container">
-       
-        <div id="input-form">
-            <form name="search">
-            <label>
-           <input type="radio" name="search" value="id">아이디
-                </label>
-            <label>
-            <input type="radio" name="search" value="stop">정지회원</label>
-            <label>
-            <input type="radio" name="search" value="nickname">닉네임/회사명 조회</label>
-            <label><input type="radio" name="search" value="disapproval">미승인 회원</label>
-            <label><input type="radio" name="search" value="corporation">법인 회원</label>
-                &nbsp;   &nbsp; &nbsp;
-            <input type="text" id="keyword" />
-            <input type="submit" name="submit" value="찾기">
-                </form>
-        </div>
-        <div id="search_result">    
-        <table id="user-table">
-            <thead>
-                <tr>
-                   
-                    <th>회원 아이디</th>
-                    <th>닉네임/회사명</th>
-                    <th>이름</th>
-                    <th>이메일</th>
-                    <th>회원 레벨</th>
-                </tr>
-            </thead>
-			<c:forEach items="${list }" var="m">
-			<tr>
-				<td>${m.memberId }</td>
-				<td>${m.memberNickname }</td>
-				<td>${m.memberName }</td>
-				<td>${m.email }</td>
-				<td>${m.level }</td>
-			</tr>
-		</c:forEach>
-            
-        </table>
-            </div>
-    </div>
+		<div id="member_container">
+
+			<div id="input-form">
+				<form name="search">
+					<label> <input type="radio" name="search" value="id">아이디
+					</label> <label> <input type="radio" name="search" value="stop">정지회원
+					</label> <label> <input type="radio" name="search" value="nickname">닉네임/회사명
+						조회
+					</label> <label><input type="radio" name="search"
+						value="disapproval">미승인 회원</label> <label><input
+						type="radio" name="search" value="corporation">법인 회원</label>
+					&nbsp; &nbsp; &nbsp; <input type="text" id="keyword" /> <input
+						type="submit" name="submit" value="찾기">
+				</form>
+			</div>
+			<div id="search_result">
+				<table id="user-table">
+					<thead>
+						<tr>
+
+							<th>회원 아이디</th>
+							<th>닉네임/회사명</th>
+							<th>이름</th>
+							<th>이메일</th>
+							<th>회원 레벨</th>
+						</tr>
+					</thead>
+					<c:forEach items="${list }" var="m">
+						<tr>
+							<td>${m.memberId }</td>
+							<td>${m.memberNickname }</td>
+							<td>${m.memberName }</td>
+							<td>${m.email }</td>
+							<td>${m.memberLevel }</td>
+						</tr>
+						<!-- 회원관리 1:일반회원 2 :법인회원 3:관리자
+				company 테이블에서  0 승인전, 1 승인 완료
+			 -->
+					</c:forEach>
+
+				</table>
+			</div>
+		</div>
 </body>
 
 		</html>

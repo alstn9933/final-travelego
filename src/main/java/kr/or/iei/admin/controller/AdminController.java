@@ -1,20 +1,14 @@
 package kr.or.iei.admin.controller;
 
-import java.util.ArrayList;
 
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-
-import com.google.gson.Gson;
-
 import kr.or.iei.admin.model.service.AdminService;
-import kr.or.iei.member.model.vo.MemberVO;
+import kr.or.iei.member.model.vo.MemberPageData;
 
 @Controller
 public class AdminController {
@@ -30,12 +24,17 @@ public class AdminController {
 
 	@RequestMapping(value = "/adminPage.do")
 	public String adminPage() {
-		return "admin//adminPage";
+		return "admin/adminPage";
 	}
 	@RequestMapping(value = "/memberManagement.do")
 	public String management(Model model) {
-		ArrayList<MemberVO> list = service.selectAllMmember();
-		model.addAttribute("list",list);
+		int reqPage=1;
+		MemberPageData mpd = service.memberList(reqPage);
+		model.addAttribute("list",mpd.getList());
+		model.addAttribute("pageNavi",mpd.getPageNavi());
+		//맵? 키
+//		ArrayList<Member> list = service.selectAllMmember();
+		
 		return "admin/memberManagement";
 
 	}
