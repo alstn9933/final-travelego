@@ -17,8 +17,6 @@ header {
   position: fixed;
   display: flex;
   background-color: white;
-  z-index: 1000;
-  background-color: white;
 }
 
 .alramIcon {
@@ -42,20 +40,3 @@ header {
   font-weight: bold;
   opacity: 0.65;
 }
-.notlogin{
-	
-	 width: 50px;
-	 text-align: center;
-}
-.logo2{
-	float :left;
-	margin-bottom :3.5px;
-	display: inline-block;
-}
-.logo2>a {
-	
-	font-weight: bold;
-	font-size: 20px;
-	
-}
-
