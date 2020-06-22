@@ -42,60 +42,35 @@ prefix="c"%>
     <section>
       <div class="alert_area">
         <div>
-          <span>새 쪽지</span>
-          <span id="unreadCount">0통</span>
-        </div>
-        <div>
-          <span>전체 쪽지</span>
-          <span id="totalCount">0통</span>
+          <span>보낸 쪽지</span><span id="totalCount"> ${msgTotalCount}통</span>
         </div>
       </div>
       <!-- 쪽지 정렬 테이블 -->
       <table>
-        <tr>
-          <td>ㅁ</td>
-          <td>제목이 들어올것</td>
-          <td>
-            <div>
-              <span>보낸이</span>
-              <span>보낸 시간</span>
-            </div>
-          </td>
-          <td>ㅁ</td>
-        </tr>
-        <tr>
-          <td>ㅁ</td>
-          <td>제목이 들어올것</td>
-          <td>
-            <div>
-              <span>보낸이</span>
-              <span>보낸 시간</span>
-            </div>
-          </td>
-          <td>ㅁ</td>
-        </tr>
-        <tr>
-          <td>ㅁ</td>
-          <td>제목이 들어올것</td>
-          <td>
-            <div>
-              <span>보낸이</span>
-              <span>보낸 시간</span>
-            </div>
-          </td>
-          <td>ㅁ</td>
-        </tr>
-        <tr>
-          <td>ㅁ</td>
-          <td>제목이 들어올것</td>
-          <td>
-            <div>
-              <span>보낸이</span>
-              <span>보낸 시간</span>
-            </div>
-          </td>
-          <td>ㅁ</td>
-        </tr>
+        <c:forEach items="${list }" var="msg">
+          <tr>
+            <td>
+              <c:if test="${msg.messageCheck == 0 }">
+                <i class="far fa-envelope"></i>
+              </c:if>
+              <c:if test="${msg.messageCheck != 0 }">
+                <i class="far fa-envelope-open"></i>
+              </c:if>
+            </td>
+            <td>
+              <a href="/message/view.do?messageNo=${msg.messageNo}"
+                >${msg.messageContent }</a
+              >
+            </td>
+            <td>
+              <div>
+                <span>${msg.messageReceiver }</span
+                ><span>${msg.sendDate }</span>
+              </div>
+            </td>
+            <td><i class="far fa-trash-alt"></i></td>
+          </tr>
+        </c:forEach>
       </table>
     </section>
   </body>

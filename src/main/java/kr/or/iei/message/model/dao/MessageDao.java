@@ -15,24 +15,28 @@ public class MessageDao {
 	@Autowired
 	private SqlSessionTemplate session;
 
-	public List selectMsgList(Member member) {
-		return session.selectList("message.selectMsgList", member);
+	public List selectMsgList(Message msg) {
+		return session.selectList("message.selectMsgList", msg);
 	}
 
 	public int insertMessage(Message m) {
 		return session.insert("message.insertMessage",m);
 	}
 
-	public Message selectOneMessage(int messageNo) {
-		return session.selectOne("message.selectOneMessage", messageNo);
+	public List selectOneMessage(int messageNo) {		
+		return session.selectList("message.selectOneMessage", messageNo);
 	}
 
-	public int countUncheckMsg(Member member) {		
-		return session.selectOne("message.countUncheckMsg",member);
+	public int countUncheckMsg(String memberId) {		
+		return session.selectOne("message.countUncheckMsg",memberId);
 	}
 
-	public int countAllMsg(Member member) {
-		return session.selectOne("message.countAllMsg",member);
+	public int countAllMsg(String memberId) {
+		return session.selectOne("message.countAllMsg",memberId);
+	}
+
+	public int updateCheckMsg(int messageNo) {
+		return session.update("message.updateCheckMsg", messageNo);
 	}
 	
 	

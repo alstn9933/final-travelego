@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="message">
-	<select id="selectMsgList" parameterType="member" resultType="msg">
+	<select id="selectMsgList" parameterType="msg" resultType="msg">
 		select
 			message_no as messageNo,
 			message_sender as messageSender,
@@ -11,7 +11,13 @@
 			message_check as messageCheck,
 			delete_level as deleteLevel
 		from message
-		where message_receiver = #{memberId}
+		<if test="messageReceiver != null">
+		where message_receiver = #{messageReceiver}
+		</if>
+		<if test="messageSender != null">
+		where message_sender = #{messageSender}
+		</if>
+		order by message_no desc
 	</select>
 	<insert id="insertMessage" parameterType="msg">
 		insert into message values(
@@ -36,15 +42,22 @@
 		from message
 		where message_no = #{_parameter}
 	</select>
-	<select id="countAllMsg" parameterType="member">
+	<select id="countAllMsg" parameterType="member" resultType="_int">
 		select
 			count(*)
-		from message
-	</select>
-	<select id="countUnchkMsg" parameterType="member">
+		from message		
+		where message_receiver = #{memberId} 
+	</select>	
+	<select id="countUncheckMsg" parameterType="member" resultType="_int">
 		select
 			count(message_no)
 		from message
-		where member_receiver = #{memberId} 
+		where message_receiver = #{memberId} 
+		and message_check = 0
 	</select>
+	<update id="updateCheckMsg" parameterType="_int">
+		update message
+		set message_check = 1
+		where message_no = #{_parameter}
+	</update>
 </mapper>

@@ -60,13 +60,23 @@ prefix="c"%>
               </c:if>
             </td>
             <td>
-              <a href="/message/view?messageNo=${msg.messageNo}"
+              <a href="/message/view.do?messageNo=${msg.messageNo}"
                 >${msg.messageContent }</a
               >
             </td>
             <td>
               <div>
-                <span>${msg.messageSender }</span><span>${msg.sendDate }</span>
+                <a
+                  href="/message/write.do?receiver=${msg.messageSender}"
+                  id="sender"
+                  data-toggle="tooltip"
+                  data-placement="right"
+                  data-delay=""
+                  title="답장하기"
+                >
+                  ${msg.messageSender }
+                </a>
+                <span>${msg.sendDate }</span>
               </div>
             </td>
             <td><i class="far fa-trash-alt"></i></td>

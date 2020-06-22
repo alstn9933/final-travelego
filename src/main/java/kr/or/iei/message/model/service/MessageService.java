@@ -20,18 +20,19 @@ public class MessageService {
 	@Qualifier("messageDao")
 	private MessageDao dao;
 
-	public InboxPageData selectMsgList(Member member) {
+	public InboxPageData selectMessageList(Message msg) {
 		
-		member.setMemberLevel(0);
-		ArrayList<Message> list = (ArrayList<Message>) dao.selectMsgList(member);
-
-		dao.countUncheckMsg(member);
-
+		ArrayList<Message> list = (ArrayList<Message>) dao.selectMsgList(msg);
+		
 		InboxPageData pd = new InboxPageData();
-		
+		pd.setMsgTotalCount(list.size());		
 		pd.setList(list);
-//		pd.setUnchkCount(unchkCount);
-		pd.setMsgTotalCount(list.size());
+		
+		if(msg.getMessageReceiver()!=null) {
+			int unchkCount = dao.countUncheckMsg(msg.getMessageReceiver());
+			pd.setUnchkCount(unchkCount);			
+		}
+
 
 		return pd;
 	}
@@ -41,19 +42,26 @@ public class MessageService {
 	}
 
 	public MessageViewData selectOneMessage(String memberId, int messageNo) {
-		Member member = new Member();
-		member.setMemberId(memberId);
 		
-		Message m = dao.selectOneMessage(messageNo);
-		int unchkCount = dao.countUncheckMsg(member);
-		int msgTotalCount = dao.countAllMsg(member);
+		int result = dao.updateCheckMsg(messageNo);
 		
-		MessageViewData mvd = new MessageViewData();
-		
-		mvd.setMessage(m);
-		mvd.setMsgTotalCount(msgTotalCount);
-		mvd.setUnchkCount(unchkCount);
-		
-		return mvd;
+		if(result >0) {
+			
+			ArrayList<Message> list = (ArrayList<Message>)dao.selectOneMessage(messageNo);
+			int unchkCount = dao.countUncheckMsg(memberId);
+			int msgTotalCount = dao.countAllMsg(memberId);
+			
+			MessageViewData mvd = new MessageViewData();
+			
+			mvd.setMessage(list.get(0));
+			mvd.setMsgTotalCount(msgTotalCount);
+			mvd.setUnchkCount(unchkCount);
+			
+			return mvd;
+			
+		} else {
+			
+			return null;
+		}		
 	}
 }

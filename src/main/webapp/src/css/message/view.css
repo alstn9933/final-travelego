@@ -1,0 +1,39 @@
+.content_area {
+  min-height: 490px;
+  background-color: #f9f9f9;
+  border-radius: 5px;
+  padding: 10px;
+  line-height: 25px;
+  font-size: 14px;
+  color: rgb(83, 83, 83);
+}
+
+.sender_area {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.sender_area span {
+  font-size: 14px;
+}
+
+.btn_area {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.btn_area button {
+  width: 75px;
+}
+
+button:hover {
+  cursor: pointer;
+}
+
+#sender {
+  font-size: 16px;
+  font-weight: bold;
+  color: rgba(0, 0, 0, 0.6);
+}

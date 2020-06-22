@@ -30,15 +30,26 @@ prefix="c"%>
           <label for="inputReceiver">받는 사람</label>
           <span id="receiverAlert" style="display: none;"
             >회원이 존재하지 않습니다.</span
-          >
+          > 
+          <c:if test="${not empty receiver }">
+          <input
+            type="text"
+            name="messageReceiver"
+            id="inputReceiver"
+            class="form-control"
+            value="${receiver}"
+            readonly
+          />
+          </c:if>
+          <c:if test="${empty receiver }">
           <input
             type="text"
             name="messageReceiver"
             id="inputReceiver"
             class="form-control"
             placeholder="쪽지를 보낼 상대방의 회원 ID를 입력하세요."
-            value="${receiver}"
           />
+          </c:if>
         </div>
         <div class="content_area form-group">
           <label for="inputContent">내용</label>
@@ -67,6 +78,16 @@ prefix="c"%>
   <script src="/src/js/bootstrap/popper.min.js"></script>
   <script src="/src/js/bootstrap/bootstrap-4.5.0.js"></script>
   <script>
+    chkReceiver();
+
+    function chkReceiver() {
+      if ($("#inputReceiver").val() != "") {
+        $("#inputContent").attr("placeholder", "내용을 입력하세요");
+        $("#inputContent").removeAttr("disabled");
+        $("#inputContent").focus();
+      }
+    }
+
     $("#inputReceiver").focusout(function () {
       const receiver = $(this).val();
       if (receiver != "") {
