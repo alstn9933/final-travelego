@@ -38,6 +38,14 @@ public class MessageDao {
 	public int updateCheckMsg(int messageNo) {
 		return session.update("message.updateCheckMsg", messageNo);
 	}
+
+	public int deleteMessage(int messageNo) {
+		return session.delete("message.deleteMessage", messageNo);
+	}
+
+	public int countSendMsg(String memberId) {
+		return session.selectOne("message.selectSendMessageCount",memberId);
+	}
 	
 	
 }

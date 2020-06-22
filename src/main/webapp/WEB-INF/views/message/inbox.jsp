@@ -50,7 +50,7 @@ prefix="c"%>
       <!-- 쪽지 정렬 테이블 -->
       <table>
         <c:forEach items="${list }" var="msg">
-          <tr>
+          <tr message_no=${msg.messageNo}>
             <td>
               <c:if test="${msg.messageCheck == 0 }">
                 <i class="far fa-envelope"></i>
@@ -73,13 +73,11 @@ prefix="c"%>
                   data-placement="right"
                   data-delay=""
                   title="답장하기"
-                >
-                  ${msg.messageSender }
-                </a>
+                >${msg.messageSender }</a>
                 <span>${msg.sendDate }</span>
               </div>
             </td>
-            <td><i class="far fa-trash-alt"></i></td>
+            <td><i id="deleteIcon" class="far fa-trash-alt"></i></td>
           </tr>
         </c:forEach>
       </table>
@@ -88,4 +86,29 @@ prefix="c"%>
   <script src="/src/js/jquery/jquery-3.5.1.js"></script>
   <script src="/src/js/bootstrap/popper.min.js"></script>
   <script src="/src/js/bootstrap/bootstrap-4.5.0.js"></script>
+  <script>
+    $("#deleteIcon").click(function(){
+      const messageNo = $(this).parent().parent().attr("message_no");
+      const sender = $(this).parent().prev().children().children("a").eq(0).html();
+      const tr = $(this).parent().parent();
+      if(confirm(sender+"님께서 보낸 쪽지를 삭제하시겠습니까?")){
+        $.ajax({
+          url : "/message/asyncDelete.do",
+          type : "post",
+          data : {messageNo : messageNo},
+          success : function(data){
+            if(data == "1"){
+              alert("쪽지가 삭제되었습니다.")
+              location.href="/message/inbox.do";
+            } else {
+              alert("쪽지 삭제에 실패하였습니다.")
+            }
+          },
+          error : function(){
+            alert("쪽지 삭제에 실패하였습니다.");
+          }
+        });
+      }
+    });
+  </script>
 </html>

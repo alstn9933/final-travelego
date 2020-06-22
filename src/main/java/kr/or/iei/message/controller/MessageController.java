@@ -1,6 +1,7 @@
 package kr.or.iei.message.controller;
 
 import javax.servlet.http.HttpSession;
+import javax.xml.ws.RequestWrapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -36,6 +37,35 @@ public class MessageController {
 		}
 
 		return "message/messageView";
+	}
+	
+	@RequestMapping("/viewSendMessage.do")
+	public String sendMessageView(HttpSession session, String messageNo, Model model) {
+		Member m = (Member) session.getAttribute("member");
+
+		if (m != null) {
+			MessageViewData mvd = service.selectSendMessage(m.getMemberId(), Integer.parseInt(messageNo));
+			model.addAttribute("message", mvd.getMessage());
+			model.addAttribute("sendCount", mvd.getSendCount());
+		}
+
+		return "message/messageView";
+	}
+	
+	@RequestMapping("/delete.do")
+	public String deleteMessage(String messageNo, Model model) {
+		
+		int result = service.deleteMessage(Integer.parseInt(messageNo));
+		
+		if(result >0) {
+			model.addAttribute("msg","쪽지가 삭제되었습니다.");	
+			model.addAttribute("loc","/message/inbox.do");
+		} else {
+			model.addAttribute("msg","쪽지 삭제에 실패하였습니다.");
+			model.addAttribute("loc","message/view.do?messageNo="+messageNo);
+		}
+		
+		return "common/msg";
 	}
 
 	@RequestMapping("/write.do")
@@ -93,11 +123,19 @@ public class MessageController {
 		model.addAttribute("loc", "/message/inbox.do");
 		return "common/msg";
 	}
-
+	
+	@ResponseBody
+	@RequestMapping(value = "/asyncDelete.do", produces = "text/html;charset=utf-8")
+	public String deleteMessage(String messageNo) {
+		int result = service.deleteMessage(Integer.parseInt(messageNo));
+		
+		return String.valueOf(result);
+	}
+	
 	@ResponseBody
 	@RequestMapping(value = "/checkId.do", produces = "text/html;charset=utf-8")
 	public String checkId(String receiver) {
-		if (receiver.equals("test01") || receiver.equals("test02")) {
+		if (receiver.equals("user01") || receiver.equals("user02")) {
 			return "1";
 		} else {
 			return "0";

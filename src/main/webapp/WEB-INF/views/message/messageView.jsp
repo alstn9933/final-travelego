@@ -42,12 +42,19 @@ prefix="c"%>
     </nav>
     <section>
       <div class="alert_area">
+        <c:if test="${empty sendCount}">
         <div>
           <span>새 쪽지</span><span id="unreadCount"> ${unchkCount}통</span>
         </div>
         <div>
           <span>전체 쪽지</span><span id="totalCount"> ${msgTotalCount}통</span>
         </div>
+        </c:if>
+        <c:if test="${not empty sendCount}">
+          <div>
+            <span>보낸 쪽지</span><span id="totalCount"> ${msgTotalCount}통</span>
+          </div>
+        </c:if>
       </div>
       <!-- 쪽지 상세 -->
       <div class="content_area">${message.messageContent}</div>

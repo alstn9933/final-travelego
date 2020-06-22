@@ -64,4 +64,19 @@ public class MessageService {
 			return null;
 		}		
 	}
+
+	public int deleteMessage(int messageNo) {
+		return dao.deleteMessage(messageNo);
+	}
+
+	public MessageViewData selectSendMessage(String memberId, int messageNo) {
+		ArrayList<Message> list = (ArrayList<Message>)dao.selectOneMessage(messageNo);
+		int sendCount = dao.countSendMsg(memberId);
+		
+		MessageViewData mvd = new MessageViewData();
+		
+		mvd.setMessage(list.get(0));
+		mvd.setSendCount(sendCount);
+		return mvd;
+	}
 }

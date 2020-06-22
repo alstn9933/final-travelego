@@ -65,3 +65,8 @@ tr:not(:last-of-type) {
 tr:hover {
   background-color: #ebefff;
 }
+
+#deleteIcon:hover{
+  cursor: pointer;
+  color: rgb(233, 131, 131);
+}

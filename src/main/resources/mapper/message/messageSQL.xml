@@ -11,11 +11,12 @@
 			message_check as messageCheck,
 			delete_level as deleteLevel
 		from message
+		where delete_level in (0,2)
 		<if test="messageReceiver != null">
-		where message_receiver = #{messageReceiver}
+		and message_receiver = #{messageReceiver}
 		</if>
 		<if test="messageSender != null">
-		where message_sender = #{messageSender}
+		and message_sender = #{messageSender}
 		</if>
 		order by message_no desc
 	</select>
@@ -46,7 +47,8 @@
 		select
 			count(*)
 		from message		
-		where message_receiver = #{memberId} 
+		where message_receiver = #{memberId}
+		and delete_level in (0, 2)
 	</select>	
 	<select id="countUncheckMsg" parameterType="member" resultType="_int">
 		select
@@ -54,10 +56,22 @@
 		from message
 		where message_receiver = #{memberId} 
 		and message_check = 0
+		and delete_level = 0
 	</select>
 	<update id="updateCheckMsg" parameterType="_int">
 		update message
 		set message_check = 1
 		where message_no = #{_parameter}
 	</update>
+	<delete id="deleteMessage" parameterType="_int">
+		delete from message
+		where message_no = #{_parameter}
+	</delete>
+	<select id="selectSendMessageCount" parameterType="string" resultType="_int">
+		select
+			count(*)
+		from message
+		where message_sender = #{_parameter}
+		and delete_level in (0,1)
+	</select>
 </mapper>

@@ -7,4 +7,5 @@ public class MessageViewData {
 	private Message message;
 	private int msgTotalCount;
 	private int unchkCount;
+	private int sendCount;
 }
