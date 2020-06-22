@@ -1,5 +1,7 @@
 package kr.or.iei.member.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +10,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import kr.or.iei.member.model.service.MemberService;
+import kr.or.iei.member.model.vo.Company;
+import kr.or.iei.member.model.vo.CompanyMember;
 import kr.or.iei.member.model.vo.Member;
 
 @Controller
@@ -55,6 +59,24 @@ public class MemberController {
 	@RequestMapping("/memberTerms.do")
 	public String memberTerms() {
 		return "member/memberTerms";
+	}
+	@RequestMapping("/memberjoin.do")
+	public String memberjoin(Member m) {
+		int result = service.memberjoin(m);
+		if(result>0) {
+			return "member/loginFrm";
+		}else {
+			return "redirect:/";
+		}
+	}
+	@RequestMapping("/companymemberjoin.do")
+	public String companymemberjoin(Member m,Company cpy) {
+		int result = service.companymemberjoin(m,cpy);
+		if(result>0) {
+			return "member/loginFrm";
+		}else {
+			return "redirect:/";
+		}
 	}
 	
 }
