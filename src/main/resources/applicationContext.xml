@@ -69,9 +69,6 @@
 		</websocket:handshake-interceptors>
 	</websocket:handlers>
 	-->
-	<context:component-scan
-		base-package="kr.or.iei.admin" />
-	
-
-	
+	<context:component-scan	base-package="kr.or.iei.admin" />	
+	<context:component-scan base-package="kr.or.iei.member"/>
 </beans>
