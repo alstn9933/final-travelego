@@ -29,68 +29,62 @@ prefix="c"%>
     <link rel="stylesheet" href="/src/css/main/web_default.css" />
     <title>Travelego</title>
     <style>
-    	a{
-            text-decoration: none;
-            float: left;
-            color: black;
-        }
-        table{
-            width: 100%;
-        }
-        th{
-            border-bottom: 2px solid lightgray;
-            line-height: 50px;
-            height: 50px;
-            font-size: 23px;
-            padding-top: 30px;
-        }
         #user{
             font-size: 40px;
         }
+        body{
+            width: 1200px;
+        }
+        button{
+            width: 100px;
+            height: 40px;
+            float: left;
+        }
+        table{
+            width: 100%;
+            border-spacing: 0px;
+            border-left: none;
+            border-right: none;
+            border-top: none;
+        }
+        td{
+            border-left: none;
+            border-right: none;
+            text-align: center;
+        }
     </style>
   </head>
+  
   <body>
     <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 
     <!-- 웹 콘텐츠는 section 태그 안에 작성을 해주세요!-->
     <section>
-      <!-- 여기서부터 작성하시면 됨!!!!!!! -->
-      <div>${sessionScope.member.memberNickname }</div>
-    
-    <div>
-        <div>${sessionScope.member.memberNickname } 님의 다음 여행</div>
-        <div>계획된 여행이 없습니다. 일정을 추가해보세요.</div>
-    </div>
-    
-    <table>
-        <tr>
-            <th><a href="#">&nbsp;&nbsp;내 일정</a></th>
-        </tr>
-        <tr>
-            <th><a href="/boardList.do">&nbsp;&nbsp;내가 쓴 게시글</a></th>
-        </tr>
-        <tr>
-            <th><a href="#">&nbsp;&nbsp;내 예약</a></th>
-        </tr>
-        <tr>
-            <th><a href="/bookmark.do">&nbsp;&nbsp;북마크</a></th>
-        </tr>
-        <tr>
-            <th><a href="/qna.jsp">&nbsp;&nbsp;1:1 문의</a></th>
-        </tr>
-        <tr>
-            <th><a href="#">&nbsp;&nbsp;상품 관리</a></th>
-        </tr>
-        <tr>
-            <th><a href="#">&nbsp;&nbsp;예약 관리</a></th>
-        </tr>
-        <tr>
-            <th><a href="">&nbsp;&nbsp;내 정보</a></th>
-        </tr>
-        <tr>
-            <th><a href="#">&nbsp;&nbsp;비밀번호 변경</a></th>
-        </tr>
-    </table>
+      <div id="user">User</div>
+        <br>
+        <div>내가 쓴 게시물</div>
+        <br>
+        <div><button>전체</button>
+            <button>일정 게시판</button>
+            <button>추천 게시판</button>
+            <button>동행 구하기</button>
+        </div>
+        <table border="1px solid black">
+            <tr><td width="10%"></td>
+                <td width="60%">제목</td>
+                <td width="20%">작성일</td>
+                <td width="10%">조회수</td>
+            </tr>
+            <c:forEach items="${bList }" var="b">
+            	<tr>
+            		<td>${b.rownum }</td>
+            		<td>${b.boardTitle }</td>
+            		<td>${b.Date }</td>
+            		<td>${b.readCount }</td>
+            	</tr>
+            </c:forEach>
+            
+        </table>
     </section>
 
     <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>

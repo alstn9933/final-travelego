@@ -58,7 +58,7 @@
 											<nav>
 												<ul id="navigation">
 													<ul class="submenu">
-														<li><a href="#"><i class="far fa-user userIcon"></i></a>
+														<li><a href="/myPage.do"><i class="far fa-user userIcon"></i></a>
 															<ul class="submenu">
 																<li><a href="destination_details.html">내정보</a></li>
 																<li><a href="/mytripFrm.do">일정만들기</a></li>
