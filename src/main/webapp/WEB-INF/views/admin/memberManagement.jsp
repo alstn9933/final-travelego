@@ -149,7 +149,15 @@ main .admin_sidebar {
 	padding: 16px;
 	margin-left: 250px;
 }
-
+ #pageNavi{
+      text-align:center;
+      width:1000px;
+      margin:0 auto;
+   }
+   #pageNavi>*{
+      margin:10px;
+      
+   }
 @media screen and (max-height: 450px) {
 	.admin_sidebar {
 		padding-top: 15px;
@@ -204,6 +212,7 @@ main .admin_sidebar {
 					<c:forEach items="${list }" var="m">
 						<tr>
 							<td>${m.memberId }</td>
+								
 							<td>${m.memberNickname }</td>
 							<td>${m.memberName }</td>
 							<td>${m.email }</td>
@@ -213,8 +222,9 @@ main .admin_sidebar {
 				company 테이블에서  0 승인전, 1 승인 완료
 			 -->
 					</c:forEach>
-
+				
 				</table>
+				 <div id="pageNavi">${pageNavi }</div>
 			</div>
 		</div>
 </body>

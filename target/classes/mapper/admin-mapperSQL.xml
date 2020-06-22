@@ -3,7 +3,7 @@
 <mapper namespace="admin">
 <!-- d여기다 쿼리문 작성 -->
 
-	<select id="selectAllMember" resultType="member">
+	<select id="selectCustomerMember" resultType="member">
 		select
 		member_id as memberId,
 		member_pw as memberPw,
@@ -16,24 +16,6 @@
 		member_level as memberLevel
 		from member
 	</select>
-	<select id="totalCount" parameterType="member" resultType="_int">
- 	select count(*) as cnt from notice
-
- 	</select>
- 	<select id="memberList" parameterType="map" resultType="notice">	
- 		
- 		SELECT * FROM
- 		(SELECT ROWNUM AS RNUM,N.* FROM 
- 		(SELECT 
- 		notice_no as noticeNo,
- 		notice_title as noticeTitle,
- 		notice_content as noticeContent,
- 		notice_writer as noticeWriter,
- 		reg_date as regDate
- 		from notice
- 		ORDER BY NOTICE_NO DESC)N)
- 		WHERE RNUM BETWEEN #{start} AND #{end}
- 	</select>
 	
 	
 	
