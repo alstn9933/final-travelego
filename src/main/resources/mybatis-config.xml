@@ -14,5 +14,6 @@
 		<typeAlias type="kr.or.iei.member.model.vo.CompanyMember" alias="companymember"/>
 		<typeAlias type="kr.or.iei.mypage.model.vo.BoardList" alias="boardList"/>
 		<typeAlias type="kr.or.iei.mypage.model.vo.Bookmark" alias="bookmark"/>
+		<typeAlias type="kr.or.iei.mypage.model.vo.QNA" alias="qna"/>
 	</typeAliases>	
 </configuration>

@@ -6,9 +6,9 @@ import lombok.Data;
 
 @Data
 public class BoardList {
-	private int boardNo;
+	private int rownum;
 	private String boardTitle;
-	private Date date;
+	private Date boardDate;
 	private int readCount;
 	
 }

@@ -11,6 +11,7 @@ import kr.or.iei.member.model.vo.Member;
 import kr.or.iei.mypage.model.dao.MypageDao;
 import kr.or.iei.mypage.model.vo.BoardList;
 import kr.or.iei.mypage.model.vo.Bookmark;
+import kr.or.iei.mypage.model.vo.QNA;
 
 @Service("myPageService")
 public class MypageService {
@@ -27,6 +28,11 @@ public class MypageService {
 	public ArrayList<Bookmark> selectBookmarkList(Member m) {
 		List list = dao.selectBookmark(m);
 		return (ArrayList<Bookmark>)list;
+	}
+
+	public int insertQuestion(QNA qna) {
+		// TODO Auto-generated method stub
+		return dao.insertQuestion(qna);
 	}
 
 }

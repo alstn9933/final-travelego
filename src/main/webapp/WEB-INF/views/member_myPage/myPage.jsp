@@ -76,7 +76,7 @@ prefix="c"%>
             <th><a href="/bookmark.do">&nbsp;&nbsp;북마크</a></th>
         </tr>
         <tr>
-            <th><a href="/qna.jsp">&nbsp;&nbsp;1:1 문의</a></th>
+            <th><a href="/qna.do">&nbsp;&nbsp;1:1 문의</a></th>
         </tr>
         <tr>
             <th><a href="#">&nbsp;&nbsp;상품 관리</a></th>

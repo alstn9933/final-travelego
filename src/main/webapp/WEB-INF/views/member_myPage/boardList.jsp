@@ -32,9 +32,6 @@ prefix="c"%>
         #user{
             font-size: 40px;
         }
-        body{
-            width: 1200px;
-        }
         button{
             width: 100px;
             height: 40px;
@@ -60,7 +57,7 @@ prefix="c"%>
 
     <!-- 웹 콘텐츠는 section 태그 안에 작성을 해주세요!-->
     <section>
-      <div id="user">User</div>
+      <div id="user">${sessionScope.member.memberNickname }</div>
         <br>
         <div>내가 쓴 게시물</div>
         <br>
@@ -79,7 +76,7 @@ prefix="c"%>
             	<tr>
             		<td>${b.rownum }</td>
             		<td>${b.boardTitle }</td>
-            		<td>${b.Date }</td>
+            		<td>${b.boardDate }</td>
             		<td>${b.readCount }</td>
             	</tr>
             </c:forEach>

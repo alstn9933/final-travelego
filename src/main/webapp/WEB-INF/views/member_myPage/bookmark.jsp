@@ -53,10 +53,10 @@ prefix="c"%>
   </head>
   <body>
     <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
-
+	<% int num = 0; %>
     <!-- 웹 콘텐츠는 section 태그 안에 작성을 해주세요!-->
     <section>
-      <div id="user">${sessionScope.member.memberId }</div>
+      <div id="user">${sessionScope.member.memberNickname }</div>
         <br>
         <div>북마크</div>
         <br>
@@ -67,16 +67,16 @@ prefix="c"%>
         <table border="1px solid black">
             <tr><td width="10%"></td>
                 <td width="60%">제목</td>
-                <td width="20%">작성자</td>
-                <td width="10%">조회수</td>
+                <td width="30%">작성자</td>
             </tr>
             <c:forEach items="${mList }" var="m">
-            	<td>${m.bookmarkNo }</td>
-            	<td>${m.boardClass }</td>
-            	<td>${m.boardNo }</td>
-            	<td>${m.memberId }</td>
+            <tr>
+            	<td><%=++num %></td>
+            	<td>${m.boardTitle }</td>
+            	<td>${m.boardWriter }</td>
+            </tr>
             </c:forEach>
-            <tr></tr>
+            
         </table>
     </section>
 

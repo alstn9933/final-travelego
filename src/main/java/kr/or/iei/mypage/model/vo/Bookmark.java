@@ -4,8 +4,7 @@ import lombok.Data;
 
 @Data
 public class Bookmark {
-	private int bookmarkNo;
-	private int boardClass;
-	private int boardNo;
-	private String memberId;
+	private int rownum;
+	private String boardTitle;
+	private String boardWriter;
 }

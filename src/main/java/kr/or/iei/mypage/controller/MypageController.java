@@ -14,6 +14,7 @@ import kr.or.iei.member.model.vo.Member;
 import kr.or.iei.mypage.model.service.MypageService;
 import kr.or.iei.mypage.model.vo.BoardList;
 import kr.or.iei.mypage.model.vo.Bookmark;
+import kr.or.iei.mypage.model.vo.QNA;
 
 @Controller
 public class MypageController {
@@ -42,5 +43,17 @@ public class MypageController {
 		ArrayList<Bookmark> mList = service.selectBookmarkList(m);
 		model.addAttribute("mList", mList);
 		return "member_myPage/bookmark";
+	}
+	
+	@RequestMapping(value="/qna.do")
+	public String qna(HttpSession session) {
+		return "member_myPage/qna";
+	}
+	
+	@RequestMapping(value="/leaveQuestion.do")
+	public String leaveQuestion(QNA qna) {
+		int result = service.insertQuestion(qna);
+		
+		return "redirect:/myPage.do";
 	}
 }

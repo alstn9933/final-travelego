@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import kr.or.iei.member.model.vo.Member;
 import kr.or.iei.mypage.model.vo.BoardList;
+import kr.or.iei.mypage.model.vo.QNA;
 
 @Repository("myPageDao")
 public class MypageDao {
@@ -22,6 +23,11 @@ public class MypageDao {
 	public List selectBookmark(Member m) {
 		// TODO Auto-generated method stub
 		return sqlSession.selectList("myPage.selectBookmarkList",m);
+	}
+
+	public int insertQuestion(QNA qna) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("myPage.insertQuestion", qna);
 	}
 
 }
