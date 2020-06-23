@@ -9,6 +9,9 @@ import org.springframework.stereotype.Service;
 
 import kr.or.iei.tour.model.dao.TourDao;
 import kr.or.iei.tour.model.vo.MoreTourVal;
+import kr.or.iei.tour.model.vo.Photo;
+import kr.or.iei.tour.model.vo.RegionCity;
+import kr.or.iei.tour.model.vo.RegionCountry;
 import kr.or.iei.tour.model.vo.ReviewVO;
 import kr.or.iei.tour.model.vo.TourVO;
 
@@ -44,5 +47,28 @@ public class TourService {
 			tv.setScore(avg);
 		}
 		return (ArrayList<TourVO>)list;
+	}
+
+	public ArrayList<RegionCountry> selectRegionList() {
+		return (ArrayList<RegionCountry>)dao.selectCountryList();
+	}
+
+	public ArrayList<RegionCity> selectRegionCity(String regionCountry) {
+		List clist = dao.selectCityList(regionCountry);
+		return (ArrayList<RegionCity>)clist;
+	}
+
+	public int insertTour(TourVO tv, Photo p) {
+		int result =  dao.insertTour(tv);
+		if(result>0) {
+			List list =  dao.selectBoardNo(tv.getMemberId());
+			TourVO t = (TourVO)list.get(0);
+			p.setBoardClass(4);
+			p.setBoardNo(t.getItemNo());
+			int result2 = dao.insertPhoto(p);
+			return result2;
+		}else {
+			return result;
+		}
 	}
 }

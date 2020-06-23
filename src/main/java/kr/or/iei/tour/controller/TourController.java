@@ -1,5 +1,6 @@
 package kr.or.iei.tour.controller;
 
+import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -7,7 +8,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.sql.Date;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.UUID;
 
 import javax.servlet.ServletException;
@@ -16,8 +22,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -30,10 +34,12 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 
 import kr.or.iei.member.model.vo.Member;
 import kr.or.iei.tour.model.service.TourService;
+import kr.or.iei.tour.model.vo.Photo;
+import kr.or.iei.tour.model.vo.RegionCity;
+import kr.or.iei.tour.model.vo.RegionCountry;
 import kr.or.iei.tour.model.vo.TourVO;
 
 @Controller
@@ -78,80 +84,62 @@ public class TourController {
 	public String createTourFrm(HttpSession session, Model model) {
 		Member m = (Member) session.getAttribute("member");
 		if (m != null && m.getMemberLevel() == 2) {
+			ArrayList<RegionCountry> rlist = service.selectRegionList();
 			model.addAttribute("memberId", m.getMemberId());
+			model.addAttribute("rlist",rlist);
 			return "tour/createTourFrm";
 		} else {
 			return "redirect:/";
 		}
 	}
-
-	@RequestMapping(value = "/insertTourItem.do")
-	public String insertTour(HttpServletRequest request, HttpServletResponse response, MultipartFile upload, TourVO tv,
-			String beginEnd) {
-		System.out.println(tv.getFilepath());
-		System.out.println(tv.getItemContent());
-		System.out.println(tv.getItemPrice());
-		System.out.println(tv.getItemTitle());
-		System.out.println(tv.getMaxPerson());
-		System.out.println(tv.getMemberId());
-		System.out.println(tv.getRegionNo());
-		System.out.println(tv.getTourTimes());
-		System.out.println(beginEnd);
-		return "tour/comTourList";
+	
+	@ResponseBody
+	@RequestMapping(value="/selectCityList.do", produces = "application/json; charset=utf-8")
+	public String selectCityList(String regionCountry) {
+		ArrayList<RegionCity> clist = service.selectRegionCity(regionCountry);
+		return new Gson().toJson(clist);
 	}
-
-//	@RequestMapping(value="/uploadImage.do", method=RequestMethod.POST)
-//	@ResponseBody
-//	public String fileUpload(HttpServletRequest req, HttpServletResponse resp, MultipartHttpServletRequest multiFile) throws Exception{
-//		JsonObject json = new JsonObject();
-//		PrintWriter printWriter = null;
-//		OutputStream out = null;
-//		MultipartFile file = multiFile.getFile("upload");
-//		if(file != null) {
-//			if(file.getSize()>0 && StringUtils.isNotBlank(file.getName())) {
-//				if(file.getContentType().toLowerCase().startsWith("image/")) {
-//					try {
-//						String fileName = file.getName();
-//						System.out.println(fileName);
-//						byte[] bytes = file.getBytes();
-//						String uploadPath = req.getRealPath("/img");
-//						File uploadFile = new File(uploadPath);
-//						if(!uploadFile.exists()) {
-//							uploadFile.mkdirs();
-//						}
-//						fileName = UUID.randomUUID().toString();
-//						uploadPath = uploadPath+"/"+fileName;
-//						System.out.println(fileName);
-//						System.out.println(uploadPath);
-//						out = new FileOutputStream(new File(uploadPath));
-//						out.write(bytes);
-//						
-//						printWriter = resp.getWriter();
-//						resp.setContentType("text/html");
-//						String fileUrl = req.getContextPath()+"/img/"+fileName;
-//						System.out.println(fileUrl);
-//						
-//						json.addProperty("uploaded", 1);
-//						json.addProperty("fileName", fileName);
-//						json.addProperty("url", fileUrl);
-//						
-//						printWriter.println(json);
-//					}catch(IOException e) {
-//						e.printStackTrace();
-//					}finally {
-//						if(out != null) {
-//							out.close();
-//						}
-//						if(printWriter != null) {
-//							printWriter.close();
-//						}
-//					}
-//				}
-//			}
-//		}
-//		
-//		return null;
-//	}
+	
+	@RequestMapping(value="/insertTour.do")
+	public String insertTour(HttpServletRequest request, MultipartFile file,Model model, TourVO tv,String beginEnd) {
+		Photo p = new Photo();
+		String savePath = request.getSession().getServletContext().getRealPath("/upload/images/tour/thumnail/");
+		if(!file.isEmpty()) {
+			String originalFilename = file.getOriginalFilename();//업로드한 실제 파일명(ex>test.txt)
+			String onlyFilename = originalFilename.substring(0,originalFilename.lastIndexOf("."));//확장자를 제외한 파일 이름(ex>test)
+			String extension = originalFilename.substring(originalFilename.lastIndexOf("."));//확장자 이름(ex>.txt)
+			String filepath = onlyFilename+"_"+getCurrentTime()+extension;
+			String fullpath = savePath+filepath;
+			try {
+				byte[] bytes = file.getBytes();
+				BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(new File(fullpath)));
+				bos.write(bytes);
+				bos.close();
+				p.setFilename(originalFilename);
+				p.setFilepath(filepath);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		String beginDate = beginEnd.substring(0,10);
+		String endDate = beginEnd.substring(11);
+		tv.setBeginDate(beginDate);
+		tv.setEndDate(endDate);
+		int result = service.insertTour(tv,p);
+		if(result>0) {
+			model.addAttribute("msg","등록성공");
+		}else {
+			model.addAttribute("msg","등록실패");
+		}
+		model.addAttribute("loc","/comTourList.do");
+		return "common/msg";
+	}
+	
+	public long getCurrentTime() {
+		Calendar today = Calendar.getInstance();
+		return today.getTimeInMillis();
+	}
 
 	@RequestMapping(value = "/uploadImage.do", method = RequestMethod.POST)
 	public void imageUpload(HttpServletRequest request, HttpServletResponse response,
@@ -173,7 +161,7 @@ public class TourController {
 			byte[] bytes = upload.getBytes();
 
 			// 이미지 경로 생성
-			String path = request.getRealPath("/img");// fileDir는 전역 변수라 그냥 이미지 경로 설정해주면 된다.
+			String path = request.getRealPath("/upload/images/tour/content");// fileDir는 전역 변수라 그냥 이미지 경로 설정해주면 된다.
 			String ckUploadPath = path + "/" + uid + "_" + fileName;
 			File folder = new File(path);
 
@@ -212,8 +200,6 @@ public class TourController {
 				e.printStackTrace();
 			}
 		}
-
-		return;
 	}
 
 	@RequestMapping(value = "/ckImgSubmit.do")
@@ -221,7 +207,7 @@ public class TourController {
 			HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		// 서버에 저장된 이미지 경로
-		String path = request.getRealPath("/img");
+		String path = request.getRealPath("/upload/images/tour/content");;
 
 		String sDirPath = path + "/" + uid + "_" + fileName;
 

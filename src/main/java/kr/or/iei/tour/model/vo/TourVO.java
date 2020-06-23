@@ -14,8 +14,8 @@ public class TourVO {
 	private String itemTitle;
 	private int regionNo;
 	private int maxPerson;
-	private Date beginDate;
-	private Date endDate;
+	private String beginDate;
+	private String endDate;
 	private String itemContent;
 	private String filepath;
 	private int closeCheck;

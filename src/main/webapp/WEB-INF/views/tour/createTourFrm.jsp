@@ -67,6 +67,10 @@ section {
 	line-height: 300px;
 	margin: 0;
 }
+#img-view{
+	width:100%;
+	height:100%;
+}
 
 .itemInfo {
 	margin: 30px;
@@ -163,27 +167,30 @@ section {
 		<div class="page-title">
 			<H1>상품등록</H1>
 		</div>
-		<form action="/insertTourItem.do" method="post">
-			<input type="hidden" name="memberId" value="${memberId }">
+		<form action="/insertTour.do" method="post" enctype="multipart/form-data">
 			<div class="section-top">
+				<input type="hidden" name="memberId" value="${memberId }">
 				<div class="mainImg">
-					<input id="file" name="filepath" type="file" hidden> <label
-						for="file">대표 이미지를 등록해주세요</label>
+					<input id="file" type="file" name="file" onchange="loadImg(this);" hidden>
+					<label for="file" id="thumnail">대표 이미지를 등록해주세요</label>
 				</div>
 				<div class="itemInfo">
 					<table>
 						<tr>
 							<th>지역 선택</th>
-							<td><select id="regionCountry">
-									<option value=0>나라 선택
-									<option value="나라1">나라1
-									<option value="나라2">나라2
-							</select></td>
-							<td><select name="regionNo">
+							<td>
+								<select id="regionCountry">
+									<option value="default">나라 선택
+								<c:forEach items="${rlist }" var="r">
+									<option value="${r.regionCountry }">${r.regionCountry }
+								</c:forEach>
+								</select>
+							</td>
+							<td>
+								<select name="regionNo" id="regionCity">
 									<option value=0>도시 선택
-									<option value=1>도시1
-									<option value=2>도시2
-							</select></td>
+								</select>
+							</td>
 						</tr>
 						<tr>
 							<th>상품 이름</th>
@@ -220,13 +227,6 @@ section {
 				</div>
 			</div>
 			<div class="section-editor">
-				<script src = "/src/ckeditor/ckeditor.js"></script>
-				<script type="text/javascript">
-					$(function() {
-						CKEDITOR.replace("editor", { width:'100%',
-				            height:'1000px', filebrowserUploadUrl : "/uploadImage.do"});
-					});
-				</script>
 				<textarea name="itemContent" id="editor" rows="10" cols="80"></textarea>
 			</div>
 			<div class="section-bottom">
@@ -277,6 +277,18 @@ section {
 	<script src="/src/js/header/mail-script.js"></script>
 	<script src="/src/js/header/main.js"></script>
 	<script>
+		function loadImg(f){
+			if(f.files.length!=0 && f.files[0]!=0){
+				var reader = new FileReader();
+				reader.readAsDataURL(f.files[0]);
+				reader.onload = function(e){
+					$("#thumnail").html("<img id='img-view' src='"+e.target.result+"'>");
+				}
+			}else{
+				$("#thumnail").html("대표 이미지를 등록해주세요");
+			}
+		}
+		
 		$(function() {
 			$('[data-toggle="popover"]').popover();
 		});
@@ -286,6 +298,43 @@ section {
 			icons : {
 				rightIcon : "_$tag___________________________$tag__",
 			},
+		});
+	</script>
+	<script src="/src/ckeditor/ckeditor.js"></script>
+	<script type="text/javascript">
+		$(function() {
+			var html;
+			
+			CKEDITOR.replace("editor", {
+				width : '100%',
+				height : '1000px',
+				filebrowserUploadUrl : "/uploadImage.do"
+			});
+			
+			$("#regionCountry").change(function(){
+				var regionCountry = $(this).val();
+				if(regionCountry=="default"){
+					$("#regionCity").html("<option value='default'>도시 선택");
+				}
+				else{
+					$.ajax({
+						url : "/selectCityList.do",
+						data: {regionCountry:regionCountry},
+						type : "post",
+						success : function(data){
+							$("#regionCity").html("");
+							html = "";
+							html += "<option value='default'>도시 선택";
+							for(var i=0; i<data.length; i++){
+								html += "<option value="+data[i].regionNo+">"+data[i].regionCity;
+							}
+							$("#regionCity").append(html);
+						},error : function(){
+							console.log("ajax 통신 실패");
+						}
+					});
+				}
+			});
 		});
 	</script>
 	<!-- datepicker -->

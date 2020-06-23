@@ -16,4 +16,19 @@
 		select review_no as reviewNo, item_no as itemNo, member_id as memberId, review_rate as reviewRate, review_content as reviewContent, review_date as reviewDate
 		from tour_review where item_no=#{_parameter}
 	</select>
+	<select id="selectCountryList" resultType="country">
+		select region_country as regionCountry from region group by region_country order by 1 asc
+	</select>
+	<select id="selectCityList" parameterType="string" resultType="city">
+		select region_no as regionNo, region_city as regionCity from region where region_country=#{_parameter} order by 2 asc
+	</select>
+	<insert id="insertTour" parameterType="tour">
+		insert into tour values(tour_seq.nextval,#{memberId},#{itemTitle},#{regionNo},#{maxPerson},#{beginDate},#{endDate},sysdate,#{itemContent},0,#{itemPrice},#{tourTimes},0)
+	</insert>
+	<select id="selectBoardNo" parameterType="string" resultType="tour">
+		select item_no as itemNo from tour where member_id=#{_parameter} order by 1 desc
+	</select>
+	<insert id="insertPhoto" parameterType="photo">
+		insert into photo values(photo_seq.nextval,#{boardClass},#{boardNo},#{filepath},#{filename})
+	</insert>
 </mapper>
