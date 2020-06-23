@@ -18,6 +18,7 @@ prefix="c"%>
 <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 <section>
 		<div class="joincontent">
+		<form action="/companymemberjoin.do" method="post">
 			<label for="memberId" class="col-lg-2 control-label">아이디</label>
 			<div class="col-lg-6">
 				<input type="text" class="form-control" name="memberId" id="memberId"
@@ -67,9 +68,9 @@ prefix="c"%>
 					name="companyUrl" placeholder="자사 홈페이지 주소를 입력해주세요.">
 			</div><br>
 				
-			<label for="inputPhoneNumber" class="col-lg-2 control-label">성별</label>
+			<label for="gender" class="col-lg-2 control-label">성별</label>
 			<div class="col-lg-6">
-				<select class="form-control" id="gender">
+				<select class="form-control" id="gender" name="gender">
 					<option value="M">남</option>
 					<option value="F">여</option>
 				</select>
