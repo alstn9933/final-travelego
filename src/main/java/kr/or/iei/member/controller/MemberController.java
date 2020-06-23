@@ -1,17 +1,20 @@
 package kr.or.iei.member.controller;
 
-import java.util.List;
+import java.io.IOException;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import kr.or.iei.member.model.service.MemberService;
 import kr.or.iei.member.model.vo.Company;
-import kr.or.iei.member.model.vo.CompanyMember;
+import kr.or.iei.member.model.vo.MailSend;
 import kr.or.iei.member.model.vo.Member;
 
 @Controller
@@ -78,5 +81,16 @@ public class MemberController {
 			return "redirect:/";
 		}
 	}
+	//이메일인증
 	
+	@ResponseBody	
+	@RequestMapping(value = "/sendMail.do",produces = "text/html;charset=utf-8")
+ public String sendsMail(HttpServletResponse response,HttpServletRequest request) throws IOException {
+		String email = request.getParameter("email");
+		String mailCode = new MailSend().mailSend(email);
+//		response.getWriter().print(mailCode);
+		return mailCode;
+		
+		
+	}
 }

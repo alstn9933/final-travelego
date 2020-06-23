@@ -11,13 +11,14 @@
  	gender,
  	phone,
  	email,
- 	member_level as memberLevel
+ 	member_level as memberLevel,
+ 	reg_Date as regDate
  	from member where member_id=#{memberId} and member_pw=#{memberPw}
  </select>
  <insert id="memberjoin" parameterType="member">
- 	insert into member values(#{memberId},#{memberPw},#{memberNickname},#{memberName},#{age},#{gender},#{phone},#{email},1)
+ 	insert into member values(#{memberId},#{memberPw},#{memberNickname},#{memberName},#{age},#{gender},#{phone},#{email},1,sysdate)
  </insert>
   <insert id="companymemberjoin" parameterType="member">
- 	insert into member values(#{memberId},#{memberPw},#{memberNickname},#{memberName},#{age},#{gender},#{phone},#{email},2)
+ 	insert into member values(#{memberId},#{memberPw},#{memberNickname},#{memberName},#{age},#{gender},#{phone},#{email},2,sysdate)
  </insert>
 </mapper>

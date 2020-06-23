@@ -50,6 +50,11 @@ prefix="c"%>
 				<input type="email" class="form-control" id="email" name="email"
 					placeholder="이메일">
 			</div><br>
+			<label for="emailCode" class="col-lg-2 control-label" ">이메일 인증코드</label>
+			<div class="col-lg-6">
+				<input type="text" class="form-control" id="emailCode" name = "emailCode" placeholder="인증코드를 입력하세요."><button type="button" id="emailCodeBtn" name="emailCodeBtn" class="btn btn-primary" >인증코드 확인</button><br>
+					<span id="mailMsg"></span>
+					</div><br>
 			<label for="phone" class="col-lg-2 control-label">휴대폰
 				번호</label>
 			<div class="col-lg-6">
@@ -84,4 +89,32 @@ prefix="c"%>
 		<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>	
 	</section>
 </body>
+<script>
+//자바로 메일 보내기
+var mailCode="";
+
+$("#emailBtn").click(function(){	
+	var email = $("#email").val();
+	$.ajax({
+		url : "/sendMail.do",
+		type : "post",
+		data : {email:email},
+		success :function(data){
+			mailCode=data;
+			alert("이메일을 송신했습니다.");
+		}
+	})
+});
+$("#emailCodeBtn").click(function(){
+	if($("#emailCode").val() == mailCode){
+		$("#mailMsg").html('인증성공');
+		$("#mailMsg").css('color','green');
+	}else{
+		$("#mailMsg").html('인증실패');
+		$("#mailMsg").css('color','red');
+		return false;
+	}
+})
+
+</script>
 </html>
