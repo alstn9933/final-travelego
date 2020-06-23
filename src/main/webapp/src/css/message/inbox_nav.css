@@ -32,6 +32,7 @@ nav li:not(.selected_tab) > a {
 
 .btn_area button {
   font-size: 12px;
+  cursor: pointer;
 }
 
 .btn_area a {
