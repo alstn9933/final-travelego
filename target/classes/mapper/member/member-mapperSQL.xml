@@ -12,7 +12,7 @@
  	phone,
  	email,
  	member_level as memberLevel,
- 	reg_date as regDate
+ 	reg_Date as regDate
  	from member where member_id=#{memberId} and member_pw=#{memberPw}
  </select>
  <insert id="memberjoin" parameterType="member">

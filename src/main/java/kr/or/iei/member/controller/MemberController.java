@@ -84,11 +84,11 @@ public class MemberController {
 	//이메일인증
 	
 	@ResponseBody	
-	@RequestMapping("/sendMail.do")
+	@RequestMapping(value = "/sendMail.do",produces = "text/html;charset=utf-8")
  public String sendsMail(HttpServletResponse response,HttpServletRequest request) throws IOException {
 		String email = request.getParameter("email");
 		String mailCode = new MailSend().mailSend(email);
-		response.getWriter().print(mailCode);
+//		response.getWriter().print(mailCode);
 		return mailCode;
 		
 		

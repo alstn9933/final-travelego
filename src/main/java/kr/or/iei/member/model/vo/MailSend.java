@@ -22,7 +22,6 @@ public class MailSend {
 				for(int i=0;i<6;i++) {
 					sb.append(r.nextInt(10));
 				}
-				System.out.println(sb.toString());
 				//2.메일설정(사용할 메일 서버 설정.)
 				Properties prop = System.getProperties();
 				prop.put("mail.smtp.host", "smtp.gmail.com");
