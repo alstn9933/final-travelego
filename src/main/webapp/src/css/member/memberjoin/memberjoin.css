@@ -1,9 +1,10 @@
 @charset "UTF-8";
 .joincontent{
-	padding-top:50px;
+	padding-top:100px;
+	padding-left:100px;
 	width: 900px;
-	height: 1100px;
-	margin: 0 auto;
+	height: 1200px;
+    margin-left: 250px;
 }
 .joincontent>div{
 	margin:0 auto;
@@ -13,8 +14,12 @@
 }
 .divBtn{
 	width: 900px;
-	text-align: center;
+	text-align: left;
+	
 }
 .divBtn>button{
 	margin: 30px;
+}
+#emailBtm,#emailCodeBtn{
+	float: right;
 }

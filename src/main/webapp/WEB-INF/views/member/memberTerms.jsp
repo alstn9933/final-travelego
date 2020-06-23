@@ -69,7 +69,7 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 	<section>
 		<div style="margin-top: 100px;">
-			<form name="agree" action="/joinClassify" id="joinForm">
+			<form name="agree" id="joinForm">
 				<div class="join_box">
 					<div class="checkBox check01">
 
