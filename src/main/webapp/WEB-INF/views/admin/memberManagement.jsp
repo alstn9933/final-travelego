@@ -30,20 +30,31 @@
 
 	<!-- 웹 콘텐츠는 section 태그 안에 작성을 해주세요!-->
 	<!--컨텐츠 스크립트 -->
-<script>
+	<script>
+		$(document).ready(function() {
+			$("#keyword").keyup(function() {
+				var k = $(this).val();
+					$("#user-table > tbody > tr").hide();
+		var temp = $("#user-table > tbody > tr > td:nth-child(5n+2):contains('"+ k + "')");
+						$(temp).parent().show();
+											})
+			$("#memberConfirm").click(function(){
+				var con_test = confirm("정지회원으로 전환됩니다. 진행하시겠습니까?");
+				if(con_test == true){
+						$(this).hide();
+						$("#allowMember").show().css('padding-right','5px');
+				}
+				
+				else if(con_test == false){
+				 
+				}	
+			})								
+											
+											
+						})
 
-$(document).ready(function() {
-    $("#keyword").keyup(function() {
-        var k = $(this).val();
-        $("#user-table > tbody > tr").hide();
-        var temp = $("#user-table > tbody > tr > td:nth-child(5n+2):contains('" + k + "')");
 
-        $(temp).parent().show();
-    })
-})
-</script>
-
-</script>
+	</script>
 
 	<section>
 		<!DOCTYPE html>
@@ -149,15 +160,17 @@ main .admin_sidebar {
 	padding: 16px;
 	margin-left: 250px;
 }
- #pageNavi{
-      text-align:center;
-      width:1000px;
-      margin:0 auto;
-   }
-   #pageNavi>*{
-      margin:10px;
-      
-   }
+
+#pageNavi {
+	text-align: center;
+	width: 1000px;
+	margin: 0 auto;
+}
+
+#pageNavi>* {
+	margin: 10px;
+}
+
 @media screen and (max-height: 450px) {
 	.admin_sidebar {
 		padding-top: 15px;
@@ -175,7 +188,7 @@ main .admin_sidebar {
 			href="https://fonts.googleapis.com/icon?family=Material+Icons" />
 
 		<div id="mySidebar" class="admin_sidebar">
-			<a href="member_management.do"><span class="admin_title"></span>회원
+			<a href="memberManagement.do"><span class="admin_title"></span>회원
 				관리</a></span><a href="local_management.do"><span><span
 					class="admin_title">여행지 관리</span><br></a> <a
 				href="QA_member_management.do" /><span class="admin_QA">회원문의사항</span><br>
@@ -207,24 +220,56 @@ main .admin_sidebar {
 							<th>이름</th>
 							<th>이메일</th>
 							<th>회원 레벨</th>
+							<th>승인/미승인</th>
 						</tr>
 					</thead>
-					<c:forEach items="${list }" var="m">
-						<tr>
-							<td>${m.memberId }</td>
-								
-							<td>${m.memberNickname }</td>
-							<td>${m.memberName }</td>
-							<td>${m.email }</td>
-							<td>${m.memberLevel }</td>
-						</tr>
-						<!-- 회원관리 1:일반회원 2 :법인회원 3:관리자
+
+					<c:forEach items="${mList }" var="m">
+						<c:if test="${m.memberLevel eq 1 }">
+							<tr>
+								<td>${m.memberId }</td>
+								<td>${m.memberNickname }</td>
+								<td>${m.memberName }</td>
+								<td>${m.email }</td>
+								<td>${m.memberLevel }</td>
+								<td>해당 사항 없음</td>
+							</tr>
+							<!-- 회원관리 1:일반회원 2 :법인회원 3:관리자
 				company 테이블에서  0 승인전, 1 승인 완료
 			 -->
+						</c:if>
 					</c:forEach>
-				
+
+					<c:forEach items="${mList }" var="m">
+						<c:if test="${m.memberLevel eq 2 }">
+							<c:forEach items="${cList }" var="c">
+								<c:if test="${m.memberId eq c.companyId }" >
+									<tr>
+										<td>${m.memberId }</td>
+										<td>${m.memberNickname }</td>
+										<td>${m.memberName }</td>
+										<td>${m.email }</td>
+										<td>${m.memberLevel }</td>
+										
+										<td id="allowMember" style="display:none;">승인 완료</td>
+										<c:if test="${c.joinConfirm eq 1 }" >
+										<form action="allowCorporationMember.do">
+											<td><input type="button" name="allow" Id="memberConfirm"
+												value="미승인 회원" ></td>
+											</form>
+										</c:if>
+									</tr>
+
+								</c:if>
+							</c:forEach>
+
+							<!-- 회원관리 1:일반회원 2 :법인회원 3:관리자
+				company 테이블에서  0 승인전, 1 승인 완료
+			 -->
+						</c:if>
+					</c:forEach>
+
 				</table>
-				 <div id="pageNavi">${pageNavi }</div>
 			</div>
 		</div>
 </body>

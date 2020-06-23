@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import kr.or.iei.member.model.vo.Company;
 import kr.or.iei.member.model.vo.Member;
 
 @Repository("adminDao")
@@ -22,8 +23,10 @@ public class AdminDao {
 	     return sqlSession.selectList("selectCustomerMember");
 	   }
 
-	
-	
+	 public List<Company> selectCompanyMember(){
+		 return sqlSession.selectList("selectCompanyMember");
+	 }
+	 	
 
 	
 }

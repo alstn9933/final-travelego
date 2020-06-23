@@ -17,6 +17,7 @@
 	<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 	<section>
 		<div class="joincontent">
+		<form action="/memberjoin.do" method="post">
 			<label for="memberId" class="col-lg-2 control-label">아이디</label>
 			<div class="col-lg-6">
 				<input type="text" class="form-control" name="memberId" id="memberId"
@@ -43,6 +44,11 @@
 				<input type="text" class="form-control" id="memberNickname"
 					name="memberNickname" placeholder="닉네임">
 			</div><br>
+			<label for="age" class="col-lg-2 control-label">나이</label>
+			<div class="col-lg-6">
+				<input type="text" class="form-control" id="age"
+					name="age" placeholder="닉네임">
+			</div><br>
 			<label for="email" class="col-lg-2 control-label">이메일</label>
 			<div class="col-lg-6">
 				<input type="email" class="form-control" id="email" name="email"
@@ -54,9 +60,9 @@
 				<input type="tel" class="form-control onlyNumber" id="phone"
 					name="phone" placeholder="-를 제외하고 숫자만 입력하세요.">
 			</div><br>
-			<label for="inputPhoneNumber" class="col-lg-2 control-label">성별</label>
+			<label for="gender" class="col-lg-2 control-label">성별</label>
 			<div class="col-lg-6">
-				<select class="form-control" id="gender">
+				<select class="form-control" id="gender" name="gender">
 					<option value="M">남</option>
 					<option value="F">여</option>
 				</select>

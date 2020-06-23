@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="admin">
 <!-- d여기다 쿼리문 작성 -->
-
+	<!-- 일반회원만 -->
 	<select id="selectCustomerMember" resultType="member">
 		select
 		member_id as memberId,
@@ -16,7 +16,14 @@
 		member_level as memberLevel
 		from member
 	</select>
-	
+	<select id="selectCompanyMember" resultType="company">
+		select
+		company_id as companyId,
+		 license,
+		 company_url as companyUrl,
+		 join_confirm as joinConfirm
+		from company
+	</select>
 	
 	
 </mapper>
