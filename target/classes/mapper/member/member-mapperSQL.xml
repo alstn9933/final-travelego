@@ -11,8 +11,8 @@
  	gender,
  	phone,
  	email,
- 	member_level as memberLevel
- 	reg_Date as regDate
+ 	member_level as memberLevel,
+ 	reg_date as regDate
  	from member where member_id=#{memberId} and member_pw=#{memberPw}
  </select>
  <insert id="memberjoin" parameterType="member">

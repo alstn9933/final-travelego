@@ -143,7 +143,7 @@ prefix="c"%>
     					var html = "";
     					for(var i=0; i<data.length; i++){
     						html += "<div class='item' itemNo="+data[i].itemNo+">";
-    						html += "<div><img class='item-main-img' src='../../../src/imgs/tour/main/"+data[i].filepath+"'></div>";
+    						html += "<div><img class='item-main-img' src='../../../upload/images/tour/thumnail/"+data[i].filepath+"'></div>";
     						html += "<div class='score'>"+data[i].score+"점</div>";
     						html += "<div class='itemTitle'>"+data[i].itemTitle+"</div>";
     						html += ""
