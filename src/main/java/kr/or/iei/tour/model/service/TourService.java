@@ -34,6 +34,10 @@ public class TourService {
 		mtv.setEnd(end);
 		ArrayList<TourVO> list = (ArrayList<TourVO>)dao.moreItemList(mtv);
 		for(TourVO tv : list) {
+			String beginDate = tv.getBeginDate().substring(0,10);
+			String endDate = tv.getEndDate().substring(0,10);
+			tv.setBeginDate(beginDate);
+			tv.setEndDate(endDate);
 			int sum = 0;
 			float avg=0;
 			ArrayList<ReviewVO> rvList = (ArrayList<ReviewVO>)dao.selectReviewList(tv.getItemNo());

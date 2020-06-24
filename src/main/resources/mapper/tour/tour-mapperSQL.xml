@@ -32,7 +32,7 @@
 		insert into photo values(photo_seq.nextval,#{boardClass},#{boardNo},#{filepath},#{filename})
 	</insert>
 	<select id="selectOneTour" parameterType="_int" resultType="tour">
-		select item_no as itemNo, member_id as memberId, member_name as memberName, item_title as itemTitle, region_country as regionCountry, 
+		select item_no as itemNo, member_id as memberId, member_name as memberName, phone, email, item_title as itemTitle, region_country as regionCountry, 
 		region_city as regionCity, max_person as maxPerson, begin_date as beginDate, end_date as endDate, item_content as itemContent,
 		item_price as itemPrice, tour_times as tourTimes, p.filename 
 		from tour join member using(member_id) 

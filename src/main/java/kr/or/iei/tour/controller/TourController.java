@@ -181,7 +181,7 @@ public class TourController {
 			out.flush(); // outputStram에 저장된 데이터를 전송하고 초기화
 
 			String callback = request.getParameter("CKEditorFuncNum");
-			printWriter = response.getWriter();
+			printWriter = response.getWriter(); 
 			String fileUrl = "/ckImgSubmit.do?uid=" + uid + "&fileName=" + fileName; // 작성화면
 
 			// 업로드시 메시지 출력
