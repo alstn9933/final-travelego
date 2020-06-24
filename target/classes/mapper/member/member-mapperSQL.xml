@@ -33,4 +33,10 @@
  	from member
  	where member_Nickname=#{memberNickname}
  </select>
+ <select id="memberchkEmail" parameterType="member" resultType="integer">
+ 	select
+ 	count(*)
+ 	from member
+ 	where email=#{email}
+ </select>
 </mapper>

@@ -36,4 +36,9 @@ public class MemberDao {
 	public int chkNickname(Member m) {
 		return sqlsession.selectOne("member.memberchkNickname",m);
 	}
+
+	public int chkEmail(Member m) {
+		return sqlsession.selectOne("member.memberchkEmail",m);
+		
+	}
 }

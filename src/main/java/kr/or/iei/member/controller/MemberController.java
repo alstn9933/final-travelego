@@ -1,7 +1,6 @@
 package kr.or.iei.member.controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -10,8 +9,8 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import kr.or.iei.member.model.service.MemberService;
@@ -74,11 +73,13 @@ public class MemberController {
 	}
 
 	@RequestMapping("/memberjoin.do")
-	public String memberjoin(Member m) {
+	public String memberjoin(Member m , Model model) {
 		int result = service.memberjoin(m);
 		if (result > 0) {
+			model.addAttribute("msg", "회원가입이 성공적으로 완료되었습니다.");
 			return "member/loginFrm";
 		} else {
+			model.addAttribute("msg", "회원가입 오류. 관리자와 상의하세요.");
 			return "redirect:/";
 		}
 	}
@@ -114,6 +115,12 @@ public class MemberController {
 	public int chkNickname(Member m) {
 		int result = service.chkNickname(m);
 		return result;
- 
+		
+	}
+	@ResponseBody
+	@RequestMapping("/chkEmail.do")
+	public int chkEamil(Member m) {
+		int result = service.chkEmail(m);
+		return result;
 	}
 }

@@ -53,4 +53,9 @@ public class MemberService {
 		return result;
 	}
 
+	public int chkEmail(Member m) {
+		int result = dao.chkEmail(m);
+		return result;
+	}
+
 }
