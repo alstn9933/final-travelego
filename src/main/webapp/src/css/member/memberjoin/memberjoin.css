@@ -21,7 +21,7 @@
 .divBtn>button{
 	margin: 30px;
 }
-#emailBtn,#emailCodeBtn,#idchk{
+#emailBtn,#emailCodeBtn,#idchk,#Nicknamechk,#idchk{
 	width:80px;
 	height:50px;
 	font-size : 12px;

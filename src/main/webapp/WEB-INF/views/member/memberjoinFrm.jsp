@@ -13,6 +13,11 @@
 <link rel="stylesheet" href="/src/css/footer/footer.css" />
 <link rel="stylesheet" href="/src/css/main/web_default.css" />
 <link rel="stylesheet" href="/src/css/member/memberjoin/memberjoin.css" />
+<!-- 아이콘 키값 -->
+ <script
+      src="/src/js/fontawesome/8bd2671777.js"
+      crossorigin="anonymous"
+    ></script>
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
@@ -20,10 +25,10 @@
 		<div class="joincontent">
 		<div class="textdiv">
 		<form action="/memberjoin.do" method="post">
-			<label for="memberId" class="col-lg-2 control-label">아이디</label>
-			<div class="col-lg-6">
+			<label id="lId" for="memberId" class="col-lg-2 control-label">아이디</label>
+			<div class="col-lg-5">
 				<input type="text" class="form-control" name="memberId" id="memberId"
-					data-rule-required="true" placeholder="생성할 아이디를 입력해주세요"><button class="btn btn-primary" id="idchk" name="idchk">중복확인</button><br>
+					data-rule-required="true" placeholder="생성할 아이디를 입력해주세요"><button type="button" class="btn btn-primary" id="idchk" name="idchk">중복확인</button><br>
 					<span id="sId"></span>
 			</div><br>
 			<label for="memberPw" class="col-lg-2 control-label">패스워드</label>
@@ -42,12 +47,14 @@
 			<label for="memberName" class="col-lg-2 control-label">이름</label>
 			<div class="col-lg-6	">
 				<input type="text" class="form-control onlyHangul" id="memberName"
-					name="memberName" placeholder="한글만 입력 가능합니다.">
+					name="memberName" placeholder="한글만 입력 가능합니다."><br>
+					<span id="sName"></span>
 			</div><br>
-			<label for="memberNickname" class="col-lg-2 control-label">닉네임</label>
-			<div class="col-lg-6">
+			<label id="lNickname" for="memberNickname" class="col-lg-2 control-label">닉네임</label>
+			<div class="col-lg-5">
 				<input type="text" class="form-control" id="memberNickname"
-					name="memberNickname" placeholder="닉네임">
+					name="memberNickname" placeholder="닉네임"><input type="button" class="btn btn-primary" id="Nicknamechk" name="Nicknamechk" value="닉네임확인 "><br>
+					<span id="sNickname"></span>
 			</div><br>
 			<label for="age" class="col-lg-2 control-label">나이</label>
 			<div class="col-lg-6">
@@ -68,7 +75,8 @@
 				번호</label>
 			<div class="col-lg-6">
 				<input type="tel" class="form-control onlyNumber" id="phone"
-					name="phone" placeholder="-를 제외하고 숫자만 입력하세요.">
+					name="phone" placeholder="-를 제외하고 숫자만 입력하세요."><br>
+					<span id="sPhone"></span>
 			</div><br>
 			<label for="gender" class="col-lg-2 control-label">성별</label>
 			<div class="col-lg-6">
@@ -88,18 +96,18 @@
 	<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
 </body>
 <script>
-//자바로 메일 보내기
 var mailCode="";
 var regExp = "";
+
 $("#memberId").focusout(function(){
-	regExp=/^[a-zA-Z][0-9]{5,15}$/;
+	regExp=/^[a-zA-Z0-9]{5,15}/;
 	if($("#memberId").val() == ""){
 		$("#sId").html("아이디를 입력해주세요.");
 		$("#sId").css("color","red");
 		return false;
 	}
 	if(regExp.test($("#memberId").val())){
-		$("#sId").html("생성 가능한 아이디입니다.");
+		$("#sId").html("생성 가능한 아이디입니다.<br>중복확인 을 진행해주세요.");
 		$("#sId").css("color","green");
 		
 	}else{
@@ -108,29 +116,118 @@ $("#memberId").focusout(function(){
 		return false;
 	}
 });
+//아이디 중복확인
+$("#idchk").click(function(){
+	var memberId = $("#memberId").val();
+	$.ajax({
+		url : "/chkId.do",
+		type : "post",
+		data :{memberId:memberId},
+		success : function(data){
+			if(data == '0'){
+				alert("생성 가능한 아이디입니다.");
+				$("#lId").css("color","green");
+			}else{
+				alert("중복된 아이디 입니다. 다른 아이디를 이용해주세요.");	
+				$("#memberId").focus();
+				$("#lId").css("color","red");
+				return false;
+			}
+		},
+		error : function(){
+			console.log("아이디 중복체크 실페");
+		}
+	});
+});
 $("#memberPw").focusout(function(){
-	regExp=/^[a-zA-Z][0-9]{5,15}/;
+	regExp=/^[a-zA-Z][0-9]{4,15}/;
+	if($("#memberPw").val() == ""){
+		$("#sPw").html("비밀번호를 입력해주세요.");
+		$("#sPw").css("color","red");
+		return false;
+	}
 	if(regExp.test($("#memberPw").val())){
 		$("#sPw").html("생성 가능한 비밀번호 입니다.");
 		$("#sPw").css("color","green");
 		
 	}else{
-		$("#sPw").html("비밀번호 규격을 맞춰주세요<br>(대문자,소문자,숫자 로  15글자 이내)");
+		$("#sPw").html("비밀번호 규격을 맞춰주세요<br>(대문자,소문자를 시작으로  숫자포함  15글자 이내)");
 		$("#sPw").css("color","red");
+		$("#memberPw").focus();
 		return false;
 	}
 	
 });
 $("#memberPwRe").focusout(function(){
+	if($("#memberPwRe").val() == ""){
+		$("#sPw").html("비밀번호를 입력해주세요.");
+		$("#sPw").css("color","red");
+		return false;
+	}
 	if($("#memberPw").val()==$("#memberPwRe").val()){
 		$("#sRePw").html("비밀번호가 일치합니다.");
 		$("#sRePw").css("color","green");
 	}else{
+		$("#memberPwRe").focus();
 		$("#sRePw").html("비밀번호가 일치하지 않습니다.");
 		$("#sRePw").css("color","red");	
 		return false;
 	}
 });
+$("#memberName").focusout(function(){
+	regExp = /^[가-힣]{2,5}$/;
+	if(regExp.test($("#memberName").val())){
+	}else{
+		$("#sName").focus();
+		$("#sName").html("이름규격에 맞춰주세요.<br>(한글 2글자 이상,5글자 이하)");
+		$("#sName").css("color","red");	
+		return false;
+	}
+});
+$("#memberNickname").focusout(function(){
+	regExp =/^[a-zA-Z가-힣]{2,8}[0-9]{4}/;
+	if(regExp.test($("#membeNickname").val())){
+		$("#sNickname").html("생성가능한 닉네임입니다.<br>중복확인을 진행해주세요.");
+		$("#sNickname").css("color","green");
+	}else{
+		$("#sNickname").html("생성불가능한 닉네임입니다.<br>닉네임을 다시 확인해주세요.");
+		$("#sNickname").css("color","red");
+		return false;
+	}
+});
+$("#Nicknamechk").click(function(){
+	var memberNickname = $("#memberNickname").val();
+	$.ajax({
+		url : "/chkNickname.do",
+		type : "post",
+		data :{memberNickname:memberNickname},
+		success : function(data){
+			if(data == '0'){
+				alert("생성 가능한 닉네임입니다.");
+				$("#lNickname").css("color","green");
+			}else{
+				alert("중복된 닉네임 입니다. 다른 닉네임를 이용해주세요.");	
+				$("#memberId").focus();
+				$("#lNickname").css("color","red");
+				return false;
+			}
+		},
+		error : function(){
+			console.log("아이디 중복체크 실페");
+		}
+	});
+});
+$("#phone").focusout(function(){
+	regExp =/^[0-9]{11}$/;
+	if(regExp.test($("#hone").val())){
+	}else{
+		$("#sPhone").focus();
+		$("#sPhone").html("핸드폰번호는 - 없이 11자리까지 가능합니다.");
+		$("#sPhone").css("color","red");	
+		return false;
+	}
+});
+//자바로 메일 보내기
 $("#emailBtn").click(function(){	
 	var email = $("#email").val();
 	$.ajax({
@@ -139,8 +236,10 @@ $("#emailBtn").click(function(){
 		data : {email:email},
 		success :function(data){
 			mailCode=data;
-			
 			alert("이메일을 송신했습니다.");
+		},
+		error : function(){
+			console.log("이메일발송에러");
 		}
 	})
 });
@@ -151,9 +250,10 @@ $("#emailCodeBtn").click(function(){
 	}else{
 		$("#mailMsg").html('인증실패');
 		$("#mailMsg").css('color','red');
+		$("#emailCode").focus();
 		return false;
 	}
-})
+});
 
 </script>
 </html>

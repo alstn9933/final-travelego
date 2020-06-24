@@ -43,4 +43,14 @@ public class MemberService {
 		return 0;
 	}
 
+	public int chkid(Member m) {
+		int result = dao.chkId(m);
+		return result;
+	}
+
+	public int chkNickname(Member m) {
+		int result = dao.chkNickname(m);
+		return result;
+	}
+
 }
