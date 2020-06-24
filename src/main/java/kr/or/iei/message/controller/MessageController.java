@@ -29,27 +29,23 @@ public class MessageController {
 	@RequestMapping("/view.do")
 	public String messageView(HttpSession session, String messageNo, Model model) {
 
-		Member m = (Member) session.getAttribute("member");
-
-		if (m != null) {
-			MessageViewData mvd = service.selectOneMessage(m.getMemberId(), Integer.parseInt(messageNo));
-			model.addAttribute("message", mvd.getMessage());
-			model.addAttribute("unchkCount", mvd.getUnchkCount());
-			model.addAttribute("msgTotalCount", mvd.getMsgTotalCount());
-		}
-
+		Member member = (Member) session.getAttribute("member");
+				
+		MessageViewData mvd = service.selectOneMessage(member, Integer.parseInt(messageNo));
+		model.addAttribute("message", mvd.getMessage());
+		model.addAttribute("unchkCount", mvd.getUnchkCount());
+		model.addAttribute("msgTotalCount", mvd.getMsgTotalCount());
+		
 		return "message/messageView";
 	}
 
 	@RequestMapping("/viewSendMessage.do")
 	public String viewSendMessage(HttpSession session, String messageNo, Model model) {
-		Member m = (Member) session.getAttribute("member");
+		Member member = (Member) session.getAttribute("member");
 
-		if (m != null) {
-			MessageViewData mvd = service.selectSendMessage(m.getMemberId(), Integer.parseInt(messageNo));
-			model.addAttribute("message", mvd.getMessage());
-			model.addAttribute("sendCount", mvd.getSendCount());
-		}
+		MessageViewData mvd = service.selectSendMessage(member, Integer.parseInt(messageNo));
+		model.addAttribute("message", mvd.getMessage());
+		model.addAttribute("sendCount", mvd.getSendCount());
 
 		return "message/messageView";
 	}
@@ -59,13 +55,11 @@ public class MessageController {
 
 		Member member = (Member) session.getAttribute("member");
 
-		if (member != null) {
-			InboxPageData pd = service.selectUnreadMessage(member);
+		InboxPageData pd = service.selectUnreadMessage(member);
 
-			model.addAttribute("unchkCount", pd.getUnchkCount());
-			model.addAttribute("msgTotalCount", pd.getMsgTotalCount());
-			model.addAttribute("list", pd.getList());
-		}
+		model.addAttribute("unchkCount", pd.getUnchkCount());
+		model.addAttribute("msgTotalCount", pd.getMsgTotalCount());
+		model.addAttribute("list", pd.getList());
 
 		return "message/inbox";
 	}
@@ -75,16 +69,14 @@ public class MessageController {
 
 		Member member = (Member) session.getAttribute("member");
 
-		if (member != null) {
-			int result = service.deleteMessage(member, Integer.parseInt(messageNo));
+		int result = service.deleteMessage(member, Integer.parseInt(messageNo));
 
-			if (result > 0) {
-				model.addAttribute("msg", "쪽지가 삭제되었습니다.");
-				model.addAttribute("loc", "/message/inbox.do");
-			} else {
-				model.addAttribute("msg", "쪽지 삭제에 실패하였습니다.");
-				model.addAttribute("loc", "/message/view.do?messageNo=" + messageNo);
-			}
+		if (result > 0) {
+			model.addAttribute("msg", "쪽지가 삭제되었습니다.");
+			model.addAttribute("loc", "/message/inbox.do");
+		} else {
+			model.addAttribute("msg", "쪽지 삭제에 실패하였습니다.");
+			model.addAttribute("loc", "/message/view.do?messageNo=" + messageNo);
 		}
 
 		return "common/msg";
@@ -102,14 +94,10 @@ public class MessageController {
 	public String selectOutboxMessage(HttpSession session, Model m) {
 		Member member = (Member) session.getAttribute("member");
 
-		if (member != null) {
-			Message msg = new Message();
-			msg.setMessageSender(member.getMemberId());
-			InboxPageData pd = service.selectMessageList(msg);
+		InboxPageData pd = service.selectSendMessageList(member);
 
-			m.addAttribute("msgTotalCount", pd.getMsgTotalCount());
-			m.addAttribute("list", pd.getList());
-		}
+		m.addAttribute("msgTotalCount", pd.getMsgTotalCount());
+		m.addAttribute("list", pd.getList());
 
 		return "message/outbox";
 	}
@@ -119,15 +107,11 @@ public class MessageController {
 
 		Member member = (Member) session.getAttribute("member");
 
-		if (member != null) {
-			Message msg = new Message();
-			msg.setMessageReceiver(member.getMemberId());
-			InboxPageData pd = service.selectMessageList(msg);
+		InboxPageData pd = service.selectReceiveMessageList(member);
 
-			m.addAttribute("unchkCount", pd.getUnchkCount());
-			m.addAttribute("msgTotalCount", pd.getMsgTotalCount());
-			m.addAttribute("list", pd.getList());
-		}
+		m.addAttribute("unchkCount", pd.getUnchkCount());
+		m.addAttribute("msgTotalCount", pd.getMsgTotalCount());
+		m.addAttribute("list", pd.getList());
 
 		return "message/inbox";
 	}
@@ -173,9 +157,9 @@ public class MessageController {
 	public String deleteAllReadMessage(HttpSession session, Model model) {
 
 		Member member = (Member) session.getAttribute("member");
-						
+
 		int result = service.deleteAllReadMessage(member);
-		if(result < 0) {
+		if (result < 0) {
 			model.addAttribute("msg", "삭제할 쪽지가 없습니다.");
 		} else if (result > 0) {
 			model.addAttribute("msg", "쪽지가 삭제되었습니다.");
@@ -192,25 +176,25 @@ public class MessageController {
 		Member member = (Member) session.getAttribute("member");
 
 		int result = service.deleteAllReceivedMessage(member);
-		if(result < 0) {
+		if (result < 0) {
 			model.addAttribute("msg", "삭제할 쪽지가 없습니다.");
 		} else if (result > 0) {
 			model.addAttribute("msg", "쪽지가 삭제되었습니다.");
 		} else {
 			model.addAttribute("msg", "쪽지 삭제에 실패하였습니다.");
 		}
-		
+
 		model.addAttribute("loc", "/message/inbox.do");
 
 		return "common/msg";
 	}
-	
+
 	@RequestMapping("/deleteAllSendMessage.do")
 	public String deleteAllSendMessage(HttpSession session, Model model) {
-		Member member = (Member)session.getAttribute("member");
-		
+		Member member = (Member) session.getAttribute("member");
+
 		int result = service.deleteAllSendMessage(member);
-		if(result < 0) {
+		if (result < 0) {
 			model.addAttribute("msg", "삭제할 쪽지가 없습니다.");
 		} else if (result > 0) {
 			model.addAttribute("msg", "쪽지가 삭제되었습니다.");
@@ -218,7 +202,7 @@ public class MessageController {
 			model.addAttribute("msg", "쪽지 삭제에 실패하였습니다.");
 		}
 		model.addAttribute("loc", "/message/inbox.do");
-		
+
 		return "common/msg";
 	}
 }

@@ -22,7 +22,10 @@ public class MessageService {
 	@Qualifier("messageDao")
 	private MessageDao dao;
 
-	public InboxPageData selectMessageList(Message msg) {
+	public InboxPageData selectSendMessageList(Member member) {
+
+		Message msg = new Message();
+		msg.setMessageSender(member.getMemberId());
 
 		ArrayList<Message> list = (ArrayList<Message>) dao.selectMsgList(msg);
 
@@ -30,10 +33,21 @@ public class MessageService {
 		pd.setMsgTotalCount(list.size());
 		pd.setList(list);
 
-		if (msg.getMessageReceiver() != null) {
-			int unchkCount = dao.countUncheckMsg(msg.getMessageReceiver());
-			pd.setUnchkCount(unchkCount);
-		}
+		return pd;
+	}
+
+	public InboxPageData selectReceiveMessageList(Member member) {
+
+		Message msg = new Message();
+		msg.setMessageReceiver(member.getMemberId());
+
+		ArrayList<Message> list = (ArrayList<Message>) dao.selectMsgList(msg);
+		int unchkCount = dao.countUncheckMsg(msg.getMessageReceiver());
+
+		InboxPageData pd = new InboxPageData();
+		pd.setMsgTotalCount(list.size());
+		pd.setList(list);
+		pd.setUnchkCount(unchkCount);
 
 		return pd;
 	}
@@ -42,15 +56,15 @@ public class MessageService {
 		return dao.insertMessage(m);
 	}
 
-	public MessageViewData selectOneMessage(String memberId, int messageNo) {
+	public MessageViewData selectOneMessage(Member member, int messageNo) {
 
 		int result = dao.updateCheckMsg(messageNo);
 
 		if (result > 0) {
 
 			ArrayList<Message> list = (ArrayList<Message>) dao.selectOneMessage(messageNo);
-			int unchkCount = dao.countUncheckMsg(memberId);
-			int msgTotalCount = dao.countAllMsg(memberId);
+			int unchkCount = dao.countUncheckMsg(member.getMemberId());
+			int msgTotalCount = dao.countAllMsg(member.getMemberId());
 
 			MessageViewData mvd = new MessageViewData();
 
@@ -89,9 +103,9 @@ public class MessageService {
 		return result;
 	}
 
-	public MessageViewData selectSendMessage(String memberId, int messageNo) {
+	public MessageViewData selectSendMessage(Member member, int messageNo) {
 		ArrayList<Message> list = (ArrayList<Message>) dao.selectOneMessage(messageNo);
-		int sendCount = dao.countSendMsg(memberId);
+		int sendCount = dao.countSendMsg(member.getMemberId());
 
 		MessageViewData mvd = new MessageViewData();
 
@@ -118,11 +132,10 @@ public class MessageService {
 		int result = 0;
 		ArrayList<Message> readMessagelist = (ArrayList<Message>) dao.listReadMessage(member);
 		ArrayList<Message> deletedMessageList = new ArrayList<Message>();
-		
-		if(readMessagelist.isEmpty()) {
+
+		if (readMessagelist.isEmpty()) {
 			return -1;
 		}
-		
 
 		// 삭제 이력있는 메세지 분류
 		for (int i = 0; i < readMessagelist.size(); i++) {
@@ -132,8 +145,8 @@ public class MessageService {
 				i--;
 			}
 		}
-		
-		if(!readMessagelist.isEmpty()) {
+
+		if (!readMessagelist.isEmpty()) {
 			result += dao.updateMessageDeleteLevelTo1(readMessagelist);
 		}
 		if (!deletedMessageList.isEmpty()) {
@@ -145,43 +158,41 @@ public class MessageService {
 			return 0;
 		}
 	}
-	
-	
+
 	@Transactional
 	public int deleteAllReceivedMessage(Member member) {
 		int result = 0;
-		
-		ArrayList<Message> list = (ArrayList<Message>) dao.listAllReceivedMessage(member);		
+
+		ArrayList<Message> list = (ArrayList<Message>) dao.listAllReceivedMessage(member);
 		ArrayList<Message> deletedList = new ArrayList<Message>();
-		
-		if(list.isEmpty()) {
+
+		if (list.isEmpty()) {
 			return -1;
 		}
-	
-		
-		for(int i=0; i<list.size(); i++) {
-			if(list.get(i).getDeleteLevel()>0) {
+
+		for (int i = 0; i < list.size(); i++) {
+			if (list.get(i).getDeleteLevel() > 0) {
 				deletedList.add(list.get(i));
 				list.remove(i);
 				i--;
 			}
 		}
-		
-		if(!list.isEmpty()) {
+
+		if (!list.isEmpty()) {
 			result += dao.updateMessageDeleteLevelTo1(list);
 		}
-		
-		if(!deletedList.isEmpty()) {
+
+		if (!deletedList.isEmpty()) {
 			result += dao.deleteMessage(deletedList);
 		}
-		
-		if(result == (list.size()+deletedList.size())) {
+
+		if (result == (list.size() + deletedList.size())) {
 			return 1;
 		} else {
 			return 0;
 		}
 	}
-	
+
 	@Transactional
 	public int deleteAllSendMessage(Member member) {
 		return 0;
