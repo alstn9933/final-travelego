@@ -61,12 +61,12 @@ public class MessageDao {
 		return session.selectList("message.selectAllReadMessage", member);
 	}
 
-	public int updateMessageDeleteLevelTo1(List readMessagelist) {
-		return session.update("message.updateListDeleteLevelTo1", readMessagelist);
+	public int updateMessageDeleteLevelTo1(ArrayList<Message> messageList) {
+		return session.update("message.updateListDeleteLevelTo1", messageList);
 	}
 
-	public int deleteMessage(ArrayList<Message> deletedMessageList) {
-		return session.delete("message.deleteMessageByList", deletedMessageList);
+	public int deleteMessage(ArrayList<Message> messageList) {
+		return session.delete("message.deleteMessageByList", messageList);
 	}
 
 	public List listAllReceivedMessage(Member member) {

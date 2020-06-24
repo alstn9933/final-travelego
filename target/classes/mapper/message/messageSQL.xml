@@ -128,7 +128,7 @@
 			#{msg.messageNo}
 		</foreach>
 	</delete>
-	<select id="selectAllReceivedMessage" parameterType="member">
+	<select id="selectAllReceivedMessage" parameterType="member" resultType="msg">
 		select
 			message_no as messageNo,
 			message_sender as messageSender,
@@ -138,6 +138,7 @@
 			message_check as messageCheck,
 			delete_level as deleteLevel
 		from message
-		where message_receiver = #{memberId}		
+		where message_receiver = #{memberId}
+		and delete_level in (0,2)	
 	</select>
 </mapper>

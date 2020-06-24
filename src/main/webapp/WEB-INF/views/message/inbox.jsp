@@ -104,11 +104,5 @@
 		location.href = "/message/view.do?messageNo=" + messageNo;
 	});
 </script>
-<script>
-	$("#dropdownDeleteRead").click(function(){
-		if(confirm("읽은 쪽지를 모두 삭제하시겠습니까?")){
-			location.href = "/message/deleteAllReadMessage.do";
-		}
-	});
-</script>
+<script src="/src/js/message/deleteMessage.js"></script>
 </html>

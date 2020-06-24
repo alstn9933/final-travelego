@@ -117,8 +117,12 @@ public class MessageService {
 
 		int result = 0;
 		ArrayList<Message> readMessagelist = (ArrayList<Message>) dao.listReadMessage(member);
-		System.out.println("진행 메세지 수 : " + readMessagelist.size());
 		ArrayList<Message> deletedMessageList = new ArrayList<Message>();
+		
+		if(readMessagelist.isEmpty()) {
+			return -1;
+		}
+		
 
 		// 삭제 이력있는 메세지 분류
 		for (int i = 0; i < readMessagelist.size(); i++) {
@@ -128,12 +132,12 @@ public class MessageService {
 				i--;
 			}
 		}
-
-		result += dao.updateMessageDeleteLevelTo1(readMessagelist);
-		System.out.println("삭제 레벨 업데이트 : " + result);
+		
+		if(!readMessagelist.isEmpty()) {
+			result += dao.updateMessageDeleteLevelTo1(readMessagelist);
+		}
 		if (!deletedMessageList.isEmpty()) {
 			result += dao.deleteMessage(deletedMessageList);
-			System.out.println("메시지 삭제 후: " + result);
 		}
 		if (result == (readMessagelist.size() + deletedMessageList.size())) {
 			return 1;
@@ -142,13 +146,18 @@ public class MessageService {
 		}
 	}
 	
+	
+	@Transactional
 	public int deleteAllReceivedMessage(Member member) {
 		int result = 0;
 		
-		ArrayList<Message> list = (ArrayList<Message>) dao.listAllReceivedMessage(member);
+		ArrayList<Message> list = (ArrayList<Message>) dao.listAllReceivedMessage(member);		
 		ArrayList<Message> deletedList = new ArrayList<Message>();
 		
-		System.out.println("진행 메세지 수 : " + list.size());
+		if(list.isEmpty()) {
+			return -1;
+		}
+	
 		
 		for(int i=0; i<list.size(); i++) {
 			if(list.get(i).getDeleteLevel()>0) {
@@ -158,8 +167,23 @@ public class MessageService {
 			}
 		}
 		
-		// 이후 삭제 로직 진행 필요
+		if(!list.isEmpty()) {
+			result += dao.updateMessageDeleteLevelTo1(list);
+		}
 		
-		return result;
+		if(!deletedList.isEmpty()) {
+			result += dao.deleteMessage(deletedList);
+		}
+		
+		if(result == (list.size()+deletedList.size())) {
+			return 1;
+		} else {
+			return 0;
+		}
+	}
+	
+	@Transactional
+	public int deleteAllSendMessage(Member member) {
+		return 0;
 	}
 }

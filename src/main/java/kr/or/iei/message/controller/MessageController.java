@@ -173,9 +173,11 @@ public class MessageController {
 	public String deleteAllReadMessage(HttpSession session, Model model) {
 
 		Member member = (Member) session.getAttribute("member");
-
+						
 		int result = service.deleteAllReadMessage(member);
-		if (result > 0) {
+		if(result < 0) {
+			model.addAttribute("msg", "삭제할 쪽지가 없습니다.");
+		} else if (result > 0) {
 			model.addAttribute("msg", "쪽지가 삭제되었습니다.");
 		} else {
 			model.addAttribute("msg", "쪽지 삭제에 실패하였습니다.");
@@ -190,13 +192,33 @@ public class MessageController {
 		Member member = (Member) session.getAttribute("member");
 
 		int result = service.deleteAllReceivedMessage(member);
-		if (result > 0) {
+		if(result < 0) {
+			model.addAttribute("msg", "삭제할 쪽지가 없습니다.");
+		} else if (result > 0) {
+			model.addAttribute("msg", "쪽지가 삭제되었습니다.");
+		} else {
+			model.addAttribute("msg", "쪽지 삭제에 실패하였습니다.");
+		}
+		
+		model.addAttribute("loc", "/message/inbox.do");
+
+		return "common/msg";
+	}
+	
+	@RequestMapping("/deleteAllSendMessage.do")
+	public String deleteAllSendMessage(HttpSession session, Model model) {
+		Member member = (Member)session.getAttribute("member");
+		
+		int result = service.deleteAllSendMessage(member);
+		if(result < 0) {
+			model.addAttribute("msg", "삭제할 쪽지가 없습니다.");
+		} else if (result > 0) {
 			model.addAttribute("msg", "쪽지가 삭제되었습니다.");
 		} else {
 			model.addAttribute("msg", "쪽지 삭제에 실패하였습니다.");
 		}
 		model.addAttribute("loc", "/message/inbox.do");
-
+		
 		return "common/msg";
 	}
 }
