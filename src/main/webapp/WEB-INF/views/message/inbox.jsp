@@ -39,10 +39,12 @@
 			</div>
 		</div>
 		<!-- 쪽지 정렬 테이블 -->
+		<form action="/message/deleteCheckMessage.do">
 		<table>
 			<c:forEach items="${list }" var="msg">
 				<c:if test="${msg.messageCheck == 0 }">
 					<tr message_no="${msg.messageNo}">
+						<td><input type="checkbox" name="" id=""></td>
 						<td><i class="far fa-envelope"></i></td>
 				</c:if>
 				<c:if test="${msg.messageCheck != 0 }">
@@ -62,6 +64,7 @@
 				</tr>
 			</c:forEach>
 		</table>
+		</form>
 	</section>
 </body>
 <script src="/src/js/jquery/jquery-3.5.1.js"></script>
