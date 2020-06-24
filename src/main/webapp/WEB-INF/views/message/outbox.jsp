@@ -1,111 +1,109 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-pageEncoding="UTF-8"%> <%@ taglib uri="http://java.sun.com/jsp/jstl/core"
-prefix="c"%>
+	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
-  <head>
-    <script
-      src="/src/js/fontawesome/8bd2671777.js"
-      crossorigin="anonymous"
-    ></script>
-    <link rel="stylesheet" href="/src/css/bootstrap/bootstrap-4.5.0.css" />
-    <link rel="stylesheet" href="/src/css/message/inbox.css" />
-    <link rel="stylesheet" href="/src/css/message/inbox_table.css" />
-    <link rel="stylesheet" href="/src/css/message/outbox.css" />
-    <meta charset="UTF-8" />
-    <title>쪽지함</title>
-  </head>
-  <body>
-    <nav>
-      <ul class="inbox_navi">
-        <li>
-          <a href="/open.do">받은 쪽지</a>
-        </li>
-        <li class="selected_tab">
-          <a href="/outbox.do">보낸 쪽지</a>
-        </li>
-        <li>
-          <a href="/write.do">쪽지 보내기</a>
-        </li>
-      </ul>
-      <div class="btn_area">
-        <button
-          type="button"
-          class="btn btn-sm btn-danger dropdown-toggle"
-          data-toggle="dropdown"
-          aria-haspopup="true"
-          aria-expanded="false"
-        >
-          메시지 삭제
-        </button>
-        <div class="dropdown-menu">
-          <a class="dropdown-item" href="#">전체 삭제</a>
-          <a class="dropdown-item" href="#">선택 삭제</a>
-          <a class="dropdown-item" href="#">읽은 쪽지만 삭제</a>
-        </div>
-      </div>
-    </nav>
-    <section>
-      <div class="alert_area">
-        <div>
-          <span>새 쪽지</span>
-          <span id="unreadCount">0통</span>
-        </div>
-        <div>
-          <span>전체 쪽지</span>
-          <span id="totalCount">0통</span>
-        </div>
-      </div>
-      <!-- 쪽지 정렬 테이블 -->
-      <table>
-        <tr>
-          <td>ㅁ</td>
-          <td>제목이 들어올것</td>
-          <td>
-            <div>
-              <span>보낸이</span>
-              <span>보낸 시간</span>
-            </div>
-          </td>
-          <td>ㅁ</td>
-        </tr>
-        <tr>
-          <td>ㅁ</td>
-          <td>제목이 들어올것</td>
-          <td>
-            <div>
-              <span>보낸이</span>
-              <span>보낸 시간</span>
-            </div>
-          </td>
-          <td>ㅁ</td>
-        </tr>
-        <tr>
-          <td>ㅁ</td>
-          <td>제목이 들어올것</td>
-          <td>
-            <div>
-              <span>보낸이</span>
-              <span>보낸 시간</span>
-            </div>
-          </td>
-          <td>ㅁ</td>
-        </tr>
-        <tr>
-          <td>ㅁ</td>
-          <td>제목이 들어올것</td>
-          <td>
-            <div>
-              <span>보낸이</span>
-              <span>보낸 시간</span>
-            </div>
-          </td>
-          <td>ㅁ</td>
-        </tr>
-      </table>
-    </section>
-  </body>
-  <script src="/src/js/jquery/jquery-3.5.1.js"></script>
-  <script src="/src/js/bootstrap/popper.min.js"></script>
-  <script src="/src/js/bootstrap/bootstrap-4.5.0.js"></script>
+<head>
+<script src="/src/js/fontawesome/8bd2671777.js" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="/src/css/bootstrap/bootstrap-4.5.0.css" />
+<link rel="stylesheet" href="/src/css/message/inbox.css" />
+<link rel="stylesheet" href="/src/css/message/inbox_table.css" />
+<link rel="stylesheet" href="/src/css/message/outbox.css" />
+<meta charset="UTF-8" />
+<title>쪽지함</title>
+</head>
+<body>
+	<nav>
+		<ul class="inbox_navi">
+			<li><a href="/message/inbox.do">받은 쪽지</a></li>
+			<li class="selected_tab"><a href="/message/outbox.do">보낸 쪽지</a></li>
+			<li><a href="/message/write.do">쪽지 보내기</a></li>
+		</ul>
+		<div class="btn_area">
+			<button type="button" class="btn btn-sm btn-danger dropdown-toggle"
+				data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				메시지 삭제</button>
+			<div class="dropdown-menu">
+				<a id="dropdownDeleteAllSend" class="dropdown-item" href="javascript:void(0)">전체 삭제</a> <a class="dropdown-item"
+					href="javascript:void(0)">선택 삭제</a> <a class="dropdown-item" href="javascript:void(0)">상대방이 읽은
+					쪽지만 삭제</a>
+			</div>
+		</div>
+	</nav>
+	<section>
+		<div class="alert_area">
+			<div>
+				<span>보낸 쪽지</span><span id="totalCount"> ${msgTotalCount}통</span>
+			</div>
+		</div>
+		<!-- 쪽지 정렬 테이블 -->
+		<table>
+			<c:forEach items="${list }" var="msg">
+				<c:if test="${msg.messageCheck == 0 }">
+					<tr message_no="${msg.messageNo}">
+						<td><i class="far fa-envelope"></i></td>
+				</c:if>
+				<c:if test="${msg.messageCheck != 0 }">
+					<tr class="opened" message_no="${msg.messageNo}">
+						<td><i class="far fa-envelope-open"></i></td>
+				</c:if>
+				<td><a id="msgTitle"
+					href="/message/viewSendMessage.do?messageNo=${msg.messageNo}">${msg.messageContent }</a>
+				</td>
+				<td>
+					<div>
+						<a href="/message/write.do?receiver=${msg.messageReceiver}"
+							id="sender" data-toggle="tooltip" data-placement="right"
+							title="메시지 보내기">${msg.messageReceiver }</a> <span>${msg.sendDate }</span>
+					</div>
+				</td>
+				<td><i class="far fa-trash-alt deleteIcon"></i></td>
+				</tr>
+			</c:forEach>
+		</table>
+	</section>
+</body>
+<script src="/src/js/jquery/jquery-3.5.1.js"></script>
+<script src="/src/js/bootstrap/popper.min.js"></script>
+<script src="/src/js/bootstrap/bootstrap-4.5.0.js"></script>
+<script>
+	$(".deleteIcon")
+			.click(
+					function(event) {
+						event.stopPropagation();
+						const messageNo = $(this).parent().parent().attr(
+								"message_no");
+						const sender = $(this).parent().prev().children()
+								.children("a").eq(0).html();
+						if (confirm(sender
+								+ "님에게 보낸 쪽지를 나의 쪽지함에서 삭제하시겠습니까? \r\n(상대방 쪽지함에는 영향을 주지 않습니다.)")) {
+							$.ajax({
+								url : "/message/asyncDelete.do",
+								type : "post",
+								data : {
+									messageNo : messageNo
+								},
+								success : function(data) {
+									if (data == "1") {
+										alert("쪽지가 삭제되었습니다.");
+										location.href = "/message/inbox.do";
+									} else {
+										alert("쪽지 삭제에 실패하였습니다.");
+									}
+								},
+								error : function() {
+									alert("쪽지 삭제에 실패하였습니다.");
+								},
+							});
+						}
+					});
+
+	$("tr").click(function(event) {
+		// $(this).children("td").eq(1).children("a");
+		event.stopPropagation();
+		const messageNo = $(this).attr("message_no");
+		location.href = "/message/viewSendMessage.do?messageNo=" + messageNo;
+	});
+</script>
+<script src="/src/js/message/deleteMessage.js"></script>
 </html>

@@ -1,5 +1,7 @@
 package kr.or.iei.member.model.vo;
 
+import java.util.Date;
+
 import lombok.Data;
 
 @Data
@@ -13,4 +15,5 @@ public class Member {
  private String phone;
  private String gender;
  private int memberLevel;
+ private Date regDate;
 }

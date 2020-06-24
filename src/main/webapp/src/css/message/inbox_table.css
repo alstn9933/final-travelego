@@ -11,6 +11,8 @@ tr {
   padding: 3px;
   border-radius: 5px;
   box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.16);
+  overflow: hidden;
+  height: 38px;
 }
 
 tr td {
@@ -18,20 +20,27 @@ tr td {
 }
 
 tr td:nth-child(1) {
-  width: 20px;
+  width: 30px;
   margin-right: 10px;
-  justify-content: center;
+  justify-content: flex-end;
 }
 tr td:nth-child(2) {
   width: 100%;
   font-size: 14px;
   margin-right: 20px;
+  /* overflow: hidden;
+  text-overflow: ellipsis; */
+}
+
+tr td:nth-child(2) a {
+  height: 15px;
+  overflow: hidden;
 }
 
 tr td:nth-child(3) {
   justify-content: center;
   width: 120px;
-  margin-right: 20px;
+  margin-right: 10px;
 }
 
 tr td:nth-child(3) div {
@@ -41,7 +50,11 @@ tr td:nth-child(3) div {
   font-size: 12px;
 }
 
-tr > td > div > span {
+tr td:nth-child(4) {
+  width: 30px;
+}
+
+tr > td > div > a {
   padding: 2px;
 }
 
@@ -51,4 +64,29 @@ tr:not(:last-of-type) {
 
 tr:hover {
   background-color: #ebefff;
+}
+
+.deleteIcon:hover {
+  cursor: pointer;
+  color: rgb(233, 131, 131);
+}
+
+tr:hover {
+  cursor: pointer;
+}
+
+tr:hover #msgTitle {
+  color: rgb(0, 86, 179);
+}
+
+.fa-envelope {
+  color: rgb(223, 213, 82);
+}
+
+.fa-envelope-open {
+  color: rgb(141, 141, 109);
+}
+
+.opened > td > a {
+  color: rgba(0, 0, 0, 0.507);
 }
