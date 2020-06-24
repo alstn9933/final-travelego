@@ -19,12 +19,12 @@ tr td {
   display: flex;
 }
 
-tr td:nth-child(1) {
+.envelope_icon_area {
   width: 30px;
   margin-right: 10px;
   justify-content: flex-end;
 }
-tr td:nth-child(2) {
+.msg_content_area {
   width: 100%;
   font-size: 14px;
   margin-right: 20px;
@@ -32,25 +32,25 @@ tr td:nth-child(2) {
   text-overflow: ellipsis; */
 }
 
-tr td:nth-child(2) a {
+.msg_content_area a {
   height: 15px;
   overflow: hidden;
 }
 
-tr td:nth-child(3) {
+.msg_date_area {
   justify-content: center;
   width: 120px;
   margin-right: 10px;
 }
 
-tr td:nth-child(3) div {
+.msg_date_area div {
   display: flex;
   flex-direction: column;
   align-items: center;
   font-size: 12px;
 }
 
-tr td:nth-child(4) {
+.delete_icon_area {
   width: 30px;
 }
 
@@ -89,4 +89,9 @@ tr:hover #msgTitle {
 
 .opened > td > a {
   color: rgba(0, 0, 0, 0.507);
+}
+
+.check_area{
+  width: 30px;
+  justify-content: center;
 }

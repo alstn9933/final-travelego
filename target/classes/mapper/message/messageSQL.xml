@@ -13,11 +13,14 @@
 		from message		
 		<if test="messageReceiver != null">
 		where delete_level in (0,2)
-		and message_receiver = #{messageReceiver}
+		and message_receiver = #{messageReceiver}		
 		</if>
 		<if test="messageSender != null">
 		where delete_level in (0,1)
 		and message_sender = #{messageSender}
+		<if test="messageCheck != 0">
+		and message_check = 1
+		</if>
 		</if>
 		order by message_no desc
 	</select>
@@ -140,5 +143,28 @@
 		from message
 		where message_receiver = #{memberId}
 		and delete_level in (0,2)	
+	</select>
+	<update id="updateListDeleteLevelTo2" parameterType="map">
+		update message
+		set delete_level = 2
+		where message_no in
+		<foreach collection="list" item="msg" open="(" separator="," close=")">
+			#{msg.messageNo}
+		</foreach>
+	</update>
+	<select id="selectCheckMessage" parameterType="map" resultType="msg">
+		select
+			message_no as messageNo,
+			message_sender as messageSender,
+			message_receiver as messageReceiver,
+			message_content as messageContent,
+			send_date as sendDate,
+			message_check as messageCheck,
+			delete_level as deleteLevel
+		from message
+		where message_no in
+		<foreach collection="array" item="item" open="(" separator="," close=")">
+			#{item}
+		</foreach>
 	</select>
 </mapper>

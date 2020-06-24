@@ -19,6 +19,8 @@
 			<li><a href="/message/write.do">쪽지 보내기</a></li>
 		</ul>
 		<div class="btn_area">
+			<button type="button" class="btn btn-sm btn-danger delete-btns" id="deleteBtn" style="display: none;">삭제</button>
+			<button type="button" class="btn btn-sm btn-primary delete-btns" id="cancelBtn" style="display: none;">취소</button>
 			<button type="button" class="btn btn-sm btn-danger dropdown-toggle"
 				data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 				메시지 삭제</button>
@@ -39,29 +41,33 @@
 			</div>
 		</div>
 		<!-- 쪽지 정렬 테이블 -->
+		<form id="deleteForm" action="/message/deleteCheckMessage.do" method="POST">
 		<table>
 			<c:forEach items="${list }" var="msg">
 				<c:if test="${msg.messageCheck == 0 }">
 					<tr message_no="${msg.messageNo}">
-						<td><i class="far fa-envelope"></i></td>
+						<td class="check_area" style="display: none;"><input type="checkbox" name="messageNo" id="checkNo" value="${msg.messageNo}"></td>
+						<td class="envelope_icon_area"><i class="far fa-envelope"></i></td>
 				</c:if>
 				<c:if test="${msg.messageCheck != 0 }">
 					<tr class="opened" message_no="${msg.messageNo}">
-						<td><i class="far fa-envelope-open"></i></td>
+						<td class="check_area" style="display: none;"><input type="checkbox" name="messageNo" id="checkNo"></td>
+						<td class="envelope_icon_area"><i class="far fa-envelope-open"></i></td>
 				</c:if>
-				<td><a href="/message/view.do?messageNo=${msg.messageNo}">${msg.messageContent }</a>
+				<td class="msg_content_area"><a href="/message/view.do?messageNo=${msg.messageNo}">${msg.messageContent }</a>
 				</td>
-				<td>
+				<td class="msg_date_area">
 					<div>
 						<a href="/message/write.do?receiver=${msg.messageSender}"
 							id="sender" data-toggle="tooltip" data-placement="right"
 							title="답장하기">${msg.messageSender }</a> <span>${msg.sendDate }</span>
 					</div>
 				</td>
-				<td><i class="far fa-trash-alt deleteIcon"></i></td>
+				<td class="delete_icon_area"><i class="far fa-trash-alt deleteIcon"></i></td>
 				</tr>
 			</c:forEach>
 		</table>
+		</form>
 	</section>
 </body>
 <script src="/src/js/jquery/jquery-3.5.1.js"></script>
@@ -97,12 +103,12 @@
 				}
 			});
 
-	$("tr").click(function(event) {
-		// $(this).children("td").eq(1).children("a");
+	function messageView(event){
 		event.stopPropagation();
 		const messageNo = $(this).attr("message_no");
 		location.href = "/message/view.do?messageNo=" + messageNo;
-	});
+	}
+	
 </script>
 <script src="/src/js/message/deleteMessage.js"></script>
 </html>

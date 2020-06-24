@@ -72,7 +72,13 @@ public class MessageDao {
 	public List listAllReceivedMessage(Member member) {
 		return session.selectList("message.selectAllReceivedMessage", member);
 	}
-	
-	
+
+	public int updateMessageDeleteLevelTo2(ArrayList<Message> sendList) {
+		return session.update("message.updateListDeleteLevelTo2", sendList);
+	}
+
+	public List listCheckMessage(int[] messageNo) {
+		return session.selectList("message.selectCheckMessage",messageNo);
+	}
 	
 }
