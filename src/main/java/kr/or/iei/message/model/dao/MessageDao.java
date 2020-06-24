@@ -1,5 +1,7 @@
 package kr.or.iei.message.model.dao;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -46,6 +48,31 @@ public class MessageDao {
 	public int countSendMsg(String memberId) {
 		return session.selectOne("message.selectSendMessageCount",memberId);
 	}
+
+	public List selectUnreadMessage(Member member) {
+		return session.selectList("message.selectUnreadMessage",member);
+	}
+
+	public int updateMessageDeleteLevel(HashMap<String, String> map) {
+		return session.update("message.updateMessageDeleteLevel", map);
+	}
+
+	public List listReadMessage(Member member) {
+		return session.selectList("message.selectAllReadMessage", member);
+	}
+
+	public int updateMessageDeleteLevelTo1(List readMessagelist) {
+		return session.update("message.updateListDeleteLevelTo1", readMessagelist);
+	}
+
+	public int deleteMessage(ArrayList<Message> deletedMessageList) {
+		return session.delete("message.deleteMessageByList", deletedMessageList);
+	}
+
+	public List listAllReceivedMessage(Member member) {
+		return session.selectList("message.selectAllReceivedMessage", member);
+	}
+	
 	
 	
 }

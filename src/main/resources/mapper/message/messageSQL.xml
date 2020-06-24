@@ -10,12 +10,13 @@
 			send_date as sendDate,
 			message_check as messageCheck,
 			delete_level as deleteLevel
-		from message
-		where delete_level in (0,2)
+		from message		
 		<if test="messageReceiver != null">
+		where delete_level in (0,2)
 		and message_receiver = #{messageReceiver}
 		</if>
 		<if test="messageSender != null">
+		where delete_level in (0,1)
 		and message_sender = #{messageSender}
 		</if>
 		order by message_no desc
@@ -73,5 +74,70 @@
 		from message
 		where message_sender = #{_parameter}
 		and delete_level in (0,1)
+	</select>
+	<select id="selectUnreadMessage" parameterType="member" resultType="msg">
+		select
+			message_no as messageNo,
+			message_sender as messageSender,
+			message_receiver as messageReceiver,
+			message_content as messageContent,
+			send_date as sendDate,
+			message_check as messageCheck,
+			delete_level as deleteLevel
+		from message		
+		where delete_level in (0,2)
+		and message_receiver = #{memberId}
+		and message_check = 0
+	</select>
+	<select id="selectAllReadMessage" parameterType="member" resultType="msg">
+		select
+			message_no as messageNo,
+			message_sender as messageSender,
+			message_receiver as messageReceiver,
+			message_content as messageContent,
+			send_date as sendDate,
+			message_check as messageCheck,
+			delete_level as deleteLevel
+		from message		
+		where delete_level in (0,2)
+		and message_receiver = #{memberId}
+		and message_check = 1
+	</select>
+	<update id="updateMessageDeleteLevel" parameterType="map">
+		update message
+		<if test="memberId == messageReceiver">
+			set delete_level = 1
+		</if>
+		<if test="memberId != messageReceiver">
+			set delete_level = 2
+		</if>
+		where message_no = #{messageNo}
+	</update>
+	<update id="updateListDeleteLevelTo1" parameterType="map">
+		update message
+		set delete_level = 1
+		where message_no in
+		<foreach collection="list" item="msg" open="(" separator="," close=")">
+			#{msg.messageNo}
+		</foreach>
+	</update>
+	<delete id="deleteMessageByList" parameterType="map">
+		delete from message
+		where message_no in
+		<foreach collection="list" item="msg" open="(" separator="," close=")">
+			#{msg.messageNo}
+		</foreach>
+	</delete>
+	<select id="selectAllReceivedMessage" parameterType="member">
+		select
+			message_no as messageNo,
+			message_sender as messageSender,
+			message_receiver as messageReceiver,
+			message_content as messageContent,
+			send_date as sendDate,
+			message_check as messageCheck,
+			delete_level as deleteLevel
+		from message
+		where message_receiver = #{memberId}		
 	</select>
 </mapper>

@@ -1,5 +1,7 @@
 package kr.or.iei.message.controller;
 
+import java.util.ArrayList;
+
 import javax.servlet.http.HttpSession;
 import javax.xml.ws.RequestWrapper;
 
@@ -38,9 +40,9 @@ public class MessageController {
 
 		return "message/messageView";
 	}
-	
+
 	@RequestMapping("/viewSendMessage.do")
-	public String sendMessageView(HttpSession session, String messageNo, Model model) {
+	public String viewSendMessage(HttpSession session, String messageNo, Model model) {
 		Member m = (Member) session.getAttribute("member");
 
 		if (m != null) {
@@ -51,26 +53,46 @@ public class MessageController {
 
 		return "message/messageView";
 	}
-	
-	@RequestMapping("/delete.do")
-	public String deleteMessage(String messageNo, Model model) {
-		
-		int result = service.deleteMessage(Integer.parseInt(messageNo));
-		
-		if(result >0) {
-			model.addAttribute("msg","쪽지가 삭제되었습니다.");	
-			model.addAttribute("loc","/message/inbox.do");
-		} else {
-			model.addAttribute("msg","쪽지 삭제에 실패하였습니다.");
-			model.addAttribute("loc","message/view.do?messageNo="+messageNo);
+
+	@RequestMapping("/viewUnreadMessage.do")
+	public String viewUnreadMessage(HttpSession session, Model model) {
+
+		Member member = (Member) session.getAttribute("member");
+
+		if (member != null) {
+			InboxPageData pd = service.selectUnreadMessage(member);
+
+			model.addAttribute("unchkCount", pd.getUnchkCount());
+			model.addAttribute("msgTotalCount", pd.getMsgTotalCount());
+			model.addAttribute("list", pd.getList());
 		}
-		
+
+		return "message/inbox";
+	}
+
+	@RequestMapping("/delete.do")
+	public String deleteMessage(HttpSession session, String messageNo, Model model) {
+
+		Member member = (Member) session.getAttribute("member");
+
+		if (member != null) {
+			int result = service.deleteMessage(member, Integer.parseInt(messageNo));
+
+			if (result > 0) {
+				model.addAttribute("msg", "쪽지가 삭제되었습니다.");
+				model.addAttribute("loc", "/message/inbox.do");
+			} else {
+				model.addAttribute("msg", "쪽지 삭제에 실패하였습니다.");
+				model.addAttribute("loc", "/message/view.do?messageNo=" + messageNo);
+			}
+		}
+
 		return "common/msg";
 	}
 
 	@RequestMapping("/write.do")
 	public String messageWriteFrm(String receiver, Model model) {
-		if(receiver!=null) {
+		if (receiver != null) {
 			model.addAttribute("receiver", receiver);
 		}
 		return "message/write";
@@ -123,15 +145,20 @@ public class MessageController {
 		model.addAttribute("loc", "/message/inbox.do");
 		return "common/msg";
 	}
-	
+
 	@ResponseBody
 	@RequestMapping(value = "/asyncDelete.do", produces = "text/html;charset=utf-8")
-	public String deleteMessage(String messageNo) {
-		int result = service.deleteMessage(Integer.parseInt(messageNo));
-		
+	public String deleteMessage(HttpSession session, String messageNo) {
+		Member member = (Member) session.getAttribute("member");
+
+		int result = 0;
+		if (member != null) {
+			result = service.deleteMessage(member, Integer.parseInt(messageNo));
+		}
+
 		return String.valueOf(result);
 	}
-	
+
 	@ResponseBody
 	@RequestMapping(value = "/checkId.do", produces = "text/html;charset=utf-8")
 	public String checkId(String receiver) {
@@ -142,4 +169,34 @@ public class MessageController {
 		}
 	}
 
+	@RequestMapping("/deleteAllReadMessage.do")
+	public String deleteAllReadMessage(HttpSession session, Model model) {
+
+		Member member = (Member) session.getAttribute("member");
+
+		int result = service.deleteAllReadMessage(member);
+		if (result > 0) {
+			model.addAttribute("msg", "쪽지가 삭제되었습니다.");
+		} else {
+			model.addAttribute("msg", "쪽지 삭제에 실패하였습니다.");
+		}
+		model.addAttribute("loc", "/message/inbox.do");
+
+		return "common/msg";
+	}
+
+	@RequestMapping("/deleteAllReceivedMessage.do")
+	public String deleteAllReceivedMessage(HttpSession session, Model model) {
+		Member member = (Member) session.getAttribute("member");
+
+		int result = service.deleteAllReceivedMessage(member);
+		if (result > 0) {
+			model.addAttribute("msg", "쪽지가 삭제되었습니다.");
+		} else {
+			model.addAttribute("msg", "쪽지 삭제에 실패하였습니다.");
+		}
+		model.addAttribute("loc", "/message/inbox.do");
+
+		return "common/msg";
+	}
 }

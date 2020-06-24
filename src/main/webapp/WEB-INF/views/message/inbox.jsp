@@ -23,18 +23,19 @@
 				data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 				메시지 삭제</button>
 			<div class="dropdown-menu">
-				<a class="dropdown-item" href="#">전체 삭제</a> <a class="dropdown-item"
-					href="#">선택 삭제</a> <a class="dropdown-item" href="#">읽은 쪽지만 삭제</a>
+				<a class="dropdown-item" id="dropdownDeleteAll" href="javascript:void(0)">전체 삭제</a>
+				<a class="dropdown-item" id="dropdownDeleteCheck" href="javascript:void(0)">선택 삭제</a>
+				<a class="dropdown-item" id="dropdownDeleteRead" href="javascript:void(0)">읽은 쪽지만 삭제</a>
 			</div>
 		</div>
 	</nav>
 	<section>
 		<div class="alert_area">
 			<div>
-				<span>새 쪽지</span><span id="unreadCount"> ${unchkCount}통</span>
+				<a class="click_text" href="/message/viewUnreadMessage.do"><span>새 쪽지</span><span id="unreadCount"> ${unchkCount}통</span></a>
 			</div>
 			<div>
-				<span>전체 쪽지</span><span id="totalCount"> ${msgTotalCount}통</span>
+				<a class="click_text" href="/message/inbox.do"><span>전체 쪽지</span><span id="totalCount"> ${msgTotalCount}통</span></a>
 			</div>
 		</div>
 		<!-- 쪽지 정렬 테이블 -->
@@ -100,7 +101,14 @@
 		// $(this).children("td").eq(1).children("a");
 		event.stopPropagation();
 		const messageNo = $(this).attr("message_no");
-		location.href = "/message/viewSendMessage.do?messageNo=" + messageNo;
+		location.href = "/message/view.do?messageNo=" + messageNo;
+	});
+</script>
+<script>
+	$("#dropdownDeleteRead").click(function(){
+		if(confirm("읽은 쪽지를 모두 삭제하시겠습니까?")){
+			location.href = "/message/deleteAllReadMessage.do";
+		}
 	});
 </script>
 </html>

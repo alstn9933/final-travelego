@@ -9,4 +9,5 @@ public class InboxPageData {
 	private ArrayList<Message> list;
 	private int unchkCount;
 	private int msgTotalCount;
+	private int sendCount;
 }

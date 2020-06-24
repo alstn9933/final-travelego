@@ -15,3 +15,7 @@ section {
 .alert_area span {
   font-size: 12px;
 }
+
+.click_text:hover{
+  font-weight: bold;
+}
