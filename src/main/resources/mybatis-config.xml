@@ -16,6 +16,7 @@
 		<typeAlias type="kr.or.iei.tour.model.vo.RegionCity" alias="city"/>
 		<typeAlias type="kr.or.iei.mytrip.model.vo.Mytrip" alias="mytrip"/>
 		<typeAlias type="kr.or.iei.member.model.vo.Member" alias="member"/>
+		<typeAlias type="kr.or.iei.message.model.vo.Message" alias="msg"/>
 		<typeAlias type="kr.or.iei.member.model.vo.Company" alias="company"/>
 		<typeAlias type="kr.or.iei.member.model.vo.CompanyMember" alias="companymember"/>
 		<typeAlias type="kr.or.iei.tour.model.vo.Photo" alias="photo"/>

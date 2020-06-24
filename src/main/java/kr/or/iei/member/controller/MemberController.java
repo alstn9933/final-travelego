@@ -32,6 +32,7 @@ public class MemberController {
 	}
 	@RequestMapping("/loginMember.do")
 	public String loginMember(Member m,HttpSession session) {
+		
 		Member member =  service.loginMember(m);
 
 		if(member != null) {

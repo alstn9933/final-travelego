@@ -57,6 +57,9 @@
 
 	<!-- AOP annotation config -->
 	<aop:aspectj-autoproxy />
+	
+	<!-- 세션체크 인터셉터 객체 -->
+	
 
 	<!-- 웹소켓 설정 
 	<websocket:handlers>
