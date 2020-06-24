@@ -8,10 +8,21 @@
 	<!-- 충돌 날 우려가 많은 구역이니  충돌 발생시 기존값을 지우지 않도록 주의바랍니다. ps. 충돌났는데 모르겠으면 이도형 호출 -->	
 	<typeAliases>
 		<!-- typeAlias 세팅은 이곳에 -->
+		<typeAlias type="kr.or.iei.tour.model.vo.TourVO" alias="tour"/>
+		<typeAlias type="kr.or.iei.tour.model.vo.MoreTourVal" alias="mtv"/>
+		<typeAlias type="kr.or.iei.tour.model.vo.ReviewVO" alias="review"/>
+		<typeAlias type="kr.or.iei.reserve.model.vo.ReserveVO" alias="reserve"/>
+		<typeAlias type="kr.or.iei.tour.model.vo.RegionCountry" alias="country"/>
+		<typeAlias type="kr.or.iei.tour.model.vo.RegionCity" alias="city"/>
 		<typeAlias type="kr.or.iei.mytrip.model.vo.Mytrip" alias="mytrip"/>
 		<typeAlias type="kr.or.iei.member.model.vo.Member" alias="member"/>
 		<typeAlias type="kr.or.iei.message.model.vo.Message" alias="msg"/>
 		<typeAlias type="kr.or.iei.member.model.vo.Company" alias="company"/>
 		<typeAlias type="kr.or.iei.member.model.vo.CompanyMember" alias="companymember"/>
+		<typeAlias type="kr.or.iei.tour.model.vo.Photo" alias="photo"/>
 	</typeAliases>	
+	
+	<typeHandlers>
+        <typeHandler handler="kr.or.iei.common.LongHandler" javaType="String" jdbcType="LONGVARCHAR"/>
+    </typeHandlers>
 </configuration>

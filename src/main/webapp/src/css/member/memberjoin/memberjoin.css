@@ -7,6 +7,7 @@
     margin-left: 250px;
 }
 .joincontent>div{
+
 	margin:0 auto;
 }
 .joincontent>label{
@@ -20,6 +21,27 @@
 .divBtn>button{
 	margin: 30px;
 }
-#emailBtm,#emailCodeBtn{
+#emailBtn,#emailCodeBtn,#idchk{
+	width:80px;
+	height:50px;
+	font-size : 12px;
 	float: right;
+	
+}
+.joincontent input{
+	display: inline-block;
+}
+
+.col-lg-5{
+	width : 60%;
+}
+
+@media (min-width: 992px){
+.col-lg-5 {
+	max-width:100%;
+}
+}
+
+.col-lg-5 input{
+	width : 300px;
 }
