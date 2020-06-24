@@ -12,8 +12,6 @@
 		<typeAlias type="kr.or.iei.tour.model.vo.MoreTourVal" alias="mtv"/>
 		<typeAlias type="kr.or.iei.tour.model.vo.ReviewVO" alias="review"/>
 		<typeAlias type="kr.or.iei.reserve.model.vo.ReserveVO" alias="reserve"/>
-		<typeAlias type="kr.or.iei.tour.model.vo.RegionCountry" alias="country"/>
-		<typeAlias type="kr.or.iei.tour.model.vo.RegionCity" alias="city"/>
 		<typeAlias type="kr.or.iei.mytrip.model.vo.Mytrip" alias="mytrip"/>
 		<typeAlias type="kr.or.iei.member.model.vo.Member" alias="member"/>
 		<typeAlias type="kr.or.iei.message.model.vo.Message" alias="msg"/>
@@ -23,9 +21,9 @@
 		<typeAlias type="kr.or.iei.mypage.model.vo.Bookmark" alias="bookmark"/>
 		<typeAlias type="kr.or.iei.mypage.model.vo.QNA" alias="qna"/>
 		<typeAlias type="kr.or.iei.recommend.model.vo.Recommend" alias="recommend"/>
-		<typeAlias type="kr.or.iei.tour.model.vo.Photo" alias="photo"/>
+		<typeAlias type="kr.or.iei.common.model.vo.Photo" alias="photo"/>
 		<typeAlias type="kr.or.iei.common.model.vo.Region" alias="region"/>
-	</typeAliases>	
+	</typeAliases>
 	
 	<typeHandlers>
         <typeHandler handler="kr.or.iei.common.LongHandler" javaType="String" jdbcType="LONGVARCHAR"/>
