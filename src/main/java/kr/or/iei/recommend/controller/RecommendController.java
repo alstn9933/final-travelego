@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import kr.or.iei.common.model.vo.Region;
 import kr.or.iei.recommend.model.service.RecommendService;
 
+
 @Controller
 public class RecommendController {
 
@@ -21,7 +22,7 @@ public class RecommendController {
 	@RequestMapping(value="/recommendList.do")
 	public String recommendList(Model model) {
 		ArrayList<Region> region = service.selectAllRegion();
-		model.addAttribute("region",)
+		model.addAttribute("region",region);
 		return "recommend/recList";
 	}
 }

@@ -58,9 +58,9 @@ prefix="c"%>
                     <option value="전체">전체</option>
                     <option value="국내" style="font-weight:bold">국내</option>
                     <optgroup label="해외">
-                    	<c:forEach items="" var="country"></c:forEach>
-                        <option value="베트남">베트남</option>
-                        <option value="프랑스">프랑스</option>
+                    	<c:forEach items="${region}" var="r">
+                    		<option>${r.regionCountry }</option>
+                    	</c:forEach>
                     </optgroup>
                 </select>
                 <select>
