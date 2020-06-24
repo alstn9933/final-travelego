@@ -36,10 +36,9 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import com.google.gson.Gson;
 
 import kr.or.iei.common.model.vo.Photo;
+import kr.or.iei.common.model.vo.Region;
 import kr.or.iei.member.model.vo.Member;
 import kr.or.iei.tour.model.service.TourService;
-import kr.or.iei.tour.model.vo.RegionCity;
-import kr.or.iei.tour.model.vo.RegionCountry;
 import kr.or.iei.tour.model.vo.TourVO;
 
 @Controller
@@ -86,7 +85,7 @@ public class TourController {
 	public String createTourFrm(HttpSession session, Model model) {
 		Member m = (Member) session.getAttribute("member");
 		if (m != null && m.getMemberLevel() == 2) {
-			ArrayList<RegionCountry> rlist = service.selectRegionList();
+			ArrayList<Region> rlist = service.selectRegionList();
 			model.addAttribute("memberId", m.getMemberId());
 			model.addAttribute("rlist",rlist);
 			return "tour/createTourFrm";
@@ -98,7 +97,7 @@ public class TourController {
 	@ResponseBody
 	@RequestMapping(value="/selectCityList.do", produces = "application/json; charset=utf-8")
 	public String selectCityList(String regionCountry) {
-		ArrayList<RegionCity> clist = service.selectRegionCity(regionCountry);
+		ArrayList<Region> clist = service.selectRegionCity(regionCountry);
 		return new Gson().toJson(clist);
 	}
 	
@@ -146,8 +145,6 @@ public class TourController {
 	@RequestMapping(value = "/uploadImage.do", method = RequestMethod.POST)
 	public void imageUpload(HttpServletRequest request, HttpServletResponse response,
 			MultipartHttpServletRequest multiFile, @RequestParam MultipartFile upload) throws Exception {
-		// 랜덤 문자 생성
-		UUID uid = UUID.randomUUID();
 
 		OutputStream out = null;
 		PrintWriter printWriter = null;
@@ -160,11 +157,14 @@ public class TourController {
 
 			// 파일 이름 가져오기
 			String fileName = upload.getOriginalFilename();
+			String onlyFilename = fileName.substring(0,fileName.lastIndexOf("."));//확장자를 제외한 파일 이름(ex>test)
+			String extension = fileName.substring(fileName.lastIndexOf("."));//확장자 이름(ex>.txt)
+			String filepath = onlyFilename+"_"+getCurrentTime()+extension;
 			byte[] bytes = upload.getBytes();
 
 			// 이미지 경로 생성
 			String path = request.getRealPath("/upload/images/tour/content");// fileDir는 전역 변수라 그냥 이미지 경로 설정해주면 된다.
-			String ckUploadPath = path + "/" + uid + "_" + fileName;
+			String ckUploadPath = path + "/" + filepath;
 			File folder = new File(path);
 
 			// 해당 디렉토리 확인
@@ -182,7 +182,7 @@ public class TourController {
 
 			String callback = request.getParameter("CKEditorFuncNum");
 			printWriter = response.getWriter(); 
-			String fileUrl = "/ckImgSubmit.do?uid=" + uid + "&fileName=" + fileName; // 작성화면
+			String fileUrl = "/ckImgSubmit.do?filepath=" + filepath; // 작성화면
 
 			// 업로드시 메시지 출력
 			printWriter.println("{\"filename\" : \"" + fileName + "\", \"uploaded\" : 1, \"url\":\"" + fileUrl + "\"}");
@@ -205,13 +205,13 @@ public class TourController {
 	}
 
 	@RequestMapping(value = "/ckImgSubmit.do")
-	public void ckSubmit(@RequestParam(value = "uid") String uid, @RequestParam(value = "fileName") String fileName,
+	public void ckSubmit(@RequestParam(value = "filepath") String filepath,
 			HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		// 서버에 저장된 이미지 경로
 		String path = request.getRealPath("/upload/images/tour/content");;
 
-		String sDirPath = path + "/" + uid + "_" + fileName;
+		String sDirPath = path + "/" + filepath;
 
 		File imgFile = new File(sDirPath);
 

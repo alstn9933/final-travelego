@@ -16,10 +16,10 @@
 		select review_no as reviewNo, item_no as itemNo, member_id as memberId, review_rate as reviewRate, review_content as reviewContent, review_date as reviewDate
 		from tour_review where item_no=#{_parameter}
 	</select>
-	<select id="selectCList" resultType="country">
+	<select id="selectCountryList" resultType="region">
 		select region_country as regionCountry from region group by region_country order by 1
 	</select>
-	<select id="selectCityList" parameterType="string" resultType="city">
+	<select id="selectCityList" parameterType="string" resultType="region">
 		select region_no as regionNo, region_city as regionCity from region where region_country=#{_parameter} order by 2 asc
 	</select>
 	<insert id="insertTour" parameterType="tour">

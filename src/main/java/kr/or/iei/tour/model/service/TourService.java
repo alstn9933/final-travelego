@@ -8,10 +8,9 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import kr.or.iei.common.model.vo.Photo;
+import kr.or.iei.common.model.vo.Region;
 import kr.or.iei.tour.model.dao.TourDao;
 import kr.or.iei.tour.model.vo.MoreTourVal;
-import kr.or.iei.tour.model.vo.RegionCity;
-import kr.or.iei.tour.model.vo.RegionCountry;
 import kr.or.iei.tour.model.vo.ReviewVO;
 import kr.or.iei.tour.model.vo.TourVO;
 
@@ -53,13 +52,13 @@ public class TourService {
 		return (ArrayList<TourVO>)list;
 	}
 
-	public ArrayList<RegionCountry> selectRegionList() {
-		return (ArrayList<RegionCountry>)dao.selectCountryList();
+	public ArrayList<Region> selectRegionList() {
+		return (ArrayList<Region>)dao.selectCountryList();
 	}
 
-	public ArrayList<RegionCity> selectRegionCity(String regionCountry) {
+	public ArrayList<Region> selectRegionCity(String regionCountry) {
 		List clist = dao.selectCityList(regionCountry);
-		return (ArrayList<RegionCity>)clist;
+		return (ArrayList<Region>)clist;
 	}
 
 	public int insertTour(TourVO tv, Photo p) {
