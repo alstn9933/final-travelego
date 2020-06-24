@@ -22,7 +22,72 @@
 <link rel="stylesheet" href="/src/css/footer/footer.css" />
 <link rel="stylesheet" href="/src/css/main/web_default.css" />
 <title>Travelego</title>
-<style></style>
+<style>
+section {
+	overflow:hidden;
+}
+
+.section-top>div {
+	float: left;
+}
+
+.section-top {
+	border-bottom: 2px solid gray;
+	overflow: hidden;
+}
+
+.itemInfo {
+	width:100%;
+}
+.itemInfo>table{
+	width:100%;
+}
+#itemTitle{
+	width:70%;
+	font-size:30px;
+	border-bottom:1px solid lightgray;
+}
+#itemPrice>td{
+	height:100px;
+	font-size:30px;
+	line-height:100px;
+}
+#itemPrice>td:last-child{
+	font-size:15px;
+}
+#itemPrice>td:last-child>table td{
+	width:50%;
+	height:40px;
+	line-height:40px;
+}
+.content{
+	width: 70%;
+	float:left;
+	overflow: hidden;
+	margin-top: 20px;
+	border-right:1px solid black;
+}
+.itemContent {
+	width: 100%;
+	overflow: hidden;
+}
+.item-height{
+	height:500px;
+}
+.itemContent>img{
+	width:100%;
+	height:auto;
+}
+#more-btn{
+	width:100%;
+}
+.reserveFrm{
+	width:30%;
+	float:left;
+	height:500px;
+	barckgroud-color:gray;
+}
+</style>
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
@@ -31,26 +96,52 @@
 	<section>
 		<!-- 여기서부터 작성하시면 됨!!!!!!! -->
 		<div class="section-top">
-			<div class="mainImg">
-				<img src="../../../upload/images/tour/thumnail/${tv.filename }">
-			</div>
 			<div class="itemInfo">
 				<table>
 					<tr>
-						<th>지역</th>
-						<td>${tv.regionCountry }</td>
-						<td>${tv.regionCity }</td>
+						<td>${tv.regionCountry }/${tv.regionCity }</td>
 					</tr>
 					<tr>
-						<th>상품 이름</th>
-						<td colspan="2">${tv.itemTitle }</td>
+						<td id="itemTitle" colspan="4">${tv.itemTitle }</td>
 					</tr>
-					<tr>
-						<th>상품 가격</th>
-						<td colspan="2">${tv.itemPrice }원</td>
+					<tr id="itemPrice">
+						<td colspan="1">가격</td>
+						<td colspan="3">1인 ${tv.itemPrice }원</td>
+						<td>
+							<table>
+								<tr>
+									<td>담당</td>
+									<td>${tv.memberName }</td>
+								</tr>
+								<tr>
+									<td>TEL</td>
+									<td>${tv.phone }</td>
+								</tr>
+								<tr>
+									<td>EMAIL</td>
+									<td>${tv.email }</td>
+								</tr>
+							</table>
+						</td>
 					</tr>
 				</table>
 			</div>
+		</div>
+		<div class="content">
+			<div class="itemContent item-height">
+				${tv.itemContent }
+			</div>
+			<div class="morebtn">
+       			<button type="button" class="btn btn-outline-info" id="more-btn">전체보기</button>
+        	</div>
+        	<div class="review-section">
+        		
+        	</div>
+		</div>
+		<div class="reserveFrm">
+			<form>
+				
+			</form>
 		</div>
 	</section>
 
@@ -81,7 +172,7 @@
 	<script src="/src/js/header/scrollIt.js"></script>
 	<script src="/src/js/header/jquery.scrollUp.min.js"></script>
 	<script src="/src/js/header/wow.min.js"></script>
-	<script src="/src/js/header/nice-select.min.js"></script>
+	<!-- <script src="/src/js/header/nice-select.min.js"></script> -->
 	<script src="/src/js/header/jquery.slicknav.min.js"></script>
 	<script src="/src/js/header/jquery.magnific-popup.min.js"></script>
 	<script src="/src/js/header/plugins.js"></script>
@@ -98,6 +189,12 @@
 	<script>
 		$(function() {
 			$('[data-toggle="popover"]').popover();
+			
+			$(".itemContent>img").removeAttr("style");
+			
+			$("#more-btn").click(function(){
+				$(".itemContent").removeClass("item-height");
+			});
 		});
 
 		$("#datepicker").datepicker({
@@ -107,5 +204,10 @@
 			},
 		});
 	</script>
+	<!-- datepicker -->
+	<link href="/src/dist/css/datepicker.min.css" rel="stylesheet"
+		type="text/css">
+	<script src="/src/dist/js/datepicker.min.js"></script>
+	<script src="/src/dist/js/i18n/datepicker.en.js"></script>
 </body>
 </html>
