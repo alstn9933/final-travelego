@@ -223,4 +223,25 @@ public class MessageController {
 
 		return "common/msg";
 	}
+	
+	@RequestMapping("/deleteCheckMessage.do")
+	public String deleteCheckMessage(HttpSession session, Model model, int[] messageNo) {
+		
+		Member member = (Member)session.getAttribute("member");
+		
+		int result = service.deleteCheckMessage(member, messageNo);
+		
+		if(result > 0) {
+			model.addAttribute("msg","쪽지가 삭제되었습니다.");
+			model.addAttribute("loc","/message/inbox.do");
+		} else if(result < 0) {
+			model.addAttribute("msg","쪽지가 삭제되었습니다.");
+			model.addAttribute("loc","/message/outbox.do");
+		} else {
+			model.addAttribute("msg","쪽지 삭제를 실패하였습니다.");
+			model.addAttribute("loc","/message/inbox.do");
+		}
+		
+		return "common/msg";			
+	}
 }

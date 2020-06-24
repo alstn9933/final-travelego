@@ -152,4 +152,19 @@
 			#{msg.messageNo}
 		</foreach>
 	</update>
+	<select id="selectCheckMessage" parameterType="map" resultType="msg">
+		select
+			message_no as messageNo,
+			message_sender as messageSender,
+			message_receiver as messageReceiver,
+			message_content as messageContent,
+			send_date as sendDate,
+			message_check as messageCheck,
+			delete_level as deleteLevel
+		from message
+		where message_no in
+		<foreach collection="array" item="item" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</select>
 </mapper>
