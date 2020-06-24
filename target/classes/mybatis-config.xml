@@ -15,5 +15,6 @@
 		<typeAlias type="kr.or.iei.mypage.model.vo.BoardList" alias="boardList"/>
 		<typeAlias type="kr.or.iei.mypage.model.vo.Bookmark" alias="bookmark"/>
 		<typeAlias type="kr.or.iei.mypage.model.vo.QNA" alias="qna"/>
+		<typeAlias type="kr.or.iei.recommend.model.vo.Recommend" alias="recommend"/>
 	</typeAliases>	
 </configuration>
