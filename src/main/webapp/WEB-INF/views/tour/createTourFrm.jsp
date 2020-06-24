@@ -197,9 +197,9 @@ section {
 							<td colspan="2"><input type="text" name="itemTitle"></td>
 						</tr>
 						<tr>
-							<th>1회 최대인원</th>
+							<th>1회 최대인원<h6>(1명이상)</h6></th>
 							<td colspan="2"><input type="number" name="maxPerson"
-								style="width: 100px;" min=0 value=0></td>
+								style="width: 100px; text-align:right;" min=0 value=0>명</td>
 						</tr>
 						<tr>
 							<th>상품 가격</th>
@@ -215,7 +215,7 @@ section {
 					<input readonly placeholder="시작날짜와 끝날짜를 선택해주세요" name="beginEnd"
 						type="text" data-range="true" data-multiple-dates-separator="-"
 						data-language="en" class="datepicker-here"
-						style="display: hidden;" />
+						style="display: hidden;"/>
 				</div>
 				<div class="time">
 					<p>해당 상품이 시작하는 시간들을 선택해주세요</p>
@@ -314,7 +314,7 @@ section {
 			$("#regionCountry").change(function(){
 				var regionCountry = $(this).val();
 				if(regionCountry=="default"){
-					$("#regionCity").html("<option value='default'>도시 선택");
+					$("#regionCity").html("<option value=0>도시 선택");
 				}
 				else{
 					$.ajax({
@@ -324,7 +324,7 @@ section {
 						success : function(data){
 							$("#regionCity").html("");
 							html = "";
-							html += "<option value='default'>도시 선택";
+							html += "<option value=0>도시 선택";
 							for(var i=0; i<data.length; i++){
 								html += "<option value="+data[i].regionNo+">"+data[i].regionCity;
 							}
@@ -334,6 +334,53 @@ section {
 						}
 					});
 				}
+			});
+			
+			$("form").submit(function(){
+				var expDate = /^[0-9]{4}\W{1}[0-9]{2}\W{1}[0-9]{2}-[0-9]{4}\W{1}[0-9]{2}\W{1}[0-9]{2}$/;
+				var content = console.log(CKEDITOR.instances['editor'].getData());
+				if($("#file").val()==""){
+					alert("대표 사진을 등록해주세요");
+					$('html, body').animate({scrollTop : $("#file").offset().top}, 400);
+					return false;
+				}
+				if($("#regionCity").val()==0){
+					alert("상품의 지역을 선택해주세요");
+					$('html, body').animate({scrollTop : $("#file").offset().top}, 400);
+					return false;
+				}
+				if($("input[name='itemTitle']").val()==""){
+					alert("상품 이름을 입력해주세요");
+					$('html, body').animate({scrollTop : $("#file").offset().top}, 400);
+					return false;
+				}
+				if($("input[name='maxPerson']").val()==0){
+					alert("해당 투어의 1회 최대 인원을 설정해주세요(1명 이상)");
+					$('html, body').animate({scrollTop : $("#file").offset().top}, 400);
+					return false;
+				}
+				if(!expDate.test($("input[name='beginEnd']").val())){
+					alert("상품판매 기간을 설정해주세요");
+					$('html, body').animate({scrollTop : $("input[name='itemTitle']").offset().top}, 400);
+					return false;
+				}
+				var cnt=0;
+				$("input[name=tourTimes]").each(function(index,item){
+					if($(item).prop("checked")){
+						cnt++;
+					}
+				});
+				if(cnt==0){
+					alert("투어 시작 시간들을 정해주세요");
+					$('html, body').animate({scrollTop : $("input[name='itemTitle']").offset().top}, 400);
+					return false;
+				}
+				if(content==""||CKEDITOR.instances['editor'].getData().length==0){
+					alert("상품의 내용을 입력해주세요");
+					$('html, body').animate({scrollTop : $("input[name='beginEnd']").offset().top}, 400);
+					return false;
+				}
+				return true;
 			});
 		});
 	</script>

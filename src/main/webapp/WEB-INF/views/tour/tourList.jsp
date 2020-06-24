@@ -129,41 +129,7 @@ prefix="c"%>
             </div>
         </div>
         <div class="tourContent">
-            <div class="item" itemNo=1>
-                <div><img class="item-main-img" src="../../../src/imgs/tour/main/20180422_174158873_108.jpg"></div>
-                <div class="score">9.9점</div>
-                <div class="itemTitle">어쩌구 저쩌구 어쩌구 저쩌구 어쩌구 저쩌구 어쩌구 저쩌구 어쩌구 저쩌구 어쩌구 저쩌구</div>
-            </div>
-            <div class="item">
-                <div><img class="item-main-img" src="../../../src/imgs/tour/main/20180422_174158873_108.jpg"></div>
-                <div class="score">9.9점</div>
-                <div class="itemTitle">어쩌구 저쩌구 어쩌구 저쩌구 어쩌구 저쩌구 어쩌구 저쩌구 어쩌구 저쩌구 어쩌구 저쩌구</div>
-            </div>
-            <div class="item">
-                <div><img class="item-main-img" src="../../../src/imgs/tour/main/20180422_174158873_108.jpg"></div>
-                <div class="score">9.9점</div>
-                <div class="itemTitle">어쩌구 저쩌구 어쩌구 저쩌구 어쩌구 저쩌구 어쩌구 저쩌구 어쩌구 저쩌구 어쩌구 저쩌구</div>
-            </div>
-            <div class="item">
-                <div><img class="item-main-img" src="../../../src/imgs/tour/main/20180422_174158873_108.jpg"></div>
-                <div class="score">9.9점</div>
-                <div class="itemTitle">어쩌구 저쩌구 어쩌구 저쩌구 어쩌구 저쩌구 어쩌구 저쩌구 어쩌구 저쩌구 어쩌구 저쩌구</div>
-            </div>
-            <div class="item">
-                <div><img class="item-main-img" src="../../../src/imgs/tour/main/20180422_174158873_108.jpg"></div>
-                <div class="score">9.9점</div>
-                <div class="itemTitle">어쩌구 저쩌구 어쩌구 저쩌구 어쩌구 저쩌구 어쩌구 저쩌구 어쩌구 저쩌구 어쩌구 저쩌구</div>
-            </div>
-            <div class="item">
-                <div><img class="item-main-img" src="../../../src/imgs/tour/main/20180422_174158873_108.jpg"></div>
-                <div class="score">9.9점</div>
-                <div class="itemTitle">어쩌구 저쩌구 어쩌구 저쩌구 어쩌구 저쩌구 어쩌구 저쩌구 어쩌구 저쩌구 어쩌구 저쩌구</div>
-            </div>
-            <div class="item">
-                <div><img class="item-main-img" src="../../../src/imgs/tour/main/20180422_174158873_108.jpg"></div>
-                <div class="score">9.9점</div>
-                <div class="itemTitle">어쩌구 저쩌구 어쩌구 저쩌구 어쩌구 저쩌구 어쩌구 저쩌구 어쩌구 저쩌구 어쩌구 저쩌구</div>
-            </div>
+            
         </div>
     </section>
 

@@ -67,7 +67,9 @@ public class TourController {
 	}
 
 	@RequestMapping(value = "/tourView.do")
-	public String selectOneTour(int itemNo) {
+	public String selectOneTour(int itemNo, Model model) {
+		TourVO tv = service.selectOneTour(itemNo);
+		model.addAttribute("tv",tv);
 		return "tour/tourView";
 	}
 

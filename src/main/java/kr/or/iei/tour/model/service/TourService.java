@@ -71,4 +71,10 @@ public class TourService {
 			return result;
 		}
 	}
+
+	public TourVO selectOneTour(int itemNo) {
+		TourVO tv =  dao.selectOneTour(itemNo);
+		tv.setReveiwList((ArrayList<ReviewVO>)dao.selectReviewList(itemNo));
+		return tv;
+	}
 }

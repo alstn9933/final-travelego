@@ -20,4 +20,8 @@
 		<typeAlias type="kr.or.iei.member.model.vo.CompanyMember" alias="companymember"/>
 		<typeAlias type="kr.or.iei.tour.model.vo.Photo" alias="photo"/>
 	</typeAliases>	
+	
+	<typeHandlers>
+        <typeHandler handler="kr.or.iei.common.LongHandler" javaType="String" jdbcType="LONGVARCHAR"/>
+    </typeHandlers>
 </configuration>

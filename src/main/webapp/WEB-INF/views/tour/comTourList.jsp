@@ -142,8 +142,8 @@ prefix="c"%>
     					console.log(data.length);
     					var html = "";
     					for(var i=0; i<data.length; i++){
-    						html += "<div class='item' itemNo="+data[i].itemNo+">";
-    						html += "<div><img class='item-main-img' src='../../../upload/images/tour/thumnail/"+data[i].filepath+"'></div>";
+    						html += "<div class='item' itemNo="+data[i].itemNo+" onclick='itemView("+data[i].itemNo+");'>";
+    						html += "<div><img class='item-main-img' src='../../../upload/images/tour/thumnail/"+data[i].filename+"'></div>";
     						html += "<div class='score'>"+data[i].score+"점</div>";
     						html += "<div class='itemTitle'>"+data[i].itemTitle+"</div>";
     						html += ""
@@ -167,13 +167,16 @@ prefix="c"%>
     				}
     			});
     		}
-    		$(function(){
-    			fn_more(1);
-    			$("#more-btn").click(function(){
-    				fn_more($(this).val());
-    			});
-    		});
+    		
+   			fn_more(1);
+   			$("#more-btn").click(function(){
+   				fn_more($(this).val());
+   			});
     	})
+    	
+    	function itemView(itemNo){
+   			location.href="/tourView.do?itemNo="+itemNo;
+    	};
     </script>
   </head>
   <body>

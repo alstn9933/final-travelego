@@ -13,11 +13,13 @@ public class TourVO {
 	private String memberName;
 	private String itemTitle;
 	private int regionNo;
+	private String regionCountry;
+	private String regionCity;
 	private int maxPerson;
 	private String beginDate;
 	private String endDate;
 	private String itemContent;
-	private String filepath;
+	private String filename;
 	private int closeCheck;
 	private int itemPrice;
 	private String tourTimes;

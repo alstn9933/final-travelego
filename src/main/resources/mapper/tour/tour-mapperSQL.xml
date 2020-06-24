@@ -7,7 +7,7 @@
 	<select id="selectMoreItem" parameterType="mtv" resultType="tour">
 		select * from(
 		select ROWNUM as rnum, p.* from(
-		select item_no as itemNo, member_name as memberName, item_title as itemTitle, region_no as regionNo, begin_date as beginDate, end_date as endDate, filepath, close_check as closeCheck
+		select item_no as itemNo, member_name as memberName, item_title as itemTitle, region_no as regionNo, begin_date as beginDate, end_date as endDate, filename, close_check as closeCheck
 		from tour join member using(member_id) join photo on(board_no=item_no and board_class=4)
 		where member_id=#{memberId} order by item_no desc)p)
 		where rnum between #{start} and #{end}
@@ -17,7 +17,7 @@
 		from tour_review where item_no=#{_parameter}
 	</select>
 	<select id="selectCountryList" resultType="country">
-		select region_country as regionCountry from region group by region_country order by 1 asc
+		select region_country as regionCountry from region group by region_country order by 1
 	</select>
 	<select id="selectCityList" parameterType="string" resultType="city">
 		select region_no as regionNo, region_city as regionCity from region where region_country=#{_parameter} order by 2 asc
@@ -31,4 +31,13 @@
 	<insert id="insertPhoto" parameterType="photo">
 		insert into photo values(photo_seq.nextval,#{boardClass},#{boardNo},#{filepath},#{filename})
 	</insert>
+	<select id="selectOneTour" parameterType="_int" resultType="tour">
+		select item_no as itemNo, member_id as memberId, member_name as memberName, item_title as itemTitle, region_country as regionCountry, 
+		region_city as regionCity, max_person as maxPerson, begin_date as beginDate, end_date as endDate, item_content as itemContent,
+		item_price as itemPrice, tour_times as tourTimes, p.filename 
+		from tour join member using(member_id) 
+		join photo p on(board_no=item_no and board_class=4) 
+		join region using(region_no)
+		where item_no=#{_parameter}
+	</select>
 </mapper>
