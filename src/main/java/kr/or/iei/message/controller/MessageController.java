@@ -205,4 +205,22 @@ public class MessageController {
 
 		return "common/msg";
 	}
+	
+	@RequestMapping("/deleteAllSendRead.do")
+	public String deleteAllSendRead(HttpSession session, Model model) {
+		Member member = (Member) session.getAttribute("member");
+		
+		
+		int result = service.deleteAllSendRead(member);
+		if (result < 0) {
+			model.addAttribute("msg", "삭제할 쪽지가 없습니다.");
+		} else if (result > 0) {
+			model.addAttribute("msg", "쪽지가 삭제되었습니다.");
+		} else {
+			model.addAttribute("msg", "쪽지 삭제에 실패하였습니다.");
+		}
+		model.addAttribute("loc", "/message/inbox.do");
+
+		return "common/msg";
+	}
 }

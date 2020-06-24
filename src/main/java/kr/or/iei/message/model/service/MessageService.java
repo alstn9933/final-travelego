@@ -195,6 +195,78 @@ public class MessageService {
 
 	@Transactional
 	public int deleteAllSendMessage(Member member) {
-		return 0;
+		int result = 0;
+		
+		Message msg = new Message();
+		
+		msg.setMessageSender(member.getMemberId());
+		
+		ArrayList<Message> sendList = (ArrayList<Message>) dao.selectMsgList(msg);
+		ArrayList<Message> deletedList = new ArrayList<Message>();
+		
+		if(sendList.isEmpty()) {
+			return -1;
+			
+		} else {
+			for(int i=0; i<sendList.size(); i++) {
+				if(sendList.get(i).getDeleteLevel()>0) {
+					deletedList.add(sendList.get(i));
+					sendList.remove(i);
+					i--;
+				}
+			}
+			
+			if(!sendList.isEmpty()) {
+				result += dao.updateMessageDeleteLevelTo2(sendList);
+			}
+			if(!deletedList.isEmpty()) {
+				result += dao.deleteMessage(deletedList);
+			}
+			
+			if(result == (sendList.size()+deletedList.size())) {
+				return 1;
+			} else {
+				return 0;
+			}
+		}		
+	}
+	
+	@Transactional
+	public int deleteAllSendRead(Member member) {
+		int result = 0;
+		
+		Message msg = new Message();
+		
+		msg.setMessageSender(member.getMemberId());
+		msg.setMessageCheck(1);
+		
+		ArrayList<Message> sendList = (ArrayList<Message>) dao.selectMsgList(msg);
+		ArrayList<Message> deletedList = new ArrayList<Message>();
+		
+		if(sendList.isEmpty()) {
+			return -1;
+			
+		} else {
+			for(int i=0; i<sendList.size(); i++) {
+				if(sendList.get(i).getDeleteLevel()>0) {
+					deletedList.add(sendList.get(i));
+					sendList.remove(i);
+					i--;
+				}
+			}
+			
+			if(!sendList.isEmpty()) {
+				result += dao.updateMessageDeleteLevelTo2(sendList);
+			}
+			if(!deletedList.isEmpty()) {
+				result += dao.deleteMessage(deletedList);
+			}
+			
+			if(result == (sendList.size()+deletedList.size())) {
+				return 1;
+			} else {
+				return 0;
+			}
+		}		
 	}
 }

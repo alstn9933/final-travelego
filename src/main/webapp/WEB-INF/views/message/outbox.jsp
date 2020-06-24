@@ -24,9 +24,9 @@
 				data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 				메시지 삭제</button>
 			<div class="dropdown-menu">
-				<a id="dropdownDeleteAllSend" class="dropdown-item" href="javascript:void(0)">전체 삭제</a> <a class="dropdown-item"
-					href="javascript:void(0)">선택 삭제</a> <a class="dropdown-item" href="javascript:void(0)">상대방이 읽은
-					쪽지만 삭제</a>
+				<a id="dropdownDeleteAllSend" class="dropdown-item" href="javascript:void(0)">전체 삭제</a>
+				<a class="dropdown-item" href="javascript:void(0)">선택 삭제</a>
+				<a id="dropdownDeleteSendRead" class="dropdown-item" href="javascript:void(0)">상대방이 읽은 쪽지만 삭제</a>
 			</div>
 		</div>
 	</nav>

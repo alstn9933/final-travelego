@@ -15,3 +15,9 @@ $("#dropdownDeleteAllSend").click(function(){
 		location.href = "/message/deleteAllSendMessage.do";
 	}
 });
+
+$("#dropdownDeleteSendRead").click(function(){
+	if(confirm("상대방이 읽은 쪽지를 모두 삭제하시겠습니까?")){
+		location.href = "/message/deleteAllSendRead.do";
+	}
+});
