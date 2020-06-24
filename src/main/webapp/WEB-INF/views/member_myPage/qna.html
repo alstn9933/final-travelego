@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<script src="https://cdn.ckeditor.com/ckeditor5/19.1.1/classic/ckeditor.js"></script>
+<style>
+    #user{
+        font-size: 40px;
+    }
+    .ck.ck-reset_all{
+        display: none;
+    }
+    .ck-content{
+        height: 300px;
+    }
+    #submit{
+        float: right;
+    }
+    #text{
+        border: 1px solid gray;
+    }
+    .select{
+        height: 60px;
+        width : 50%;
+    }
+    </style>
+    
+<body>
+<section>
+        <div id="user">User</div>
+        <br>
+        <div>1:1 문의</div>
+        <br>
+        <form action="#" method="post">
+            <button class="select">1:1 문의하기</button><button class="select">1:1 문의 내역</button>
+            <div id="text">
+                <div>
+                    제목
+                    <br>
+                    <input type="text" placeholder="제목을 입력해주세요" size="100" required>
+                </div>
+                <div>
+                    문의 내용
+                    <div name="editor" id="editor"></div>
+                </div>
+            </div>
+            <button id="submit">문의하기</button>
+        </form>
+    </section>
+    <script>
+            ClassicEditor
+                    .create( document.querySelector( '#editor' ) )
+                    .then( editor => {
+                            console.log( editor );
+                    } )
+                    .catch( error => {
+                            console.error( error );
+                    } );
+    </script>
+</body>
+</html>
