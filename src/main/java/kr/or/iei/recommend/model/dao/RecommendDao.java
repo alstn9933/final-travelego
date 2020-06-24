@@ -7,7 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import kr.or.iei.trip.model.vo.Region;
+import kr.or.iei.common.model.vo.Region;
 
 @Repository("recommendDao")
 public class RecommendDao {
