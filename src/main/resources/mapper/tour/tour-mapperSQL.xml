@@ -16,7 +16,7 @@
 		select review_no as reviewNo, item_no as itemNo, member_id as memberId, review_rate as reviewRate, review_content as reviewContent, review_date as reviewDate
 		from tour_review where item_no=#{_parameter}
 	</select>
-	<select id="selectCountryList" resultType="country">
+	<select id="selectCList" resultType="country">
 		select region_country as regionCountry from region group by region_country order by 1
 	</select>
 	<select id="selectCityList" parameterType="string" resultType="city">

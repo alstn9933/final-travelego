@@ -28,7 +28,7 @@ public class TourDao {
 	}
 
 	public List selectCountryList() {
-		return sqlSession.selectList("tour.selectCountryList");
+		return sqlSession.selectList("tour.selectCList");
 	}
 
 	public List selectCityList(String regionCountry) {
