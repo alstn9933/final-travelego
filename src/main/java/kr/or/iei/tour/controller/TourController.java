@@ -35,9 +35,9 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.google.gson.Gson;
 
+import kr.or.iei.common.model.vo.Photo;
 import kr.or.iei.member.model.vo.Member;
 import kr.or.iei.tour.model.service.TourService;
-import kr.or.iei.tour.model.vo.Photo;
 import kr.or.iei.tour.model.vo.RegionCity;
 import kr.or.iei.tour.model.vo.RegionCountry;
 import kr.or.iei.tour.model.vo.TourVO;

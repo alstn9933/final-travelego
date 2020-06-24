@@ -7,9 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import kr.or.iei.common.model.vo.Photo;
 import kr.or.iei.tour.model.dao.TourDao;
 import kr.or.iei.tour.model.vo.MoreTourVal;
-import kr.or.iei.tour.model.vo.Photo;
 import kr.or.iei.tour.model.vo.RegionCity;
 import kr.or.iei.tour.model.vo.RegionCountry;
 import kr.or.iei.tour.model.vo.ReviewVO;

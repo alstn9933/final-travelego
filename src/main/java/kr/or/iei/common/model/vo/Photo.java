@@ -1,4 +1,4 @@
-package kr.or.iei.tour.model.vo;
+package kr.or.iei.common.model.vo;
 
 import lombok.Data;
 
