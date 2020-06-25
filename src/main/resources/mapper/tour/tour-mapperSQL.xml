@@ -40,4 +40,5 @@
 		join region using(region_no)
 		where item_no=#{_parameter}
 	</select>
+	
 </mapper>
