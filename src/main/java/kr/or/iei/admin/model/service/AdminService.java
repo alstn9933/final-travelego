@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import kr.or.iei.admin.model.dao.AdminDao;
 import kr.or.iei.member.model.vo.Company;
@@ -31,6 +32,17 @@ public class AdminService {
 		List<Company> cList = dao.selectCompanyMember();
 		return (ArrayList<Company>)cList;
 	}
+	
+	public int confirmUpdateMember(Company cm) {
+		return dao.confirmUpdateMember(cm);
+	}
+
+	public int modifyMemberLevel(Member m) {
+		System.out.println("서비스"+m.getMemberId());
+		return dao.modifyMemberLevel(m);
+	}
+
+
 	
 	
 	

@@ -32,28 +32,102 @@
 	<!--컨텐츠 스크립트 -->
 	<script>
 		$(document).ready(function() {
+				$('input[name="search"]').click(function() {
+				var checkRadio = $(this).val();
+												console.log(checkRadio);
 			$("#keyword").keyup(function() {
-				var k = $(this).val();
+					switch (checkRadio) {
+					    case checkRadio = 'id':
+							var k = $(this).val();
 					$("#user-table > tbody > tr").hide();
-		var temp = $("#user-table > tbody > tr > td:nth-child(5n+2):contains('"+ k + "')");
-						$(temp).parent().show();
+					var temp = $("#user-table > tbody > tr > td:nth-child(1):contains('"+ k+ "')");
+									$(temp).parent().show();
+											break;
+						case checkRadio = "disapproval":
+								var k = $(this).val();
+						$("#user-table > tbody > tr").hide();
+							var temp = $("#user-table > tbody > tr > td:nth-child(6):contains('"+ k+ "')");
+								$(temp).parent().show();
+												break;
+												
+						case checkRadio = "nickname":
+							var k = $(this).val();
+					$("#user-table > tbody > tr").hide();
+						var temp = $("#user-table > tbody > tr > td:nth-child(2):contains('"+ k+ "')");
+							$(temp).parent().show();
+											break;
+											
+						case checkRadio="status" :
+							var k = $(this).val();
+						$("#user-table > tbody > tr").hide();
+							var temp = $("#user-table > tbody > tr > td:nth-child(5):contains('"+ k+ "')");
+								$(temp).parent().show();
+												break;	
+					}
+																});
+											});
+
+							$(".memberConfirm").click(function() {
+								var con_test = confirm("가입을 승인하시겠습니까?");
+								if (con_test == true) {
+									$(this).hide();
+
+									var mberId = $(this).attr("data-id");
+									$.ajax({
+										url : "/confirmUpdateMember.do",
+										type : "get",
+										data : {
+											companyId : mberId
+										},
+										succes : function(data) {
+											location.reload(true);
+										},
+
+										error : function(data) {
+											alert("시스템 오류로 인한 작업중단");
+										}
+
+									})
+								}
+
+								else {
+									alert("취소하셨습니다.")
+								}
+							})
+							$(".memberStop").click(function() {
+								var stopConfirm = confirm("회원 활동이 정지 됩니다.진행하시겠습니까?");
+								if (stopConfirm == true) {
+									var mId = $(this).attr("data-id");
+											$.ajax({
+													url : "/modifyMemberLevel.do",
+													type : "get",
+													data : {
+																	memberId : mId
+
+																},
+																success : function(
+																		data) { // 오타
+																	if (data == "1") {
+																		alert("회원 정지 완료");
+
+																	} else {
+																		alert("회원 정지 실패");
+																	}
+																},
+
+																error : function(
+																		data) {
+																	alert("시스템 오류로 인한 작업중단");
+																}
+															})
+
+												} else {
+													alert("취소하셨습니다.")
+												}
 											})
-			$("#memberConfirm").click(function(){
-				var con_test = confirm("정지회원으로 전환됩니다. 진행하시겠습니까?");
-				if(con_test == true){
-						$(this).hide();
-						$("#allowMember").show().css('padding-right','5px');
-				}
-				
-				else if(con_test == false){
-				 
-				}	
-			})								
-											
-											
+					
+
 						})
-
-
 	</script>
 
 	<section>
@@ -199,15 +273,16 @@ main .admin_sidebar {
 
 			<div id="input-form">
 				<form name="search">
-					<label> <input type="radio" name="search" value="id">아이디
-					</label> <label> <input type="radio" name="search" value="stop">정지회원
-					</label> <label> <input type="radio" name="search" value="nickname">닉네임/회사명
-						조회
-					</label> <label><input type="radio" name="search"
-						value="disapproval">미승인 회원</label> <label><input
-						type="radio" name="search" value="corporation">법인 회원</label>
-					&nbsp; &nbsp; &nbsp; <input type="text" id="keyword" /> <input
-						type="submit" name="submit" value="찾기">
+					<label> <input type="radio" name="search" value="id"
+						id="searchId">&nbsp;아이디
+					</label>&nbsp; <label> <input type="radio" name="search"
+						value="nickname" id="sear">&nbsp;닉네임/회사명
+					</label>&nbsp; <label><input type="radio" name="search"
+						value="disapproval">&nbsp;승인/미승인 </label>&nbsp;
+						&nbsp; <label> <input type="radio" name="search"
+						value="status" id="searchStop">&nbsp;회원상태
+					</label>
+					&nbsp; &nbsp; &nbsp; <input type="text" id="keyword" />
 				</form>
 			</div>
 			<div id="search_result">
@@ -219,55 +294,73 @@ main .admin_sidebar {
 							<th>닉네임/회사명</th>
 							<th>이름</th>
 							<th>이메일</th>
-							<th>회원 레벨</th>
+							<th>회원 상태</th>
 							<th>승인/미승인</th>
 						</tr>
 					</thead>
-
+					<!-- 일반회원 -->
 					<c:forEach items="${mList }" var="m">
-						<c:if test="${m.memberLevel eq 1 }">
-							<tr>
-								<td>${m.memberId }</td>
-								<td>${m.memberNickname }</td>
-								<td>${m.memberName }</td>
-								<td>${m.email }</td>
-								<td>${m.memberLevel }</td>
+						<tr>
+							<td>${m.memberId }</td>
+							<td>${m.memberNickname }</td>
+							<td>${m.memberName }</td>
+							<td>${m.email }</td>
+
+							<!-- 여기서 레벨당 버여줄게 안먹습니다 -->
+							<c:if test="${m.memberLevel eq 1}">
+								<td id="modifyMember">일반 회원 <br> <input type="button"
+									name="memberStop" class="memberStop" value="정지"
+									data-id="${m.memberId}">
+								</td>
 								<td>해당 사항 없음</td>
-							</tr>
-							<!-- 회원관리 1:일반회원 2 :법인회원 3:관리자
-				company 테이블에서  0 승인전, 1 승인 완료
-			 -->
-						</c:if>
-					</c:forEach>
+							</c:if>
 
-					<c:forEach items="${mList }" var="m">
-						<c:if test="${m.memberLevel eq 2 }">
-							<c:forEach items="${cList }" var="c">
-								<c:if test="${m.memberId eq c.companyId }" >
-									<tr>
-										<td>${m.memberId }</td>
-										<td>${m.memberNickname }</td>
-										<td>${m.memberName }</td>
-										<td>${m.email }</td>
-										<td>${m.memberLevel }</td>
-										
-										<td id="allowMember" style="display:none;">승인 완료</td>
-										<c:if test="${c.joinConfirm eq 1 }" >
-										<form action="allowCorporationMember.do">
-											<td><input type="button" name="allow" Id="memberConfirm"
-												value="미승인 회원" ></td>
-											</form>
+							<c:if test="${m.memberLevel eq -1}">
+								<td id="modifyMember">정지 회원 <br> <input type="button"
+									name="memberRecycle" class="memberRestore" value="복구" data-id="${m.memberId}">
+									<input type="button" name="memberdelete" class="memberDelete"
+									value="탈퇴" data-id="${m.memberId}">
+								</td>
+								<td>해당 사항 없음</td>
+							</c:if>
+
+							<c:if test="${m.memberLevel eq 0}">
+								<td id="secessionMember">탈퇴 회원</td>
+								<td>해당 사항 없음</td>
+							</c:if>
+							
+							
+							<c:if test="${m.memberLevel eq 2 }">
+							
+								<td id="modifyMember">정지 회원 <br> <input type="button"
+									name="memberRecycle" class="memberRecycle" value="복구" data-id="${m.memberId}">
+									<input type="button" name="memberdelete" class="memberDelete"
+									value="탈퇴" data-id="${m.memberId}">
+								</td>
+								<td>
+								<c:forEach items="${cList }" var="c">
+								<c:if test="${c.joinConfirm eq 1}">
+											승인 완료
 										</c:if>
-									</tr>
-
-								</c:if>
-							</c:forEach>
-
-							<!-- 회원관리 1:일반회원 2 :법인회원 3:관리자
-				company 테이블에서  0 승인전, 1 승인 완료
+										<c:if test="${c.joinConfirm eq 0}">
+											<td><input type="button" name="allow"
+												class="memberConfirm" value="미승인 회원"
+												data-id="${c.companyId}"></td>
+										</c:if>
+										</c:forEach>
+								</td>
+								
+							</c:if>
+							
+							
+						</tr>
+						<!-- 회원관리 1:일반회원 2 :법인회원 3:관리자
+									company 테이블에서  0 승인전, 1 승인 완료
 			 -->
-						</c:if>
+
 					</c:forEach>
+					<!-- 법인 회원   -->
+				
 
 				</table>
 			</div>

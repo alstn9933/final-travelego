@@ -24,6 +24,11 @@
 		 join_confirm as joinConfirm
 		from company
 	</select>
-	
-	
+	<update id="confirmUpdateMember" parameterType="company">
+		update company set join_confirm =1 where  company_id=#{companyId}
+			</update>
+	<update id="modifyMemberLevel" parameterType="member">
+			update member set member_level = -1 where member_id=#{memberId}
+	</update>		
+
 </mapper>

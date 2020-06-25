@@ -26,6 +26,19 @@ public class AdminDao {
 	 public List<Company> selectCompanyMember(){
 		 return sqlSession.selectList("selectCompanyMember");
 	 }
+
+
+
+	public int confirmUpdateMember(Company cm) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("confirmUpdateMember",cm);
+	}
+
+	public int modifyMemberLevel(Member m) {
+		return sqlSession.update("modifyMemberLevel",m);
+	}
+
+
 	 	
 
 	
