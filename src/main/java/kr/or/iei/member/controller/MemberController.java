@@ -28,6 +28,8 @@ public class MemberController {
 		super();
 	}
 
+	// test
+	
 	@RequestMapping("/loginFrm.do")
 	public String loginFrm() {
 		return "member/loginFrm";
