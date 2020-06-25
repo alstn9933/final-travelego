@@ -40,7 +40,16 @@ prefix="c"%>
           <span id="newCount">+2</span>
         </div>        
         <div class="content_area">
-          <div class="content"></div>
+          <div class="content">
+            <div class="board_title_area">
+              <div class="board_title"><span>title</span></div>
+              <div class="board_content"><span>content</span></div>
+            </div>
+            <div class="board_writer_area">
+              <div class="board_date"><span>date</span></div>
+              <div class="board_writer"><span>writer</span></div>
+            </div>
+          </div>
         </div>
       </div>
       <aside></aside>
@@ -71,7 +80,7 @@ prefix="c"%>
     <script src="/src/js/header/owl.carousel.min.js"></script>
     <script src="/src/js/header/isotope.pkgd.min.js"></script>
     <script src="/src/js/header/ajax-form.js"></script>
-    <script src="/src/js/header/waypoints.min.js"></script>
+    <!-- <script src="/src/js/header/waypoints.min.js"></script> -->
     <script src="/src/js/header/jquery.counterup.min.js"></script>
     <script src="/src/js/header/imagesloaded.pkgd.min.js"></script>
     <script src="/src/js/header/scrollIt.js"></script>
