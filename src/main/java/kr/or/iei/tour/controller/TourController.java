@@ -34,6 +34,7 @@ import kr.or.iei.common.model.vo.Photo;
 import kr.or.iei.common.model.vo.Region;
 import kr.or.iei.member.model.vo.Member;
 import kr.or.iei.tour.model.service.TourService;
+import kr.or.iei.tour.model.vo.ReviewData;
 import kr.or.iei.tour.model.vo.TourVO;
 
 @Controller
@@ -65,6 +66,14 @@ public class TourController {
 		TourVO tv = service.selectOneTour(itemNo);
 		model.addAttribute("tv",tv);
 		return "tour/tourView";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/moreReview.do", produces = "application/json; charset=utf-8")
+	public String selectMoreReview(int reqPage, int itemNo) {
+		ReviewData rd = service.moreReviewList(reqPage,itemNo);
+		System.out.println(rd.getReviewList().get(0).getReviewContent());
+		return new Gson().toJson(rd);
 	}
 
 	@ResponseBody

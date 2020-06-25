@@ -9,6 +9,7 @@ public class ReviewVO {
 	private int reviewNo;
 	private int itemNo;
 	private String memberId;
+	private String memberNickname;
 	private int reviewRate;
 	private String reviewContent;
 	private Date reviewDate;

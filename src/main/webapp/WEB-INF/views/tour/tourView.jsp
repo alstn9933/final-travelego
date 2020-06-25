@@ -60,16 +60,22 @@ section {
 	height:40px;
 	line-height:40px;
 }
+#ask-msg{
+	width:100px;
+	height:40px;
+	line-hieht:40px;
+	margin-left:20px;
+}
 .content{
 	width: 70%;
 	float:left;
 	overflow: hidden;
 	margin-top: 20px;
-	border-right:1px solid black;
 }
 .itemContent {
 	width: 100%;
 	overflow: hidden;
+	background-color:#25e6b5;
 }
 .item-height{
 	height:500px;
@@ -85,7 +91,83 @@ section {
 	width:30%;
 	float:left;
 	height:500px;
-	barckgroud-color:gray;
+	background-color:gray;
+}
+.content-menu{
+	width:100%;
+	height:50px;
+	overflow:hidden;
+	border: 1px solid #25e6b5;
+	border-radius:5px;
+}
+.content-menu>ul>li{
+	float:left;
+	width:200px;
+	height:50px;
+	box-sizing:border-box;
+	text-align:center;
+	line-height:50px;
+	font-size:20px;
+}
+.content-menu>ul>li:first-child{
+	border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+.content-menu>ul>li:last-child{
+	border-top-right-radius:5px;
+	border-bottom-right-radius:5px;
+}
+.content-menu>ul>li:hover{
+	cursor:pointer;
+	background-color:#25e6b5;
+	color:white;
+}
+.content-menu-click{
+	background-color:#25e6b5;
+	color:white;
+}
+.review-section{
+	margin-top:20px;
+	width:100%;
+	overflow:hidden;
+}
+.review-section>h2{
+	text-align:center;
+	line-height:30px;
+}
+.review-content tr:first-child>td:nth-child(3){
+    text-align: center;
+}
+.review-content{
+	width:100%;
+}
+.review-content tr>td:first-child{
+    width: 10%;
+    text-align: center;
+}
+.review-content tr>td:nth-child(2){
+    width:20%;
+    text-align: center;
+}
+.review-content tr>td:nth-child(3){
+    width:60%;
+}
+.review-content tr>td:nth-child(4){
+    width:10%;
+    text-align: center;
+    font-size: 15px;
+}
+.review-content tr>td{
+    border: 1px solid lightgray;
+    padding:10px;
+}
+.rPaging{
+	width:20px;
+	height:20px;
+	font-size:15px;
+}
+.rpage:hover{
+	cursor:pointer;
 }
 </style>
 </head>
@@ -97,6 +179,7 @@ section {
 		<!-- 여기서부터 작성하시면 됨!!!!!!! -->
 		<div class="section-top">
 			<div class="itemInfo">
+				<input type="hidden" id="itemNo" value="${tv.itemNo }">
 				<table>
 					<tr>
 						<td>${tv.regionCountry }/${tv.regionCity }</td>
@@ -111,7 +194,7 @@ section {
 							<table>
 								<tr>
 									<td>담당</td>
-									<td>${tv.memberName }</td>
+									<td><span>${tv.memberName }</span><button type="button" class="btn btn-outline-info" id="ask-msg">쪽지문의</button></td>
 								</tr>
 								<tr>
 									<td>TEL</td>
@@ -128,6 +211,12 @@ section {
 			</div>
 		</div>
 		<div class="content">
+			<div class="content-menu">
+				<ul>
+					<li class="content-menu-click">상품내용</li>
+					<li>후기</li>
+				</ul>
+			</div>
 			<div class="itemContent item-height">
 				${tv.itemContent }
 			</div>
@@ -135,7 +224,23 @@ section {
        			<button type="button" class="btn btn-outline-info" id="more-btn">전체보기</button>
         	</div>
         	<div class="review-section">
-        		
+        		<div class="content-menu">
+					<ul>
+						<li>상품내용</li>
+						<li class="content-menu-click">후기</li>
+					</ul>
+				</div>
+				<table class="review-content">
+					<tr>
+						<td>작성자</td>
+						<td>점수</td>
+						<td>내용</td>
+						<td>작성날짜</td>
+					</tr>
+				</table>
+				<div class="review-page">
+					
+				</div>
         	</div>
 		</div>
 		<div class="reserveFrm">
@@ -195,7 +300,39 @@ section {
 			$("#more-btn").click(function(){
 				$(".itemContent").removeClass("item-height");
 			});
+			
+			var _scrollTop = window.scrollY || document.documentElement.scrollTop;
+			console.log(_scrollTop);
+			
+			moreReview(1);
 		});
+		
+		function moreReview(reqPage){
+			var itemNo = $("#itemNo").val();
+			var param = {reqPage:reqPage,itemNo:itemNo};
+			$.ajax({
+				url:"/moreReview.do",
+				data:param,
+				type:"post",
+				dataType:"json",
+				success:function(data){
+					var reviewList = data.reviewList;
+					var html = "";
+					html+="<tr><td>작성자</td><td>점수</td><td>내용</td><td>작성날짜</td></tr>";
+					for(var i=0; i<reviewList.length; i++){
+						html+="<tr><td>"+reviewList[i].memberNickname+"</td>";
+						html+="<td>"+reviewList[i].reviewRate+"</td>";
+						html+="<td>"+reviewList[i].reviewContent+"</td>";
+						html+="<td>"+reviewList[i].reviewDate+"</td></tr>";
+					}
+					$(".review-content").html(html);
+					$(".review-page").html(data.pageNavi);
+				},
+				error:function(){
+					console.log("후기를 불러오지 못했습니다");
+				}
+			});
+		};
 
 		$("#datepicker").datepicker({
 			iconsLibrary : "fontawesome",

@@ -1,6 +1,7 @@
 package kr.or.iei.tour.model.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import kr.or.iei.common.model.vo.Photo;
 import kr.or.iei.common.model.vo.Region;
 import kr.or.iei.tour.model.dao.TourDao;
 import kr.or.iei.tour.model.vo.MoreTourVal;
+import kr.or.iei.tour.model.vo.ReviewData;
 import kr.or.iei.tour.model.vo.ReviewVO;
 import kr.or.iei.tour.model.vo.TourVO;
 
@@ -46,7 +48,6 @@ public class TourService {
 			if(sum!=0) {
 				avg =sum/rvList.size();
 			}
-			tv.setReveiwList(rvList);
 			tv.setScore(avg);
 		}
 		return (ArrayList<TourVO>)list;
@@ -77,7 +78,52 @@ public class TourService {
 
 	public TourVO selectOneTour(int itemNo) {
 		TourVO tv =  dao.selectOneTour(itemNo);
-		tv.setReveiwList((ArrayList<ReviewVO>)dao.selectReviewList(itemNo));
 		return tv;
+	}
+
+	public ReviewData moreReviewList(int reqPage, int itemNo) {
+		int totalCount = dao.selectTotalReview(itemNo);
+		int numPerPage = 5;
+		int totalPage=0;
+		if(totalCount%numPerPage==0) {
+			totalPage = totalCount/numPerPage;
+		}else {
+			totalPage = totalCount/numPerPage+1;
+		}
+		int start = ((reqPage-1)*numPerPage)+1;
+		int end = reqPage*numPerPage;
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("start", String.valueOf(start));
+		map.put("end", String.valueOf(end));
+		map.put("itemNo", String.valueOf(itemNo));
+		List list = dao.moreReviewList(map);
+		int pageNaviSize = 5;
+		String pageNavi = "";
+		int pageNo = 1;
+		if(reqPage>3) {
+			pageNo = reqPage-2;
+		}
+		if(pageNo!=1) {
+			pageNavi += "<button type='button' class='btn btn-outline-info' id='rPaging' onclick='moreReview("+(pageNo-1)+");'>[이전]</button>";
+		}
+		for(int i=0; i<pageNaviSize; i++) {
+			if(reqPage==pageNo) {
+				pageNavi += "<span id='rPaging'>"+pageNo+"</span>";
+			}else {
+				pageNavi += "<button type='button' class='btn btn-outline-info' id='rPaging' onclick='moreReview("+pageNo+");'>"+pageNo+"</button>";
+			}
+			pageNo++;
+			if(pageNo>totalPage) {
+				break;
+			}
+		}
+		if(pageNo <= totalPage) {
+			pageNavi += "<button type='button' class='btn btn-outline-info' id='rPaging' onclick='moreReview("+pageNo+");'>[다음]</button>";
+		}
+		ReviewData rd = new ReviewData();
+		rd.setPageNavi(pageNavi);
+		rd.setReviewList((ArrayList<ReviewVO>)list);
+		
+		return rd;
 	}
 }

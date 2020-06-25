@@ -1,5 +1,6 @@
 package kr.or.iei.tour.model.dao;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -49,5 +50,13 @@ public class TourDao {
 
 	public TourVO selectOneTour(int itemNo) {
 		return sqlSession.selectOne("tour.selectOneTour",itemNo);
+	}
+
+	public int selectTotalReview(int itemNo) {
+		return sqlSession.selectOne("tour.selectTotalReview",itemNo);
+	}
+
+	public List moreReviewList(HashMap<String, String> map) {
+		return sqlSession.selectList("tour.selectMoreReview", map);
 	}
 }

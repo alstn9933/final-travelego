@@ -13,8 +13,8 @@
 		where rnum between #{start} and #{end}
 	</select>
 	<select id="selectReviewList" parameterType="_int" resultType="review">
-		select review_no as reviewNo, item_no as itemNo, member_id as memberId, review_rate as reviewRate, review_content as reviewContent, review_date as reviewDate
-		from tour_review where item_no=#{_parameter}
+		select review_no as reviewNo, item_no as itemNo, member_id as memberId, member_nickname as memberNickname, review_rate as reviewRate, review_content as reviewContent, review_date as reviewDate
+		from tour_review join member using(member_id) where item_no=#{_parameter}
 	</select>
 	<select id="selectCountryList" resultType="region">
 		select region_country as regionCountry from region group by region_country order by 1
@@ -40,5 +40,14 @@
 		join region using(region_no)
 		where item_no=#{_parameter}
 	</select>
-	
+	<select id="selectMoreReview" parameterType="map" resultType="review">
+		select * from
+		(select ROWNUM as rnum, r.* from
+		(select review_no as reviewNo, item_no as itemNo, member_id as memberId, member_nickname as memberNickname, review_rate as reviewRate, review_content as reviewContent, review_date as reviewDate
+		from tour_review join member using(member_id) where item_no=#{itemNo} order by review_no desc)r)
+		where rnum between #{start} and #{end}
+	</select>
+	<select id="selectTotalReview" parameterType="_int" resultType="_int">
+		select count(*) as cnt from tour_review where item_no = #{_parameter}
+	</select>
 </mapper>
