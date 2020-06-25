@@ -98,7 +98,7 @@
 					<br>
 			</div>
 			<div class="divBtn" id="divBtn">
-				<button type="button" class="btn btn-primary" onclick="return submit()">회원가입</button>
+				<button type="submit" class="btn btn-primary">회원가입</button>
 				<button type="reset" class="btn btn-primary">초기화</button>
 			</div>
 			</form>
@@ -347,21 +347,23 @@ $("#memberId").keyup(function(){
 		}
 	});
 var count = 0;
-	function submit(){
+	
 	$("form").submit(function(){
 		for(i=0;i<checkArr.length;i++){
 			if(checkArr[i]== true){
 				count++;
 			}
-			if(count<10){
-				alert("회원가입 절차에 맞게 작성해주세요.");
-				return false;
-			}else if(count==10){
-				return true;
-			}
+			
+		}
+		if(count<10){
+			alert("회원가입 절차에 맞게 작성해주세요.");
+			count = 0;
+			return false;
+		}else if(count==10){
+			return true;
 		}
 		
 	});
-	}
+	
 </script>
 </html>
