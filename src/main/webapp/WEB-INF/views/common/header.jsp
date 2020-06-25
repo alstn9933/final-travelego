@@ -20,7 +20,7 @@
 								<nav>
 									<ul id="navigation">
 										<li><a class="active" href="index.html">일정게시판</a></li>
-										<li><a href="about.html">추천게시판</a></li>
+										<li><a href="/recommendList.do">추천게시판</a></li>
 										<li><a class="" href="travel_destination.html">투어/티켓</a>
 										</li>
 										<li><a href="contact.html">공지사항</a></li>
@@ -58,11 +58,11 @@
 											<nav>
 												<ul id="navigation">
 													<ul class="submenu">
-														<li><a href="#"><i class="far fa-user userIcon"></i></a>
+														<li><a href="/myPage.do"><i class="far fa-user userIcon"></i></a>
 															<ul class="submenu">
 																<li><a href="/mypage.do">마이페이지</a></li>
 																<li><a href="/mytripFrm.do">일정만들기</a></li>
-																<li><a href="elements.html">쪽지함</a></li>
+																<li><a href="javascript:void(0)" id="openInbox">쪽지함</a></li>
 															</ul></li>
 													</ul>
 												</ul>
@@ -88,6 +88,6 @@
 			</div>
 		</div>
 	</div>
-
+	<script src="/src/js/message/openInbox.js"></script>
 </header>
 

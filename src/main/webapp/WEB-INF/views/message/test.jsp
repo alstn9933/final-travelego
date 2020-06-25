@@ -42,7 +42,7 @@ prefix="c"%>
 
     <script>
       $("#testBtn").click(function () {
-        const url = "/open.do";
+        const url = "/openInbox.do";
         const title = "쪽지함";
         const status =
           "width=617px, height=700px, menubar=no, status=no, toolbar=no";

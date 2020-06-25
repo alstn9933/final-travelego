@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="message">
+	<select id="selectMsgList" parameterType="msg" resultType="msg">
+		select
+			message_no as messageNo,
+			message_sender as messageSender,
+			message_receiver as messageReceiver,
+			message_content as messageContent,
+			send_date as sendDate,
+			message_check as messageCheck,
+			delete_level as deleteLevel
+		from message		
+		<if test="messageReceiver != null">
+		where delete_level in (0,2)
+		and message_receiver = #{messageReceiver}		
+		</if>
+		<if test="messageSender != null">
+		where delete_level in (0,1)
+		and message_sender = #{messageSender}
+		<if test="messageCheck != 0">
+		and message_check = 1
+		</if>
+		</if>
+		order by message_no desc
+	</select>
+	<insert id="insertMessage" parameterType="msg">
+		insert into message values(
+			message_seq.nextval,
+			#{messageSender},
+			#{messageReceiver},
+			#{messageContent},
+			sysdate,
+			0,
+			0
+		)
+	</insert>
+	<select id="selectOneMessage" parameterType="_int" resultType="msg">
+		select
+			message_no as messageNo,
+			message_sender as messageSender,
+			message_receiver as messageReceiver,
+			message_content as messageContent,
+			send_date as sendDate,
+			message_check as messageCheck,
+			delete_level as deleteLevel
+		from message
+		where message_no = #{_parameter}
+	</select>
+	<select id="countAllMsg" parameterType="member" resultType="_int">
+		select
+			count(*)
+		from message		
+		where message_receiver = #{memberId}
+		and delete_level in (0, 2)
+	</select>	
+	<select id="countUncheckMsg" parameterType="member" resultType="_int">
+		select
+			count(message_no)
+		from message
+		where message_receiver = #{memberId} 
+		and message_check = 0
+		and delete_level = 0
+	</select>
+	<update id="updateCheckMsg" parameterType="_int">
+		update message
+		set message_check = 1
+		where message_no = #{_parameter}
+	</update>
+	<delete id="deleteMessage" parameterType="_int">
+		delete from message
+		where message_no = #{_parameter}
+	</delete>
+	<select id="selectSendMessageCount" parameterType="string" resultType="_int">
+		select
+			count(*)
+		from message
+		where message_sender = #{_parameter}
+		and delete_level in (0,1)
+	</select>
+	<select id="selectUnreadMessage" parameterType="member" resultType="msg">
+		select
+			message_no as messageNo,
+			message_sender as messageSender,
+			message_receiver as messageReceiver,
+			message_content as messageContent,
+			send_date as sendDate,
+			message_check as messageCheck,
+			delete_level as deleteLevel
+		from message		
+		where delete_level in (0,2)
+		and message_receiver = #{memberId}
+		and message_check = 0
+	</select>
+	<select id="selectAllReadMessage" parameterType="member" resultType="msg">
+		select
+			message_no as messageNo,
+			message_sender as messageSender,
+			message_receiver as messageReceiver,
+			message_content as messageContent,
+			send_date as sendDate,
+			message_check as messageCheck,
+			delete_level as deleteLevel
+		from message		
+		where delete_level in (0,2)
+		and message_receiver = #{memberId}
+		and message_check = 1
+	</select>
+	<update id="updateMessageDeleteLevel" parameterType="map">
+		update message
+		<if test="memberId == messageReceiver">
+			set delete_level = 1
+		</if>
+		<if test="memberId != messageReceiver">
+			set delete_level = 2
+		</if>
+		where message_no = #{messageNo}
+	</update>
+	<update id="updateListDeleteLevelTo1" parameterType="map">
+		update message
+		set delete_level = 1
+		where message_no in
+		<foreach collection="list" item="msg" open="(" separator="," close=")">
+			#{msg.messageNo}
+		</foreach>
+	</update>
+	<delete id="deleteMessageByList" parameterType="map">
+		delete from message
+		where message_no in
+		<foreach collection="list" item="msg" open="(" separator="," close=")">
+			#{msg.messageNo}
+		</foreach>
+	</delete>
+	<select id="selectAllReceivedMessage" parameterType="member" resultType="msg">
+		select
+			message_no as messageNo,
+			message_sender as messageSender,
+			message_receiver as messageReceiver,
+			message_content as messageContent,
+			send_date as sendDate,
+			message_check as messageCheck,
+			delete_level as deleteLevel
+		from message
+		where message_receiver = #{memberId}
+		and delete_level in (0,2)	
+	</select>
+	<update id="updateListDeleteLevelTo2" parameterType="map">
+		update message
+		set delete_level = 2
+		where message_no in
+		<foreach collection="list" item="msg" open="(" separator="," close=")">
+			#{msg.messageNo}
+		</foreach>
+	</update>
+	<select id="selectCheckMessage" parameterType="map" resultType="msg">
+		select
+			message_no as messageNo,
+			message_sender as messageSender,
+			message_receiver as messageReceiver,
+			message_content as messageContent,
+			send_date as sendDate,
+			message_check as messageCheck,
+			delete_level as deleteLevel
+		from message
+		where message_no in
+		<foreach collection="array" item="item" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</select>
+</mapper>

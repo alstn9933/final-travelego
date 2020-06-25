@@ -42,8 +42,8 @@ public class MemberController {
 		if (member != null) {
 			session.setAttribute("member", member);
 			return "redirect:/";
-		} else {
-			return "member/login";
+		}else {
+			return "member/loginFrm";
 		}
 	}
 
