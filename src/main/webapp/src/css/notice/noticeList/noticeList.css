@@ -1,0 +1,38 @@
+@charset "UTF-8";
+.maintitle{
+	float: left;
+	width: 300px;
+	height: 60px;
+	
+}
+.mainContent{
+	float: right;
+	width: 860px;
+	height:100%
+	background-color: blue;
+	
+}
+.noticelogo{
+	width: 300px;
+	height: 60px;
+}
+.noticetitle{
+	width: 56%;
+	text-align: center;
+}
+.regdate{
+	width: 20%;
+	text-align: right;
+}
+.regcount{
+	width:20%;
+	text-align: right;
+}
+#insertBtn{
+	float: right;
+	margin: 5px;
+}
+.pagination{
+	margin-left : 200px;
+	text-align: center;
+}

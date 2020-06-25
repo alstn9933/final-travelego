@@ -1,5 +1,14 @@
 package kr.or.iei.notice.model.vo;
 
-public class Notice {
+import java.sql.Date;
 
+import lombok.Data;
+
+@Data
+public class Notice {
+	private int noticeNo;
+	private String noticeTitle;
+	private String noticeContent;
+	private Date noticeDate;
+	private int readCount;
 }
