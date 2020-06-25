@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="reserve">
+	<select id="checkTimePerson" parameterType="map" resultType="reserve">
+		select sum(person_count) as personCount, tour_time as tourTime from tour_reserve where item_no=#{itemNo} and status=0 and tour_date=#{tourDate} group by tour_time
+	</select>
+</mapper>

@@ -156,7 +156,7 @@ prefix="c"%>
     						if(data[i].score==0){
     							html += "<div class='score'>후기가 없습니다</div>";
     						}else{
-    							html += "<div class='score'>"+data[i].score+"점</div>";
+    							html += "<div class='score'>"+data[i].score.toFixed(1)+"점</div>";
     						}
     						html += "<div><img class='item-main-img' src='../../../upload/images/tour/thumnail/"+data[i].filename+"'></div>";
     						html += "<div class='itemTitle'>"+data[i].itemTitle+"</div>";

@@ -25,6 +25,8 @@
 <style>
 section {
 	overflow:hidden;
+	width:1200px;
+	margin:0 auto;
 }
 
 .section-top>div {
@@ -77,21 +79,22 @@ section {
 	overflow: hidden;
 	background-color:#25e6b5;
 }
-.item-height{
-	height:500px;
-}
 .itemContent>img{
 	width:100%;
 	height:auto;
 }
-#more-btn{
+.morebtn>button{
+	width:100%;
+}
+#close-btn{
 	width:100%;
 }
 .reserveFrm{
-	width:30%;
 	float:left;
+	width:360px;
 	height:500px;
-	background-color:gray;
+	background-color:lightgray;
+	border-left:1px solid lightgray;
 }
 .content-menu{
 	width:100%;
@@ -161,13 +164,22 @@ section {
     border: 1px solid lightgray;
     padding:10px;
 }
-.rPaging{
-	width:20px;
-	height:20px;
-	font-size:15px;
+.review-page{
+	margin-top:10px;
 }
-.rpage:hover{
+#rPaging{
+	fonr-size:15px;
+}
+.curr{
+	background-color:#25e6b5;
+}
+#rPaging:hover{
 	cursor:pointer;
+}
+.review-page-con{
+	width:250px;
+	overflow:hidden;
+	margin: 0 auto;
 }
 </style>
 </head>
@@ -179,7 +191,10 @@ section {
 		<!-- 여기서부터 작성하시면 됨!!!!!!! -->
 		<div class="section-top">
 			<div class="itemInfo">
+				<input type="hidden" id="beginDate" value="${tv.beginDate }">
+				<input type="hidden" id="endDate" value="${tv.endDate }">
 				<input type="hidden" id="itemNo" value="${tv.itemNo }">
+				<input type="hidden" id="maxPerson" value="${tv.maxPerson }">
 				<table>
 					<tr>
 						<td>${tv.regionCountry }/${tv.regionCity }</td>
@@ -211,22 +226,24 @@ section {
 			</div>
 		</div>
 		<div class="content">
-			<div class="content-menu">
-				<ul>
-					<li class="content-menu-click">상품내용</li>
-					<li>후기</li>
-				</ul>
-			</div>
-			<div class="itemContent item-height">
-				${tv.itemContent }
-			</div>
-			<div class="morebtn">
-       			<button type="button" class="btn btn-outline-info" id="more-btn">전체보기</button>
+			<div class="item-section">
+				<div class="content-menu">
+					<ul>
+						<li class="content-menu-click">상세내용</li>
+						<li>후기</li>
+					</ul>
+				</div>
+				<div class="itemContent item-height">
+					${tv.itemContent }
+				</div>
+				<div class="morebtn">
+	       			<button type="button" class="btn btn-outline-info openbtn">▼</button>
+	        	</div>
         	</div>
         	<div class="review-section">
         		<div class="content-menu">
 					<ul>
-						<li>상품내용</li>
+						<li>상세내용</li>
 						<li class="content-menu-click">후기</li>
 					</ul>
 				</div>
@@ -239,13 +256,28 @@ section {
 					</tr>
 				</table>
 				<div class="review-page">
-					
+					<div class="review-page-con"></div>
 				</div>
         	</div>
 		</div>
 		<div class="reserveFrm">
 			<form>
-				
+				<h2>예약하기</h2>
+				<div class="date">
+					<input readonly name="tourDate" type="hidden" data-language="en" class="datepicker-here" style="display:hidden;"/>
+				</div>
+				<div class="time">
+					<select name="tourTime">
+						<option value="선택">예약 시간 선택</option>
+						<c:forEach items="${tarr }" var="t">
+							<option value=${t }>${t }시[${tv.maxPerson}]</option>
+						</c:forEach>
+					</select>
+				</div>
+				<div class="person">
+					<p>예약 인원</p>
+					<input type="number" name="personCount" min="1" value="1" style="text-align:right;">명
+				</div>
 			</form>
 		</div>
 	</section>
@@ -293,16 +325,84 @@ section {
 	<script src="/src/js/header/main.js"></script>
 	<script>
 		$(function() {
+			var beginDate = $("#beginDate").val();
+			var endDate = $("#endDate").val();
+			
+			var yyyy = beginDate.substr(0,4);
+		    var mm = beginDate.substr(5,2);
+		    var dd = beginDate.substr(8,2);                        
+			beginDate = new Date(yyyy, mm-1, dd);
+			if(beginDate<=new Date()){
+				beginDate = new Date();
+				beginDate.setDate(beginDate.getDate()+1);
+			}
+			
+			var yyyy = endDate.substr(0,4);
+		    var mm = endDate.substr(5,2);
+		    var dd = endDate.substr(8,2);
+		    endDate = new Date(yyyy, mm-1, dd);
+		    
+			var btnval = "down";
 			$('[data-toggle="popover"]').popover();
 			
 			$(".itemContent>img").removeAttr("style");
 			
-			$("#more-btn").click(function(){
-				$(".itemContent").removeClass("item-height");
+			$(".openbtn").click(function(){
+				$(".itemContent").slideToggle();
+				if(btnval=="down"){
+					$(this).html("▲");
+					btnval="up";
+				}else if(btnval=="up"){
+					$(this).html("▼");
+					btnval="down";
+				}
+				
 			});
 			
-			var _scrollTop = window.scrollY || document.documentElement.scrollTop;
-			console.log(_scrollTop);
+			$(".content-menu>ul>li").click(function(){
+				var val = $(this).html();
+				if(val=='상세내용'){
+					$('html, body').animate({scrollTop : $("body").offset().top}, 400);
+				}else if(val=="후기"){
+					$('html, body').animate({scrollTop : $(".review-section").offset().top}, 400);
+				}
+			});
+			
+			$('input[name=tourDate]').datepicker({
+			    language: 'en',
+			    minDate:beginDate,
+			    maxDate:endDate
+			})
+			
+			$(".date").click(function(){
+				$("option").each(function(index,item){
+					$(item).html(data[i].tourTime+"시["+$("#maxPerson").val()+"]");
+				});
+				var tourDate = $("input[name=tourDate]").val();
+				var itemNo = $("#itemNo").val();
+				var param = {tourDate:tourDate,itemNo:itemNo};
+				$.ajax({
+					url:"/checkTourTimes.do",
+					data:param,
+					type:"post",
+					dataType:"json",
+					success:function(data){
+						for(var i=0; i<data.length; i++){
+							$("option").each(function(index,item){
+								if(data[i].tourTime==$(item).val()){
+									var cur = $("#maxPerson").val()-data[i].personCount;
+									$(item).html(data[i].tourTime+"시["+cur+"]");
+								}
+							});
+						}
+					},
+					error:function(){
+						console.log("예약시간정보를 불러올 수 없음");
+					}
+				});
+			})
+			
+			$(".itemContent").hide();
 			
 			moreReview(1);
 		});
@@ -326,7 +426,7 @@ section {
 						html+="<td>"+reviewList[i].reviewDate+"</td></tr>";
 					}
 					$(".review-content").html(html);
-					$(".review-page").html(data.pageNavi);
+					$(".review-page-con").html(data.pageNavi);
 				},
 				error:function(){
 					console.log("후기를 불러오지 못했습니다");

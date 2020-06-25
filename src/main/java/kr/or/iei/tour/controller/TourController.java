@@ -64,6 +64,9 @@ public class TourController {
 	@RequestMapping(value = "/tourView.do")
 	public String selectOneTour(int itemNo, Model model) {
 		TourVO tv = service.selectOneTour(itemNo);
+		String times = tv.getTourTimes();
+		String[] tarr = times.split(",");
+		model.addAttribute("tarr",tarr);
 		model.addAttribute("tv",tv);
 		return "tour/tourView";
 	}
@@ -72,7 +75,6 @@ public class TourController {
 	@RequestMapping(value="/moreReview.do", produces = "application/json; charset=utf-8")
 	public String selectMoreReview(int reqPage, int itemNo) {
 		ReviewData rd = service.moreReviewList(reqPage,itemNo);
-		System.out.println(rd.getReviewList().get(0).getReviewContent());
 		return new Gson().toJson(rd);
 	}
 

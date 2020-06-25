@@ -100,12 +100,13 @@ section {
 	width: 100%;
 	overflow: hidden;
 	margin-top: 20px;
+	margin-bottom:20px;
 }
 
 .date, .cal {
 	float: left;
-	width: 250px;
-	height: 300px;
+	width: 260px;
+	overflow:hidden;
 }
 
 .cal>input {
@@ -149,7 +150,8 @@ section {
 	width: 100px;
 	height: 50px;
 	diplay: inline-block;
-	margin: 0 auto;
+	margin-left:45%;
+	margin-top:20px;
 	background-color: #25e6b5;
 	border: 0;
 	border-radius: 5px;
@@ -216,9 +218,8 @@ section {
 				<div class="date">상품 기간&시간 설정</div>
 				<div class="cal">
 					<input readonly placeholder="시작날짜와 끝날짜를 선택해주세요" name="beginEnd"
-						type="text" data-range="true" data-multiple-dates-separator="-"
-						data-language="en" class="datepicker-here"
-						style="display: hidden;"/>
+						type="text" data-range="true" data-multiple-dates-separator="~"
+						data-language="en" class="datepicker-here"/>
 				</div>
 				<div class="time">
 					<p>해당 상품이 시작하는 시간들을 선택해주세요</p>
@@ -313,6 +314,11 @@ section {
 				height : '1000px',
 				filebrowserUploadUrl : "/uploadImage.do"
 			});
+			
+			$('input[name=beginEnd]').datepicker({
+			    language: 'en',
+			    minDate:new Date()
+			})
 			
 			$("#regionCountry").change(function(){
 				var regionCountry = $(this).val();

@@ -39,8 +39,8 @@ public class TourService {
 			String endDate = tv.getEndDate().substring(0,10);
 			tv.setBeginDate(beginDate);
 			tv.setEndDate(endDate);
-			int sum = 0;
-			float avg=0;
+			double sum = 0;
+			double avg=0;
 			ArrayList<ReviewVO> rvList = (ArrayList<ReviewVO>)dao.selectReviewList(tv.getItemNo());
 			for(ReviewVO rv : rvList) {
 				sum+=rv.getReviewRate();
@@ -104,11 +104,11 @@ public class TourService {
 			pageNo = reqPage-2;
 		}
 		if(pageNo!=1) {
-			pageNavi += "<button type='button' class='btn btn-outline-info' id='rPaging' onclick='moreReview("+(pageNo-1)+");'>[이전]</button>";
+			pageNavi += "<button type='button' class='btn btn-outline-info' id='rPaging' onclick='moreReview("+(pageNo-1)+");'><</button>";
 		}
 		for(int i=0; i<pageNaviSize; i++) {
 			if(reqPage==pageNo) {
-				pageNavi += "<span id='rPaging'>"+pageNo+"</span>";
+				pageNavi += "<div class='btn curr'>"+pageNo+"</div>";
 			}else {
 				pageNavi += "<button type='button' class='btn btn-outline-info' id='rPaging' onclick='moreReview("+pageNo+");'>"+pageNo+"</button>";
 			}
@@ -118,7 +118,7 @@ public class TourService {
 			}
 		}
 		if(pageNo <= totalPage) {
-			pageNavi += "<button type='button' class='btn btn-outline-info' id='rPaging' onclick='moreReview("+pageNo+");'>[다음]</button>";
+			pageNavi += "<button type='button' class='btn btn-outline-info' id='rPaging' onclick='moreReview("+pageNo+");'>></button>";
 		}
 		ReviewData rd = new ReviewData();
 		rd.setPageNavi(pageNavi);

@@ -26,5 +26,5 @@ public class TourVO {
 	private int itemPrice;
 	private String tourTimes;
 	private int readCount;
-	private float score;
+	private double score;
 }
