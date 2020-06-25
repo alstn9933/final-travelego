@@ -76,24 +76,28 @@ public class MemberController {
 
 	@RequestMapping("/memberjoin.do")
 	public String memberjoin(Member m , Model model) {
-		int result = service.memberjoin(m);
+		int result = service.joinMember(m);
 		if (result > 0) {
 			model.addAttribute("msg", "회원가입이 성공적으로 완료되었습니다.");
-			return "member/loginFrm";
+			model.addAttribute("loc","/loginFrm.do");
 		} else {
 			model.addAttribute("msg", "회원가입 오류. 관리자와 상의하세요.");
-			return "redirect:/";
+			model.addAttribute("loc","/");
 		}
+		return "common/msg";	// /WEB-INF/views/common/msg.jsp
 	}
 
 	@RequestMapping("/companymemberjoin.do")
-	public String companymemberjoin(Member m, Company cpy) {
-		int result = service.companymemberjoin(m, cpy);
+	public String companymemberjoin(Member m, Company cpy,Model model) {
+		int result = service.companyjoinMember(m, cpy);
 		if (result > 0) {
-			return "member/loginFrm";
+			model.addAttribute("msg", "회원가입이 성공적으로 완료되었습니다.");
+			model.addAttribute("loc","/loginFrm.do");
 		} else {
-			return "redirect:/";
+			model.addAttribute("msg", "회원가입 오류. 관리자와 상의하세요.");
+			model.addAttribute("loc","/");
 		}
+		return "common/msg";
 	}
 	// 이메일인증
 
