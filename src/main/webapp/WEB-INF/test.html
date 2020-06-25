@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.kr.min.js"></script>
+    
+
+    <!-- 웹 콘텐츠는 section 태그 안에 작성을 해주세요!-->
+    <section>
+      <!-- 여기서부터 작성하시면 됨!!!!!!! -->
+      <div>
+      	<h1>테스트111</h1>
+      	<input type="text" id="datePicker">
+      	<div id="tt"></div>
+      </div>
+    </section>
+	<script>
+		$('#datePicker').datepicker({
+			format : "yyyy-mm-dd", // 달력에서 클릭시 표시할 값 형식
+			language : "kr",
+			todayHighlight : true,
+			multidate : true,
+			todayBtn : true
+		});
+		/* $('#click-btn').on('click', function() {
+			//var date = $('#dateRangePicker').val();
+			var date = new Date(); 
+			date.setDate(date.getDate() + 1);
+			var dt_to_tomorrow = $.datepicker.formatDate('yy-mm-dd', date);
+
+			alert(dt_to_tomorrow);
+		}); */
+		
+		$(function() {
+		 
+		});
+		
+	    $("#datePicker").on("change",function(){
+	    	var tt1 = $(this).val();
+	        
+	        /* var arr = tt1.split('-');
+	        var dat = new Date(arr[0],arr[1],arr[2]);
+	        $("#tt").html(dat.getFullYear()+"-"+dat.getMonth()+"-"+(dat.getDate()+3)); */
+	        
+	        //var arr = tt1.split(',').join().split('-');
+	        //var dat = new Date(arr[0],arr[1]);
+	        //var dat1 = new Date(arr[0],arr[1],arr[2]);
+	        //var dat2 = new Date(arr[3],arr[4],arr[5]);
+	        //$("#tt").html((dat2.getFullYear()-dat1.getFullYear())
+	        //			+"-"+(dat2.getMonth()-dat1.getMonth())
+	        //			+"-"+(dat2.getDate()-dat1.getDate()));
+	        //$("#tt").html(arr[0],arr[1],arr[2],arr[3],arr[4],arr[5]);
+	        
+	        //$("#tt").html(arr[1]-arr[0]);
+	        //$("#tt").html(arr[1]);
+	        
+	        var arr = tt1.split(',');
+	        if(arr.length==1){
+	        	$("#tt").html("");
+	        }else if(arr.length==2){
+	        	var arr1 = arr[0].split('-');
+		        var arr2 = arr[1].split('-');
+		        var dat1 = new Date(arr1[0],arr1[1],arr1[2]);
+		        var dat2 = new Date(arr2[0],arr2[1],arr2[2]);
+		        $("#tt").html(arr1[2]);
+	        }else if(arr.length==3){
+	        	$("#tt").html(arr[1]+","+arr[2]);
+	        	console.log(arr[1]);
+	        	//$(this).val() = $("#tt").html(arr[1]+","+arr[2]);
+	        	$("#datePicker").datepicker("setDate",new Date());
+	        	//$('#datePicker').datetimepicker().data('DateTimePicker').date(new Date());
+	        }
+	    });
+	</script>
+</body>
+</html>

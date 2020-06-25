@@ -12,6 +12,8 @@ prefix="c"%>
     <script src="/src/js/jquery/jquery-3.5.1.js"></script>
     <script src="/src/js/bootstrap/popper.min.js"></script>
     <script src="/src/js/bootstrap/bootstrap-4.5.0.js"></script>
+    
+    <script type="text/javascript" src="http://code.jquery.com/jquery-3.3.1.js"></script>
     <!-- <link rel="manifest" href="site.webmanifest"> -->
     <link
       rel="shortcut icon"
@@ -27,40 +29,103 @@ prefix="c"%>
     <link rel="stylesheet" href="/src/css/header/header.css" />
     <link rel="stylesheet" href="/src/css/footer/footer.css" />
     <link rel="stylesheet" href="/src/css/main/web_default.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker3.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker3.standalone.min.css">
     <title>Travelego</title>
     <style>
-		.box1{
-			width: 500px;
-            height: 300px;
-            border: 1px solid black;
-            background-color:lightgray;
-		}
-        .newOne{
-            width: 150px;
-            height: 30px;
-            border: 1px solid black;
-            background-color: deepskyblue;
-        }
+        #tt{
+            margin-top: 300px;
+        }  
     </style>
   </head>
   <body>
-    <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
+  <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
+  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.kr.min.js"></script>
+    
 
     <!-- 웹 콘텐츠는 section 태그 안에 작성을 해주세요!-->
     <section>
       <!-- 여기서부터 작성하시면 됨!!!!!!! -->
       <div>
-      	<form action="/insertTrip.do" method="post">
-			지역 : <input type="text" name="regionNo"><br>
-			<input type="submit" value="확인용버튼">
-		</form>
-		<div class="box1">
-			<div class="newOne">
-				<a href="<c:url value='/makePlanFrm.do' />">새 일정 만들기</a>
-			</div>
-		</div>
+      	<h1>테스트111</h1>
+      	<input type="text" id="datePicker">
+      	<div id="tt"></div>
       </div>
     </section>
+	<script>
+		$('#datePicker').datepicker({
+			format : "yyyy-mm-dd", // 달력에서 클릭시 표시할 값 형식
+			language : "kr",
+			todayHighlight : true,
+			multidate : true,
+			todayBtn : true
+		});
+		
+	    $("#datePicker").on("change",function(){
+	    	var dpValue = $(this).val();
+	        
+	        var arr = dpValue.split(',');
+	        console.log(arr);
+	        if(arr.length==1){
+	        	$("#tt").html("");
+	        }else if(arr.length==2){
+	        	var arr1 = arr[0].split('-');
+		        var arr2 = arr[1].split('-');
+		        var dat1 = new Date(arr1[0],arr1[1],arr1[2]);
+		        var dat2 = new Date(arr2[0],arr2[1],arr2[2]);
+		        
+		        if(dat1>dat2){
+		        	var datSet = dat2;
+		        	dat2 = dat1;
+		        	dat1 = datSet; 
+		        }
+		        dat1.setDate(dat1.getDate()+3);
+		        dat1.setDate(dat1.getDate()-3);
+		        dat2.setDate(dat2.getDate()+3);
+		        dat2.setDate(dat2.getDate()-3);
+		        
+		        var datArr = new Array();
+		        while(true){
+		        	var datPush = new Date(dat1);
+		        	datArr.push(datPush);
+		        	console.log(datArr);
+		        	if((dat1.getMonth()==dat2.getMonth())&&(dat1.getDate()==dat2.getDate())){
+		        		break;
+		        	}
+		        	dat1.setDate(dat1.getDate()+1);
+		        	if(dat1.getMonth()!=dat2.getMonth()){
+			        
+			        	if(dat1.getMonth()!=2){
+			        		
+			        		if((dat1.getMonth()==4||dat1.getMonth()==6||dat1.getMonth()==9||dat1.getMonth()==11)&&dat1.getDate()==31){
+			        			dat1.setDate(dat1.getDate()+1);//+1 한 날짜가 31일이고 해당 달은 31일이 없을 때 한번 더 +1일 해줌
+			        		}else{
+			        		}
+			        	}else{
+			        		//2월
+			        		if(((dat1.getFullYear()%4==0&&dat1.getFullYear()%100!=0)||dat1.getFullYear()%400==0)&&dat1.getDate()==30){
+			        			dat1.setDate(dat1.getDate()+2);//29일까지존재
+			        		}else if((!(dat1.getFullYear()%4==0&&dat1.getFullYear()%100!=0)||dat1.getFullYear()%400==0)&&dat1.getDate()==29){
+			        			dat1.setDate(dat1.getDate()+3);//28
+			        		}
+			        		
+			        	}
+			        }
+		        	
+		        }
+		        
+		        for(var i=0; i<datArr.length; i++){
+		        	console.log(datArr[i]);
+		        }
+	        }else if(arr.length==3){
+	        	$("#tt").html("");
+	        }
+	        	
+	        
+	    });
+	</script>
 
     <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
     <!-- Modal -->
@@ -98,7 +163,7 @@ prefix="c"%>
     <script src="/src/js/header/jquery.slicknav.min.js"></script>
     <script src="/src/js/header/jquery.magnific-popup.min.js"></script>
     <script src="/src/js/header/plugins.js"></script>
-    <script src="/src/js/header/gijgo.min.js"></script>
+    <!-- <script src="/src/js/header/gijgo.min.js"></script> -->
     <script src="/src/js/header/slick.min.js"></script>
 
     <!--contact js-->

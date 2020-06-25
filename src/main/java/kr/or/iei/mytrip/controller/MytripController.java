@@ -1,5 +1,7 @@
 package kr.or.iei.mytrip.controller;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -28,5 +30,10 @@ public class MytripController {
 			
 		}
 		return "mytrip/mytripFrm";
+	}
+	
+	@RequestMapping(value="/makePlanFrm.do")
+	public String makePlanFrm() {
+		return "mytrip/makePlanFrm";
 	}
 }
