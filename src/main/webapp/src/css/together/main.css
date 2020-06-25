@@ -1,0 +1,13 @@
+@import url("/src/css/together/nav.css");
+@import url("/src/css/together/board.css");
+
+section{
+    position: relative;
+}
+
+@media (min-width : 1500px){
+    body > section {
+        padding-top: 140px;
+    }
+}
+

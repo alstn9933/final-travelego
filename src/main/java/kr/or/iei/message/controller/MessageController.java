@@ -1,9 +1,6 @@
 package kr.or.iei.message.controller;
 
-import java.util.ArrayList;
-
 import javax.servlet.http.HttpSession;
-import javax.xml.ws.RequestWrapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;

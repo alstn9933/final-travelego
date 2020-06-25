@@ -1,0 +1,45 @@
+.board{
+    border-left : 1px solid #dbdbdb;
+    border-right: 1px solid #dbdbdb;  
+    background-color: #F9F9F9;      
+    min-height: 2000px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.notify_area{
+    width: 70%;
+    height: 40px;
+    background-color: white;
+    border: 1px solid #ebebeb;
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    box-shadow: 0 0 0 1px rgba(20,20,31,0.05), 0 1px 3px 0 rgba(20,20,31,0.15);
+}
+
+.notify_area span{
+    margin: 5px;
+    font-size: 17px;
+    color: rgba(0, 0, 0, 0.664);
+}
+
+#newCount {
+    font-weight: bold;
+}
+
+.content_area {
+    width: 80%;
+}
+
+.content{
+    width: 100%;
+    height: 200px;
+    background-color: white;
+    border: 1px solid #ebebeb;
+    box-shadow: 0 7px 14px 0 rgba(59,65,94,0.1), 0 3px 6px 0 rgba(0,0,0,0.07);
+}
+
