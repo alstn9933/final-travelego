@@ -3,7 +3,7 @@
 <mapper namespace="admin">
 <!-- d여기다 쿼리문 작성 -->
 	<!-- 일반회원만 -->
-	<select id="selectCustomerMember" resultType="member">
+	<select id="selectCustomerMember" parameterType="member" resultType="member">
 		select
 		member_id as memberId,
 		member_pw as memberPw,
@@ -16,7 +16,7 @@
 		member_level as memberLevel
 		from member
 	</select>
-	<select id="selectCompanyMember" resultType="company">
+	<select id="selectCompanyMember" parameterType="company" resultType="company">
 		select
 		company_id as companyId,
 		 license,
@@ -30,5 +30,14 @@
 	<update id="modifyMemberLevel" parameterType="member">
 			update member set member_level = -1 where member_id=#{memberId}
 	</update>		
-
+	<update id="memberRestore" parameterType="member">
+		update member set member_level = 1 where member_id=#{memberId}
+	</update>
+	<delete id="memberDelete" parameterType="member">
+	delete from member where member_id=#{memberId}
+	</delete>
+	<update id="companyStop" parameterType="member">
+		update member set member_level = -1 where member_id=#{memberId}
+	
+	</update>
 </mapper>

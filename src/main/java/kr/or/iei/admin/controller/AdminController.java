@@ -19,6 +19,7 @@ import com.google.gson.Gson;
 
 import kr.or.iei.admin.model.service.AdminService;
 import kr.or.iei.member.model.vo.Company;
+import kr.or.iei.member.model.vo.CompanyMember;
 import kr.or.iei.member.model.vo.Member;
 
 @Controller
@@ -37,6 +38,11 @@ public class AdminController {
 	public String adminPage() {
 		return "admin/adminPage";
 	}
+	@RequestMapping(value="/spot_managenet.do")
+	public String spot_managenet() {
+		return "admin/spot_managenet";
+	}
+	
 	@RequestMapping(value = "/memberManagement.do")
 	public String management(Model model) {
 		 ArrayList<Member> mList = service.selectCustomerMember();
@@ -78,14 +84,15 @@ public class AdminController {
 			   // session.setAttribute("memberLevel",-1); // session에 set 해주는 attribute의 키 값 잘못됨 - EL 문법의 사용법에 대해 먼저 숙지 필요
 			   // System.out.println("컨트롤러 처리 후"+m.getMemberLevel());
 			   // 아로 수정정			   System.out.println("컨트롤러 처리 후"+m.getMemberLevel());
-//			   
+//			   3
 			   // 이 위의 두 줄 코드를 봅시다
 			   // session에 memberLevel이라는 키값으로 -1 이라는걸 설정했어요
 			   // 그리고 System.print에서는 매개변수로 받은 Member의 getMemberLevel을 호출합니다
 			   // 매개변수인 Member의 memberLevel은 변한적이 없으니 0을 리턴합니다
-			   // 여기서 궁금한점이 있나요??el문법은 제가 봐야할듯합니다 그리고 return으로 뭘 줘야할지...고민을 많이 했습니다.
+			   // 여기서 궁금한점이 있나요??
 			   // 이번에는 제가 보여드릴게요
 			   
+			   session.setAttribute("memberLevel",-1);
 			   return String.valueOf(result);
 		   } else {
 			   return String.valueOf(result);
@@ -94,5 +101,56 @@ public class AdminController {
 		   // return 부정확함 - 성공해도 -1 리턴 실패해도 -1 리턴 , ajax 수신측에서는 성공했는지 실패했는지 알길이 없음
 		   // return new Gson().toJson(-1);
 	   }
+	   @ResponseBody
+	   @RequestMapping(value = "/memberRestore.do", produces = "text/html; charset=utf-8")
+	   public String memberRestore(Member m ,HttpSession session) {
+		  
+		   
+		   
+		   int result = service.memberRestore(m);
+		   
+		   
+		   
+		   if(result>0) {
+			   session.setAttribute("memberLevel",1);
+			   return String.valueOf(result);
+		   }else {
+			   return String.valueOf(result);
+		   }
+		   
+	   }
+	   
+	   @ResponseBody
+	   @RequestMapping(value = "/memberDelete.do", produces = "text/html; charset=utf-8")
+	   public String memberDelete(Member m ,HttpSession session) {
+		   int result = service.memberDelete(m);
+		   if(result>0) {
+			  
+			   return String.valueOf(result);
+		   }else {
+			   return String.valueOf(result);
+		   }
+		   
+	   }
+	   
+	   @ResponseBody
+	   @RequestMapping(value = "/companyStop.do", produces = "text/html; charset=utf-8")
+	   public String comapanyStop(Member m ,HttpSession session) {
+		   int result = service.companyStop(m);
+		   if(result>0) {
+			   session.setAttribute("memberLevel",-2);
+			   return String.valueOf(result);
+		   }else {
+			   return String.valueOf(result);
+		   }
+		   
+	   }
+	   
+	   
+	   
+	   
+	   
+	   
+	   
 	
 }

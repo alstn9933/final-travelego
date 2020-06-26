@@ -111,9 +111,8 @@ main .admin_sidebar {
 				관리</span></a>
 		</div>
 		<div id="Contents">
-			<h1>관리자 페이지 입니다.</h1>
-		</div>
-	</div>
+			<!-- 여기서 부터 작성 -->			
+			
 </body>
 
 		</html>

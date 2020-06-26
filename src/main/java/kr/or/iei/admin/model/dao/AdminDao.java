@@ -38,6 +38,19 @@ public class AdminDao {
 		return sqlSession.update("modifyMemberLevel",m);
 	}
 
+	public int memberRestore(Member m) {
+		return sqlSession.update("memberRestore",m);
+	}
+
+	public int memberDelete(Member m) {
+		return sqlSession.delete("memberDelete",m);
+	}
+
+	public int companyStop(Member m) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("companyStop",m);
+	}
+
 
 	 	
 

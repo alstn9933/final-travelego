@@ -42,6 +42,23 @@ public class AdminService {
 		return dao.modifyMemberLevel(m);
 	}
 
+	public int memberRestore(Member m) {
+		
+		return dao.memberRestore(m);
+	}
+
+	public int memberDelete(Member m) {
+		// TODO Auto-generated method stub
+		return dao.memberDelete(m);
+	}
+
+	public int companyStop(Member m) {
+		// TODO Auto-generated method stub
+		return dao.companyStop(m);
+	}
+
+
+
 
 	
 	

@@ -66,7 +66,7 @@
 					}
 																});
 											});
-
+							
 							$(".memberConfirm").click(function() {
 								var con_test = confirm("가입을 승인하시겠습니까?");
 								if (con_test == true) {
@@ -80,7 +80,7 @@
 											companyId : mberId
 										},
 										succes : function(data) {
-											location.reload(true);
+											location.reload();
 										},
 
 										error : function(data) {
@@ -94,6 +94,40 @@
 									alert("취소하셨습니다.")
 								}
 							})
+							$(".companyStop").click(function() {
+								var companyStop = confirm("회원 활동이 정지 됩니다.진행하시겠습니까?");
+								if (companyStop == true) {
+									var cId = $(this).attr("data-id");
+											$.ajax({
+													url : "/companyStop.do", // 콤마 없었음
+													type : "get",
+													data : {
+																	memberId : cId
+
+																},
+																success : function(
+																		data) { // 오타
+																	if (data == "1") {
+																		location.reload();
+																	} else {
+																		alert("회원 정지 실패");
+																	}
+																},
+
+																error : function(
+																		) {
+																	alert("시스템 오류로 인한 작업중단");
+																}
+															})
+
+												} else {
+													alert("취소하셨습니다.")
+												}
+											})
+							
+							
+							
+									<!-- -----------------회원---------------------- -->					
 							$(".memberStop").click(function() {
 								var stopConfirm = confirm("회원 활동이 정지 됩니다.진행하시겠습니까?");
 								if (stopConfirm == true) {
@@ -108,7 +142,7 @@
 																success : function(
 																		data) { // 오타
 																	if (data == "1") {
-																		alert("회원 정지 완료");
+																		location.reload();
 
 																	} else {
 																		alert("회원 정지 실패");
@@ -116,7 +150,7 @@
 																},
 
 																error : function(
-																		data) {
+																		) {
 																	alert("시스템 오류로 인한 작업중단");
 																}
 															})
@@ -125,6 +159,68 @@
 													alert("취소하셨습니다.")
 												}
 											})
+							$(".memberRestore").click(function() {
+								var memberRestore = confirm("활동 회원 으로 전환됩니다.");
+								if (memberRestore == true) {
+									var mId = $(this).attr("data-id");
+											$.ajax({
+													url : "/memberRestore.do",
+													type : "post",
+													data : {
+																	memberId : mId
+
+																},
+																success : function(data) { // 오타
+																	if (data == "1") {
+																		location.reload();
+
+																	} else {
+																		alert("회원 상태 복귀 실패");
+																	}
+																},
+
+																error : function() {
+																	alert("시스템 오류로 인한 작업중단");
+																}
+															})
+
+												} else {
+													alert("취소하셨습니다.")
+												}
+											})				
+											
+											$(".memberDelete").click(function() {
+												var memberDelete = confirm("회원이 삭제 됩니다.진행하시겠습니까?");
+												if (memberDelete == true) {
+													var mId = $(this).attr("data-id");
+															$.ajax({
+																	url : "/memberDelete.do",
+																	type : "post",
+																	data : {
+																					memberId : mId
+
+																				},
+																				success : function(data) { // 오타
+																					if (data == "1") {
+																						location.reload();
+
+																					} else {
+																						alert("회원 상태 복귀 실패");
+																					}
+																				},
+
+																				error : function() {
+																					alert("시스템 오류로 인한 작업중단");
+																				}
+																			})
+
+																} else {
+																	alert("취소하셨습니다.")
+																}
+															})							
+											
+											
+											
 					
 
 						})
@@ -263,7 +359,7 @@ main .admin_sidebar {
 
 		<div id="mySidebar" class="admin_sidebar">
 			<a href="memberManagement.do"><span class="admin_title"></span>회원
-				관리</a></span><a href="local_management.do"><span><span
+				관리</a></span><a href="spot_managenet.do"><span><span
 					class="admin_title">여행지 관리</span><br></a> <a
 				href="QA_member_management.do" /><span class="admin_QA">회원문의사항</span><br>
 			<a href="report_mamnagement.do" /><span class="admin_title">신고글
@@ -318,25 +414,30 @@ main .admin_sidebar {
 							<c:if test="${m.memberLevel eq -1}">
 								<td id="modifyMember">정지 회원 <br> <input type="button"
 									name="memberRecycle" class="memberRestore" value="복구" data-id="${m.memberId}">
-									<input type="button" name="memberdelete" class="memberDelete"
+									<input type="button" name="memberDelete" class="memberDelete"
 									value="탈퇴" data-id="${m.memberId}">
 								</td>
 								<td>해당 사항 없음</td>
 							</c:if>
 
-							<c:if test="${m.memberLevel eq 0}">
-								<td id="secessionMember">탈퇴 회원</td>
-								<td>해당 사항 없음</td>
-							</c:if>
+						
 							
 							
-							<c:if test="${m.memberLevel eq 2 }">
-							
-								<td id="modifyMember">정지 회원 <br> <input type="button"
-									name="memberRecycle" class="memberRecycle" value="복구" data-id="${m.memberId}">
-									<input type="button" name="memberdelete" class="memberDelete"
+							<c:if test="${m.memberLevel eq 2 or m.memberLevel eq -2 }">
+								<c:if test="${m.memberLevel eq 2}">
+								<td id="modifyMember">법인 회원 <br> 
+								<input type="button"
+									name="companyStop" class="companyStop" value="정지"
+									data-id="${m.memberId}">
+								</c:if>
+								
+								<c:if test="${m.memberLevel eq-2} ">
+								<input type="button"name="memberRecycle" class="companyRecycle" value="복구" data-id="${m.memberId}">
+									<input type="button" name="memberDelete" class="memberDelete"
 									value="탈퇴" data-id="${m.memberId}">
-								</td>
+								
+								
+								</c:if>
 								<td>
 								<c:forEach items="${cList }" var="c">
 								<c:if test="${c.joinConfirm eq 1}">
