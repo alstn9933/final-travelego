@@ -41,14 +41,24 @@ prefix="c"%>
         </div>        
         <div class="content_area">
           <div class="content">
-            <div class="board_title_area">
-              <div class="board_title"><span>title</span></div>
-              <div class="board_content"><span>content</span></div>
+            <div>
+              <div class="board_title_area">
+                <div class="board_title">
+                  <a href="#">title</a>
+                </div>
+                <div class="board_content">
+                 <div>
+                    <p>contentcontentcontentcontent</p>
+                    <p>content</p>
+                  </div>
+                </div>
+              </div>
+              <div class="board_writer_area">
+                <div class="board_date"><span>date</span></div>
+                <div class="board_writer"><span>writer</span></div>
+              </div>
             </div>
-            <div class="board_writer_area">
-              <div class="board_date"><span>date</span></div>
-              <div class="board_writer"><span>writer</span></div>
-            </div>
+            <div class="strech_area"></div>
           </div>
         </div>
       </div>
