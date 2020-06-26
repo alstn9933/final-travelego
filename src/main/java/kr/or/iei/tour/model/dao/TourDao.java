@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import kr.or.iei.common.model.vo.Photo;
-import kr.or.iei.tour.model.vo.MoreTourVal;
 import kr.or.iei.tour.model.vo.TourVO;
 
 @Repository("tourDao")
@@ -20,8 +19,8 @@ public class TourDao {
 		return sqlSession.selectOne("tour.selectTotalCount",memberId);
 	}
 
-	public List moreItemList(MoreTourVal mtv) {
-		return sqlSession.selectList("tour.selectMoreItem",mtv);
+	public List moreItemList(HashMap<String, String> map) {
+		return sqlSession.selectList("tour.selectMoreItem",map);
 	}
 
 	public List selectReviewList(int itemNo) {

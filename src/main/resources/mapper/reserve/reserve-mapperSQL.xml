@@ -4,4 +4,13 @@
 	<select id="checkTimePerson" parameterType="map" resultType="reserve">
 		select sum(person_count) as personCount, tour_time as tourTime from tour_reserve where item_no=#{itemNo} and status=0 and tour_date=#{tourDate} group by tour_time
 	</select>
+	<select id="checkReserve" parameterType="reserve" resultType="_int">
+		select sum(person_count) from tour_reserve where item_no=#{itemNo} and status=0 and tour_date=#{tourDate} and tour_time=#{tourTime} group by tour_time
+	</select>
+	<select id="selectOneTour" parameterType="_int" resultType="_int">
+		select max_person as maxPerson from tour where item_no=#{_parameter};
+	</select>
+	<insert id="insertReserve" parameterType="reserve">
+		insert into value(tour_reserve_seq.nextval,#{itemNo},#{memberId},#{tourDate},#{tourTime},#{personCount},sysdate,0,0)
+	</insert>
 </mapper>

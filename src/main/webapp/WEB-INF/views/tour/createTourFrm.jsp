@@ -346,7 +346,7 @@ section {
 			});
 			
 			$("form").submit(function(){
-				var expDate = /^[0-9]{4}\W{1}[0-9]{2}\W{1}[0-9]{2}-[0-9]{4}\W{1}[0-9]{2}\W{1}[0-9]{2}$/;
+				var expDate = /^[0-9]{4}\W{1}[0-9]{2}\W{1}[0-9]{2}~[0-9]{4}\W{1}[0-9]{2}\W{1}[0-9]{2}$/;
 				var content = console.log(CKEDITOR.instances['editor'].getData());
 				if($("#file").val()==""){
 					alert("대표 사진을 등록해주세요");

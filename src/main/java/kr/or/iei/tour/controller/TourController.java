@@ -43,13 +43,8 @@ public class TourController {
 	@Qualifier("tourService")
 	private TourService service;
 
-	@RequestMapping(value = "/tourList.do")
-	public String selectTourList(Model model) {
-		return "tour/tourList";
-	}
-
 	@RequestMapping(value = "/comTourList.do")
-	public String goTourList(HttpSession session, Model model) {
+	public String comTourList(HttpSession session, Model model) {
 		Member m = (Member) session.getAttribute("member");
 		if (m != null && m.getMemberLevel() == 2) {
 			String memberId = m.getMemberId();
@@ -60,15 +55,34 @@ public class TourController {
 			return "redirect:/";
 		}
 	}
+	
+	@RequestMapping(value="/tourList.do")
+	public String tourList(HttpSession session, Model model) {
+		String memberId = null;
+		int totalCount = service.selectTotalCount(memberId);
+		model.addAttribute("totalCount", totalCount);
+		return "tour/tourList";
+	}
 
 	@RequestMapping(value = "/tourView.do")
 	public String selectOneTour(int itemNo, Model model) {
 		TourVO tv = service.selectOneTour(itemNo);
-		String times = tv.getTourTimes();
-		String[] tarr = times.split(",");
-		model.addAttribute("tarr",tarr);
 		model.addAttribute("tv",tv);
 		return "tour/tourView";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/moreItem.do", produces = "application/json; charset=utf-8")
+	public String selectTourList(int start, HttpSession session, String val) {
+		Member m = (Member) session.getAttribute("member");
+		String memberId = null;
+		int memberLevel = 0;
+		if(m!=null) {
+			memberId = m.getMemberId();
+			memberLevel = m.getMemberLevel();
+		}
+		ArrayList<TourVO> list = service.moreItemList(start, memberId,memberLevel,val);
+		return new Gson().toJson(list);
 	}
 	
 	@ResponseBody
@@ -76,15 +90,6 @@ public class TourController {
 	public String selectMoreReview(int reqPage, int itemNo) {
 		ReviewData rd = service.moreReviewList(reqPage,itemNo);
 		return new Gson().toJson(rd);
-	}
-
-	@ResponseBody
-	@RequestMapping(value = "/moreItem.do", produces = "application/json; charset=utf-8")
-	public String selectTourList(int start, HttpSession session) {
-		Member m = (Member) session.getAttribute("member");
-		String memberId = m.getMemberId();
-		ArrayList<TourVO> list = service.moreItemList(start, memberId);
-		return new Gson().toJson(list);
 	}
 
 	@RequestMapping(value = "/createTourFrm.do")

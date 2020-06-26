@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import kr.or.iei.common.model.vo.Photo;
 import kr.or.iei.common.model.vo.Region;
 import kr.or.iei.tour.model.dao.TourDao;
-import kr.or.iei.tour.model.vo.MoreTourVal;
 import kr.or.iei.tour.model.vo.ReviewData;
 import kr.or.iei.tour.model.vo.ReviewVO;
 import kr.or.iei.tour.model.vo.TourVO;
@@ -26,14 +25,16 @@ public class TourService {
 		return dao.selectTotalCount(memberId);
 	}
 
-	public ArrayList<TourVO> moreItemList(int start,String memberId) {
+	public ArrayList<TourVO> moreItemList(int start,String memberId,int memberLevel, String val) {
 		int length = 12;
 		int end = start+length-1;
-		MoreTourVal mtv = new MoreTourVal();
-		mtv.setMemberId(memberId);
-		mtv.setStart(start);
-		mtv.setEnd(end);
-		ArrayList<TourVO> list = (ArrayList<TourVO>)dao.moreItemList(mtv);
+		HashMap<String,String> map = new HashMap<String, String>();
+		map.put("memberId", memberId);
+		map.put("start", String.valueOf(start));
+		map.put("end", String.valueOf(end));
+		map.put("memberLevel", String.valueOf(memberLevel));
+		map.put("val", val);
+		ArrayList<TourVO> list = (ArrayList<TourVO>)dao.moreItemList(map);
 		for(TourVO tv : list) {
 			String beginDate = tv.getBeginDate().substring(0,10);
 			String endDate = tv.getEndDate().substring(0,10);

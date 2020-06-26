@@ -62,11 +62,9 @@ section {
 	height:40px;
 	line-height:40px;
 }
-#ask-msg{
-	width:100px;
-	height:40px;
-	line-hieht:40px;
-	margin-left:20px;
+#askmsg{
+	text-decoration: underline;
+	color:blue;
 }
 .content{
 	width: 70%;
@@ -77,7 +75,6 @@ section {
 .itemContent {
 	width: 100%;
 	overflow: hidden;
-	background-color:#25e6b5;
 }
 .itemContent>img{
 	width:100%;
@@ -88,13 +85,6 @@ section {
 }
 #close-btn{
 	width:100%;
-}
-.reserveFrm{
-	float:left;
-	width:360px;
-	height:500px;
-	background-color:lightgray;
-	border-left:1px solid lightgray;
 }
 .content-menu{
 	width:100%;
@@ -181,6 +171,55 @@ section {
 	overflow:hidden;
 	margin: 0 auto;
 }
+.time{
+	width:100%;
+}
+select[name=tourTime]{
+	width:100%;
+	height:30px;
+}
+input[name=personCount]{
+	width:100px;
+	height:30px;
+}
+.reserveFrm{
+	float:right;
+	width:260px;
+	background-color:lightgray;
+	border-left:1px solid lightgray;
+	position:relative;
+	z-index:1;
+	overflow:hidden;
+}
+.plzlogin{
+	width:100%;
+	height:100%;
+	background-color:black;
+	opacity:0.7;
+	position:absolute;
+	top:0;
+	left:0;
+	z-index:3;
+}
+.plzlogin>h2{
+	color:white;
+	text-align:center;
+	opacity: 0.7;
+}
+.plzlogin>h2:first-child{
+	margin-top:150px;
+}
+.totalPay{
+	margin-top:30px;
+	font-size:25px;
+}
+.totalPay>input[name=totalPay]{
+	border:none;
+	text-align:right;
+	background-color:rgba(255,255,255,0);
+	width:200px;
+	font-size:30px;
+}
 </style>
 </head>
 <body>
@@ -193,8 +232,9 @@ section {
 			<div class="itemInfo">
 				<input type="hidden" id="beginDate" value="${tv.beginDate }">
 				<input type="hidden" id="endDate" value="${tv.endDate }">
-				<input type="hidden" id="itemNo" value="${tv.itemNo }">
 				<input type="hidden" id="maxPerson" value="${tv.maxPerson }">
+				<input type="hidden" id="tourTimes" value="${tv.tourTimes }">
+				<input type="hidden" id="price" value="${tv.itemPrice }">
 				<table>
 					<tr>
 						<td>${tv.regionCountry }/${tv.regionCity }</td>
@@ -209,7 +249,9 @@ section {
 							<table>
 								<tr>
 									<td>담당</td>
-									<td><span>${tv.memberName }</span><button type="button" class="btn btn-outline-info" id="ask-msg">쪽지문의</button></td>
+									<td>
+									<a id="askmsg" href="javascript:askmsg('${tv.memberId }')">${tv.memberName }</a>
+									</td>
 								</tr>
 								<tr>
 									<td>TEL</td>
@@ -261,23 +303,33 @@ section {
         	</div>
 		</div>
 		<div class="reserveFrm">
-			<form>
-				<h2>예약하기</h2>
+			<c:if test="${sessionScope.member.memberLevel ne 1}">
+				<div class="plzlogin">
+					<h2>개인회원</h2>
+					<h2>로그인</h2>
+					<h2>필요</h2>
+				</div>
+			</c:if>
+			<form action="/reserveTour.do" method="post">
+				<input type="hidden" id="itemNo" name="itemNo" value="${tv.itemNo }">
 				<div class="date">
+					<p>예약날짜</p>
 					<input readonly name="tourDate" type="hidden" data-language="en" class="datepicker-here" style="display:hidden;"/>
 				</div>
 				<div class="time">
-					<select name="tourTime">
-						<option value="선택">예약 시간 선택</option>
-						<c:forEach items="${tarr }" var="t">
-							<option value=${t }>${t }시[${tv.maxPerson}]</option>
-						</c:forEach>
-					</select>
+					<p>예약시간</p>
+					<select name="tourTime"></select>
 				</div>
 				<div class="person">
 					<p>예약 인원</p>
 					<input type="number" name="personCount" min="1" value="1" style="text-align:right;">명
 				</div>
+				<div class="totalPay">
+					<h3>총 결제 금액</h3>
+					<input type="number" name="totalPay" readonly>원
+				</div>
+				<button type="button" id="confirm">예약하기</button>
+				<!-- <input type="submit" value="예약하기"> -->
 			</form>
 		</div>
 	</section>
@@ -327,7 +379,6 @@ section {
 		$(function() {
 			var beginDate = $("#beginDate").val();
 			var endDate = $("#endDate").val();
-			
 			var yyyy = beginDate.substr(0,4);
 		    var mm = beginDate.substr(5,2);
 		    var dd = beginDate.substr(8,2);                        
@@ -336,10 +387,9 @@ section {
 				beginDate = new Date();
 				beginDate.setDate(beginDate.getDate()+1);
 			}
-			
-			var yyyy = endDate.substr(0,4);
-		    var mm = endDate.substr(5,2);
-		    var dd = endDate.substr(8,2);
+			yyyy = endDate.substr(0,4);
+		    mm = endDate.substr(5,2);
+		    dd = endDate.substr(8,2);
 		    endDate = new Date(yyyy, mm-1, dd);
 		    
 			var btnval = "down";
@@ -372,40 +422,126 @@ section {
 			    language: 'en',
 			    minDate:beginDate,
 			    maxDate:endDate
-			})
+			});
 			
 			$(".date").click(function(){
-				$("option").each(function(index,item){
-					$(item).html(data[i].tourTime+"시["+$("#maxPerson").val()+"]");
-				});
 				var tourDate = $("input[name=tourDate]").val();
 				var itemNo = $("#itemNo").val();
-				var param = {tourDate:tourDate,itemNo:itemNo};
-				$.ajax({
-					url:"/checkTourTimes.do",
-					data:param,
-					type:"post",
-					dataType:"json",
-					success:function(data){
-						for(var i=0; i<data.length; i++){
-							$("option").each(function(index,item){
-								if(data[i].tourTime==$(item).val()){
-									var cur = $("#maxPerson").val()-data[i].personCount;
-									$(item).html(data[i].tourTime+"시["+cur+"]");
-								}
-							});
+				var tourTimes = $("#tourTimes").val();
+				var maxPerson = $("#maxPerson").val();
+				if(tourDate==""||tourDate==null){
+					$("select[name=tourTime]").html("");
+				}else{
+					var param = {tourDate:tourDate,itemNo:itemNo,tourTimes:tourTimes,maxPerson:maxPerson};
+					$.ajax({
+						url:"/checkTourTimes.do",
+						data:param,
+						type:"post",
+						dataType:"json",
+						success:function(data){
+							var html="";
+							html += "<option value='false'>시간선택</option>";
+							for(var i=0; i<data.length; i++){
+								html += "<option value="+data[i].tourTime+" person="+data[i].personCount+">";
+								html += data[i].tourTime+"시 - [남은티켓"+data[i].personCount+"명]</option>";
+							}
+							$("select[name=tourTime]").html(html);
+						},
+						error:function(){
+							console.log("예약시간정보를 불러올 수 없음");
 						}
-					},
-					error:function(){
-						console.log("예약시간정보를 불러올 수 없음");
+					});
+				}
+			});
+			
+			$("select[name=tourTime]").change(function(){
+				var maxperson;
+				$("select[name=tourTime]>option").each(function(index,item){
+					if($(item).prop("selected")){
+						if($(item).attr("value")!="false"){
+							maxperson = $(item).attr("person");
+							$("input[name=personCount]").attr("max",maxperson);
+							if($("input[name=personCount]").val()>maxperson){
+								$("input[name=personCount]").val(maxperson);
+							}
+						}
 					}
 				});
-			})
+			});
+			
+			$("input[name=personCount]").change(function(){
+				var count = $(this).val();
+				var price = $("#price").val();
+				$("input[name=totalPay]").val(count*price);
+			});
+			
+			//$("form").submit(function(){
+			$("#confirm").click(function(){
+				if($("input[name=tourDate]").val()==""||$("input[name=tourDate]").val()==null){
+					alert("예약 날짜를 선택해주세요");
+					return false;
+				}
+				if($("select[name=tourTime]").val()=="false"){
+					alert("예약 시간을 선택해주세요");
+					return false;
+				}
+				var pcheck=0;
+				$("select[name=tourTime]>option").each(function(index,item){
+					if($(item).prop("selected")){
+						if($(item).attr("value")!="false"){
+							var maxperson = $(item).attr("person");
+							if($("input[name=personCount]").val()>maxperson){
+								pcheck=1;
+							}
+						}
+					}
+				});
+				if(pcheck==1){
+					alert("예약 인원을 다시 선택해주세요");
+					return false;
+				}
+				if(confirm("예약하시겠습니까")){
+					//예약테이블에서 조회
+					//만족하면 미리 예약테이블에 넣는다 ajax이용
+					//ajax성공시 결제 진행
+					var price = $("input[name=totalPay]").val();
+					var d = new Date();
+					var date = d.getFullYear()+""+(d.getMonth()+1)+""+d.getDate()+""+d.getHours()+""+d.getMinutes()+""+d.getSeconds();
+					IMP.init("imp75978378");
+					IMP.request_pay({
+						merchant_uid : $("#itemTitle").html()+date,
+						name : "결제테스트",
+						amount : 1000,
+						buyer_email : "${sessionScope.member.email}",
+						buyer_name : "${sessionScope.member.memberName}",
+						buyer_tel : "${sessionScope.member.phone}"
+					},function(rsp){
+						if(rsp.success){//결제 성공했을때
+							var msg = "결제가 완료되었습니다";
+							var r1 = "고유 Id : "+rsp.imp_uid;
+							var r2 = "상점 거래 아이디 : "+rsp.merchant_uid;
+							var r3 = "결제 금액 : "+rsp.paid_amount;
+							var r4 = "카드 승인 번호 : "+rsp.apply_num;
+							location.href="/reserveTour.do";//미리 넣어놓은 예약테이블에 결제정보 수정
+						}else{//결제 실패했을때
+							//ajax이용해서 예약테이블에 정보 삭제
+							alert("예약 결제 실패");
+						}
+					});
+				}else{
+					return false;
+				}
+			});
 			
 			$(".itemContent").hide();
 			
 			moreReview(1);
+			$("input[name=personCount]").change();
 		});
+		
+		function askmsg(memberId){
+			alert("쪽지보내기");
+		};
 		
 		function moreReview(reqPage){
 			var itemNo = $("#itemNo").val();
@@ -446,5 +582,6 @@ section {
 		type="text/css">
 	<script src="/src/dist/js/datepicker.min.js"></script>
 	<script src="/src/dist/js/i18n/datepicker.en.js"></script>
+	<script src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
 </body>
 </html>
