@@ -19,15 +19,14 @@ prefix="c"%>
       href="/src/imgs/header/favicon.png"
     />
     <!-- Place favicon.ico in the root directory -->
-    <script
-      src="/src/js/fontawesome/8bd2671777.js"
-      crossorigin="anonymous"
-    ></script>
     <!-- CSS here -->
     <link rel="stylesheet" href="/src/css/header/header.css" />
     <link rel="stylesheet" href="/src/css/footer/footer.css" />
     <link rel="stylesheet" href="/src/css/main/web_default.css" />
     <link rel="stylesheet" href="/src/css/together/main.css">
+    <script
+      src="/src/js/fontawesome/8bd2671777.js"
+    ></script>
     <title>Travelego</title>
     <style></style>
   </head>
@@ -38,7 +37,7 @@ prefix="c"%>
         <div class="notify_area">
           <span>새 글이 있습니다.</span>
           <span id="newCount">+2</span>
-        </div>        
+        </div>                
         <div class="content_area">
           <div class="content">
             <div>
@@ -58,7 +57,77 @@ prefix="c"%>
                 <div class="board_writer"><span>writer</span></div>
               </div>
             </div>
-            <div class="strech_area"></div>
+            <div class="strech_area">
+              <i class="fas fa-angle-down"></i>
+            </div>
+          </div>
+          <div class="content">
+            <div>
+              <div class="board_title_area">
+                <div class="board_title">
+                  <a href="#">title</a>
+                </div>
+                <div class="board_content">
+                 <div>
+                    <p>contentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontent</p>
+                    <p>content</p>
+                  </div>
+                </div>
+              </div>
+              <div class="board_writer_area">
+                <div class="board_date"><span>date</span></div>
+                <div class="board_writer"><span>writer</span></div>
+              </div>
+            </div>
+            <div class="strech_area">
+              <i class="fas fa-angle-down"></i>
+            </div>            
+          </div>
+          <div class="open_content">
+            <div>
+              <div class="board_title_area">
+                <div class="board_title">
+                  <a href="#">title</a>
+                </div>
+                <div class="board_content">
+                 <div>
+                    <p>contentcontentcontentcontent</p>
+                    <p>content</p>
+                  </div>
+                </div>
+              </div>
+              <div class="board_writer_area">
+                <div class="board_date"><span>date</span></div>
+                <div class="board_writer"><span>writer</span></div>
+              </div>
+            </div>
+            <div class="action_area">
+              <div class="show_comment">
+                <div>
+                  <i class="far fa-comment-dots"></i>
+                  <span>댓글</span>
+                  <span>(0)</span>
+                </div>
+                <div><i class="fas fa-angle-down icon_x_rotate"></i></div>
+              </div>
+              <div class="input_comment">
+                <form action="#">
+                  <input class="form-control" type="text" name="" id="">
+                  <button class="btn btn-primary">작성</button>
+                </form>
+              </div>
+              <div class="comments">
+                <table class="table">
+                  <tr>
+                    <th scope="row">작성자</th>
+                    <td>내용</td>
+                  </tr>
+                </table>
+              </div>
+            </div>            
+            <div class="strech_area">
+              <i class="fas fa-angle-down"></i>
+            </div>
           </div>
         </div>
       </div>
