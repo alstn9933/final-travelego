@@ -21,5 +21,25 @@ public class NoticeDao {
 	public List<Notice> noticeList(HashMap<String, Integer> map) {
 		return sqlsession.selectList("notice.noticeList",map);
 	}
+
+	public Notice noticeView(Notice n) {
+		return sqlsession.selectOne("notice.noticeView",n);
+	}
+
+	public int noticeInsert(Notice n) {
+		return sqlsession.insert("notice.noticeInsert",n);
+	}
+
+	public Notice selectOne(Notice n) {
+		return sqlsession.selectOne("notice.selectOne",n);
+	}
+
+	public int noticeModify(Notice n) {
+		return sqlsession.update("notice.noticeModify",n);
+	}
+
+	public int updateCount(Notice n) {
+		return sqlsession.update("notice.noticeCount",n);
+	}
 	
 }

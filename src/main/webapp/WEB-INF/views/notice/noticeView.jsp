@@ -1,13 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
-<!-- 비 로그인시 알람 부트스트랩  -->
 <script src="/src/js/jquery/jquery-3.5.1.js"></script>
 <script src="/src/js/bootstrap/popper.min.js"></script>
 <script src="/src/js/bootstrap/bootstrap-4.5.0.js"></script>
@@ -19,7 +17,7 @@
 <!-- 아이콘 키값 -->
 <script src="/src/js/fontawesome/8bd2671777.js" crossorigin="anonymous"></script>
 <!-- 스타일시트 -->
-<link rel="stylesheet" href="/src/css/notice/noticeList/noticeList.css" />
+<link rel="stylesheet" href="/src/css/notice/noticeView/noticeView.css" />
 <!-- CSS here -->
 <link rel="stylesheet" href="/src/css/header/header.css" />
 <link rel="stylesheet" href="/src/css/footer/footer.css" />
@@ -34,30 +32,25 @@
 				</h4>
 			</div>
 			<div class="mainContent">
-				<a href="/noticeInsertFrm.do">
-				<input class="btn btn-outline-secondary" id="insertBtn"
-					type="button" value="글쓰기"></a>
-				<input class="btn btn-outline-secondary" id="delBtn" type="button" value="체크게시물 삭제">
-				<table class="table table-hover">
+			<div class="tablediv">
+			<div class="btnbox">
+			<a href="/noticemodify.do?noticeNo=${notice.noticeNo }"><input type="button" class="btn btn-outline-secondary" id="modiBtn" value="공지사항수정"></a>
+			</div>
+				<table class="Viewheader">
 					<tr>
-						<th class="noticetitle">내용</th>
-						<th class="regdate">등록일</th>
+						<th class="noticetitle">제목</th>
+						<td class="mainnoticetitle"> ${notice.noticeTitle }</td>
+						<th class="noticeDate">등록일</th>
+						<td class="mainNoticeDate"> ${notice.noticeDate }</td>
 						<th class="readcount">조회수</th>
-						<th class="delchkbox"></th>
-					</tr>
-					<c:forEach items="${list }" var="n">
-						<tr>
-							<td class="noticetitle"><a
-								href="/noticeView.do?noticeNo=${n.noticeNo}"
-								value="${n.noticeNo}">${n.noticeTitle}</a></td>
-							<td class="regdate">${n.noticeDate}</td>
-							<td class="readcount">${n.readCount }</td>
-							<td class="delchkbox"><input type="checkbox" value="${n.noticeNo }"></td>
-						</tr>
-					</c:forEach>
+						<td class="mainreadcount">${notice.readCount}</td>
+					</tr>	
 				</table>
-				 <input type="hidden" name="reqPage" id="reqPage" value=1>
-				<div class="pageNavi">${pageNavi}</div>
+				</div>
+				<div class="noticeContent">${notice.noticeContent}</div>
+			</div>
+			<div class="listBtn">
+				<a href="/noticeList.do?reqPage=1"><input id="nlBtn" class="btn btn-outline-secondary" type="button" value="돌아가기"></a>
 			</div>
 		</div>
 	</section>

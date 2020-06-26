@@ -17,4 +17,33 @@
  		ORDER BY NOTICE_NO DESC)N)
  		WHERE RNUM BETWEEN #{start} AND #{end}
 </select>
+<update id="noticeCount">
+update notice set read_count = read_count+1 where notice_no = #{noticeNo}
+</update>
+
+<select id="noticeView" parameterType="_int" resultType="notice">
+	select
+	notice_no as noticeNo,
+	notice_title as noticeTitle,
+	notice_content as noticeContent,
+	notice_date as noticeDate,
+	read_count as readCount
+	from notice where notice_no=#{noticeNo}
+</select>
+
+<insert id="noticeInsert" parameterType="notice">
+	insert into notice values(notice_seq.nextval,#{noticeTitle},#{noticeContent},sysdate,0)
+</insert>
+<select id="selectOne" parameterType="_int" resultType="notice">
+		SELECT 
+ 		notice_no as noticeNo,
+ 		notice_title as noticeTitle,
+ 		notice_content as noticeContent,
+ 		notice_date as noticeDate,
+ 		read_count as readCount
+ 		from notice where notice_no = #{noticeNo}
+</select>
+<update id="noticeModify" parameterType="notice">
+ update notice set notice_title=#{noticeTitle} , notice_content = #{noticeContent}   where notice_no = #{noticeNo}
+</update>
 </mapper>

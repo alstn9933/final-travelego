@@ -1,0 +1,59 @@
+@charset "UTF-8";
+.maintitle{
+	float: left;
+	width: 200px;
+	height: 60px;
+}
+.mainContent{
+	display:inline-block;
+	width: 900px;
+	height:100%;
+
+}
+<!--view Content헤더-->
+.tablediv{
+	width:100%;
+	border-top: 1px solid black;
+	border-bottom: 1px solid black;
+}
+.Viewheader{
+	height : 60px;
+	margin-top : 10px;
+	border-top: 1px solid black;
+	border-bottom: 1px solid black;
+}
+
+.noticetitle{
+	width: 80px;
+}
+.mainnoticetitle{
+	width: 480px;
+}
+.noticeDate{
+	width:70px;
+}
+.mainNoticeDate{
+	width: 100px;
+}
+.noticeContent{
+	margin-top : 20px;
+	min-height : 600px;
+	width : 100%;
+	height:100%;
+	border : 1px solid black;
+}
+
+.mainreadcount{
+	width: 100px;
+}
+#modiBtn{
+	margin-left: 800px;
+	margin-bottom: 10px;
+	margin-top: 10px;
+}
+.listBtn{
+	text-align: center;
+}
+#nlBtn{
+	margin: 10px;
+}

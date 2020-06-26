@@ -1,20 +1,18 @@
 @charset "UTF-8";
+section{
+	margin: 0 auto;
+}
 .maintitle{
 	float: left;
-	width: 300px;
+	width: 200px;
 	height: 60px;
 	
 }
 .mainContent{
-	float: right;
+	display:inline-block;
 	width: 860px;
-	height:100%
-	background-color: blue;
+	height:100%;
 	
-}
-.noticelogo{
-	width: 300px;
-	height: 60px;
 }
 .noticetitle{
 	width: 56%;
@@ -24,7 +22,7 @@
 	width: 20%;
 	text-align: right;
 }
-.regcount{
+.readcount{
 	width:20%;
 	text-align: right;
 }
@@ -32,7 +30,11 @@
 	float: right;
 	margin: 5px;
 }
-.pagination{
-	margin-left : 200px;
+.pageNavi{
+	margin : 0 auto;
 	text-align: center;
+}
+#delBtn{
+	float: right;
+	margin: 5px;
 }

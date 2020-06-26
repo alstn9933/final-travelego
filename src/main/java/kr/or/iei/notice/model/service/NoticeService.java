@@ -52,10 +52,27 @@ public class NoticeService {
 		if(pageNo <= totalPage) {
 			pageNavi += "<a class='btn' href='/noticeList.do?reqPage="+pageNo+"'>다음</a>";
 		}
-		NoticePageDate npd = new NoticePageDate();
-		npd.setList(list);
-		npd.setPageNavi(pageNavi);
+		NoticePageDate npd= new NoticePageDate(list,pageNavi);
 		return npd;
 		
+	}
+
+	public Notice noticeView(Notice n) {
+		int viewCount = dao.updateCount(n);
+		Notice notice = dao.noticeView(n);
+		
+		return notice; 
+	}
+
+	public int noticeInsert(Notice n) {
+		return dao.noticeInsert(n);
+	}
+
+	public Notice selectOne(Notice n) {
+		return dao.selectOne(n);
+	}
+
+	public int noticeModify(Notice n) {
+		return dao.noticeModify(n);
 	}
 }
