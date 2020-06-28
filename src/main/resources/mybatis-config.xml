@@ -12,6 +12,7 @@
 		<typeAlias type="kr.or.iei.mytrip.model.vo.Mytrip" alias="mytrip"/>
 		<typeAlias type="kr.or.iei.member.model.vo.Member" alias="member"/>
 		<typeAlias type="kr.or.iei.member.model.vo.Company" alias="company"/>
+		<typeAlias type="kr.or.iei.region.model.vo.Region" alias="region"/>
 		<typeAlias type="kr.or.iei.member.model.vo.CompanyMember" alias="companymember"/>
 	</typeAliases>	
 </configuration>

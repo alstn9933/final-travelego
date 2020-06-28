@@ -83,7 +83,7 @@
 											location.reload();
 										},
 
-										error : function(data) {
+										error : function() {
 											alert("시스템 오류로 인한 작업중단");
 										}
 
@@ -105,8 +105,7 @@
 																	memberId : cId
 
 																},
-																success : function(
-																		data) { // 오타
+																success : function(data) { // 오타
 																	if (data == "1") {
 																		location.reload();
 																	} else {
@@ -127,7 +126,6 @@
 							
 							
 							
-									<!-- -----------------회원---------------------- -->					
 							$(".memberStop").click(function() {
 								var stopConfirm = confirm("회원 활동이 정지 됩니다.진행하시겠습니까?");
 								if (stopConfirm == true) {

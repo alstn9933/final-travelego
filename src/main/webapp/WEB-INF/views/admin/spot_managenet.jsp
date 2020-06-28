@@ -96,7 +96,21 @@ main .admin_sidebar {
 	}
 }
 </style>
-
+<script>
+$(function(){
+	$("#countrySelect").change(function(){
+		if($("#countrySelect").val()=="directCountry"){
+		 $("#insertCountry").show();
+		 var addCountry = $("#addCountry").val();
+		
+		  
+		}else{
+			 $("#insertCountry").hide();
+		}
+	})
+	
+});
+</script>
 <body>
 	<div class="admin_page">
 		<link rel="stylesheet"
@@ -111,7 +125,31 @@ main .admin_sidebar {
 				관리</span></a>
 		</div>
 		<div id="Contents">
-			<!-- 여기서 부터 작성 -->			
+	
+		<!-- 국가 추가 -->
+			<select name="countrySelect" id="countrySelect">
+					<option value="con1" selected >--국가를 선택해주세요--</option>
+    				<c:forEach items="${rList}" var="con">
+    				<option value="${con.reginNo }">${con.regionCountry}</option>
+    				</c:forEach>
+				<option value="directCountry">--국가 직접 입력--</option>
+				
+				
+			</select>
+			
+			
+			
+			<!-- 도시 입력 -->
+			<form name="city">
+				<select name="citySelect" id="citySelect">
+    				<option>--도시를 선택해주세요--</option>
+    					<c:forEach items="${rList}" var="city">
+    				<option>${city.regionCity}</option>
+    				</c:forEach>
+    				<option value="insertCity">--도시 직접 입력--</option>
+  				</select>
+			</form>
+		
 			
 </body>
 

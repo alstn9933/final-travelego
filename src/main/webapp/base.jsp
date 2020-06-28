@@ -35,8 +35,7 @@ prefix="c"%>
 
     <!-- 웹 콘텐츠는 section 태그 안에 작성을 해주세요!-->
     <section>
-      <h1>관리자 페이지로 가기</h1>
-      <a href="/adminPage.do">관리자 페이지</a>
+     
     </section>
 
     <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
