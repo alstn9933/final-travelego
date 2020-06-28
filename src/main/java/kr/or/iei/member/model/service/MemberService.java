@@ -19,13 +19,13 @@ public class MemberService {
 	public Member loginMember(Member m) {
 		return dao.loginMember(m);
 	}
-
-	public int memberjoin(Member m) {
+	@Transactional
+	public int joinMember(Member m) {
 		return dao.memberjoin(m);
 	}
 
 	@Transactional
-	public int companymemberjoin(Member m,Company cpy) {
+	public int companyjoinMember(Member m,Company cpy) {
 		cpy.setCompanyId(m.getMemberId());
 		int result = 0;
 		result = dao.companymemberjoin(m);
@@ -41,6 +41,21 @@ public class MemberService {
 			}
 		}
 		return 0;
+	}
+
+	public int chkid(Member m) {
+		int result = dao.chkId(m);
+		return result;
+	}
+
+	public int chkNickname(Member m) {
+		int result = dao.chkNickname(m);
+		return result;
+	}
+
+	public int chkEmail(Member m) {
+		int result = dao.chkEmail(m);
+		return result;
 	}
 
 }

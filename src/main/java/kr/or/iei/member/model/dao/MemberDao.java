@@ -28,4 +28,17 @@ public class MemberDao {
 	public int companymemberjoin(Member member) {
 		return sqlsession.insert("member.companymemberjoin",member);
 	}
+
+	public int chkId(Member m) {
+		return sqlsession.selectOne("member.memberchkId",m);
+	}
+
+	public int chkNickname(Member m) {
+		return sqlsession.selectOne("member.memberchkNickname",m);
+	}
+
+	public int chkEmail(Member m) {
+		return sqlsession.selectOne("member.memberchkEmail",m);
+		
+	}
 }

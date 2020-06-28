@@ -59,6 +59,9 @@
 	<!-- AOP annotation config -->
 	<aop:aspectj-autoproxy />
 	
+	<!-- 세션체크 인터셉터 객체 -->
+	
+
 	<!-- 웹소켓 설정 
 	<websocket:handlers>
 		<websocket:mapping handler="myHandler"
@@ -69,7 +72,12 @@
 		</websocket:handshake-interceptors>
 	</websocket:handlers>
 	-->
+
 	<context:component-scan base-package="kr.or.iei.region"/>
 	<context:component-scan	base-package="kr.or.iei.admin" />
+	<context:component-scan base-package="kr.or.iei.tour"/>
+	<context:component-scan base-package="kr.or.iei.reserve"/>
 	<context:component-scan base-package="kr.or.iei.member"/>
+	<context:component-scan base-package="kr.or.iei.common"/>
+	<context:component-scan base-package="kr.or.iei.notice"/>
 </beans>
