@@ -37,7 +37,9 @@
 				<a href="/noticeInsertFrm.do">
 				<input class="btn btn-outline-secondary" id="insertBtn"
 					type="button" value="글쓰기"></a>
+					<form action="" method="post">
 				<input class="btn btn-outline-secondary" id="delBtn" type="button" value="체크게시물 삭제">
+				</form>
 				<table class="table table-hover">
 					<tr>
 						<th class="noticetitle">내용</th>
@@ -52,7 +54,7 @@
 								value="${n.noticeNo}">${n.noticeTitle}</a></td>
 							<td class="regdate">${n.noticeDate}</td>
 							<td class="readcount">${n.readCount }</td>
-							<td class="delchkbox"><input type="checkbox" value="${n.noticeNo }"></td>
+							<td class="delchkbox"><input name="checkbox" type="checkbox" value="${n.noticeNo }"></td>
 						</tr>
 					</c:forEach>
 				</table>
@@ -63,4 +65,25 @@
 	</section>
 	<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
 </body>
+<script >
+	var checkedbox = $("input[name='checkbox']:checked").length;
+	var messge="선택한 게시물을 삭제하시겠습니까?";
+	$("#delBtn").click(function(){
+		delcomfirm = window.confirm(messge);
+		if(delcomfirm==true){
+			for(i=0;i<checkedbox.length;i++){
+				console.log("1");
+				if(checkedbox[i].checked==true){
+					var delbox = checkedbox[i];
+					console.log("2");
+					console.log(delbox);
+				$("form").submit(function(){
+					console.log("3");
+					return delbox;
+				})
+				}
+			}
+		}
+	});
+</script>
 </html>
