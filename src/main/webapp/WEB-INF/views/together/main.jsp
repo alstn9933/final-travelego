@@ -144,27 +144,38 @@ prefix="c"%>
           </div>
         </div>
       </div>
-      <aside></aside>
+      <div class="fold_area streched">
+        <i class="fas fa-caret-right fold_icon"></i>
+      </div>
+      <aside>
+        <button type="button" class="btn btn-primary" id="writeBtn">글쓰기</button>
+        <div class="side_area">
+          <div class="search_tab">
+            <div class="selected_tab">
+              <a href="#">지역</a>
+            </div>
+            <div>
+              <a href="#">검색</a>
+            </div>
+          </div>
+          <div class="region_area" style="display: none;">
+            <div class="input_area">
+              <input type="text" class="form-control" id="inputRegion" placeholder="검색어">
+              <div class="common_region">
+                <ul>
+                  <li>제주도</li>
+                  <li>부산</li>
+                </ul>
+              </div>
+              <div class="searched_region"></div>
+            </div>
+          </div>
+          <div class="search_area"></div>
+        </div>
+      </aside>
     </section>
     <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
     <!-- Modal -->
-    <div
-      class="modal fade custom_search_pop"
-      id="exampleModalCenter"
-      tabindex="-1"
-      role="dialog"
-      aria-labelledby="exampleModalCenterTitle"
-      aria-hidden="true"
-    >    
-      <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-          <div class="serch_form">
-            <input type="text" placeholder="Search" />
-            <button type="submit">search</button>
-          </div>
-        </div>
-      </div>
-    </div>
     <!-- JS here -->
     <script src="/src/js/header/vendor/modernizr-3.5.0.min.js"></script>
     <!-- <script src="/src/js/header/vendor/jquery-1.12.4.min.js"></script>

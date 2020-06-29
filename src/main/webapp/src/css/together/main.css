@@ -1,5 +1,6 @@
 @import url("/src/css/together/nav.css");
 @import url("/src/css/together/board.css");
+@import url("/src/css/together/side.css");
 
 section{
     position: relative;
