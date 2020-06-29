@@ -502,6 +502,7 @@ input[name=personCount]{
 				}
 				if(confirm("예약하시겠습니까")){
 					//예약테이블에서 조회
+					
 					//만족하면 미리 예약테이블에 넣는다 ajax이용
 					//ajax성공시 결제 진행
 					var price = $("input[name=totalPay]").val();
