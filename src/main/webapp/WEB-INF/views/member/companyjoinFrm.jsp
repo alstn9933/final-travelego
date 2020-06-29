@@ -8,16 +8,15 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<!-- 아이콘 key -->
- <script
-      src="/src/js/fontawesome/8bd2671777.js"
-      crossorigin="anonymous"
-    ></script>
-<!-- 부트 스트랩 -->
+<script
+	src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!-- 부트스트랩 -->
 <link rel="stylesheet" href="/src/css/header/header.css" />
 <link rel="stylesheet" href="/src/css/footer/footer.css" />
 <link rel="stylesheet" href="/src/css/main/web_default.css" />
 <link rel="stylesheet" href="/src/css/member/memberjoin/memberjoin.css" />
+<!-- 아이콘 키값 -->
+<script src="/src/js/fontawesome/8bd2671777.js" crossorigin="anonymous"></script>
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>

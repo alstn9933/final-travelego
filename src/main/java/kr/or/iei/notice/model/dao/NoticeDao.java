@@ -42,6 +42,10 @@ public class NoticeDao {
 		return sqlsession.update("notice.noticeCount",n);
 	}
 
+	public int noticedelete(String str) {
+		return sqlsession.delete("notice.noticeDelete",str);
+	}
+
 
 	
 }
