@@ -111,16 +111,26 @@ prefix="c"%>
                 <div><i class="fas fa-angle-down icon_x_rotate"></i></div>
               </div>
               <div class="input_comment">
-                <form action="#">
-                  <input class="form-control" type="text" name="" id="">
+                <form action="#" class="comment_form">
+                  <textarea name="" class="form-control" id="autosize" rows="1"></textarea>
                   <button class="btn btn-primary">작성</button>
                 </form>
               </div>
               <div class="comments">
                 <table class="table">
-                  <tr>
-                    <th scope="row">작성자</th>
-                    <td>내용</td>
+                  <tr class="comment_writer_area">
+                    <th scope="row" class="comment_writer">작성자</th>
+                    <td class="comment_date">2020.06.29.</td>
+                  </tr>
+                  <tr class="comment_content_area">
+                    <td>    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</td>
+                  </tr>
+                  <tr class="comment_writer_area">
+                    <th scope="row" class="comment_writer">작성자</th>
+                    <td class="comment_date">2020.06.29.</td>
+                  </tr>
+                  <tr class="comment_content_area">
+                    <td>    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</td>
                   </tr>
                 </table>
               </div>
@@ -192,4 +202,9 @@ prefix="c"%>
       });
     </script>
   </body>
+  <script>
+    $("#autosize").on("keydown keyup", function(){
+      $(this).height(1).height( $(this).prop('scrollHeight')+12 );
+    });
+  </script>
 </html>
