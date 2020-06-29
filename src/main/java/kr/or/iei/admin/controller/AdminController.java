@@ -18,9 +18,9 @@ import com.google.gson.Gson;
 
 
 import kr.or.iei.admin.model.service.AdminService;
+import kr.or.iei.common.model.vo.Region;
 import kr.or.iei.member.model.vo.Company;
 import kr.or.iei.member.model.vo.Member;
-import kr.or.iei.region.model.vo.Region;
 
 @Controller
 public class AdminController {
@@ -52,7 +52,10 @@ public class AdminController {
 	//그사람은 오류안나서 올린건데 혹시나 내가 해보니 오류가 난다? 그럼 알려주기도 해야되요 그런것 땜에 항상 최신걸로 입데이트 해놓는거에여 네네 지우지마세여 ㅎㅎㅎ
 	//지금 업데이트 받으면 좀 충돌 많을거같은데...그리고 클래스아예 바꿔서 코드 수정해야되요 네네 사실 어드민만 해놔서 겹치는게 딱히 없는지라...아까 언급하신 부분 말고는 없을 드 ㅅ합니다.
 	//또 모르는거라 항상 모르는거니까 그래서 항상 최신화!
-
+	//엄청나게 많이 추가됏쬬?네네 다들 엄청 많이 하셨네요..저만 더딘것 같네요 ㅜ 지엽씨가 갑자기 한꺼번에 받아와서 그래요 아까봤듯이
+	//나는 아직 덜 완성했으니 다른사람껏도 나중에 받아와야지 하면 진짜 충돌 엄청 많이 나서 어떻게 바꿔야하는지 모를수도있어요
+//지엽씨 그럼 지금까지 로그인 기능 만들어놓은것도 안쓰고있었나요?네... 그럼 지금 관리자 페이지 로그인안해도 들어가지겠네요 주소 쳐서 들어갔었습니다.
+	//근데 관리자로 로그인했을때만 드버튼이 있기ㅣㄴ 하겠지만 컨트롤러 자체에서도 관리자로 로그인 안되어있을때는 메인페이지로 이동되게끔 해주는게 좋아요 네네
 	@RequestMapping(value = "/memberManagement.do")
 	public String management(Model model) {
 		 ArrayList<Member> mList = service.selectCustomerMember();

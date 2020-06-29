@@ -9,9 +9,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import kr.or.iei.admin.model.dao.AdminDao;
+import kr.or.iei.common.model.vo.Region;
 import kr.or.iei.member.model.vo.Company;
 import kr.or.iei.member.model.vo.Member;
-import kr.or.iei.region.model.vo.Region;
 
 @Service("adminService")
 public class AdminService {
@@ -64,6 +64,7 @@ public class AdminService {
 		List rList = dao.selectRegionList();
 		return (ArrayList<Region>)rList;
 	}
+
 
 
 

@@ -1,6 +1,5 @@
 package kr.or.iei.admin.model.dao;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -9,7 +8,6 @@ import org.springframework.stereotype.Repository;
 
 import kr.or.iei.member.model.vo.Company;
 import kr.or.iei.member.model.vo.Member;
-import kr.or.iei.region.model.vo.Region;
 
 @Repository("adminDao")
 public class AdminDao {
