@@ -115,13 +115,25 @@ public class TourController {
 	@RequestMapping(value="/insertTour.do")
 	public String insertTour(HttpServletRequest request, MultipartFile file,Model model, TourVO tv,String beginEnd) {
 		Photo p = new Photo();
-		String savePath = request.getSession().getServletContext().getRealPath("/upload/images/tour/thumnail/");
+		String savePath = request.getSession().getServletContext().getRealPath("/upload/images/tour/thumnail");
+		
+		File folder = new File(savePath);
+
+		// 해당 디렉토리 확인
+		if (!folder.exists()) {
+			try {
+				folder.mkdirs(); // 폴더 생성
+			} catch (Exception e) {
+				e.getStackTrace();
+			}
+		}
+		
 		if(!file.isEmpty()) {
 			String originalFilename = file.getOriginalFilename();//업로드한 실제 파일명(ex>test.txt)
 			String onlyFilename = originalFilename.substring(0,originalFilename.lastIndexOf("."));//확장자를 제외한 파일 이름(ex>test)
 			String extension = originalFilename.substring(originalFilename.lastIndexOf("."));//확장자 이름(ex>.txt)
 			String filepath = onlyFilename+"_"+getCurrentTime()+extension;
-			String fullpath = savePath+filepath;
+			String fullpath = savePath+"/"+filepath;
 			try {
 				byte[] bytes = file.getBytes();
 				BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(new File(fullpath)));
