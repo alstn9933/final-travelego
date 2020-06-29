@@ -1,0 +1,41 @@
+@charset "UTF-8";
+.mainWrite{
+	width:100%;
+	height: 100%;
+	margin: 0 auto;
+}
+<!--제목란-->
+.writeHeader{
+	border-top :2px solid black;
+	border-bottom :2px solid black; 
+	width: 80%;
+	height: 100px;
+	margin: 0 auto;
+}
+.tableTitle{
+	
+	width: 100px;
+	text-align: center;
+}
+.titletable{
+	margin: 0 auto;
+}
+#noticeTitle{
+	width: 700px;
+}
+.writeContent{
+	margin-left: 130px;
+}
+#editor{
+	margin : 0 auto;
+	resize: none;
+	overflow-x:0;
+	overflow-y:outo;  
+}
+.Btnbox>button{
+	text-align:center;
+	margin-top : 30px;
+	margin-bottom : 30px;
+	margin-left: 250px;
+	width: 200px;
+}

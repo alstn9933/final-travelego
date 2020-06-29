@@ -1,0 +1,40 @@
+@charset "UTF-8";
+section{
+	margin: 0 auto;
+}
+.maintitle{
+	float: left;
+	width: 200px;
+	height: 60px;
+	
+}
+.mainContent{
+	display:inline-block;
+	width: 860px;
+	height:100%;
+	
+}
+.noticetitle{
+	width: 56%;
+	text-align: center;
+}
+.regdate{
+	width: 20%;
+	text-align: right;
+}
+.readcount{
+	width:20%;
+	text-align: right;
+}
+#insertBtn{
+	float: right;
+	margin: 5px;
+}
+.pageNavi{
+	margin : 0 auto;
+	text-align: center;
+}
+#delBtn{
+	float: right;
+	margin: 5px;
+}

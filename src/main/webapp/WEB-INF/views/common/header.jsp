@@ -23,7 +23,7 @@
 										<li><a href="/recommendList.do">추천게시판</a></li>
 										<li><a class="" href="/tourList.do">투어/티켓</a>
 										</li>
-										<li><a href="contact.html">공지사항</a></li>
+										<li><a href="/noticeList.do?reqPage=1">공지사항</a></li>
 									</ul>
 								</nav>
 							</div>
