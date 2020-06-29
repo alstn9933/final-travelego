@@ -22,7 +22,6 @@ public class NoticeController {
 	
 	@RequestMapping("/noticeList.do")
 	public String noticeList(Model model,HttpServletRequest request,String reqPage) {
-		System.out.println(reqPage);
 		NoticePageDate npd = service.noticeList(Integer.parseInt(reqPage));
 		model.addAttribute("list",npd.getList());
 		model.addAttribute("pageNavi", npd.getPageNavi());
@@ -64,10 +63,23 @@ public class NoticeController {
 			model.addAttribute("loc", "/noticeList.do?reqPage=1");
 		}else {
 			model.addAttribute("msg", "에러 : 수정실패");
-			model.addAttribute("loc", "/noticeModifyFrm?noticeNo="+n.getNoticeNo());
+			model.addAttribute("loc", "/noticeModifyFrm.do?noticeNo="+n.getNoticeNo());
 		}
 		return "common/msg";
 	}
-
+	@RequestMapping("/noticeDelete.do")
+	public String noticeDelete(String noticeNo[],Model model) {
+		for(String str : noticeNo) {
+			int result = service.noticedelete(str);
+			if(result>0) {
+				model.addAttribute("msg", "게시물 삭제가 완료되었습니다.");
+			}else {
+				model.addAttribute("msg", "에러 : 게시물 삭제 실패");
+			}
+		}
+		
+		model.addAttribute("loc", "/noticeList.do?reqPage=1");
+		return "common/msg";
+	}
 
 }

@@ -76,5 +76,9 @@ public class NoticeService {
 		return dao.noticeModify(n);
 	}
 
+	public int noticedelete(String str) {
+		return dao.noticedelete(str);
+	}
+
 
 }
