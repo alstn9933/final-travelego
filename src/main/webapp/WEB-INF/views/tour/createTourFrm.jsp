@@ -57,6 +57,7 @@ section {
 	border: 1px solid gray;
 	border-radius: 10px;
 	overflow: hidden;
+	box-sizing: border-box;
 }
 
 .mainImg>label {
@@ -64,12 +65,14 @@ section {
 	height: 100%;
 	font-size: 20px;
 	text-align: center;
-	line-height: 300px;
-	margin: 0;
+	line-height: 290px;
+	overflow:hidden;
+	margin:0;
 }
 #img-view{
-	width:100%;
-	height:100%;
+	width:300px;
+	height:300px;
+	border-radius: 10px;
 }
 
 .itemInfo {

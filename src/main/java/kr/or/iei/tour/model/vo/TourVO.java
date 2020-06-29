@@ -11,6 +11,8 @@ public class TourVO {
 	private int itemNo;
 	private String memberId;
 	private String memberName;
+	private String phone;
+	private String email;
 	private String itemTitle;
 	private int regionNo;
 	private String regionCountry;

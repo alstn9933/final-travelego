@@ -1,0 +1,18 @@
+@charset "UTF-8";
+.idSearch{
+	display: block;
+	margin: 30px;
+	
+}
+.pwSearch{
+	display: block;
+	margin: 30px;
+	
+}
+#idsearchBtn,#emailBtn{
+	width: 200px;
+}
+.btnBox{
+	text-align: center;
+	margin: 0 auto;
+}

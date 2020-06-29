@@ -6,8 +6,8 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import kr.or.iei.common.model.vo.Photo;
 import kr.or.iei.tour.model.vo.MoreTourVal;
-import kr.or.iei.tour.model.vo.Photo;
 import kr.or.iei.tour.model.vo.TourVO;
 
 @Repository("tourDao")
@@ -28,7 +28,7 @@ public class TourDao {
 	}
 
 	public List selectCountryList() {
-		return sqlSession.selectList("tour.selectCList");
+		return sqlSession.selectList("tour.selectCountryList");
 	}
 
 	public List selectCityList(String regionCountry) {
