@@ -28,15 +28,102 @@ prefix="c"%>
     <link rel="stylesheet" href="/src/css/footer/footer.css" />
     <link rel="stylesheet" href="/src/css/main/web_default.css" />
     <title>Travelego</title>
-    <style></style>
+    <style>
+	    .section-top{
+	    	width:100%;
+	    	height:100px;
+	    	background-color:#25e6b5;
+	    }
+	    .section-top>h1{
+	    	line-height:100px;
+	    	text-align:center;
+	    }
+    	.infoSection{
+    		width:800px;
+    		overeflow:hidden;
+    		margin: 0 auto;
+    		border-right:2px solid #25e6b5;
+    		border-left:2px solid #25e6b5;
+    		padding:30px;
+    	}
+    	.infoTable tr>td{
+    		height:50px;
+    		font-size:30px;
+    		line-height:50px;
+    		border-bottom:1px solid lightgray;
+    	}
+    	.infoTable tr>td:first-child{
+    		width:200px;
+    		color:red;
+    	}
+    	.infoTable tr>td:last-child{
+    		width:500px;
+    	}
+    	.infoTable a{
+    		text-decoration: underline;
+    		color:#25e6b5;
+    	}
+    	.section-bottom{
+    		width:500px;
+    		margin: 0 auto;
+    		overflow:hidden;
+    		margin-top:20px;
+    	}
+    	.section-bottom>a{
+    		width:200px;
+    		height:50px;
+    		line-height:40px;
+    		font-size:20px;
+    		margin:20px;
+    		box-sizing:border-box;
+    	}
+    </style>
   </head>
   <body>
     <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 
     <!-- 웹 콘텐츠는 section 태그 안에 작성을 해주세요!-->
     <section>
-      <!-- 여기서부터 작성하시면 됨!!!!!!! -->
-      <div></div>
+    	<!-- 여기서부터 작성하시면 됨!!!!!!! -->
+		<div class="section-top">
+			<h1>---예약 완료---</h1>
+		</div>
+		<div class="infoSection">
+			<table class="infoTable">
+				<tr>
+					<td>상품명</td>
+					<td><a href="/tourView.do?itemNo=${info.itemNo }">${info.itemTitle }</a></td>
+				</tr>
+				<tr>
+					<td>예약자</td>
+					<td>${info.memberName }</td>
+				</tr>
+				<tr>
+					<td>투어 날짜</td>
+					<td>${info.tourDate }</td>
+				</tr>
+				<tr>
+					<td>시작 시간</td>
+					<td>${info.tourTime }시</td>
+				</tr>
+				<tr>
+					<td>예약 인원</td>
+					<td>${info.personCount }명</td>
+				</tr>
+				<tr>
+					<td>결제 시간</td>
+					<td>${info.payDate }</td>
+				</tr>
+				<tr>
+					<td>결제 금액</td>
+					<td>${info.totalPay }원</td>
+				</tr>
+			</table>
+		</div>
+		<div class="section-bottom">
+			<a class="btn btn-outline-danger" href="/">HOME</a>
+			<a class="btn btn-outline-danger" href="/memberReserveList.do">My Reservation</a>
+		</div>
     </section>
 
     <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
@@ -88,6 +175,8 @@ prefix="c"%>
     <script>
       $(function () {
         $('[data-toggle="popover"]').popover();
+        
+        console.log(${info});
       });
 
       $("#datepicker").datepicker({

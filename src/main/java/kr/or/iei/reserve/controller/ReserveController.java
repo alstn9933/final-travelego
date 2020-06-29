@@ -31,12 +31,49 @@ public class ReserveController {
 		return new Gson().toJson(rvlist);
 	}
 	
-	@RequestMapping(value="/reserveTour.do")
-	public String insertReserve(HttpSession session, Model model, ReserveVO rv) {
+	@ResponseBody
+	@RequestMapping(value="/checkAndInsert.do", produces = "application/json; charset=utf-8")
+	public int checkReserve(int itemNo, String tourDate, String tourTime, int personCount, int maxPerson, HttpSession session) {
 		Member m = (Member)session.getAttribute("member");
 		String memberId = m.getMemberId();
-		rv.setMemberId(memberId);
-		model.addAttribute(rv);
-		return "reserve/cofirmReserve";
+		ReserveVO r = new ReserveVO();
+		r.setMemberId(memberId);
+		r.setItemNo(itemNo);
+		r.setTourDate(tourDate);
+		r.setTourTime(tourTime);
+		r.setPersonCount(personCount);
+		int result = service.checkAndInsert(r,maxPerson);
+		return result;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/cancelReserve.do", produces = "application/json; charset=utf-8")
+	public int cancelResereve(int reserveNo) {
+		return service.cancelReserve(reserveNo);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/modifyPay.do", produces = "application/json; charset=utf-8")
+	public int modifyPay(int reserveNo, int totalPay) {
+		ReserveVO r = new ReserveVO();
+		r.setReserveNo(reserveNo);
+		r.setTotalPay(totalPay);
+		return service.modifyPayment(r);
+	}
+	
+	@RequestMapping(value="/reserveTour.do")
+	public String successPayment(int reserveNo, Model model, HttpSession session) {
+		Member m = (Member)session.getAttribute("member");
+		if(m!=null) {
+			ReserveVO r = service.selectReserveInfo(reserveNo);
+			if(r!=null) {
+				if(m.getMemberId()!=r.getMemberId()) {
+					r.setTourDate(r.getTourDate().substring(0,10));
+					model.addAttribute("info",r);
+					return "reserve/reserveInfo";
+				}
+			}
+		}
+		return "redirect:/";
 	}
 }

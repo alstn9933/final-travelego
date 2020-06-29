@@ -442,8 +442,13 @@ input[name=personCount]{
 							var html="";
 							html += "<option value='false'>시간선택</option>";
 							for(var i=0; i<data.length; i++){
-								html += "<option value="+data[i].tourTime+" person="+data[i].personCount+">";
-								html += data[i].tourTime+"시 - [남은티켓"+data[i].personCount+"명]</option>";
+								if(data[i].personCount<=0){
+									html += "<option value="+data[i].tourTime+" person="+data[i].personCount+" disabled>";
+									html += data[i].tourTime+"시 - [남은티켓"+data[i].personCount+"명]</option>";
+								}else{
+									html += "<option value="+data[i].tourTime+" person="+data[i].personCount+">";
+									html += data[i].tourTime+"시 - [남은티켓"+data[i].personCount+"명]</option>";
+								}
 							}
 							$("select[name=tourTime]").html(html);
 						},
@@ -475,24 +480,27 @@ input[name=personCount]{
 				$("input[name=totalPay]").val(count*price);
 			});
 			
-			//$("form").submit(function(){
 			$("#confirm").click(function(){
-				if($("input[name=tourDate]").val()==""||$("input[name=tourDate]").val()==null){
+				var itemNo = $("#itemNo").val();
+				var tourDate = $("input[name=tourDate]").val();
+				var tourTime = $("select[name=tourTime]").val();
+				var personCount = $("input[name=personCount]").val();
+				
+				if(tourDate==""||tourDate==null){
 					alert("예약 날짜를 선택해주세요");
 					return false;
 				}
-				if($("select[name=tourTime]").val()=="false"){
+				if(tourTime=="false"){
 					alert("예약 시간을 선택해주세요");
 					return false;
 				}
 				var pcheck=0;
 				$("select[name=tourTime]>option").each(function(index,item){
 					if($(item).prop("selected")){
-						if($(item).attr("value")!="false"){
-							var maxperson = $(item).attr("person");
-							if($("input[name=personCount]").val()>maxperson){
-								pcheck=1;
-							}
+						var pcnt = Number(personCount);
+						var p = Number($(item).attr("person"));
+						if(pcnt>p){
+							pcheck=1;
 						}
 					}
 				});
@@ -500,33 +508,32 @@ input[name=personCount]{
 					alert("예약 인원을 다시 선택해주세요");
 					return false;
 				}
+				
+				var result=0;
 				if(confirm("예약하시겠습니까")){
 					//예약테이블에서 조회
-					
 					//만족하면 미리 예약테이블에 넣는다 ajax이용
-					//ajax성공시 결제 진행
-					var price = $("input[name=totalPay]").val();
-					var d = new Date();
-					var date = d.getFullYear()+""+(d.getMonth()+1)+""+d.getDate()+""+d.getHours()+""+d.getMinutes()+""+d.getSeconds();
-					IMP.init("imp75978378");
-					IMP.request_pay({
-						merchant_uid : $("#itemTitle").html()+date,
-						name : "결제테스트",
-						amount : 1000,
-						buyer_email : "${sessionScope.member.email}",
-						buyer_name : "${sessionScope.member.memberName}",
-						buyer_tel : "${sessionScope.member.phone}"
-					},function(rsp){
-						if(rsp.success){//결제 성공했을때
-							var msg = "결제가 완료되었습니다";
-							var r1 = "고유 Id : "+rsp.imp_uid;
-							var r2 = "상점 거래 아이디 : "+rsp.merchant_uid;
-							var r3 = "결제 금액 : "+rsp.paid_amount;
-							var r4 = "카드 승인 번호 : "+rsp.apply_num;
-							location.href="/reserveTour.do";//미리 넣어놓은 예약테이블에 결제정보 수정
-						}else{//결제 실패했을때
-							//ajax이용해서 예약테이블에 정보 삭제
-							alert("예약 결제 실패");
+					var maxPerson = $("#maxPerson").val();
+					var param={itemNo:itemNo,tourDate:tourDate,tourTime:tourTime,personCount:personCount,maxPerson:maxPerson}
+					$.ajax({
+						url:"/checkAndInsert.do",
+						data:param,
+						type:"post",
+						dataType:"json",
+						success:function(data){
+							if(data==-1){
+								alert("예약실패 - 남은 자리가 예약인원보다 부족합니다");
+								result= 0;
+							}else if(data==0){
+								alrt("예약실패 - 관리자에게 문의바람");
+								result= 0;
+							}else{
+								console.log("예약가능");
+								pay(data);
+							}
+						},error:function(){
+							console.log("오류");
+							result=0;
 						}
 					});
 				}else{
@@ -540,6 +547,74 @@ input[name=personCount]{
 			$("input[name=personCount]").change();
 		});
 		
+		function pay(reserveNo){
+			var price = $("input[name=totalPay]").val();
+			var d = new Date();
+			var date = d.getFullYear()+""+(d.getMonth()+1)+""+d.getDate()+""+d.getHours()+""+d.getMinutes()+""+d.getSeconds();
+			IMP.init("imp75978378");
+			IMP.request_pay({
+				merchant_uid : $("#itemTitle").html()+date,
+				name : "결제테스트",
+				amount : 1000,
+				buyer_email : "${sessionScope.member.email}",
+				buyer_name : "${sessionScope.member.memberName}",
+				buyer_tel : "${sessionScope.member.phone}"
+			},function(rsp){
+				if(rsp.success){//결제 성공했을때
+					var msg = "결제가 완료되었습니다";
+					var r1 = "고유 Id : "+rsp.imp_uid;
+					var r2 = "상점 거래 아이디 : "+rsp.merchant_uid;
+					var r3 = "결제 금액 : "+rsp.paid_amount;
+					var r4 = "카드 승인 번호 : "+rsp.apply_num;
+					modifyPay(reserveNo,price);
+				}else{//결제 실패했을때
+					//ajax이용해서 예약테이블에 정보 삭제
+					cancelReserve(reserveNo);
+					alert("결제취소");
+				}
+			});
+		};
+		
+		function modifyPay(reserveNo,totalPay){
+			$.ajax({
+				url:"/modifyPay.do",
+				data:{reserveNo:reserveNo,totalPay:totalPay},
+				dataType:"json",
+				type:"post",
+				success:function(data){
+					if(data>0){
+						console.log("결제정보수정성공");
+					}else{
+						console.log("결제정보수정실패");
+					}
+					location.href="/reserveTour.do?reserveNo="+reserveNo;
+				},
+				error:function(){
+					console.log("에러");
+				}
+			});
+		};
+		
+		function cancelReserve(reserveNo){
+			var result;
+			$.ajax({
+				url:"/cancelReserve.do",
+				data:{reserveNo:reserveNo},
+				type:"post",
+				dateType:"json",
+				success:function(data){
+					if(data==0){
+						console.log("예약취소실패");
+					}else{
+						console.log("예약취소성공");
+					}
+				},
+				error:function(){
+					console.log("예약취소실패");
+				}
+			});
+		};
+			
 		function askmsg(memberId){
 			alert("쪽지보내기");
 		};

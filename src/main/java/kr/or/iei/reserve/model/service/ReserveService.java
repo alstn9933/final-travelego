@@ -31,7 +31,12 @@ public class ReserveService {
 				int time2 = Integer.parseInt(rv.getTourTime());
 				if(time1==time2) {
 					cnt++;
-					rv.setPersonCount(maxPerson-rv.getPersonCount());
+					int pcnt = maxPerson-rv.getPersonCount();
+					if(pcnt>=0) {
+						rv.setPersonCount(pcnt);
+					}else {
+						rv.setPersonCount(0);
+					}
 				}
 			}
 			if(cnt==0) {
@@ -44,13 +49,38 @@ public class ReserveService {
 		return rlist;
 	}
 
-	public int checkReserve(ReserveVO rv) {
-		int totalPerson = dao.checkReserve(rv);
-		int maxPerson = dao.selectOneTour(rv.getItemNo());
-		if(totalPerson+rv.getPersonCount()>maxPerson) {
-			return 3;
+	public int checkAndInsert(ReserveVO r, int maxPerson) {
+		ArrayList<ReserveVO> rList = (ArrayList<ReserveVO>)dao.checkReserve(r);
+		int result = 0;
+		if(rList.size()>0) {//예약내역체크
+			if(rList.get(0).getPersonCount()+r.getPersonCount()>maxPerson) {//자리부족 예약불가
+				result = -1;
+			}else {//자리있음
+				result = insertReserve(r);
+			}
+		}else {//조회 안됨 즉 예약가능
+			result = insertReserve(r);
 		}
-		int result = dao.insertReserve(rv);
+		if(result>0) {
+			result = dao.selectOneReserve(r.getMemberId());
+		}
 		return result;
 	}
+
+	public int insertReserve(ReserveVO r) {
+		return dao.insertReserve(r);
+	}
+
+	public int cancelReserve(int reserveNo) {
+		return dao.cancelReserve(reserveNo);
+	}
+
+	public int modifyPayment(ReserveVO r) {
+		return dao.modifyPayment(r);
+	}
+	
+	public ReserveVO selectReserveInfo(int reserveNo) {
+		return dao.selectOneReserve(reserveNo);
+	}
+	
 }

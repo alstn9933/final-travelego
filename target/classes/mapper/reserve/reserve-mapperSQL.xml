@@ -1,16 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="reserve">
-	<select id="checkTimePerson" parameterType="map" resultType="reserve">
-		select sum(person_count) as personCount, tour_time as tourTime from tour_reserve where item_no=#{itemNo} and status=0 and tour_date=#{tourDate} group by tour_time
+	<select id="checkTimePerson" parameterType="map"
+		resultType="reserve">
+		select sum(person_count) as personCount, tour_time as
+		tourTime from tour_reserve where item_no=#{itemNo} and status=0 and
+		tour_date=#{tourDate} group by tour_time
 	</select>
-	<select id="checkReserve" parameterType="reserve" resultType="_int">
-		select sum(person_count) from tour_reserve where item_no=#{itemNo} and status=0 and tour_date=#{tourDate} and tour_time=#{tourTime} group by tour_time
+	<select id="checkReserve" parameterType="reserve"
+		resultType="reserve">
+		select sum(person_count) as personCount from tour_reserve
+		where item_no=#{itemNo} and status=0 and tour_date=#{tourDate} and
+		tour_time=#{tourTime} group by tour_time
 	</select>
-	<select id="selectOneTour" parameterType="_int" resultType="_int">
-		select max_person as maxPerson from tour where item_no=#{_parameter};
+	<select id="selectOneTour" parameterType="_int"
+		resultType="_int">
+		select max_person as maxPerson from tour where
+		item_no=#{_parameter};
 	</select>
 	<insert id="insertReserve" parameterType="reserve">
-		insert into value(tour_reserve_seq.nextval,#{itemNo},#{memberId},#{tourDate},#{tourTime},#{personCount},sysdate,0,0)
+		insert into
+		tour_reserve
+		values(tour_reserve_seq.nextval,#{itemNo},#{memberId},#{tourDate},#{tourTime},#{personCount},sysdate,0,0)
 	</insert>
+	<delete id="cancelReserve" parameterType="_int">
+		delete from tour_reserve where reserve_no=#{_paremeter}
+	</delete>
+	<select id="selectReserveNo" parameterType="string" resultType="_int">
+		select reserve_no from
+		(select ROWNUM as rnum, r.* from
+		(select reserve_no from tour_reserve
+		where member_id=#{_parameter} order by reserve_no desc)r
+		where ROWNUM=1)
+	</select>
+	<update id="modifyPayment" parameterType="reserve">
+		update tour_reserve set total_pay=#{totalPay}, pay_date=sysdate where reserve_no=#{reserveNo}
+	</update>
+	<select id="selectOneReserve" parameterType="_int" resultType="reserve">
+		select r.reserve_no as reserveNo, r.item_no as itemNo, t.item_title as itemTitle, r.member_id as memberId, m.member_name as memberName, r.tour_date as tourDate, r.tour_time as tourTime, r.person_count as personCount, r.pay_date as payDate, r.total_pay as totalPay, r.status
+		from tour_reserve r join member m on(r.member_id=m.member_id) join tour t on(r.item_no=t.item_no) where reserve_no=#{_parameter}
+	</select>
 </mapper>
