@@ -159,7 +159,18 @@
 
 .open_content .board_content {
     height: auto;
+    min-height: 100px;
+    align-items: flex-start;
     padding: 20px 0 20px 20px;
+}
+
+.open_content .board_btn {
+    justify-content: space-evenly;
+    padding-bottom: 20px;
+}
+
+.board_btn button{
+    cursor: pointer;
 }
 
 .open_content .board_writer{
