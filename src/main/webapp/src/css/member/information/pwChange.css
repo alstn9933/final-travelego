@@ -1,0 +1,16 @@
+@charset "UTF-8";
+.MainPWChange{
+	padding-top : 100px;
+	margin:  0 auto;
+	width: 600px;
+}
+.modifyBtn{
+	margin: 0 auto;
+}
+.modifyBtn{
+	margin: 0 auto;
+	text-align: center;
+}
+#submitBtn{
+	width: 300px;
+}

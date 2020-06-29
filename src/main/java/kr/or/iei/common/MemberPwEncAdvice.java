@@ -17,7 +17,7 @@ public class MemberPwEncAdvice {
 	@Qualifier("SHA256Util")
 	private SHA256Util enc;
 	
-	@Pointcut("execution(* kr.or.iei.member.model.service.MemberService.*Member(kr.or.iei.member.model.vo.Member))")
+	@Pointcut("execution(* kr.or.iei.member.model.service.MemberService.*Member(kr.or.iei.member.model.vo.Member,..))")
 	public void EncPwPointcut() {}
 	@Before("EncPwPointcut()")
 	public void passwordEnc(JoinPoint jp)throws Exception{

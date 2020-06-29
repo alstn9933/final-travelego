@@ -68,8 +68,6 @@ public class NoticeController {
 		}
 		return "common/msg";
 	}
-	@RequestMapping("/memberInformation.do")
-	public String memberInformation() {
-		return "member/memberInformation";
-	}
+
+
 }

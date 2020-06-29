@@ -41,5 +41,7 @@ public class NoticeDao {
 	public int updateCount(Notice n) {
 		return sqlsession.update("notice.noticeCount",n);
 	}
+
+
 	
 }

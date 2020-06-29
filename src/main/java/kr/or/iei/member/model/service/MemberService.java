@@ -9,6 +9,7 @@ import kr.or.iei.member.model.dao.MemberDao;
 import kr.or.iei.member.model.vo.Company;
 import kr.or.iei.member.model.vo.CompanyMember;
 import kr.or.iei.member.model.vo.Member;
+import kr.or.iei.notice.model.vo.Notice;
 
 @Service("memberService")
 public class MemberService {
@@ -26,10 +27,9 @@ public class MemberService {
 
 	@Transactional
 	public int companyjoinMember(Member m,Company cpy) {
-		cpy.setCompanyId(m.getMemberId());
 		int result = 0;
-		result = dao.companymemberjoin(m);
-		System.out.println(result);
+		result = dao.companyjoinMember(m);
+		cpy.setCompanyId(m.getMemberId());
 		if (result > 0) {
 			result = dao.companyjoin(cpy);
 			System.out.println(result);
@@ -57,5 +57,15 @@ public class MemberService {
 		int result = dao.chkEmail(m);
 		return result;
 	}
+	public Member selectId(Member m) {
+		return dao.seleceId(m);
+	}
+	public Member passwordchange(Member m) {
+		return dao.passwordchange(m);
+	}
+	public int pwModifyMember(Member m) {
+		return dao.pWModifyMember(m);
+	}
+
 
 }

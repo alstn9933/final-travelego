@@ -75,4 +75,6 @@ public class NoticeService {
 	public int noticeModify(Notice n) {
 		return dao.noticeModify(n);
 	}
+
+
 }
