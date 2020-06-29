@@ -16,3 +16,26 @@
 	text-align: center;
 	margin: 0 auto;
 }
+.idSearchMain{
+	margin: 0 auto;
+	text-align: center;
+}
+.userId{
+	margin-top: 200px;
+	border: 1px solid black;
+	border-radius: 15px;
+	height: 300px;
+	
+}
+.userId>h1{
+	line-height: 200px;
+}
+.userId>h2{
+	line-height: 150px;
+}
+#returnBtn{
+	margin-top : 80px;
+	width: 300px;
+	height: 50px;
+	margin-bottom: 80px;
+}
