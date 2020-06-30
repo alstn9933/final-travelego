@@ -220,6 +220,9 @@ input[name=personCount]{
 	width:200px;
 	font-size:30px;
 }
+#itemPrice>td:last-child{
+	border-top:1px solid lightgray;
+}
 </style>
 </head>
 <body>

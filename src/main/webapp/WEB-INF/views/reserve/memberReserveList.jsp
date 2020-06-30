@@ -29,16 +29,28 @@ prefix="c"%>
     <link rel="stylesheet" href="/src/css/main/web_default.css" />
     <title>Travelego</title>
     <style>
-    section>div{
-    	margin: 0 auto;
-    }
-    	.reserve-view{
-    		width:500px;
-    		background-color:
-    	}
-    	.reserve-view>div{
-    		float:left;
-    	}
+	    .pagetitle{
+	    	border-bottom:1px solid black;
+	    }
+	    .reserve-list{
+	   		width:80%;
+	   		margin:0 auto;
+	   		overflow:hidden;
+	    }
+	    .status-info{
+	    	width:100%;
+	    	padding:20px;
+	    	overflow:hidden;
+	    	border-bottom:1px solid black;
+	    }
+	    .status-info>label{
+	    	display:inline-block;
+	    	float:right;
+	    }
+	    .status-info>label>span{
+	    	font-size:15px;
+	    	color:black;
+	    }
     </style>
   </head>
   <body>
@@ -47,31 +59,20 @@ prefix="c"%>
     <!-- 웹 콘텐츠는 section 태그 안에 작성을 해주세요!-->
     <section>
       <!-- 여기서부터 작성하시면 됨!!!!!!! -->
-		<div>
-			<div class="reserve-view">
-				<div class="reserve-info">
-					<table>
-						<tr>
-							<td rowspan="3">상품이름</td>
-							<td>예약자명</td>
-						</tr>
-						<tr>
-							<td>전화번호</td>
-						</tr>
-						<tr>
-							<td>예약인원</td>
-						</tr>
-					</table>
-					<div>
-						<span>결제금액</span>
-						<span>예약날짜/시간</span>
-					</div>
-				</div>
-				<div class="reserve-sts">
-					<span>예약중</span>
-					<button>후기작성</button>
-					<button>취소</button>
-				</div>
+      	<div class="mypage-navi">
+      		
+      	</div>
+      	<div class="page-content">
+	      	<div class="pagetitle">
+	      		<h1>My Reservation</h1>
+	     	</div>
+	     	<div class="status-info">
+				<label for="all"><input id="all" type="radio" name="status" value="all"><span>전체</span></label>
+				<label for="ing"><input id="ing" type="radio" name="status" value="ing"><span>전체</span></label>
+				<label for="ing"><input id="ing" type="radio" name="status" value="ing"><span>전체</span></label>
+			</div>
+			<div class="reserve-list">
+				
 			</div>
 		</div>
     </section>
@@ -108,7 +109,7 @@ prefix="c"%>
     <script src="/src/js/header/scrollIt.js"></script>
     <script src="/src/js/header/jquery.scrollUp.min.js"></script>
     <script src="/src/js/header/wow.min.js"></script>
-    <script src="/src/js/header/nice-select.min.js"></script>
+    <!-- <script src="/src/js/header/nice-select.min.js"></script> -->
     <script src="/src/js/header/jquery.slicknav.min.js"></script>
     <script src="/src/js/header/jquery.magnific-popup.min.js"></script>
     <script src="/src/js/header/plugins.js"></script>
