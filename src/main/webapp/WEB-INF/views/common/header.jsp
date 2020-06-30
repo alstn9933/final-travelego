@@ -60,6 +60,8 @@
 													<ul class="submenu">
 														<li><a href="/myPage.do"><i class="far fa-user userIcon"></i></a>
 															<ul class="submenu">
+															<li><a href="/memberModifiedFrm.do">회원정보수정(일반)</a></li>
+															<li><a href="/companyModifiedFrm.do">회원정보수정(법인)</a></li>
 																<li><a href="/mypage.do">마이페이지</a></li>
 																<li><a href="/mytripFrm.do">일정만들기</a></li>
 																<li><a href="javascript:void(0)" id="openInbox">쪽지함</a></li>

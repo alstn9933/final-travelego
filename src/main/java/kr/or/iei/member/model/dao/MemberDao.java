@@ -55,4 +55,17 @@ public class MemberDao {
 		return sqlsession.update("member.pwModifyMember",m);
 	}
 
+	public int memberModifiedMember(Member m) {
+		System.out.println("3");
+		return sqlsession.update("member.memberModified",m);
+	}
+
+	public Company checkCompanyId(Member member) {
+		return sqlsession.selectOne("company.checkCompanyId",member);
+	}
+
+	public int companyModifiedMember(Company cp) {
+		return sqlsession.update("company.companyModified",cp);
+	}
+
 }
