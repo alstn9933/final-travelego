@@ -17,4 +17,5 @@ public class ReserveVO {
 	private String payDate;
 	private int totalPay;
 	private int status;
+	private int checkReview;
 }

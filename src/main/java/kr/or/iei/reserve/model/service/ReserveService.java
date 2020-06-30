@@ -8,6 +8,7 @@ import java.util.HashMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import kr.or.iei.member.model.vo.Member;
 import kr.or.iei.reserve.model.dao.ReserveDao;
 import kr.or.iei.reserve.model.vo.ReserveVO;
 import kr.or.iei.tour.model.vo.TourVO;
@@ -81,6 +82,10 @@ public class ReserveService {
 	
 	public ReserveVO selectReserveInfo(int reserveNo) {
 		return dao.selectOneReserve(reserveNo);
+	}
+
+	public ArrayList<ReserveVO> selectMemberReserve(Member m) {
+		return (ArrayList<ReserveVO>)dao.selectMemberReserve(m);
 	}
 	
 }

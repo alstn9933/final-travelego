@@ -40,4 +40,8 @@
 		select r.reserve_no as reserveNo, r.item_no as itemNo, t.item_title as itemTitle, r.member_id as memberId, m.member_name as memberName, r.tour_date as tourDate, r.tour_time as tourTime, r.person_count as personCount, r.pay_date as payDate, r.total_pay as totalPay, r.status
 		from tour_reserve r join member m on(r.member_id=m.member_id) join tour t on(r.item_no=t.item_no) where reserve_no=#{_parameter}
 	</select>
+	<select id="selectMemberReserve" parameterType="member" resultType="reserve">
+		select r.reserve_no as reserveNo, r.item_no as itemNo, t.item_title as itemTitle, r.member_id as memberId, m.member_name as memberName, r.tour_date as tourDate, r.tour_time as tourTime, r.person_count as personCount, r.pay_date as payDate, r.total_pay as totalPay, r.status, r.check_review as checkReview
+		from tour_reserve r join member m on(r.member_id=m.member_id) join tour t on(r.item_no=t.item_no) where m.member_id=#{memberId}
+	</select>
 </mapper>

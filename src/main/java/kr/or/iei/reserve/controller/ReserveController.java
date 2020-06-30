@@ -76,4 +76,17 @@ public class ReserveController {
 		}
 		return "redirect:/";
 	}
+	
+	@RequestMapping(value="/memberReserveList.do")
+	public String memberReserveList(HttpSession session, Model model) {
+		Member m = (Member)session.getAttribute("member");
+		ArrayList<ReserveVO> rList = service.selectMemberReserve(m);
+		if(rList.isEmpty()||rList.size()==0) {
+			model.addAttribute("msg","개인회원만 접근가능합니다");
+			model.addAttribute("loc","/");
+			return "common/msg";
+		}
+		model.addAttribute("rList",rList);
+		return "reserve/memberReserveList";
+	}
 }

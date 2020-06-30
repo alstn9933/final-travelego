@@ -28,7 +28,18 @@ prefix="c"%>
     <link rel="stylesheet" href="/src/css/footer/footer.css" />
     <link rel="stylesheet" href="/src/css/main/web_default.css" />
     <title>Travelego</title>
-    <style></style>
+    <style>
+    section>div{
+    	margin: 0 auto;
+    }
+    	.reserve-view{
+    		width:500px;
+    		background-color:
+    	}
+    	.reserve-view>div{
+    		float:left;
+    	}
+    </style>
   </head>
   <body>
     <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
@@ -36,7 +47,33 @@ prefix="c"%>
     <!-- 웹 콘텐츠는 section 태그 안에 작성을 해주세요!-->
     <section>
       <!-- 여기서부터 작성하시면 됨!!!!!!! -->
-      <div></div>
+		<div>
+			<div class="reserve-view">
+				<div class="reserve-info">
+					<table>
+						<tr>
+							<td rowspan="3">상품이름</td>
+							<td>예약자명</td>
+						</tr>
+						<tr>
+							<td>전화번호</td>
+						</tr>
+						<tr>
+							<td>예약인원</td>
+						</tr>
+					</table>
+					<div>
+						<span>결제금액</span>
+						<span>예약날짜/시간</span>
+					</div>
+				</div>
+				<div class="reserve-sts">
+					<span>예약중</span>
+					<button>후기작성</button>
+					<button>취소</button>
+				</div>
+			</div>
+		</div>
     </section>
 
     <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>

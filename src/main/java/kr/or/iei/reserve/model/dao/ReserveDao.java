@@ -8,6 +8,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import kr.or.iei.member.model.vo.Member;
 import kr.or.iei.reserve.model.vo.ReserveVO;
 import kr.or.iei.tour.model.vo.TourVO;
 
@@ -46,5 +47,9 @@ public class ReserveDao {
 
 	public ReserveVO selectOneReserve(int reserveNo) {
 		return sqlSession.selectOne("reserve.selectOneReserve",reserveNo);
+	}
+
+	public List selectMemberReserve(Member m) {
+		return sqlSession.selectList("reserve.selectMemberReserve",m);
 	}
 }
