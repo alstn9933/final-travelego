@@ -6,9 +6,9 @@
 } */
 
 section > aside {
-  width: 200px;
+  width: 250px;
   position: fixed;
-  right: calc((100vw - 1618px) / 2);
+  left: calc((100vw + 1182px) / 2);
   top: 300px;
   /* left : 0px; */
 }
@@ -17,11 +17,14 @@ aside {
   border-radius: 0 10px 10px 0;
   border: 1px solid #dbdbdb;
   background-color: #f9f9f9;
-  /* display: none; */
-  padding: 10px;
+  display: flex;
 }
 
-.fold_icon {
+aside > div:first-of-type {
+  margin: 20px 0 20px 10px;
+}
+
+.fold_area .fold_icon {
   font-size: 60px;
   color: rgb(94, 164, 255);
 }
@@ -69,10 +72,6 @@ aside {
   50% {
     transform: translateX(20px);
   }
-}
-
-.fold_area.streched {
-  display: none;
 }
 
 @keyframes areaMove {
@@ -129,10 +128,6 @@ aside {
   border-radius: 0 0 5px 5px;
 }
 
-.side_area > div:last-of-type {
-  /* display: none; */
-}
-
 .input_area > input {
   padding: 0 12px;
 }
@@ -147,4 +142,22 @@ aside {
 
 .region_area ul {
   margin-top: 10px;
+}
+
+.streched {
+  display: flex;
+  align-items: center;
+  width: 30px;
+  justify-content: flex-end;
+}
+
+.streched .fold_icon {
+  transform: rotateY(180deg);
+  color: rgb(94, 164, 255);
+  font-size: 30px;
+}
+
+.streched:hover {
+  cursor: pointer;
+  background-color: rgba(226, 226, 226, 0.5);
 }

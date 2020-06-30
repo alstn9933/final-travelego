@@ -53,6 +53,13 @@
   margin-top: 50px;
 }
 
+.content:hover {
+  cursor: pointer;
+}
+.content:hover .strech_area {
+  background-color: #eaf0f6;
+}
+
 .content > div:first-of-type,
 .open_content > div:first-of-type {
   display: flex;
@@ -116,16 +123,11 @@
   height: 30px;
   display: flex;
   justify-content: center;
-  display: none;
   align-items: center;
 }
 
 .strech_area i {
   font-size: 30px;
-}
-
-.content:hover .strech_area {
-  display: flex;
 }
 
 @keyframes blink {
@@ -227,6 +229,7 @@
 .open_content .strech_area {
   height: 50px;
   display: flex;
+  border-top: 1px solid #dee2e6;
 }
 
 .open_content .strech_area:hover {
@@ -242,22 +245,22 @@
   transform: rotateX(180deg);
 }
 
-.input_comment {
+.comments {
   margin: 10px 0;
 }
 
-.input_comment form {
+.comments form {
   display: flex;
 }
 
-.input_comment button {
+.comments button {
   margin-left: 20px;
   width: 90px;
   height: 38px;
 }
 
-.comments {
-  margin-top: 20px;
+.comments table {
+  margin-top: 15px;
 }
 
 .comment_form > button {
@@ -278,7 +281,7 @@
   color: rgba(0, 0, 0, 0.65);
 }
 
-.comments tr:nth-child(2n) > td {
+tr:nth-child(2n) > td {
   border-top: none;
 }
 

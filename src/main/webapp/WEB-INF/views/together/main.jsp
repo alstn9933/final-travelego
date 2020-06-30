@@ -55,7 +55,7 @@ prefix="c"%>
                 <div class="board_writer"><span>writer</span></div>
               </div>
             </div>
-            <div class="strech_area">
+            <div class="strech_area" style="display: none;">
               <i class="fas fa-angle-down"></i>
             </div>
           </div>
@@ -79,7 +79,7 @@ prefix="c"%>
                 <div class="board_writer"><span>writer</span></div>
               </div>
             </div>
-            <div class="strech_area">
+            <div class="strech_area" style="display: none;">
               <i class="fas fa-angle-down"></i>
             </div>
           </div>
@@ -122,9 +122,9 @@ prefix="c"%>
                   <span>댓글</span>
                   <span>(0)</span>
                 </div>
-                <div><i class="fas fa-angle-down icon_x_rotate"></i></div>
+                <div><i class="fas fa-angle-down"></i></div>
               </div>
-              <div class="input_comment">
+              <div class="comments" style="display: none;">
                 <form action="#" class="comment_form">
                   <textarea
                     name=""
@@ -134,8 +134,6 @@ prefix="c"%>
                   ></textarea>
                   <button class="btn btn-primary">작성</button>
                 </form>
-              </div>
-              <div class="comments">
                 <table class="table">
                   <tr class="comment_writer_area">
                     <th scope="row" class="comment_writer">작성자</th>
@@ -178,57 +176,62 @@ prefix="c"%>
           </div>
         </div>
       </div>
-      <div class="fold_area streched">
+      <div class="fold_area">
         <i class="fas fa-caret-right fold_icon"></i>
       </div>
-      <aside>
-        <button
-          type="button"
-          class="btn btn-primary"
-          id="writeBtn"
-          data-toggle="modal"
-          data-target="#staticBackdrop"
-        >
-          글쓰기
-        </button>
-        <div class="side_area">
-          <div class="search_tab">
-            <div class="selected_tab">
-              <a href="javascript:void(0)">지역</a>
+      <aside style="display: none;">
+        <div>
+          <button
+            type="button"
+            class="btn btn-primary"
+            id="writeBtn"
+            data-toggle="modal"
+            data-target="#staticBackdrop"
+          >
+            글쓰기
+          </button>
+          <div class="side_area">
+            <div class="search_tab">
+              <div class="selected_tab">
+                <a href="javascript:void(0)">지역</a>
+              </div>
+              <div>
+                <a href="javascript:void(0)">검색</a>
+              </div>
             </div>
-            <div>
-              <a href="javascript:void(0)">검색</a>
-            </div>
-          </div>
-          <div class="region_area">
-            <div class="input_area">
-              <input
-                type="text"
-                class="form-control"
-                id="searchRegion"
-                placeholder="검색어"
-              />
-            </div>
-            <div class="common_region">
-              <ul>
-                <li>제주도</li>
-                <li>부산</li>
-              </ul>
-            </div>
-            <div class="searched_region"></div>
-          </div>
-          <div class="search_area" style="display: none;">
-            <div class="input_area">
-              <form action="#">
+            <div class="region_area">
+              <div class="input_area">
                 <input
                   type="text"
                   class="form-control"
                   id="searchRegion"
                   placeholder="검색어"
                 />
-              </form>
+              </div>
+              <div class="common_region">
+                <ul>
+                  <li>제주도</li>
+                  <li>부산</li>
+                </ul>
+              </div>
+              <div class="searched_region"></div>
+            </div>
+            <div class="search_area" style="display: none;">
+              <div class="input_area">
+                <form action="#">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="searchRegion"
+                    placeholder="검색어"
+                  />
+                </form>
+              </div>
             </div>
           </div>
+        </div>
+        <div class="streched">
+          <i class="fas fa-caret-right fold_icon"></i>
         </div>
       </aside>
     </section>
@@ -336,6 +339,27 @@ prefix="c"%>
     <script src="/src/js/header/mail-script.js"></script>
     <script src="/src/js/header/main.js"></script>
     <script src="/src/js/together/board.js"></script>
+    <script src="/src/js/together/aside.js"></script>
+    <script>
+      $(".content").on("mouseenter mouseleave", toggleStrech);
+      $(".show_comment").click(showComment);
+
+      function toggleStrech() {
+        $(this).find(".strech_area").slideToggle();
+      }
+
+      function showComment() {
+        const icon = $(this).find(".fa-angle-down");
+
+        if (icon.hasClass("icon_x_rotate")) {
+          icon.removeClass("icon_x_rotate");
+        } else {
+          icon.addClass("icon_x_rotate");
+        }
+
+        $(this).next().slideToggle();
+      }
+    </script>
     <script>
       $(function () {
         $('[data-toggle="popover"]').popover();
@@ -349,17 +373,4 @@ prefix="c"%>
       });
     </script>
   </body>
-  <script>
-    $("#autosize").on("keyup", function (event) {
-      const key = event.key;
-      const lineNum = $(this).val().split("\n").length;
-      if (key == "Enter") {
-        $(this)
-          .height(1)
-          .height($(this).prop("scrollHeight") + 12);
-      } else if (key == "Backspace") {
-        commnetLineNum = $(this).val().split("\n").length;
-      }
-    });
-  </script>
 </html>
