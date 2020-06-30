@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import kr.or.iei.common.model.vo.Photo;
 import kr.or.iei.common.model.vo.Region;
 import kr.or.iei.tour.model.dao.TourDao;
-import kr.or.iei.tour.model.vo.ReviewData;
 import kr.or.iei.tour.model.vo.ReviewVO;
 import kr.or.iei.tour.model.vo.TourVO;
 
@@ -82,7 +81,7 @@ public class TourService {
 		return tv;
 	}
 
-	public ReviewData moreReviewList(int reqPage, int itemNo) {
+	public ReviewVO moreReviewList(int reqPage, int itemNo) {
 		int totalCount = dao.selectTotalReview(itemNo);
 		int numPerPage = 5;
 		int totalPage=0;
