@@ -23,10 +23,8 @@ prefix="c"%>
     <link rel="stylesheet" href="/src/css/header/header.css" />
     <link rel="stylesheet" href="/src/css/footer/footer.css" />
     <link rel="stylesheet" href="/src/css/main/web_default.css" />
-    <link rel="stylesheet" href="/src/css/together/main.css">
-    <script
-      src="/src/js/fontawesome/8bd2671777.js"
-    ></script>
+    <link rel="stylesheet" href="/src/css/together/main.css" />
+    <script src="/src/js/fontawesome/8bd2671777.js"></script>
     <title>Travelego</title>
     <style></style>
   </head>
@@ -37,7 +35,7 @@ prefix="c"%>
         <div class="notify_area">
           <span>새 글이 있습니다.</span>
           <span id="newCount">+2</span>
-        </div>                
+        </div>
         <div class="content_area">
           <div class="content">
             <div>
@@ -46,7 +44,7 @@ prefix="c"%>
                   <a href="#">title</a>
                 </div>
                 <div class="board_content">
-                 <div>
+                  <div>
                     <p>contentcontentcontentcontent</p>
                     <p>content</p>
                   </div>
@@ -68,8 +66,10 @@ prefix="c"%>
                   <a href="#">title</a>
                 </div>
                 <div class="board_content">
-                 <div>
-                    <p>contentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontent</p>
+                  <div>
+                    <p>
+                      contentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontent
+                    </p>
                     <p>content</p>
                   </div>
                 </div>
@@ -81,7 +81,7 @@ prefix="c"%>
             </div>
             <div class="strech_area">
               <i class="fas fa-angle-down"></i>
-            </div>            
+            </div>
           </div>
           <div class="open_content">
             <div>
@@ -90,8 +90,15 @@ prefix="c"%>
                   <a href="#">title</a>
                 </div>
                 <div class="board_content">
-                 <div>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                  <div>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+                    do eiusmod tempor incididunt ut labore et dolore magna
+                    aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+                    ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                    Duis aute irure dolor in reprehenderit in voluptate velit
+                    esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+                    occaecat cupidatat non proident, sunt in culpa qui officia
+                    deserunt mollit anim id est laborum.
                   </div>
                 </div>
               </div>
@@ -99,8 +106,12 @@ prefix="c"%>
                 <div class="board_date"><span>date</span></div>
                 <div class="board_writer"><span>writer</span></div>
                 <div class="board_btn">
-                  <button type="button" class="btn btn-sm btn-outline-primary">수정</button>
-                  <button type="button" class="btn btn-sm btn-outline-danger">삭제</button>
+                  <button type="button" class="btn btn-sm btn-outline-primary">
+                    수정
+                  </button>
+                  <button type="button" class="btn btn-sm btn-outline-danger">
+                    삭제
+                  </button>
                 </div>
               </div>
             </div>
@@ -115,7 +126,12 @@ prefix="c"%>
               </div>
               <div class="input_comment">
                 <form action="#" class="comment_form">
-                  <textarea name="" class="form-control" id="autosize" rows="1"></textarea>
+                  <textarea
+                    name=""
+                    class="form-control"
+                    id="autosize"
+                    rows="1"
+                  ></textarea>
                   <button class="btn btn-primary">작성</button>
                 </form>
               </div>
@@ -126,18 +142,36 @@ prefix="c"%>
                     <td class="comment_date">2020.06.29.</td>
                   </tr>
                   <tr class="comment_content_area">
-                    <td>    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</td>
+                    <td>
+                      Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                      sed do eiusmod tempor incididunt ut labore et dolore magna
+                      aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+                      ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                      Duis aute irure dolor in reprehenderit in voluptate velit
+                      esse cillum dolore eu fugiat nulla pariatur. Excepteur
+                      sint occaecat cupidatat non proident, sunt in culpa qui
+                      officia deserunt mollit anim id est laborum.
+                    </td>
                   </tr>
                   <tr class="comment_writer_area">
                     <th scope="row" class="comment_writer">작성자</th>
                     <td class="comment_date">2020.06.29.</td>
                   </tr>
                   <tr class="comment_content_area">
-                    <td>    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</td>
+                    <td>
+                      Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                      sed do eiusmod tempor incididunt ut labore et dolore magna
+                      aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+                      ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                      Duis aute irure dolor in reprehenderit in voluptate velit
+                      esse cillum dolore eu fugiat nulla pariatur. Excepteur
+                      sint occaecat cupidatat non proident, sunt in culpa qui
+                      officia deserunt mollit anim id est laborum.
+                    </td>
                   </tr>
                 </table>
               </div>
-            </div>            
+            </div>
             <div class="strech_area">
               <i class="fas fa-angle-down"></i>
             </div>
@@ -148,34 +182,132 @@ prefix="c"%>
         <i class="fas fa-caret-right fold_icon"></i>
       </div>
       <aside>
-        <button type="button" class="btn btn-primary" id="writeBtn">글쓰기</button>
+        <button
+          type="button"
+          class="btn btn-primary"
+          id="writeBtn"
+          data-toggle="modal"
+          data-target="#staticBackdrop"
+        >
+          글쓰기
+        </button>
         <div class="side_area">
           <div class="search_tab">
             <div class="selected_tab">
-              <a href="#">지역</a>
+              <a href="javascript:void(0)">지역</a>
             </div>
             <div>
-              <a href="#">검색</a>
+              <a href="javascript:void(0)">검색</a>
             </div>
           </div>
-          <div class="region_area" style="display: none;">
+          <div class="region_area">
             <div class="input_area">
-              <input type="text" class="form-control" id="inputRegion" placeholder="검색어">
-              <div class="common_region">
-                <ul>
-                  <li>제주도</li>
-                  <li>부산</li>
-                </ul>
-              </div>
-              <div class="searched_region"></div>
+              <input
+                type="text"
+                class="form-control"
+                id="searchRegion"
+                placeholder="검색어"
+              />
+            </div>
+            <div class="common_region">
+              <ul>
+                <li>제주도</li>
+                <li>부산</li>
+              </ul>
+            </div>
+            <div class="searched_region"></div>
+          </div>
+          <div class="search_area" style="display: none;">
+            <div class="input_area">
+              <form action="#">
+                <input
+                  type="text"
+                  class="form-control"
+                  id="searchRegion"
+                  placeholder="검색어"
+                />
+              </form>
             </div>
           </div>
-          <div class="search_area"></div>
         </div>
       </aside>
     </section>
     <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
     <!-- Modal -->
+    <!-- Modal -->
+    <div
+      class="modal fade"
+      id="staticBackdrop"
+      data-backdrop="static"
+      data-keyboard="false"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="staticBackdropLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="staticBackdropLabel">
+              동행 구하기 - 새 글 쓰기
+            </h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <form action="#">
+            <div class="modal-body">
+              <div class="form-group region_form">
+                <label for="recipient-name" class="col-form-label">지역</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="inputRegion"
+                  placeholder="검색어를 입력하세요"
+                />
+                <span id="regionAlert"
+                  >검색어를 입력 후 결과에서 선택하세요.</span
+                >
+              </div>
+              <div class="form-group title_form">
+                <label for="recipient-name" class="col-form-label">제목</label>
+                <input
+                  type="text"
+                  name="togetherTitle"
+                  class="form-control"
+                  id="inputTitle"
+                  placeholder="제목을 입력하세요"
+                />
+              </div>
+              <div class="form-group content_form">
+                <label for="message-text" class="col-form-label">내용</label>
+                <textarea
+                  class="form-control"
+                  name="togetherContent"
+                  id="inputContent"
+                  placeholder="내용을 입력하세요."
+                ></textarea>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-dismiss="modal"
+              >
+                취소
+              </button>
+              <button type="button" class="btn btn-primary">작성 완료</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
     <!-- JS here -->
     <script src="/src/js/header/vendor/modernizr-3.5.0.min.js"></script>
     <!-- <script src="/src/js/header/vendor/jquery-1.12.4.min.js"></script>
@@ -203,6 +335,7 @@ prefix="c"%>
     <script src="/src/js/header/jquery.validate.min.js"></script>
     <script src="/src/js/header/mail-script.js"></script>
     <script src="/src/js/header/main.js"></script>
+    <script src="/src/js/together/board.js"></script>
     <script>
       $(function () {
         $('[data-toggle="popover"]').popover();
@@ -217,8 +350,16 @@ prefix="c"%>
     </script>
   </body>
   <script>
-    $("#autosize").on("keydown keyup", function(){
-      $(this).height(1).height( $(this).prop('scrollHeight')+12 );
+    $("#autosize").on("keyup", function (event) {
+      const key = event.key;
+      const lineNum = $(this).val().split("\n").length;
+      if (key == "Enter") {
+        $(this)
+          .height(1)
+          .height($(this).prop("scrollHeight") + 12);
+      } else if (key == "Backspace") {
+        commnetLineNum = $(this).val().split("\n").length;
+      }
     });
   </script>
 </html>

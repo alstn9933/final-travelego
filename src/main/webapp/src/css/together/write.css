@@ -1,0 +1,60 @@
+.modal-open .modal {
+    overflow-y: hidden;
+}
+
+.modal-header button{
+    cursor: pointer;    
+}
+
+.modal-header button:hover{
+    opacity: 0.9;
+}
+
+.modal-header h5{
+    font-size: 18px;
+}
+
+.form-group label{
+    color: rgba(0, 0, 0, 0.705);
+}
+
+.form-group{
+    display: flex;    
+}
+
+.form-group label{
+    width: 50px;
+}
+
+.content_form{
+    margin-bottom: 0;
+    align-items: center;
+}
+
+#inputContent{
+    resize: none;
+    height: 400px;
+}
+
+.modal-footer button{
+    cursor: pointer;
+}
+
+#inputRegion{
+    width: 300px;
+}
+
+#regionAlert{
+    font-size: 14px;
+    margin-left: 20px;
+    color: #3999ff;
+}
+
+.title_form input,
+.content_form textarea{
+    width: 700px;
+}
+
+.region_form{
+    align-items: center;
+}
