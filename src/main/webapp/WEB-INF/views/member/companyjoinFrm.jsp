@@ -69,7 +69,7 @@
 				<br> <label id="lEmail" for="email" class="col-lg-2 control-label">이메일</label>
 				<div class="col-lg-5">
 					<input type="text" class="form-control" id="email" name="email"
-						placeholder="이메일">
+						placeholder="이메일"><span id="min"></span><span id="col"></span><span id="sec"></span>
 					<button type="button" id="emailBtn" name="emailBtn"
 						class="btn btn-primary">이메일 인증</button>
 						 <br>
@@ -390,9 +390,41 @@
 								mailCode = data;
 								alert("이메일을 송신했습니다.");
 								checkArr[8] = true;
+								var min = $("#min");
+								var sec = $("#sec");
+								var colon = $("#col");
+								min.html("2");
+								colon.html(":");
+								sec.html("59");
+								
+								var emailCodeTime ; 	
+								emailCodeTime = window.setInterval(function(){
+									sec.html(Number($("#sec").html()-1));
+									if(sec.html()==0){
+										if(min.html()==0){
+											clearInterval(emailCodeTime);
+											$("#min").remove();
+											$("#sec").remove();
+											$("#col").remove();
+											$("#emailCode").remove();
+											$("#emailCodeBtn").remove();
+											$("#lEmailCode").remove();
+											$("#emailBtn").remove();
+											alert("인증시간 만료.");
+											mailCode="";
+											console.log(mailCode);
+											checkArr[8] = false;
+										}else{
+											min.html(Number($("#min").html()-1));
+											sec.html(59);
+										}
+									}
+	
+								},1000);
 							},
 							error : function() {
 								console.log("이메일발송에러");
+								checkArr[8] = false;
 							}
 						});
 
