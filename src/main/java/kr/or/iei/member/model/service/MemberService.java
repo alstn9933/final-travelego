@@ -66,6 +66,24 @@ public class MemberService {
 	public int pwModifyMember(Member m) {
 		return dao.pWModifyMember(m);
 	}
+	public int memberModifiedMember(Member m) {
+		return dao.memberModifiedMember(m);
+	}
+	public Company checkCompanyId(Member member) {
+		return dao.checkCompanyId(member);
+	}
+	@Transactional
+	public int companyModifiedMember( Member m,Company cp) {
+		int result = dao.memberModifiedMember(m);
+		cp.setCompanyId(m.getMemberId());
+		if(result>0) {
+			result = dao.companyModifiedMember(cp);
+			if(result>0) {
+				return result;
+			}
+		}
+		return 0;
+	}
 
 
 }
