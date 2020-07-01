@@ -6,12 +6,12 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import kr.or.iei.admin.model.dao.AdminDao;
 import kr.or.iei.common.model.vo.Region;
 import kr.or.iei.member.model.vo.Company;
 import kr.or.iei.member.model.vo.Member;
+import kr.or.iei.mypage.model.vo.QNA;
 
 @Service("adminService")
 public class AdminService {
@@ -65,11 +65,33 @@ public class AdminService {
 		return (ArrayList<Region>)rList;
 	}
 
+	public ArrayList<QNA> qnaList() {
+		List qnaList = dao.selectQnaList();
+		return (ArrayList<QNA>)qnaList;
+	}
+
+	public QNA qnaView(QNA q) {
+		System.out.println("문의글 잘 출력 되는가?");
+		return dao.qnaView(q);
+	}
+
+	public int qnaAnswer(QNA q) {
+		
+		return dao.qnaAnswer(q);
+	}
+
+	public List middleList(Region rg) {
+		return dao.middleList(rg);
+	}
+
+
 
 
 
 
 	
-	
+
+
+
 	
 }

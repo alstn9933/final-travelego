@@ -95,7 +95,7 @@
 								}
 							})
 							$(".companyStop").click(function() {
-								var companyStop = confirm("회원 활동이 정지 됩니다.진행하시겠습니까?");
+								var companyStop = confirm("회원 활동이 정지 됩니다.\n 진행하시겠습니까?");
 								if (companyStop == true) {
 									var cId = $(this).attr("data-id");
 											$.ajax({
@@ -359,7 +359,7 @@ main .admin_sidebar {
 			<a href="memberManagement.do"><span class="admin_title"></span>회원
 				관리</a></span><a href="spot_managenet.do"><span><span
 					class="admin_title">여행지 관리</span><br></a> <a
-				href="QA_member_management.do" /><span class="admin_QA">회원문의사항</span><br>
+				href="qnaAdmin.do" /><span class="admin_QA">회원문의사항</span><br>
 			<a href="report_mamnagement.do" /><span class="admin_title">신고글
 				관리</span></a>
 		</div>
@@ -417,8 +417,13 @@ main .admin_sidebar {
 								</td>
 								<td>해당 사항 없음</td>
 							</c:if>
-
-						
+							
+							<c:if test="${m.memberLevel eq 3}">
+								<td id="modifyMember">관리자
+								</td>
+								<td>해당 사항 없음</td>
+							</c:if>
+							
 							
 							
 							<c:if test="${m.memberLevel eq 2 or m.memberLevel eq -2 }">
@@ -448,6 +453,7 @@ main .admin_sidebar {
 										</c:if>
 										</c:forEach>
 								</td>
+								
 								
 							</c:if>
 							

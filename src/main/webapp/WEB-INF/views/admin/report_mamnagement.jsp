@@ -21,7 +21,7 @@
 <link rel="stylesheet" href="/src/css/header/header.css" />
 <link rel="stylesheet" href="/src/css/footer/footer.css" />
 <link rel="stylesheet" href="/src/css/main/web_default.css" />
-<title>Admin</title>
+<title>신고글 관리</title>
 <style></style>
 </head>
 <body>
@@ -111,7 +111,9 @@ main .admin_sidebar {
 				관리</span></a>
 		</div>
 		<div id="Contents">
-			<h1>관리자 페이지 입니다.</h1>
+		
+		
+		
 		</div>
 	</div>
 </body>

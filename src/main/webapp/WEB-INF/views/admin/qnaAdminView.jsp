@@ -21,7 +21,7 @@
 <link rel="stylesheet" href="/src/css/header/header.css" />
 <link rel="stylesheet" href="/src/css/footer/footer.css" />
 <link rel="stylesheet" href="/src/css/main/web_default.css" />
-<title>Admin</title>
+<title>Q&A</title>
 <style></style>
 </head>
 <body>
@@ -98,6 +98,7 @@ main .admin_sidebar {
 </style>
 
 <body>
+<section>
 	<div class="admin_page">
 		<link rel="stylesheet"
 			href="https://fonts.googleapis.com/icon?family=Material+Icons" />
@@ -111,14 +112,35 @@ main .admin_sidebar {
 				관리</span></a>
 		</div>
 		<div id="Contents">
-			<h1>관리자 페이지 입니다.</h1>
+			<form action="/question_answer.do" method="post">
+			<div>글 번호 :<input type="text" value="${q.qnaNo }" name="qnaNo" readonly></div>
+			<div>작성자 :<input type="text" value="${q.qnaWriter }" name="qnaWriter" readonly></div>
+			<div>제목 : <input type="text" value="${q.qnaTitle }" name="qnaTitle"readonly></div>
+			<div>질문 날짜 :  <input type="text" value="${q.askDate }" name="askDate" readonly></div>
+			
+			<div>질문내용 : <textarea rows="5" cols="20" " style="resize: none;" readonly name="qnaContent" >${q.qnaContent }</textarea></div>
+			
+			
+			<c:if test="${!empty q.qnaAnswer }">
+			<div>답변 : <textarea rows="5" cols="20" style="resize: none;" name="qnaAnswer" readonly value="${q.qnaAnswer}">${q.qnaAnswer} </textarea></div>
+			</c:if>
+			
+			<c:if test="${empty q.qnaAnswer }">
+			<div>답변 : <textarea rows="5" cols="20" style="resize: none;" name="qnaAnswer"> </textarea></div>
+			<input type="submit" value="답변 완료">
+			</c:if>
+			<a href="qnaAdmin.do">이전</a>
+			
+			
+			</form>
 		</div>
 	</div>
+	<!-- 지금보면 처음 값 다 가져가는데 아마 쿼리돌고오면서 값이 0 이되서 오는거보면 업뎃 안걸리는듯 쿼리문 문제인강 그럼?sql 에선 잘되는뎅-->
+	</section>
 </body>
 
-		</html>
+</html>
 
-	</section>
 
 	<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
 	<!-- Modal -->

@@ -3,8 +3,13 @@ package kr.or.iei.admin.controller;
 
 
 
-import java.util.ArrayList;
 
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +26,7 @@ import kr.or.iei.admin.model.service.AdminService;
 import kr.or.iei.common.model.vo.Region;
 import kr.or.iei.member.model.vo.Company;
 import kr.or.iei.member.model.vo.Member;
+import kr.or.iei.mypage.model.vo.QNA;
 
 @Controller
 public class AdminController {
@@ -45,6 +51,40 @@ public class AdminController {
 		model.addAttribute("rList",rList);
 		return "admin/spot_managenet";
 	}
+	@RequestMapping(value="/qnaAdmin.do")
+	public String admin_QNA( Model model) {
+		ArrayList<QNA> qnaList = service.qnaList();
+		model.addAttribute("qnaList",qnaList);
+		
+		return "admin/qnaList";
+	}
+	 @RequestMapping(value="/QnAanswer.do")
+	 public String qnaView(QNA q,HttpSession session) {
+		 QNA answer = service.qnaView(q);
+		 session.setAttribute("q",answer);
+		 System.out.println(answer.getQnaAnswer()+"출력좀 되라 이세키야");
+		 return "admin/qnaAdminView";
+	 }
+	 @RequestMapping(value="/question_answer.do")
+	 public String questionAnswer(QNA q,HttpSession session) {
+		 System.out.println(q.getAskDate());
+		 int result = service.qnaAnswer(q);
+		 if(result>0) {
+			 session.setAttribute("q", q);
+			 return "admin/qnaAdminView";
+		 }else {
+			 session.setAttribute("msg", "답변 오류. 관리자와 상의하세요.");
+			 System.out.println("질문날짜 : " + q.getAskDate());
+			session.setAttribute("loc","/");
+			return "common/msg";
+		 }
+		
+		 
+	 }
+	
+	
+	
+	
 //	그러고보니 지엽씨 이거 마스터에서 풀안햇어여? update from master 데스크 탑이요? 아직안했어요 미완성이라..
 //			지엽씨 미완성된건 안올리는게 당연한거고 다른사람이 올린건 최신걸로 받아와야죠
 //			저희 거의 일주일전에 region객체 common패키지에다가 만들어서 넣어놨다고 했는데 지엽씨만 따로 저렇게 만들어서 쓰면 mabatis-mapper에서도 충돌나고 여러군데 오류날거에여
@@ -160,9 +200,14 @@ public class AdminController {
 		   
 	   }
 	   
-	   
-	  
-	   
+	   @ResponseBody
+	   @RequestMapping(value = "/middleList.do",  produces = "agpplication/json; charset=utf-8")
+	   public String middleList(Region rg ,HttpSession session)  {
+		 List list = null;
+			 list =  service.middleList(rg); 
+		return new Gson().toJson(list);
+	   }
+		   
 	   
 	   
 	

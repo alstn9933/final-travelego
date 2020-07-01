@@ -95,6 +95,17 @@ main .admin_sidebar {
 		font-size: 18px;
 	}
 }
+
+<!--게시물 스타일-->
+   #container {width: 960px; margin: 0 auto;}
+        #container #input-form {text-align: center;}
+        #user-table {margin: 0 auto; text-align: center;}
+        #input-form {margin-top: 10px; margin-bottom: 10px;}
+
+        #user-table {border-collapse: collapse;}
+        #user-table > thead > tr { background-color: #333; color:#fff; }
+        #user-table > thead > tr > th { padding: 8px; width: 150px; }
+        #user-table > tbody > tr > td { border-bottom: 1px solid gray; padding:8px; }
 </style>
 
 <body>
@@ -110,9 +121,45 @@ main .admin_sidebar {
 			<a href="report_mamnagement.do" ><span class="admin_title">신고글
 				관리</span></a>
 		</div>
-		<div id="Contents">
-			<h1>관리자 페이지 입니다.</h1>
-		</div>
+		<!-- 1.문의글 보여줄 것
+		  	 2.보여줄때 답변이 있으면-답변완료 뜨게하기 QA값이 있으면 답변 완료 
+		  	 3.답변하기 할때 insert 가 아니라 update
+		  	 4.페이징 처리--오전안에 끝내기-->
+		
+				<table id="user-table">
+					<thead>
+						<tr>
+							<th>문의 번호</th>
+							<th>제목</th>
+							<th>문의날짜</th>
+							<th>작성자</th>
+							<th>답변 여부</th>
+							<th>답변날짜</th>
+						</tr>
+					</thead>
+					<c:forEach items="${qnaList }" var="q">
+						<tr>
+						
+						<td><a href="/QnAanswer.do?qnaNo=${q.qnaNo}" value="${q.qnaNo}"  >${q.qnaNo }</td>
+						<td>${q.qnaTitle }</td>
+						<td>${q.askDate }</td>
+						<td>${q.qnaWriter }</td>
+						
+						<c:if test="${!empty q.qnaAnswer}">
+						<td>답변완료</td>
+						<td>${q.answerDate }</td>
+						</c:if>
+						
+						<c:if test="${empty q.qnaAnswer  }">
+						<td>미답변</td>
+						<td>없음</td>
+						</c:if>
+					</tr>
+					</c:forEach>
+		</table>
+		
+		
+		
 	</div>
 </body>
 

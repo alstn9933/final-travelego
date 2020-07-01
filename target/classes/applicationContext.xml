@@ -12,7 +12,8 @@
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
-		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd"
+		>
 	
 	<bean id="dataSource"
 		class="org.apache.commons.dbcp.BasicDataSource">
@@ -80,5 +81,6 @@
 	<context:component-scan base-package="kr.or.iei.member"/>
 	<context:component-scan base-package="kr.or.iei.common"/>
 	<context:component-scan base-package="kr.or.iei.notice"/>
+	<context:component-scan base-package="kr.or.iei.mypage"/>
 	
 </beans>

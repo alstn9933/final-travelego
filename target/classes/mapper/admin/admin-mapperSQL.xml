@@ -41,11 +41,59 @@
 	</update>
 	<select id="regionList" resultType="region">
 		select
+		REGION_COUNTRY as regionCountry
+		from region
+		group by region_country
+	</select>
+	<select id="selectCity" parameterType="region" resultType="region">
+	select 
 		region_no as regionNo,
 		region_country as regionCountry,
 		region_city as regionCity,
 		filename
-		from region
+		from region where region_country=#{regionCountry}
 	</select>
-
+	<select id ="middleList" parameterType="region" resultType="region">
+	select 
+		REGION_NO as regionNo,
+		REGION_COUNTRY as regionCountry,
+		REGION_CITY as regionCity,
+		FILENAME from REGION
+		where REGION_COUNTRY =#{regionCountry}
+	</select> 
+	
+	<select id = "selectQnA" parameterType="qna" resultType="qna">
+	select 
+	qna_no as qnaNo,
+	qna_writer as qnaWriter,
+	qna_title as qnaTitle,
+	qna_content as qnaContent,
+	ask_date as askDate,
+	qna_answer as qnaAnswer,
+	answer_date as answerDate
+	from qna 
+	join member  on 
+	member_id=qna_writer
+	</select>
+	
+	<select id="qnaView" parameterType="qna" resultType="qna">
+	select 
+	qna_no as qnaNo,
+	qna_writer as qnaWriter,
+	qna_title as qnaTitle,
+	qna_content as qnaContent,
+	ask_date as askDate ,
+	qna_answer as qnaAnswer,
+	answer_date as answerDate
+	from qna 
+	where qna_no = #{qnaNo}
+	</select>
+	
+	<update id="qnaAnswer" parameterType="qna" >
+		update qna set
+		qna_answer=#{qnaAnswer},
+		answer_date=sysdate
+		where qna_No=#{qnaNo}
+	</update>
+	
 </mapper>
