@@ -1,6 +1,7 @@
 package kr.or.iei.together.controller;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import kr.or.iei.member.model.service.MemberService;
 import kr.or.iei.member.model.vo.Member;
+import kr.or.iei.together.model.vo.TogetherBoardVO;
 
 @Controller
 @RequestMapping("/together")
@@ -15,6 +17,14 @@ public class TogetherController {
 	
 	@Autowired
 	MemberService service;
+	
+	@RequestMapping("/write.do")
+	public String boardWrite(HttpSession session, TogetherBoardVO board) {
+		
+		
+		
+		return "common/msg";
+	}
 	
 	@RequestMapping("/open.do")
 	public String test(HttpServletRequest request) {

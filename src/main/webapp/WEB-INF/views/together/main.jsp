@@ -263,22 +263,29 @@ prefix="c"%>
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-          <form action="#">
+          <form action="#" id="writeForm" method="POST">
             <div class="modal-body">
               <div class="form-group region_form">
-                <label for="recipient-name" class="col-form-label">지역</label>
                 <input
-                  type="text"
-                  class="form-control"
-                  id="inputRegion"
-                  placeholder="검색어를 입력하세요"
+                  type="hidden"
+                  name="togetherWriter"
+                  value="${sessionScope.member.memberId}"
                 />
-                <span id="regionAlert"
-                  >검색어를 입력 후 결과에서 선택하세요.</span
-                >
+                <label for="inputRegion" class="col-form-label">지역</label>
+                <div>
+                  <input
+                    type="search"
+                    class="form-control"
+                    id="inputRegion"
+                    placeholder="검색어를 입력하세요"
+                  />
+                </div>
+                <span id="regionAlert">
+                  검색어를 입력 후 결과에서 선택하세요.
+                </span>
               </div>
               <div class="form-group title_form">
-                <label for="recipient-name" class="col-form-label">제목</label>
+                <label for="inputTitle" class="col-form-label">제목</label>
                 <input
                   type="text"
                   name="togetherTitle"
@@ -288,7 +295,7 @@ prefix="c"%>
                 />
               </div>
               <div class="form-group content_form">
-                <label for="message-text" class="col-form-label">내용</label>
+                <label for="inputContent" class="col-form-label">내용</label>
                 <textarea
                   class="form-control"
                   name="togetherContent"
@@ -305,7 +312,9 @@ prefix="c"%>
               >
                 취소
               </button>
-              <button type="button" class="btn btn-primary">작성 완료</button>
+              <button type="button" id="submitBtn" class="btn btn-primary">
+                작성 완료
+              </button>
             </div>
           </form>
         </div>
@@ -341,6 +350,10 @@ prefix="c"%>
     <script src="/src/js/together/board.js"></script>
     <script src="/src/js/together/aside.js"></script>
     <script>
+      $("#submitBtn").click(function () {
+        $("#writeForm").submit();
+      });
+
       $(".content").on("mouseenter mouseleave", toggleStrech);
       $(".show_comment").click(showComment);
 
