@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import kr.or.iei.member.model.vo.Member;
 import kr.or.iei.reserve.model.dao.ReserveDao;
 import kr.or.iei.reserve.model.vo.ReserveVO;
-import kr.or.iei.tour.model.vo.TourVO;
 
 @Service("reserveService")
 public class ReserveService {
@@ -83,9 +82,26 @@ public class ReserveService {
 	public ReserveVO selectReserveInfo(int reserveNo) {
 		return dao.selectOneReserve(reserveNo);
 	}
-
-	public ArrayList<ReserveVO> selectMemberReserve(Member m) {
-		return (ArrayList<ReserveVO>)dao.selectMemberReserve(m);
-	}
 	
+	public int selectMyReserveTotalCount(Member m, String status) {
+		HashMap<String,String> map = new HashMap<String, String>();
+		map.put("memberId", m.getMemberId());
+		map.put("status", status);
+		return dao.selectMyReserveTotalCount(map);
+	}
+
+	public ArrayList<ReserveVO> selectMoreReserve(Member m, int start, String status) {
+		int length = 10;
+		int end = start+length-1;
+		HashMap<String,String> map = new HashMap<String, String>();
+		map.put("memberId", m.getMemberId());
+		map.put("start",String.valueOf(start));
+		map.put("end",String.valueOf(end));
+		map.put("status",status);
+		ArrayList<ReserveVO> rList = (ArrayList<ReserveVO>)dao.selectMoreReserve(map);
+		for(ReserveVO r : rList) {
+			r.setTourDate(r.getTourDate().substring(0,10));
+		}
+		return rList;
+	}
 }

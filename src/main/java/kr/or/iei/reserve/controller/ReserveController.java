@@ -77,16 +77,31 @@ public class ReserveController {
 		return "redirect:/";
 	}
 	
-	@RequestMapping(value="/memberReserveList.do")
+	@RequestMapping(value="/myReservation.do")
 	public String memberReserveList(HttpSession session, Model model) {
 		Member m = (Member)session.getAttribute("member");
-		ArrayList<ReserveVO> rList = service.selectMemberReserve(m);
-		if(rList.isEmpty()||rList.size()==0) {
+		if(m==null||m.getMemberLevel()!=1) {
 			model.addAttribute("msg","개인회원만 접근가능합니다");
 			model.addAttribute("loc","/");
 			return "common/msg";
 		}
-		model.addAttribute("rList",rList);
 		return "reserve/memberReserveList";
 	}
+	
+	@ResponseBody
+	@RequestMapping(value="/selectTotalCount.do", produces = "application/json; charset=utf-8")
+	public String selectMyReserveTotalCount(HttpSession session, String status) {
+		Member m = (Member)session.getAttribute("member");
+		int totalCount = service.selectMyReserveTotalCount(m,status);
+		return new Gson().toJson(totalCount);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/moreReserve.do", produces = "application/json; charset=utf-8")
+	public String selectMoreReserve(HttpSession session, int start, String status) {
+		Member m = (Member)session.getAttribute("member");
+		ArrayList<ReserveVO> rList = service.selectMoreReserve(m,start,status);
+		return new Gson().toJson(rList);
+	}
+	
 }

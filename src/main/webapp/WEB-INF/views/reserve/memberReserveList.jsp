@@ -33,7 +33,7 @@ prefix="c"%>
 	    	border-bottom:1px solid black;
 	    }
 	    .reserve-list{
-	   		width:80%;
+	   		width:70%;
 	   		margin:0 auto;
 	   		overflow:hidden;
 	    }
@@ -41,16 +41,62 @@ prefix="c"%>
 	    	width:100%;
 	    	padding:20px;
 	    	overflow:hidden;
-	    	border-bottom:1px solid black;
 	    }
 	    .status-info>label{
 	    	display:inline-block;
 	    	float:right;
+	    	margin-left:10px;
+	    }
+	    .status-info>label>input{
+	    	display:none;
+	    }
+	    .status-info>label>input:checked+span{
+	    	background-color:#25e6b5;
 	    }
 	    .status-info>label>span{
+	    	border: 1px solid black;
+	    	background-color:white;
 	    	font-size:15px;
-	    	color:black;
 	    }
+	    .morebtn{
+	    	width:100%;
+	    }
+	    .reserve-info{
+	    	width:100%-40px;
+	    	height:120px;
+	    	border: 2px solid brown;
+	    	border-radius:10px;
+	    	box-sizing:border-box;
+	    	overflow:hidden;
+	    	margin:20px;
+	    }
+	    .reserve-info>table{
+	    	width:100%;
+	    }
+		.reserve-info>table td{
+			border-bottom:1px solid black;
+			height:30px;
+			width:(100/6)%;
+			padding-left:10px;
+		}
+		.reserve-info>table td>span{
+			line-height:20px;
+			font-size:20px;
+		}
+		.reserve-info>table td>span:first-child{
+			background-color:#25e6b5;
+		}
+		.reserve-info>table td>span:last-child{
+			font-weight:bold;
+		}
+		.stsbtn{
+			width:100px;
+			height:30px;
+			line-height:10px;
+		}
+		#itemTitle{
+			color:blue;
+		}
     </style>
   </head>
   <body>
@@ -67,13 +113,13 @@ prefix="c"%>
 	      		<h1>My Reservation</h1>
 	     	</div>
 	     	<div class="status-info">
-				<label for="all"><input id="all" type="radio" name="status" value="all"><span>전체</span></label>
-				<label for="ing"><input id="ing" type="radio" name="status" value="ing"><span>전체</span></label>
-				<label for="ing"><input id="ing" type="radio" name="status" value="ing"><span>전체</span></label>
+	     		<label for="cancel"><input id="cancel" type="radio" name="status" value="cancel"><span class="btn btn-primary">취소</span></label>
+	     		<label for="ing"><input id="ing" type="radio" name="status" value="ing"><span class="btn btn-primary">예약</span></label>
+				<label for="all"><input id="all" type="radio" name="status" value="all"><span class="btn btn-primary">전체</span></label>
 			</div>
 			<div class="reserve-list">
-				
 			</div>
+			<button class="btn btn-primary morebtn" id="morebtn" totalCount=0 currentCount=0 value="">▼</button>
 		</div>
     </section>
 
@@ -124,16 +170,128 @@ prefix="c"%>
     <script src="/src/js/header/mail-script.js"></script>
     <script src="/src/js/header/main.js"></script>
     <script>
-      $(function () {
-        $('[data-toggle="popover"]').popover();
-      });
+	    $(function () {
+	      $('[data-toggle="popover"]').popover();
+	      
+	      $("input[name=status]").click(function(){
+	      	var status = $(this).val();
+	      	stsChange(status);
+	      });
+	      
+	      $("#morebtn").click(function(){
+				var status;
+				$("input[name=status]").each(function(index,item){
+					if($(item).attr("checked")==true){
+						status = $(item).val();
+					}
+				});
+				moreReserve($(this).val(),status);
+			});
+	      
+	      $("#all").prop("checked",true);
+	      
+	      stsChange("all");
+	    });
+	    
+	    function moreReserve(start,status){
+	    	var param = {start:start,status:status};
+	    	$.ajax({
+	    		url:"/moreReserve.do",
+	    		data:param,
+	    		type:"post",
+	    		dataType:"json",
+	    		success:function(data){
+	    			console.log(data.length);
+	    			$(".reserve-list").html("");
+	    			var html="";
+	    			for(var i=0; i<data.length; i++){
+	    				var td = data[i].tourDate;
+	    				var tourDate = new Date(td).getTime();
+	    				html+="<div class='reserve-info'>"+
+							"<table>"+
+								"<tr>"+
+									"<td rowspan='3' colspan='4'>"+
+										"<span>상품명</span>"+
+										"<span><a id='itemTitle' href='/tourView.do?itemNo="+data[i].itemNo+"'>"+data[i].itemTitle+"</a></span>"+
+									"</td>"+
+									"<td colspan='2'>"+
+										"<span>예약자</span>"+
+										"<span id='memberId'>"+data[i].memberId+"</span>"+
+									"</td>"+
+								"</tr>"+
+								"<tr>"+
+									"<td colspan='2'>"+
+										"<span>예약인원</span>"+
+										"<span id='personCount'>"+data[i].personCount+"명</span>"+
+									"</td>"+
+								"</tr>"+
+								"<tr>"+
+									"<td colspan='2'>"+
+										"<span>예약날짜</span>"+
+										"<span id='reserveDate'>"+data[i].tourDate+"일 "+data[i].tourTime+"시</span>"+
+									"</td>"+
+								"</tr>"+
+								"<tr>"+
+									"<td colspan='2'>"+
+										"<span>결제금액</span>"+
+										"<span id='totalPay'>"+data[i].totalPay+"원</span>"+
+									"</td>"+
+									"<td colspan='3'>"+
+										"<span>결제시간</span>"+
+										"<span id='payDate'>"+data[i].payDate+"</span>"+
+									"</td>"+
+									"<td colspan='1'>";
+								if(data[i].status==1){
+									html+="<button class='btn stsbtn' disabled>취소된 예약</button>";
+								}else if(tourDate>new Date){
+									html+="<button class='btn btn-primary stsbtn' onclick='cancel("+data[i].reserveNo+")'>취소하기</button>";
+								}else if(data[i].checkReview==0){
+									html+="<button class='btn btn-success stsbtn' onclick='review("+data[i].reserveNo+")'>후기 작성</button>";
+								}else if(data[i].checkReview==1){
+									html+="<button class='btn stsbtn' disabled>후기작성완료</button>";
+								}
+								html+="</td>"+
+								"</tr>"+
+							"</table>"+
+						"</div>";
+	    			}
+	    			$(".reserve-list").html(html);
+	    		},
+	    		error:function(){
+	    			console.log("오류");
+	    		}
+	    	});
+	    };
 
-      $("#datepicker").datepicker({
-        iconsLibrary: "fontawesome",
-        icons: {
-          rightIcon: "_$tag___________________________$tag__",
-        },
-      });
+		function stsChange(status){
+			var param = {status:status};
+			$.ajax({
+				url:"/selectTotalCount.do",
+				data:param,
+				type:"post",
+				dataType:"json",
+				success:function(data){
+					$("#morebtn").attr("totalCount",data);
+					$("input[name=status]").each(function(index,item){
+						if($(item).val()==status){
+							$(item).attr("disabled",true);
+						}else{
+							$(item).attr("disabled",false);
+						}
+					});
+					moreReserve(1,status);
+				},error:function(){
+					console.log("오류");
+				}
+			});
+		};
+      
+	    $("#datepicker").datepicker({
+	      iconsLibrary: "fontawesome",
+	      icons: {
+	        rightIcon: "_$tag___________________________$tag__",
+	      },
+	    });
     </script>
   </body>
 </html>

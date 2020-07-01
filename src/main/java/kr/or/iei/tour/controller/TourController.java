@@ -186,7 +186,7 @@ public class TourController {
 			byte[] bytes = upload.getBytes();
 
 			// 이미지 경로 생성
-			String path = request.getRealPath("/upload/images/tour/content");// fileDir는 전역 변수라 그냥 이미지 경로 설정해주면 된다.
+			String path = request.getSession().getServletContext().getRealPath("/upload/images/tour/content");// fileDir는 전역 변수라 그냥 이미지 경로 설정해주면 된다.
 			String ckUploadPath = path + "/" + filepath;
 			File folder = new File(path);
 
@@ -232,7 +232,7 @@ public class TourController {
 			HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		// 서버에 저장된 이미지 경로
-		String path = request.getRealPath("/upload/images/tour/content");;
+		String path = request.getSession().getServletContext().getRealPath("/upload/images/tour/content");;
 
 		String sDirPath = path + "/" + filepath;
 

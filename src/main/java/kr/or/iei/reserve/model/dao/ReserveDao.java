@@ -48,8 +48,12 @@ public class ReserveDao {
 	public ReserveVO selectOneReserve(int reserveNo) {
 		return sqlSession.selectOne("reserve.selectOneReserve",reserveNo);
 	}
+	
+	public int selectMyReserveTotalCount(HashMap<String, String> map) {
+		return sqlSession.selectOne("reserve.selectTotalCount",map);
+	}
 
-	public List selectMemberReserve(Member m) {
-		return sqlSession.selectList("reserve.selectMemberReserve",m);
+	public List selectMoreReserve(HashMap<String, String> map) {
+		return sqlSession.selectList("reserve.selectMoreReserve",map);
 	}
 }
