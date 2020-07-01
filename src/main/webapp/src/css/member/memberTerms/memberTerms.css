@@ -134,29 +134,21 @@ div.join_box {
 	margin-left: 50px;
 }
 
-#fpmgBt2, #fpmgBt1 {
-	color: white;
-	background-color: #30A9DE;
+#submit, #reset {
 	font-family: 'Jua', sans-serif;
 	border: 0.5px solid gray;
 	border-radius: 15px;
 	width: 150px;
+	line-height: 10px;
 }
 
-#fpmgBt2:hover, #fpmgBt1:hover {
+#reset:hover, #submit:hover {
 	background-color: white;
 	color: #4a2100;
 	font-family: 'Jua', sans-serif;
 	border: 0.5px solid gray;
 	border-radius: 15px;
 	
-}
-
-}
-img {
-	width: 10%;
-	height: 10%;
-	overflow: hidden;
 }
 
 .status {

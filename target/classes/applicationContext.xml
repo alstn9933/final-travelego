@@ -16,7 +16,7 @@
 		>
 	
 	<bean id="dataSource"
-		class="org.apache.commons.dbcp.BasicDataSource">
+		class="org.apache.commons.dbcp.BasicDataSource"> 
 		<property name="driverClassName"
 			value="oracle.jdbc.driver.OracleDriver" />
 		<property name="url"
@@ -82,5 +82,6 @@
 	<context:component-scan base-package="kr.or.iei.common"/>
 	<context:component-scan base-package="kr.or.iei.notice"/>
 	<context:component-scan base-package="kr.or.iei.mypage"/>
-	
+	<context:component-scan base-package="kr.or.iei.tour"/>
+
 </beans>

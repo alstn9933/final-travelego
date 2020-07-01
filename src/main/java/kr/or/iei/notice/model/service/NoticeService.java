@@ -75,4 +75,10 @@ public class NoticeService {
 	public int noticeModify(Notice n) {
 		return dao.noticeModify(n);
 	}
+
+	public int noticedelete(String str) {
+		return dao.noticedelete(str);
+	}
+
+
 }

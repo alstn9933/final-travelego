@@ -4,4 +4,17 @@
 <insert id="companyjoin" parameterType="company" >
  	insert into company values(#{companyId},#{license},#{companyUrl},0)
  </insert>
+ <select id="checkCompanyId" parameterType="member" resultType="company">
+ 	select
+ 	company_id as companyId,
+ 	license,
+ 	company_url as companyUrl
+ 	from Company where company_id=#{memberId}
+ </select>
+ <update id="companyModified" parameterType="company">
+ 	update company set
+ 	license = #{license},
+ 	company_url = #{companyUrl}
+ 	where company_id=#{companyId}
+ </update>
  </mapper>

@@ -1,10 +1,13 @@
 package kr.or.iei.member.controller;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.sql.rowset.serial.SerialArray;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -17,6 +20,7 @@ import kr.or.iei.member.model.service.MemberService;
 import kr.or.iei.member.model.vo.Company;
 import kr.or.iei.member.model.vo.MailSend;
 import kr.or.iei.member.model.vo.Member;
+import kr.or.iei.member.model.vo.SendPwMail;
 
 @Controller
 public class MemberController {
@@ -36,15 +40,25 @@ public class MemberController {
 	}
 
 	@RequestMapping("/loginMember.do")
-	public String loginMember(Member m, HttpSession session) {
+	public String loginMember(Member m, HttpSession session,Model model) {
 		Member member = service.loginMember(m);
-
 		if (member != null) {
-			session.setAttribute("member", member);
-			return "redirect:/";
+			Company company = service.checkCompanyId(member);
+			if(company != null) {
+				session.setAttribute("company", company);
+				session.setAttribute("member", member);
+				model.addAttribute("msg", "환연합니다!");
+				model.addAttribute("loc", "/");
+			}else {
+				session.setAttribute("member", member);
+				model.addAttribute("msg", "환연합니다!");
+				model.addAttribute("loc", "/");
+			}
 		}else {
-			return "member/loginFrm";
+			model.addAttribute("msg", "회원정보가 일치하지 않습니다.");
+			model.addAttribute("loc", "loginFrm.do");
 		}
+		return "common/msg";
 	}
 
 	@RequestMapping("/logout.do")
@@ -129,4 +143,91 @@ public class MemberController {
 		int result = service.chkEmail(m);
 		return result;
 	}
+	@RequestMapping("/memberInformation.do")
+	public String memberInformation() {
+		return "member/memberInformation";
+	}
+	@RequestMapping("/idsearch.do")
+	public String idSearchFrm(Member m,Model model) {
+		Member members = service.selectId(m);
+		if(members != null) {
+			model.addAttribute("m",members);
+			return "member/idSearch";			
+		}else {
+			return "member/idSearchError";
+		}
+	}
+	@RequestMapping("/passwordchange.do")
+	public String passwordchange(Member m,Model model,HttpServletRequest request) {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd/HH/mm/ss");
+		String now = sdf.format(new Date());
+		System.out.println("now : "+now);
+		Member members = service.passwordchange(m);
+		if(members != null) {
+			new SendPwMail().SendPwMail(m.getMemberId(),m.getEmail());
+			model.addAttribute("msg","이메일 발송이 완료 되었습니다.");
+			model.addAttribute("loc","/loginFrm.do");
+		}else {
+			model.addAttribute("msg", "사용자 정보가 존재하지 않습니다.");
+			model.addAttribute("loc", "/loginFrm.do");
+		}
+		return "common/msg";
+	}
+	@RequestMapping("/pwChange.do")
+	public String pwSearch(String memberId,Model model) {
+		model.addAttribute("memberId", memberId);
+		return "member/pwChange";
+	}
+	@RequestMapping("/pwModify.do")
+	public String pwModifyMember(Member m,Model model) {
+		int result = service.pwModifyMember(m);
+		if(result>0) {
+			model.addAttribute("msg","비밀번호 변경이 완료되었습니다!");
+			model.addAttribute("loc", "/loginFrm.do");
+		}else {
+			model.addAttribute("msg", "에러 : 관리자에게 문의하세요.");
+			model.addAttribute("loc", "/memberInformation.do");
+		}
+		return "common/msg";
+	}	
+	@RequestMapping("/memberModifiedFrm.do")
+	public String memberModifiedFrm(HttpSession session,Model model) {
+		Member m = (Member) session.getAttribute("member");
+		model.addAttribute("m", m);
+		return "member/memberModiFiedFrm";
+	}
+	@RequestMapping("/memberModified.do")
+	public String memberModified(Member m,Model model,HttpSession session) {
+		int result = service.memberModifiedMember(m);
+		if(result>0) {
+			model.addAttribute("msg", "회원정보 수정완료!");
+			model.addAttribute("loc", "/");
+			session.setAttribute("member", m);
+		}else {
+			model.addAttribute("msg", "에러 : 회원정보수정");
+			model.addAttribute("loc", "/memberModifiedFrm.do");
+		}
+		return "common/msg";
+	}
+	@RequestMapping("/companyModifiedFrm.do")
+	public String companyModifiedFrm(HttpSession session,Model model) {
+		Member m = (Member) session.getAttribute("member");
+		Company cp = (Company) session.getAttribute("company");
+		model.addAttribute("m", m);
+		model.addAttribute("cp", cp);
+		return "member/companyModifiedFrm";
+	}
+	@RequestMapping("/companyModified.do")
+	public String companyModified(Member m,Company cp,Model model,HttpSession session) {
+		int result = service.companyModifiedMember(m,cp);
+		if(result>0) {
+			model.addAttribute("msg", "회원정보 수정완료!");
+			model.addAttribute("loc", "/");
+		}else {
+			model.addAttribute("msg", "에러 : 법인정보수정");
+			model.addAttribute("loc", "/companyModifiedFrm.do");
+		}
+		return "common/msg";
+	}
+	
 }

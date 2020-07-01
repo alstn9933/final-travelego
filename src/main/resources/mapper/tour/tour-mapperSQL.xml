@@ -2,19 +2,27 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="tour">
 	<select id="selectTotalCount" parameterType="string" resultType="_int">
-		select count(*) as cnt from tour where member_id = #{_parameter}
+		select count(*) as cnt from tour
+		<if test="_parameter!=null">
+			where member_id = #{_parameter}
+		</if>
 	</select>
-	<select id="selectMoreItem" parameterType="mtv" resultType="tour">
+	<select id="selectMoreItem" parameterType="map" resultType="tour">
 		select * from(
 		select ROWNUM as rnum, p.* from(
 		select item_no as itemNo, member_name as memberName, item_title as itemTitle, region_no as regionNo, begin_date as beginDate, end_date as endDate, filename, close_check as closeCheck
 		from tour join member using(member_id) join photo on(board_no=item_no and board_class=4)
-		where member_id=#{memberId} order by item_no desc)p)
+		<if test="val.equals('ctl')">
+			<if test="memberLevel==2">
+				where member_id=#{memberId} 
+			</if>
+		</if>
+		order by item_no desc)p)
 		where rnum between #{start} and #{end}
 	</select>
 	<select id="selectReviewList" parameterType="_int" resultType="review">
-		select review_no as reviewNo, item_no as itemNo, member_id as memberId, review_rate as reviewRate, review_content as reviewContent, review_date as reviewDate
-		from tour_review where item_no=#{_parameter}
+		select review_no as reviewNo, item_no as itemNo, member_id as memberId, member_nickname as memberNickname, review_rate as reviewRate, review_content as reviewContent, review_date as reviewDate
+		from tour_review join member using(member_id) where item_no=#{_parameter}
 	</select>
 	<select id="selectCountryList" resultType="region">
 		select region_country as regionCountry from region group by region_country order by 1
@@ -39,5 +47,15 @@
 		join photo p on(board_no=item_no and board_class=4) 
 		join region using(region_no)
 		where item_no=#{_parameter}
+	</select>
+	<select id="selectMoreReview" parameterType="map" resultType="review">
+		select * from
+		(select ROWNUM as rnum, r.* from
+		(select review_no as reviewNo, item_no as itemNo, member_id as memberId, member_nickname as memberNickname, review_rate as reviewRate, review_content as reviewContent, review_date as reviewDate
+		from tour_review join member using(member_id) where item_no=#{itemNo} order by review_no desc)r)
+		where rnum between #{start} and #{end}
+	</select>
+	<select id="selectTotalReview" parameterType="_int" resultType="_int">
+		select count(*) as cnt from tour_review where item_no = #{_parameter}
 	</select>
 </mapper>

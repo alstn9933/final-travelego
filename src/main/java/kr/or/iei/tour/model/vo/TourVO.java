@@ -26,6 +26,5 @@ public class TourVO {
 	private int itemPrice;
 	private String tourTimes;
 	private int readCount;
-	private ArrayList<ReviewVO> reveiwList;
-	private float score;
+	private double score;
 }

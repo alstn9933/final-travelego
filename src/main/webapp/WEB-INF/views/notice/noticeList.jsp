@@ -37,9 +37,8 @@
 				<a href="/noticeInsertFrm.do">
 				<input class="btn btn-outline-secondary" id="insertBtn"
 					type="button" value="글쓰기"></a>
-					<form action="" method="post">
+				<form action="/noticeDelete.do" method="post">
 				<input class="btn btn-outline-secondary" id="delBtn" type="button" value="체크게시물 삭제">
-				</form>
 				<table class="table table-hover">
 					<tr>
 						<th class="noticetitle">내용</th>
@@ -54,10 +53,11 @@
 								value="${n.noticeNo}">${n.noticeTitle}</a></td>
 							<td class="regdate">${n.noticeDate}</td>
 							<td class="readcount">${n.readCount }</td>
-							<td class="delchkbox"><input name="checkbox" type="checkbox" value="${n.noticeNo }"></td>
+							<td class="delchkbox"><input name="noticeNo" type="checkbox" value="${n.noticeNo }"></td>
 						</tr>
 					</c:forEach>
 				</table>
+				</form>
 				 <input type="hidden" name="reqPage" id="reqPage" value=1>
 				<div class="pageNavi">${pageNavi}</div>
 			</div>
@@ -66,22 +66,15 @@
 	<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
 </body>
 <script >
-	var checkedbox = $("input[name='checkbox']:checked").length;
+	var checkedbox = $("input[name='noticeNo']:checked"); //페이지 로딩되면서 한번 저장되고 이후에 변경되지 않으므로 전역변수 사용 불가능
 	var messge="선택한 게시물을 삭제하시겠습니까?";
 	$("#delBtn").click(function(){
 		delcomfirm = window.confirm(messge);
-		if(delcomfirm==true){
-			for(i=0;i<checkedbox.length;i++){
-				console.log("1");
-				if(checkedbox[i].checked==true){
-					var delbox = checkedbox[i];
-					console.log("2");
-					console.log(delbox);
-				$("form").submit(function(){
-					console.log("3");
-					return delbox;
-				})
-				}
+		if(delcomfirm){
+			if($("input[name='noticeNo']:checked").length == 0){
+				alert("선택된 게시글이 없습니다");
+			} else {
+				$(".mainContent form").submit();
 			}
 		}
 	});

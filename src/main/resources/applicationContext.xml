@@ -16,7 +16,7 @@
 		>
 	
 	<bean id="dataSource"
-		class="org.apache.commons.dbcp.BasicDataSource">
+		class="org.apache.commons.dbcp.BasicDataSource"> 
 		<property name="driverClassName"
 			value="oracle.jdbc.driver.OracleDriver" />
 		<property name="url"
@@ -75,12 +75,15 @@
 	</websocket:handlers>
 	-->
 
+
 	<context:component-scan	base-package="kr.or.iei.admin" />
 	<context:component-scan base-package="kr.or.iei.tour"/>
+	<context:component-scan base-package="kr.or.iei.tour"/> 
 	<context:component-scan base-package="kr.or.iei.reserve"/>
 	<context:component-scan base-package="kr.or.iei.member"/>
 	<context:component-scan base-package="kr.or.iei.common"/>
 	<context:component-scan base-package="kr.or.iei.notice"/>
 	<context:component-scan base-package="kr.or.iei.mypage"/>
 	
+
 </beans>

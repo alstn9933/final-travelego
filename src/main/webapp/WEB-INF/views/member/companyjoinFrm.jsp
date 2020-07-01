@@ -8,13 +8,15 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<!-- 아이콘 key -->
-<script src="/src/js/fontawesome/8bd2671777.js" crossorigin="anonymous"></script>
-<!-- 부트 스트랩 -->
+<script
+	src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!-- 부트스트랩 -->
 <link rel="stylesheet" href="/src/css/header/header.css" />
 <link rel="stylesheet" href="/src/css/footer/footer.css" />
 <link rel="stylesheet" href="/src/css/main/web_default.css" />
 <link rel="stylesheet" href="/src/css/member/memberjoin/memberjoin.css" />
+<!-- 아이콘 키값 -->
+<script src="/src/js/fontawesome/8bd2671777.js" crossorigin="anonymous"></script>
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
@@ -176,10 +178,12 @@
 						if ($("#memberPw").val() == "") {
 							$("#sPw").html("비밀번호를 입력해주세요.");
 							$("#sPw").css("color", "red");
+							$("#lPW").css("color","red");
 							checkArr[1] = false;
 						} else {
 							if (regExp.test($("#memberPw").val())) {
 								$("#sPw").html("생성 가능한 비밀번호 입니다.");
+								$("#lPW").css("color","green");
 								$("#sPw").css("color", "green");
 								checkArr[1] = true;
 							} else {
@@ -187,6 +191,7 @@
 										.html(
 												"비밀번호 규격을 맞춰주세요<br>(대문자,소문자를 시작으로  숫자포함  15글자 이내)");
 								$("#sPw").css("color", "red");
+								$("#lPW").css("color","red");
 								$("#memberPw").focus();
 								checkArr[1] = false;
 							}
@@ -194,8 +199,8 @@
 					});
 	$("#memberPwRe").keyup(function() {
 		if ($("#memberPwRe").val() == "") {
-			$("#sPw").html("비밀번호를 입력해주세요.");
-			$("#sPw").css("color", "red");
+			$("#sPwRe").html("비밀번호를 입력해주세요.");
+			$("#sPwRe").css("color", "red");
 			checkArr[2] = false;
 		} else {
 			if ($("#memberPw").val() == $("#memberPwRe").val()) {

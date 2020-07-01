@@ -57,6 +57,7 @@ prefix="c"%>
         }
         .tourContent{
             margin-top: 20px;
+            overflow:hidden;
         }
         .item{
             float: left;
@@ -66,9 +67,26 @@ prefix="c"%>
             overflow:hidden;
             border-radius: 20px;
             margin: 10px;
+            position: relative;
+            z-index:50;
         }
         .item>div{
             overflow: hidden;
+        }
+        .item>h1{
+        	width:280px;
+        	height:280px;
+        	line-height:280px;
+        	position:absolute;
+        	padding:0;
+        	margin:0;
+        	top:0;
+        	text-align: center;
+        	background:gray;
+        	z-index:51;
+        	font-size:100px;
+        	color:white;
+        	opacity:0.7;
         }
         .item:hover{
             cursor: pointer;
@@ -79,9 +97,9 @@ prefix="c"%>
             transition-duration: 0.5s;
         }
         .itemTitle{
-            width:90%;
-            height: 50px;
-            margin: 0 auto;
+            width:100%;
+            height: 70px;
+            padding:10px;
         }
         .item-main-img{
             border-top-left-radius: 20px;
@@ -89,9 +107,31 @@ prefix="c"%>
             width: 280px;
             height: 280px;
         }
+        .term{
+        	border-top:1px solid gray;
+        	margin-top:10px;
+        	text-align:center;
+        }
         .score{
             text-align: right;
-            margin: 10px;
+            padding:10px;
+            padding-bottom:0;
+            position:absolute;
+            background-color:rgba(100,100,100,0.5);
+            color:white;
+            width:100%;
+        }
+        .morebtn{
+        	overflow:hidden;
+        }
+        #more-btn{
+        	width:100%;
+        	height:50px;
+        }
+        .morebtn>label>img{
+        	width:50px;
+        	height:50px;
+        	margin:0 auto;
         }
     </style>
     <script>
@@ -100,7 +140,59 @@ prefix="c"%>
     			var itemNo = $(this).attr("itemNo");
     			location.href="/tourView.do?itemNo="+itemNo;
     		});
+    		
+    		function fn_more(start,val){
+    			var param = {start:start,val:val};
+    			$.ajax({
+    				url: "/moreItem.do",
+    				data : param,
+    				type : "post",
+    				dataType : "json",
+    				success : function(data){
+    					console.log(data.length);
+    					var html = "";
+    					for(var i=0; i<data.length; i++){
+    						html += "<div class='item' itemNo="+data[i].itemNo+" onclick='itemView("+data[i].itemNo+");'>";
+    						if(data[i].score==0){
+    							html += "<div class='score'>후기가 없습니다</div>";
+    						}else{
+    							html += "<div class='score'>"+data[i].score.toFixed(1)+"점</div>";
+    						}
+    						html += "<div><img class='item-main-img' src='../../../upload/images/tour/thumnail/"+data[i].filename+"'></div>";
+    						html += "<div class='itemTitle'>"+data[i].itemTitle+"</div>";
+    						
+    						html += "<div class='term'>"+data[i].beginDate+" ~ "+data[i].endDate+"</div>";
+    						html += ""
+    						if(data[i].closeCheck==1){
+    							html += "<h1>마감</h1>"
+    						}
+    						html += "</div>";
+    					}
+    					$(".tourContent").append(html);
+    					$("#more-btn").val(Number(start)+12);
+    					$("#more-btn").attr("currentCount",Number($("#more-btn").attr("currentCount"))+data.length);
+    					var totalCount = $("#more-btn").attr("totalCount");
+    					var currentCount = $("#more-btn").attr("currentCount");
+    					if(totalCount==currentCount){
+    						$("#more-btn").attr("disabled",true);
+    						$("#more-btn").css("display","none");
+    					}
+    				},
+    				error : function(){
+    					console.log("실패");
+    				}
+    			});
+    		}
+    		
+   			fn_more(1,"tl");
+   			$("#more-btn").click(function(){
+   				fn_more($(this).val(),"tl");
+   			});
     	})
+    	
+    	function itemView(itemNo){
+   			location.href="/tourView.do?itemNo="+itemNo;
+    	};
     </script>
   </head>
   <body>
@@ -129,7 +221,9 @@ prefix="c"%>
             </div>
         </div>
         <div class="tourContent">
-            
+        </div>
+        <div class="morebtn">
+       		<button class="btn btn-outline-info" id="more-btn" totalCount="${totalCount }" currentCount="0" value="">더보기</button>
         </div>
     </section>
 

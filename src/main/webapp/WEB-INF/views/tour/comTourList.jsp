@@ -141,8 +141,8 @@ prefix="c"%>
     			location.href="/tourView.do?itemNo="+itemNo;
     		});
     		
-    		function fn_more(start){
-    			var param = {start:start};
+    		function fn_more(start,val){
+    			var param = {start:start,val:val};
     			$.ajax({
     				url: "/moreItem.do",
     				data : param,
@@ -156,7 +156,7 @@ prefix="c"%>
     						if(data[i].score==0){
     							html += "<div class='score'>후기가 없습니다</div>";
     						}else{
-    							html += "<div class='score'>"+data[i].score+"점</div>";
+    							html += "<div class='score'>"+data[i].score.toFixed(1)+"점</div>";
     						}
     						html += "<div><img class='item-main-img' src='../../../upload/images/tour/thumnail/"+data[i].filename+"'></div>";
     						html += "<div class='itemTitle'>"+data[i].itemTitle+"</div>";
@@ -173,7 +173,7 @@ prefix="c"%>
     					$("#more-btn").attr("currentCount",Number($("#more-btn").attr("currentCount"))+data.length);
     					var totalCount = $("#more-btn").attr("totalCount");
     					var currentCount = $("#more-btn").attr("currentCount");
-    					if(totalCount==currentCount){
+    					if(totalCount<=currentCount){
     						$("#more-btn").attr("disabled",true);
     						$("#more-btn").css("display","none");
     					}
@@ -184,9 +184,9 @@ prefix="c"%>
     			});
     		}
     		
-   			fn_more(1);
+   			fn_more(1,"ctl");
    			$("#more-btn").click(function(){
-   				fn_more($(this).val());
+   				fn_more($(this).val(),"ctl");
    			});
     	})
     	
