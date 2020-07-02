@@ -39,4 +39,35 @@
  	from member
  	where email=#{email}
  </select>
+ <select id="idSearch" parameterType="member" resultType="member">
+ select
+ member_id as memberId
+ from member where member_name=#{memberName} and email = #{email}
+ </select>
+ <select id="passwordchange" parameterType="member" resultType="member">
+ 	select 
+ 	member_id as memberId,
+ 	member_pw as memberPw,
+ 	member_nickname as memberNickname,
+ 	member_name as memberName,
+ 	age,
+ 	gender,
+ 	phone,
+ 	email,
+ 	member_level as memberLevel,
+ 	reg_Date as regDate
+ 	from member where member_id=#{memberId} and email=#{email}
+ </select>
+ <update id="pwModifyMember" parameterType="member">
+ 	update member set member_pw = #{memberPw} where member_id =#{memberId}
+ </update>
+ <update id="memberModified" parameterType="member">
+ update member set 
+ member_pw = #{memberPw},
+ member_name = #{memberName},
+ member_nickname = #{memberNickname},
+ age = #{age},
+ phone = #{phone}
+ where member_id=#{memberId}
+ </update>
 </mapper>

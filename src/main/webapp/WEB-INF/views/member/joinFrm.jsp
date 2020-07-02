@@ -25,7 +25,7 @@
 			<div class="memberlevel1">
 			<i class="far fa-user-circle"></i><br>
 			<h3>일반회원</h3>
-			<a href="/memberjoinFrm.do"><input class="btn btn-primary" type="button" value="가입"></a>
+			<a href="/loginMember.do"><input class="btn btn-primary" type="button" value="가입"></a>
 			</div>
 			<div class="memberlevel2">
 			<i class="far fa-building"></i><br>

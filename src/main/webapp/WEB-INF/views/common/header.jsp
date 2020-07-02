@@ -21,9 +21,9 @@
 									<ul id="navigation">
 										<li><a class="active" href="index.html">일정게시판</a></li>
 										<li><a href="/recommendList.do">추천게시판</a></li>
-										<li><a class="" href="travel_destination.html">투어/티켓</a>
+										<li><a class="" href="/tourList.do">투어/티켓</a>
 										</li>
-										<li><a href="contact.html">공지사항</a></li>
+										<li><a href="/noticeList.do?reqPage=1">공지사항</a></li>
 									</ul>
 								</nav>
 							</div>
@@ -60,6 +60,8 @@
 													<ul class="submenu">
 														<li><a href="/myPage.do"><i class="far fa-user userIcon"></i></a>
 															<ul class="submenu">
+															<li><a href="/memberModifiedFrm.do">회원정보수정(일반)</a></li>
+															<li><a href="/companyModifiedFrm.do">회원정보수정(법인)</a></li>
 																<li><a href="/mypage.do">마이페이지</a></li>
 																<li><a href="/mytripFrm.do">일정만들기</a></li>
 																<li><a href="javascript:void(0)" id="openInbox">쪽지함</a></li>

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import kr.or.iei.member.model.vo.Company;
 import kr.or.iei.member.model.vo.Member;
+import kr.or.iei.notice.model.vo.Notice;
 
 @Repository("memberDao")
 public class MemberDao {
@@ -25,8 +26,8 @@ public class MemberDao {
 		return sqlsession.insert("company.companyjoin",company);
 	}
 
-	public int companymemberjoin(Member member) {
-		return sqlsession.insert("member.companymemberjoin",member);
+	public int companyjoinMember(Member m) {
+		return sqlsession.insert("member.companymemberjoin",m);
 	}
 
 	public int chkId(Member m) {
@@ -41,4 +42,30 @@ public class MemberDao {
 		return sqlsession.selectOne("member.memberchkEmail",m);
 		
 	}
+
+	public Member seleceId(Member m) {
+		return sqlsession.selectOne("member.idSearch",m);
+	}
+
+	public Member passwordchange(Member m) {
+		return sqlsession.selectOne("member.passwordchange",m);
+	}
+
+	public int pWModifyMember(Member m) {
+		return sqlsession.update("member.pwModifyMember",m);
+	}
+
+	public int memberModifiedMember(Member m) {
+		System.out.println("3");
+		return sqlsession.update("member.memberModified",m);
+	}
+
+	public Company checkCompanyId(Member member) {
+		return sqlsession.selectOne("company.checkCompanyId",member);
+	}
+
+	public int companyModifiedMember(Company cp) {
+		return sqlsession.update("company.companyModified",cp);
+	}
+
 }

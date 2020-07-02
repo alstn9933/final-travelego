@@ -8,11 +8,13 @@ import lombok.Data;
 public class ReserveVO {
 	private int reserveNo;
 	private int itemNo;
+	private String itemTitle;
 	private String memberId;
-	private Date tourDate;
+	private String memberName;
+	private String tourDate;
 	private String tourTime;
 	private int personCount;
-	private Date payDate;
+	private String payDate;
 	private int totalPay;
 	private int status;
 }

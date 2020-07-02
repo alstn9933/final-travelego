@@ -18,7 +18,6 @@
  <script src="/src/js/jquery/jquery-3.5.1.js"></script>
  <script src="/src/js/bootstrap/popper.min.js"></script>
  <script src="/src/js/bootstrap/bootstrap-4.5.0.js"></script>
- <link rel="stylesheet" href="/src/css/member/login/login.css" />
  <script
       src="/src/js/fontawesome/8bd2671777.js"
       crossorigin="anonymous"
@@ -264,10 +263,10 @@
 							</div>
 							<div id="tf">개인정보 수집 및 이용에 대한 안내(필수)</div>
 						</div>
-						<textarea style="resize: none;">. 목적 : 지원자 개인 식별, 지원의사 확인, 입사전형의 진행, 고지사항 전달, 입사 지원자와의 원활한 의사소통, 지원이력 확인 및 면접 불합격자 재지원 제한
+						<textarea style="resize: none;">. 목적 : 일반회원 가입, 가입의사 확인, 법인회원 가입, 회원정보 관리, 서비스이용에 대한 동의 , 필요시 회원 정보및 회원아이디 일시적제한
 2. 항목 : 아이디(이메일주소), 비밀번호, 이름, 생년월일, 휴대폰번호
 3. 보유기간 : 회원 탈퇴 시까지 보유 (단, 지원이력 정보는 일방향 암호화하여 탈퇴일로부터 1년간 보관 후 파기합니다.)
-       </textarea>
+       </textarea >
 					</div>
 					<div class="checkBox check03">
 						<div class="clearfix">
@@ -277,7 +276,7 @@
 							<div>위치정보 이용약관 동의(필수)</div>
 						</div>
 
-						<textarea>제 1 조 (목적)
+						<textarea style="resize: none;">제 1 조 (목적)
 이 약관은 Travelego 주식회사 (이하 “회사”)가 제공하는 위치정보사업 또는 위치기반서비스사업과 관련하여 회사와 개인위치정보주체와의 권리, 의무 및 책임사항, 기타 필요한 사항을 규정함을 목적으로 합니다.
 제 2 조 (약관 외 준칙)
 이 약관에 명시되지 않은 사항은 위치정보의 보호 및 이용 등에 관한 법률, 정보통신망 이용촉진 및 정보보호 등에 관한 법률, 전기통신기본법, 전기통신사업법 등 관계법령과 회사의 이용약관 및 개인정보처리방침, 회사가 별도로 정한 지침 등에 의합니다.
@@ -329,12 +328,12 @@
 1. ①회사는 위치정보와 관련된 분쟁에 대하여 개인위치정보주체와 협의가 이루어지지 아니하거나 협의를 할 수 없는 경우에는 방송통신위원회에 재정을 신청할 수 있습니다.
 2. ②회사 또는 개인위치정보주체는 위치정보와 관련된 분쟁에 대해 당사자간 협의가 이루어지지 아니하거나 협의를 할 수 없는 경우에는 개인정보보호법에 따라 개인정보분쟁조정위원회에 조정을 신청할 수 있습니다.
 제 12 조 (사업자 정보)
-회사의 상호, 주소, 전화번호 그 밖의 연락처는 다음과 같습니다.상호: Travelego 주식회사주소: 서울특별시 영등포구 선유동2로 57 (이레빌딩) [양평동4가 2] 전화번호: 1588-0000ㄴ 이메일 주소: Travelego@naver.com
+회사의 상호, 주소, 전화번호 그 밖의 연락처는 다음과 같습니다.상호: Travelego 주식회사주소: 서울특별시 영등포구 선유동2로 57 (이레빌딩) [양평동4가 2] 전화번호: 1588-1234 이메일 주소: Travelego@naver.com
 부칙
 제 1 조 시행일
 2015년 6월 2일부터 시행되던 종전의 약관은 본 약관으로 대체하며, 본 약관은 2015년 11월 26일부터 적용됩니다.제 2 조 위치정보관리 책임자 정보
 회사는 다음과 같이 위치정보 관리책임자를 지정하여 이용자들이 서비스 이용과정에서 발생한 민원사항 처리를 비롯하여 개인위치정보주체의 권리 보호를 위해 힘쓰고 있습니다.
-위치정보 관리책임자 : (개인)정보보호 담당 부서 임원(개인정보 보호책임자 겸직)전화번호 : 1588-3820이메일 주소 : privacy@naver.com
+위치정보 관리책임자 : (개인)정보보호 담당 부서 임원(개인정보 보호책임자 겸직)전화번호 : 1588-1234 이메일 주소 : Travelego@naver.com
        </textarea>
 					</div>
 					<div class="checkBox check04">
@@ -355,11 +354,11 @@
 					<br>
 					<div class="footBtwrap clearfix">
 						<div>
-							<button type="reset" id="fpmgBt1" value="취소"
+							<button class="btn btn-primary" type="reset" id="reset" value="취소"
 								onclick="location.href='/index.jsp';">취 소</button>
 						</div>
 						<div>
-							<button type="submit" value="동의" id="fpmgBt2"
+							<button class="btn btn-outline-primary" type="submit" value="동의" id="submit"
 								onclick="return checkstatus(); ">동 의</button>
 						</div>
 					</div>
