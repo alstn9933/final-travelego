@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import kr.or.iei.member.model.vo.Member;
 import kr.or.iei.reserve.model.dao.ReserveDao;
 import kr.or.iei.reserve.model.vo.ReserveVO;
+import kr.or.iei.tour.model.vo.ReviewVO;
 
 @Service("reserveService")
 public class ReserveService {
@@ -103,5 +104,13 @@ public class ReserveService {
 			r.setTourDate(r.getTourDate().substring(0,10));
 		}
 		return rList;
+	}
+
+	public int insertReview(ReviewVO r) {
+		int result =  dao.insertReview(r);
+		if(result==1) {
+			result = dao.upReChRe(r.getReserveNo());
+		}
+		return result;
 	}
 }

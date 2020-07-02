@@ -58,4 +58,7 @@
 	<select id="selectTotalReview" parameterType="_int" resultType="_int">
 		select count(*) as cnt from tour_review where item_no = #{_parameter}
 	</select>
+	<insert id="insertReview" parameterType="review">
+		insert into tour_review values(review_no_seq.nextval,#{itemNo},#{reserveNo},#{memberId},#{reviewRate},#{reviewContent},sysdate)
+	</insert>
 </mapper>

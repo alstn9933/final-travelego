@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import kr.or.iei.member.model.vo.Member;
 import kr.or.iei.reserve.model.vo.ReserveVO;
+import kr.or.iei.tour.model.vo.ReviewVO;
 import kr.or.iei.tour.model.vo.TourVO;
 
 @Repository("reserveDao")
@@ -34,7 +35,7 @@ public class ReserveDao {
 	}
 
 	public int cancelReserve(int reserveNo) {
-		return sqlSession.delete("reserve.cancelReserve",reserveNo);
+		return sqlSession.update("reserve.cancelReserve",reserveNo);
 	}
 
 	public int selectOneReserve(String memberId) {
@@ -55,5 +56,13 @@ public class ReserveDao {
 
 	public List selectMoreReserve(HashMap<String, String> map) {
 		return sqlSession.selectList("reserve.selectMoreReserve",map);
+	}
+
+	public int insertReview(ReviewVO r) {
+		return sqlSession.insert("tour.insertReview",r);
+	}
+
+	public int upReChRe(int reserveNo) {
+		return sqlSession.update("reserve.upReChRe",reserveNo);
 	}
 }

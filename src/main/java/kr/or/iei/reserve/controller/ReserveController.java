@@ -17,6 +17,7 @@ import com.google.gson.Gson;
 import kr.or.iei.member.model.vo.Member;
 import kr.or.iei.reserve.model.service.ReserveService;
 import kr.or.iei.reserve.model.vo.ReserveVO;
+import kr.or.iei.tour.model.vo.ReviewVO;
 
 @Controller
 public class ReserveController {
@@ -104,4 +105,17 @@ public class ReserveController {
 		return new Gson().toJson(rList);
 	}
 	
+	@ResponseBody
+	@RequestMapping(value="/writeReview.do", produces = "application/json; charset=utf-8")
+	public String insertReview(HttpSession session, String reviewContent, int itemNo, int reserveNo, int reviewRate) {
+		Member m = (Member)session.getAttribute("member");
+		ReviewVO r = new ReviewVO();
+		r.setItemNo(itemNo);
+		r.setMemberId(m.getMemberId());
+		r.setReserveNo(reserveNo);
+		r.setReviewContent(reviewContent);
+		r.setReviewRate(reviewRate);
+		int result = service.insertReview(r);
+		return new Gson().toJson(result);
+	}
 }

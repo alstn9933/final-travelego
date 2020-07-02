@@ -23,9 +23,9 @@
 		tour_reserve
 		values(tour_reserve_seq.nextval,#{itemNo},#{memberId},#{tourDate},#{tourTime},#{personCount},sysdate,0,0)
 	</insert>
-	<delete id="cancelReserve" parameterType="_int">
-		delete from tour_reserve where reserve_no=#{_paremeter}
-	</delete>
+	<update id="cancelReserve" parameterType="_int">
+		update tour_reserve set status=1 where reserve_no=#{_parameter}
+	</update>
 	<select id="selectReserveNo" parameterType="string" resultType="_int">
 		select reserve_no from
 		(select ROWNUM as rnum, r.* from
@@ -71,4 +71,7 @@
 		order by r.reserve_no desc)p)
 		where rnum between #{start} and #{end}
 	</select>
+	<update id="upReChRe" parameterType="_int">
+		update tour_reserve set check_review=1 where reserve_no=#{_parameter}
+	</update>
 </mapper>

@@ -174,7 +174,7 @@ prefix="c"%>
     					var totalCount = $("#more-btn").attr("totalCount");
     					var currentCount = $("#more-btn").attr("currentCount");
     					if(totalCount<=currentCount){
-    						$("#more-btn").attr("disabled",true);
+    						$("#more-btn").prop("disabled",true);
     						$("#more-btn").css("display","none");
     					}
     				},
