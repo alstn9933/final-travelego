@@ -10,3 +10,22 @@ $("#autosize").on("keyup", function (event) {
     $(this).height(lineNum * 15 + 26);
   }
 });
+
+$(".content").on("mouseenter mouseleave", toggleStrech);
+$(".show_comment").click(showComment);
+
+function toggleStrech() {
+  $(this).find(".strech_area").slideToggle();
+}
+
+function showComment() {
+  const icon = $(this).find(".fa-angle-down");
+
+  if (icon.hasClass("icon_x_rotate")) {
+    icon.removeClass("icon_x_rotate");
+  } else {
+    icon.addClass("icon_x_rotate");
+  }
+
+  $(this).next().slideToggle();
+}

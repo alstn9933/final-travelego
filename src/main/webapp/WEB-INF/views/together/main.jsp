@@ -278,7 +278,15 @@ prefix="c"%>
                     class="form-control"
                     id="inputRegion"
                     placeholder="검색어를 입력하세요"
+                    autocomplete="off"
                   />
+                  <ul class="list-group shadow-sm">
+                    <li class="list-group-item">test1</li>
+                    <li class="list-group-item">test2</li>
+                    <li class="list-group-item">test3</li>
+                    <li class="list-group-item">test4</li>
+                    <li class="list-group-item">test5</li>
+                  </ul>
                 </div>
                 <span id="regionAlert">
                   검색어를 입력 후 결과에서 선택하세요.
@@ -354,24 +362,9 @@ prefix="c"%>
         $("#writeForm").submit();
       });
 
-      $(".content").on("mouseenter mouseleave", toggleStrech);
-      $(".show_comment").click(showComment);
-
-      function toggleStrech() {
-        $(this).find(".strech_area").slideToggle();
-      }
-
-      function showComment() {
-        const icon = $(this).find(".fa-angle-down");
-
-        if (icon.hasClass("icon_x_rotate")) {
-          icon.removeClass("icon_x_rotate");
-        } else {
-          icon.addClass("icon_x_rotate");
-        }
-
-        $(this).next().slideToggle();
-      }
+      $("#inputRegion").keyup(function (event) {
+        console.log(event.key);
+      });
     </script>
     <script>
       $(function () {
