@@ -399,20 +399,19 @@
 								
 								var emailCodeTime ; 	
 								emailCodeTime = window.setInterval(function(){
+									sec = $("#sec");
+									min = $("#min");
 									sec.html(Number($("#sec").html()-1));
 									if(sec.html()==0){
 										if(min.html()==0){
 											clearInterval(emailCodeTime);
+											$("#lEmailCode").remove();
+											alert("인증시간 만료.");
+											$("#emailBtn").show();
 											$("#min").remove();
 											$("#sec").remove();
 											$("#col").remove();
-											$("#emailCode").remove();
-											$("#emailCodeBtn").remove();
-											$("#lEmailCode").remove();
-											$("#emailBtn").remove();
-											alert("인증시간 만료.");
 											mailCode="";
-											console.log(mailCode);
 											checkArr[8] = false;
 										}else{
 											min.html(Number($("#min").html()-1));
@@ -420,7 +419,7 @@
 										}
 									}
 	
-								},1000);
+								},1000); 
 							},
 							error : function() {
 								console.log("이메일발송에러");
@@ -443,8 +442,17 @@
 	});
 	$("#emailCodeBtn").click(function() {
 		if ($("#emailCode").val() == mailCode) {
+			var emailCodeTime ; 
 			$("#mailMsg").html('인증성공');
 			$("#mailMsg").css('color', 'green');
+			$("#email").prop("readonly",true);
+			$("#min").remove();
+			$("#sec").remove();
+			$("#col").remove();
+			$("#emailCode").remove();
+			$("#emailCodeBtn").remove();
+			clearInterval(emailCodeTime);
+			checkArr[8] = true;
 			checkArr[9] = true;
 		} else {
 			$("#mailMsg").html('인증실패');
@@ -461,20 +469,6 @@
 				count++;
 			}
 		}
-		console.log(count);
-		console.log(checkArr[0]);
-		console.log(checkArr[1]);
-		console.log(checkArr[2]);
-		console.log(checkArr[3]);
-		console.log(checkArr[4]);
-		console.log(checkArr[5]);
-		console.log(checkArr[6]);
-		console.log(checkArr[7]);
-		console.log(checkArr[8]);
-		console.log(checkArr[9]);
-		console.log(checkArr[10]);
-		console.log(checkArr[11]);
-		
 		if(count == 12){
 			return true;	
 		} else {

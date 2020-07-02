@@ -22,6 +22,7 @@
 	<section>
 		<div class="MainPWChange">
 			<form action="/pwModify.do" method="post">
+				<input type="hidden" id="timeDate" name ="timeDate" value="${timeDate }">
 				<input type="hidden" name="memberId" value="${memberId }">
 				<h6>변경할 비밀번호</h6>
 				<input type="password" class="form-control" name="memberPw"
@@ -40,6 +41,8 @@
 	<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
 </body>
 <script>
+	var timeDate=$("#timeDate");
+	console.log(timeDate);
 	var cnt = 0;
 	var checkArr = [false,false];
 	$("#memberPw")

@@ -159,12 +159,10 @@ public class MemberController {
 	}
 	@RequestMapping("/passwordchange.do")
 	public String passwordchange(Member m,Model model,HttpServletRequest request) {
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd/HH/mm/ss");
-		String now = sdf.format(new Date());
-		System.out.println("now : "+now);
+		long timeDate= System.currentTimeMillis()/1000;
 		Member members = service.passwordchange(m);
 		if(members != null) {
-			new SendPwMail().SendPwMail(m.getMemberId(),m.getEmail());
+			new SendPwMail().SendPwMail(m.getMemberId(),m.getEmail(),timeDate);
 			model.addAttribute("msg","이메일 발송이 완료 되었습니다.");
 			model.addAttribute("loc","/loginFrm.do");
 		}else {
@@ -174,12 +172,15 @@ public class MemberController {
 		return "common/msg";
 	}
 	@RequestMapping("/pwChange.do")
-	public String pwSearch(String memberId,Model model) {
+	public String pwSearch(String memberId,Model model,long timeDate) {
+		model.addAttribute("timeDate", timeDate);
 		model.addAttribute("memberId", memberId);
 		return "member/pwChange";
 	}
 	@RequestMapping("/pwModify.do")
-	public String pwModifyMember(Member m,Model model) {
+	public String pwModifyMember(Member m,Model model,long timeDate) {
+		long endDate = System.currentTimeMillis()/1000;
+		if(endDate-timeDate<300) {
 		int result = service.pwModifyMember(m);
 		if(result>0) {
 			model.addAttribute("msg","비밀번호 변경이 완료되었습니다!");
@@ -187,6 +188,11 @@ public class MemberController {
 		}else {
 			model.addAttribute("msg", "에러 : 관리자에게 문의하세요.");
 			model.addAttribute("loc", "/memberInformation.do");
+		}
+		}else if(endDate-timeDate>300){
+			System.out.println("3");
+			model.addAttribute("msg","비밀번호변경 시간이 만료되었습니다. 다시 신청해주세요.");
+			model.addAttribute("loc", "memberInformation.do");
 		}
 		return "common/msg";
 	}	
