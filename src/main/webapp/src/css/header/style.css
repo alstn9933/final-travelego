@@ -12,9 +12,41 @@
   -ms-flex-pack: start;
   justify-content: start;
 }
+.alramLine{
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	text-align: center;
+}
+.alramIcon{
+	position: relative;
+}
+#alramCount{
+	position: absolute;
+	font-size: 3px;
+	border: 1px solid black;
+	border-radius: 50px;
+	background-color: red;
+	width: 13px;
+	height: 13px;
+	text-align: center;
+	left: 9px;
+}
 .emptyuser{
 	width: 50px;
 	font-size: 20px;
+}
+.alramListBox{
+	position: absolute;
+	width: 250px;
+	height: 400px;
+	background-color: gray;
+	border-radius: 20px;
+	left: -120px;
+	display : none;
+	opacity: 0.5;
+	overflow: auto;
+	/*visibility: hidden;*/
 }
 
 /* Normal desktop :1200px. */
