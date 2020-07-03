@@ -63,7 +63,7 @@ prefix="c"%>
           ></textarea>
         </div>
         <div class="btn_area">
-          <button type="button" class="btn btn-outline-danger">취소</button>
+          <button type="reset" class="btn btn-outline-danger">취소</button>
           <button type="submit" class="btn btn-outline-primary">보내기</button>
         </div>
         <input
@@ -114,6 +114,10 @@ prefix="c"%>
           error: function () {},
         });
       }
+    });
+
+    $("button").eq(0).click(function(){
+      $("#inputContent").attr("disabled",true);
     });
   </script>
 </html>
