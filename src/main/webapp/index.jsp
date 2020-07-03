@@ -65,12 +65,12 @@ prefix="c"%>
     <script src="/src/js/header/owl.carousel.min.js"></script>
     <script src="/src/js/header/isotope.pkgd.min.js"></script>
     <script src="/src/js/header/ajax-form.js"></script>
-    <script src="/src/js/header/waypoints.min.js"></script>
+    <!--  <script src="/src/js/header/waypoints.min.js"></script>-->
     <script src="/src/js/header/jquery.counterup.min.js"></script>
     <script src="/src/js/header/imagesloaded.pkgd.min.js"></script>
     <script src="/src/js/header/scrollIt.js"></script>
     <script src="/src/js/header/jquery.scrollUp.min.js"></script>
-    <script src="/src/js/header/wow.min.js"></script>
+    <script src="/src/js/header/wow.min.js"></script>3
     <script src="/src/js/header/nice-select.min.js"></script>
     <script src="/src/js/header/jquery.slicknav.min.js"></script>
     <script src="/src/js/header/jquery.magnific-popup.min.js"></script>
@@ -97,6 +97,5 @@ prefix="c"%>
         },
       });
     </script>
-
   </body>
 </html>

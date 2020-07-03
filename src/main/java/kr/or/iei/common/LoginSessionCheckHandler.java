@@ -22,14 +22,14 @@ public class LoginSessionCheckHandler {
 	@Pointcut("execution(* kr.or.iei..*Service.*(kr.or.iei.member.model.vo.Member,..))")
 	public void loginSessionPointcut() {}
 	
-	@ExceptionHandler(NullPointerException.class)
-	public String errorHandler(Model model) {
-		
-		model.addAttribute("msg","먼저 로그인 해주세요.");
-		model.addAttribute("loc","/loginFrm.do");
-		
-		return "common/msg";
-	}
+//	@ExceptionHandler(NullPointerException.class)
+//	public String errorHandler(Model model) {
+//		
+//		model.addAttribute("msg","먼저 로그인 해주세요.");
+//		model.addAttribute("loc","/loginFrm.do");
+//		
+//		return "common/msg";
+//	}
 	
 	
 	// 메소드 실행 전처리
@@ -44,6 +44,8 @@ public class LoginSessionCheckHandler {
 		// 메소드에서 참조된 매개변수 member가 null일때
 		if(member == null) {
 			// 고의적 NullPointerException 발생
+
+			System.out.println("포인트컷 작동");
 			member.getMemberId();			
 		}		
 	}	
