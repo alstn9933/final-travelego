@@ -6,4 +6,15 @@
 			my_trip_seq.nextval,#{regionNo},sysdate,sysdate
 		)
 	</insert>
+	<select id="searchRegion" parameterType="String" resultType="region">
+		select
+			region_no as regionNo,
+			region_country as regionCountry,
+			region_city as regionCity,
+			filename
+		from region
+		where region_city like '%'||#{_parameter}||'%' or region_country like '%'||#{_parameter}||'%'
+		order by regionCountry,regionCity
+	</select>
+	
 </mapper>
