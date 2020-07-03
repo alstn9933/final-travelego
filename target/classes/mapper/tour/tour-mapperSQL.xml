@@ -61,4 +61,13 @@
 	<insert id="insertReview" parameterType="review">
 		insert into tour_review values(review_no_seq.nextval,#{itemNo},#{reserveNo},#{memberId},#{reviewRate},#{reviewContent},sysdate)
 	</insert>
+	<select id="selectAllTour" resultType="tour">
+		select item_no as itemNo, end_date as endDate from tour
+	</select>
+	<update id="closeCheckTour" parameterType="_int">
+		update tour set close_check=1 where item_no=#{_parameter}
+	</update>
+	<select id="selectComTour" parameterType="string" resultType="tour">
+		select item_no as itemNo, item_title as itemTitle from tour where member_id=#{_parameter}
+	</select>
 </mapper>

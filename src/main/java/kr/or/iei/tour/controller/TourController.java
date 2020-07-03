@@ -116,7 +116,6 @@ public class TourController {
 	public String insertTour(HttpServletRequest request, MultipartFile file,Model model, TourVO tv,String beginEnd) {
 		Photo p = new Photo();
 		String savePath = request.getSession().getServletContext().getRealPath("/upload/images/tour/thumnail");
-		
 		File folder = new File(savePath);
 
 		// 해당 디렉토리 확인
@@ -168,7 +167,6 @@ public class TourController {
 	@RequestMapping(value = "/uploadImage.do", method = RequestMethod.POST)
 	public void imageUpload(HttpServletRequest request, HttpServletResponse response,
 			MultipartHttpServletRequest multiFile, @RequestParam MultipartFile upload) throws Exception {
-
 		OutputStream out = null;
 		PrintWriter printWriter = null;
 

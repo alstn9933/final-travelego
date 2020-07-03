@@ -11,6 +11,7 @@ public class ReserveVO {
 	private String itemTitle;
 	private String memberId;
 	private String memberName;
+	private String phone;
 	private String tourDate;
 	private String tourTime;
 	private int personCount;

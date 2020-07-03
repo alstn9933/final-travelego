@@ -17,7 +17,9 @@ import com.google.gson.Gson;
 import kr.or.iei.member.model.vo.Member;
 import kr.or.iei.reserve.model.service.ReserveService;
 import kr.or.iei.reserve.model.vo.ReserveVO;
+import kr.or.iei.tour.model.service.TourService;
 import kr.or.iei.tour.model.vo.ReviewVO;
+import kr.or.iei.tour.model.vo.TourVO;
 
 @Controller
 public class ReserveController {
@@ -117,5 +119,30 @@ public class ReserveController {
 		r.setReviewRate(reviewRate);
 		int result = service.insertReview(r);
 		return new Gson().toJson(result);
+	}
+	
+	@RequestMapping(value="/comReserveList.do")
+	public String goComReserveList(HttpSession session, Model model) {
+		Member m = (Member)session.getAttribute("member");
+		if(m==null) {
+			model.addAttribute("msg","로그인을 먼저 해주세요");
+			model.addAttribute("loc","/loginFrm.do");
+			return "common/msg";
+		}else if(m.getMemberLevel()!=2) {
+			model.addAttribute("msg","접근 불가능한 회원입니다");
+			model.addAttribute("loc","/");
+			return "common/msg";
+		}
+		ArrayList<TourVO> tList = service.selectAllTour(m.getMemberId());
+		model.addAttribute("tList",tList);
+		return "reserve/comReserveList";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/changeList.do", produces = "application/json; charset=utf-8")
+	public String changeList(ReserveVO r, HttpSession session) {
+		Member m = (Member)session.getAttribute("member");
+		ArrayList<ReserveVO> rList = service.selectReserveList(m,r);
+		return new Gson().toJson(rList);
 	}
 }

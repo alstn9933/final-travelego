@@ -12,6 +12,7 @@ import kr.or.iei.member.model.vo.Member;
 import kr.or.iei.reserve.model.dao.ReserveDao;
 import kr.or.iei.reserve.model.vo.ReserveVO;
 import kr.or.iei.tour.model.vo.ReviewVO;
+import kr.or.iei.tour.model.vo.TourVO;
 
 @Service("reserveService")
 public class ReserveService {
@@ -112,5 +113,14 @@ public class ReserveService {
 			result = dao.upReChRe(r.getReserveNo());
 		}
 		return result;
+	}
+
+	public ArrayList<TourVO> selectAllTour(String memberId) {
+		return (ArrayList<TourVO>)dao.selectAllTour(memberId);
+	}
+
+	public ArrayList<ReserveVO> selectReserveList(Member m, ReserveVO r) {
+		r.setMemberId(m.getMemberId());
+		return (ArrayList<ReserveVO>)dao.selectReserveList(r);
 	}
 }

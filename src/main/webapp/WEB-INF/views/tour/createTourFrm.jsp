@@ -389,7 +389,7 @@ section {
 					$('html, body').animate({scrollTop : $("input[name='beginEnd']").offset().top}, 400);
 					return false;
 				}
-				return true;
+				return false;
 			});
 		});
 	</script>

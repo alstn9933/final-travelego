@@ -65,4 +65,12 @@ public class ReserveDao {
 	public int upReChRe(int reserveNo) {
 		return sqlSession.update("reserve.upReChRe",reserveNo);
 	}
+
+	public List selectAllTour(String memberId) {
+		return sqlSession.selectList("tour.selectComTour",memberId);
+	}
+
+	public List selectReserveList(ReserveVO r) {
+		return sqlSession.selectList("reserve.selectReserve",r);
+	}
 }

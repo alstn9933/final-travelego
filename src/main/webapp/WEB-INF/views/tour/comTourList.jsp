@@ -162,9 +162,8 @@ prefix="c"%>
     						html += "<div class='itemTitle'>"+data[i].itemTitle+"</div>";
     						
     						html += "<div class='term'>"+data[i].beginDate+" ~ "+data[i].endDate+"</div>";
-    						html += ""
     						if(data[i].closeCheck==1){
-    							html += "<h1>마감</h1>"
+    							html += "<h1>마감</h1>";
     						}
     						html += "</div>";
     					}

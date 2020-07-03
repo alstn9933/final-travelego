@@ -1,6 +1,9 @@
 package kr.or.iei.tour.model.service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -126,5 +129,25 @@ public class TourService {
 		rd.setReviewList((ArrayList<ReviewVO>)list);
 		
 		return rd;
+	}
+
+	public void tourCloseCheck() {
+		ArrayList<TourVO> tList = (ArrayList<TourVO>)dao.selectAllTour();
+		SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-mm-dd");
+		Date nowDate = new Date();
+		nowDate.setTime (nowDate.getTime()-((long)1000*60*60*24));
+		for(TourVO t : tList) {
+			try {
+				Date endDate = dateformat.parse(t.getEndDate().substring(0,10));
+				int compare = nowDate.compareTo(endDate);
+				if(compare>0) {
+					int result = dao.tourCloseCheck(t.getItemNo());
+					System.out.println(t.getItemNo()+"이 마감되었습니다");
+				}
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 }

@@ -21,7 +21,7 @@
 	<insert id="insertReserve" parameterType="reserve">
 		insert into
 		tour_reserve
-		values(tour_reserve_seq.nextval,#{itemNo},#{memberId},#{tourDate},#{tourTime},#{personCount},sysdate,0,0)
+		values(tour_reserve_seq.nextval,#{itemNo},#{memberId},#{tourDate},#{tourTime},#{personCount},sysdate,0,0,0)
 	</insert>
 	<update id="cancelReserve" parameterType="_int">
 		update tour_reserve set status=1 where reserve_no=#{_parameter}
@@ -74,4 +74,19 @@
 	<update id="upReChRe" parameterType="_int">
 		update tour_reserve set check_review=1 where reserve_no=#{_parameter}
 	</update>
+	<select id="selectReserve" parameterType="reserve" resultType="reserve">
+		select r.reserve_no, t.item_title, m.member_name, m.phone, r.tour_date, r.tour_time, r.person_count, r.pay_date, r.total_pay, r.status 
+		from tour_reserve r join member m on(m.member_id=r.member_id) join tour t on(t.item_no=r.item_no) 
+		where t.member_id=#{memberId} 
+		<if test="memberName!=null || memberName!=''">
+		and m.member_name=#{memberName}
+		</if>
+		<if test="phone!=null||phone!=''">
+		 and m.phone=#{phone}
+		</if>
+		<if test="tourDate!=null||tourDate!=''">
+		and r.tour_date='20/06/15' 
+		</if>
+		order by r.tour_date asc, r.reserve_no desc
+	</select>
 </mapper>

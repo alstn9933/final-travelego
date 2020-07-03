@@ -1,5 +1,6 @@
 package kr.or.iei.tour.model.dao;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -57,5 +58,13 @@ public class TourDao {
 
 	public List moreReviewList(HashMap<String, String> map) {
 		return sqlSession.selectList("tour.selectMoreReview", map);
+	}
+
+	public List selectAllTour() {
+		return sqlSession.selectList("tour.selectAllTour");
+	}
+
+	public int tourCloseCheck(int itemNo) {
+		return sqlSession.update("tour.closeCheckTour",itemNo);
 	}
 }
