@@ -59,8 +59,15 @@
 	<aop:aspectj-autoproxy />
 	
 	<!-- 세션체크 인터셉터 객체 -->
-	
-
+	<!-- 알람 핸들러 -->
+	<!--
+	   <websocket:handlers>
+      <websocket:mapping handler="alarmHandler" path=""/>
+      <websocket:handshake-interceptors>
+         <bean class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor"/>
+      </websocket:handshake-interceptors>
+   </websocket:handlers>
+	-->
 	<!-- 웹소켓 설정 
 	<websocket:handlers>
 		<websocket:mapping handler="myHandler"

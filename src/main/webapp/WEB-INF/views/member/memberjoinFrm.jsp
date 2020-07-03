@@ -324,6 +324,7 @@
 								mailCode = data;
 								alert("이메일을 송신했습니다.");
 								checkArr[8] = true;
+								$("#emailBtn").hide();
 								
 								var min = $("#min");
 								var sec = $("#sec");
@@ -334,18 +335,18 @@
 								
 								var emailCodeTime ; 	
 								emailCodeTime = window.setInterval(function(){
+									sec = $("#sec");
+									min = $("#min");
 									sec.html(Number($("#sec").html()-1));
 									if(sec.html()==0){
 										if(min.html()==0){
 											clearInterval(emailCodeTime);
+											$("#lEmailCode").remove();
+											alert("인증시간 만료.");
+											$("#emailBtn").show();
 											$("#min").remove();
 											$("#sec").remove();
 											$("#col").remove();
-											$("#emailCode").remove();
-											$("#emailCodeBtn").remove();
-											$("#lEmailCode").remove();
-											alert("인증시간 만료.");
-											$("#emailBtn").remove();
 											mailCode="";
 											checkArr[8] = false;
 										}else{
@@ -376,8 +377,18 @@
 	});
 	$("#emailCodeBtn").click(function() {
 		if ($("#emailCode").val() == mailCode) {
+			var emailCodeTime ; 
 			$("#mailMsg").html('인증성공');
 			$("#mailMsg").css('color', 'green');
+			$("#email").prop("readonly",true);
+			$("#min").remove();
+			$("#sec").remove();
+			$("#col").remove();
+			$("#emailCode").remove();
+			$("#emailCodeBtn").remove();
+			clearInterval(emailCodeTime);
+			
+			checkArr[8] = true;
 			checkArr[9] = true;
 		} else {
 			$("#mailMsg").html('인증실패');

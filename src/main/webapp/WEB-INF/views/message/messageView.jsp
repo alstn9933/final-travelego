@@ -62,13 +62,13 @@ prefix="c"%>
       <div class="sender_area">
         <c:if test="${sessionScope.member.memberId != message.messageSender }">
           <div>
-            <span>from.</span>
+            <span id="messageTarget">from.</span>
             <span id="sender">${message.messageSender}</span>
           </div>
         </c:if>
         <c:if test="${sessionScope.member.memberId == message.messageSender }">
           <div>
-            <span>To.</span>
+            <span id="messageTarget">To.</span>
             <span id="sender">${message.messageReceiver}</span>
           </div>
         </c:if>
@@ -76,7 +76,7 @@ prefix="c"%>
       </div>
       <div class="btn_area">
         <div>
-          <button type="button" class="btn btn-primary">목록으로</button>
+          <button id="toList" type="button" class="btn btn-primary">목록으로</button>
         </div>
         <div>
           <button type="button" class="btn btn-danger" id="deleteBtn">
@@ -100,6 +100,15 @@ prefix="c"%>
     $("#deleteBtn").click(function () {
       if (confirm("쪽지를 삭제하시겠습니까?")) {
         location.href = "/message/delete.do?messageNo=${message.messageNo}";
+      }
+    });
+
+    $("#toList").click(function(){
+      const toGo = $("#messageTarget").html();
+      if(toGo == "from."){
+        location.href="/message/inbox.do";
+      } else {
+        location.href="/message/outbox.do";
       }
     });
   </script>
