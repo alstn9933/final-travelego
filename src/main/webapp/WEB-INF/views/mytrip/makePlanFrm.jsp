@@ -40,8 +40,6 @@ prefix="c"%>
         #tt{
             float: left;
             margin-left: 100px;
-            width:600px;
-            height: 600px;
         }
         #regionValue{
             margin-left: 600px;
@@ -50,14 +48,10 @@ prefix="c"%>
         	background-color: gray;
         }
         #dateList{
-        	width: 300px;
-        	height: 300px;
-        	margin-top: 300px;
-        	border: 1px solid black;
-        	background-color: red;
-        }
-        #contentDiv{
-        	margin-top: 1000px;
+        	margin-top: 200px;
+        	background-color: lightpink;
+        	width: 1200px;
+        	height: 1500px;
         }
     </style>
   </head>
@@ -72,7 +66,6 @@ prefix="c"%>
     <section>
       <!-- 여기서부터 작성하시면 됨!!!!!!! -->
       <c:if test="${not empty sessionScope.member }">
-      <form action="/makeMytrip.do">
 	      <div>
 	      	<input type="text" id="datePicker">
 	      	<div id="tt">
@@ -84,31 +77,32 @@ prefix="c"%>
 	      		</table>
 	      	</div>
 	      </div>
-	      <input type="text" name="cityValue">
-	      <input type="text" name="countryValue">
-	      <input type="text" name="dpValue1">
-	      <input type="text" name="dpValue2">
-		  <div id="dateList"></div>
-	      <input type="submit" id="makeBtn" value="버튼활성화" disabled>
-	      <div id="contentDiv">
-	      	<br>
+	      <br><br><br>
+	      <input type="text" name="cityValue"><br>
+	      <input type="text" name="countryValue"><br>
+	      <input type="text" name="regionNo"><br>
+		  <button type="button" id="makeBtn">버튼</button><br>
+	      <div id="dateList">
 	      	
 	      </div>
-	  </form>
 	  </c:if>
     </section>
 	<script>
 		var dat1Copy="";
 		var dat2="";
+		var regionNo="";
 		var cityValue="";
 		var countryValue="";
 		var datArr;
 		
 		$(document).on("click","#regionTable tr",function(){//동적으로 생성된 태그에 이벤트 적용
-			cityValue = $(this).children().eq(1).text();
-			countryValue = $(this).children().eq(2).text();
+			//regionNo = $(this).children(input type=hidden).val();
+			regionNo = $(this).children().eq(1).val();
+			cityValue = $(this).children().eq(2).text();
+			countryValue = $(this).children().eq(3).text();
 			$("input[name=cityValue]").attr("value",cityValue);
 			$("input[name=countryValue]").attr("value",countryValue);
+			$("input[name=regionNo]").attr("value",regionNo);
 			//console.log(dat1Copy+"ddd");
 			if(dat1Copy!=""){
 				//$("#makeBtn").attr("disabled",true);
@@ -135,12 +129,24 @@ prefix="c"%>
 			$("#makeBtn").click(function(){
 				//var sendArr = {"sendArr":datArr};
 				//jQuery.ajaxSettings.traditional = true;
+				var form = {
+						"sendArr":datArr,
+						"regionNo":regionNo
+				}
 				$.ajax({
 					url : "/makeMytrip.do",
 					type : "POST",
-					data : {"sendArr":datArr},
+					data : form,
 					traditional : true,
-					success : function(data){
+					success : function(){
+						var html = "";
+						html += "<hr>";
+						for(var i=0; i<datArr.length; i++){
+							html += "<label>"+datArr[i].getMonth()+"월 "+datArr[i].getDate()+"일</label><br>";
+							html += "<button type='button' name='tripDate' value='"+datArr[i]+"'>장소 추가</button>";
+							html += "<button type='button' name='tripDate' value='"+datArr[i]+"'>메모추가</button><br><br>";
+						}
+						$("#dateList").append(html);
 						console.log("아작스성공!!!!!!!!");
 					},
 					error : function(){
@@ -162,6 +168,7 @@ prefix="c"%>
 						if(data!="0"){
 						for(var i=0; i<data.length; i++){
 							html += "<tr><td>"+data[i].filename+"</td>";
+							html += "<input type='hidden' value='"+data[i].regionNo+"'>";
 							html += "<td>"+data[i].regionCity+"</td>";
 							html += "<td>"+data[i].regionCountry+"</td></tr>";
 						}

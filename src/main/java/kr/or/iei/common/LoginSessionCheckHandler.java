@@ -27,7 +27,6 @@ public class LoginSessionCheckHandler {
 	
 	@ExceptionHandler(MemberNullException.class)
 	public String errorHandler(Model model) {
-		
 		model.addAttribute("msg","먼저 로그인 해주세요.");
 		model.addAttribute("loc","/loginFrm.do");
 		
