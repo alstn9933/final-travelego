@@ -10,6 +10,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.google.gson.Gson;
+
 import kr.or.iei.common.model.vo.Region;
 import kr.or.iei.member.model.service.MemberService;
 import kr.or.iei.member.model.vo.Member;
@@ -30,10 +32,16 @@ public class TogetherController {
 	}
 	
 	@ResponseBody
-	@RequestMapping(value = "/searchRegion", produces = "application/json;charset=utf-8")
+	@RequestMapping(value = "/searchRegion.do", produces = "application/json;charset=utf-8")
 	public String searchRegion(String keyword) {
+		System.out.println("keyword : "+keyword);
 		ArrayList<Region> list = service.selectRegionByKeyword(keyword);
-		return null;
+		
+		for(Region r : list) {
+			System.out.println(r.getRegionCity());			
+		}
+		
+		return new Gson().toJson(list);
 	}
 	
 	@RequestMapping("/open.do")

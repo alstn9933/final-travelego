@@ -271,6 +271,7 @@ prefix="c"%>
                   name="togetherWriter"
                   value="${sessionScope.member.memberId}"
                 />
+                <input type="hidden" name="regionNo" id="regionNo" />
                 <label for="inputRegion" class="col-form-label">지역</label>
                 <div>
                   <input
@@ -281,7 +282,7 @@ prefix="c"%>
                     autocomplete="off"
                   />
                   <ul class="list-group shadow-sm">
-                    <li class="list-group-item">test1</li>
+                    <li class="list-group-item" id="selected_region">test1</li>
                     <li class="list-group-item">test2</li>
                     <li class="list-group-item">test3</li>
                     <li class="list-group-item">test4</li>
@@ -363,8 +364,78 @@ prefix="c"%>
       });
 
       $("#inputRegion").keyup(function (event) {
-        console.log(event.key);
+        const key = event.key;
+        const current = $("#selected_region");
+        if (key.includes("Arrow")) {
+          if (key.includes("Up")) {
+            const next = current.prev();
+            if (next.length != 0) {
+              current.removeAttr("id");
+              next.attr("id", "selected_region");
+            }
+          } else if (key.includes("Down")) {
+            const next = current.next();
+            if (next.length != 0) {
+              current.removeAttr("id");
+              next.attr("id", "selected_region");
+            }
+          }
+        } else if (key == "Enter") {
+          $(this).val(current.html());
+          $("#regionNo").val(current.attr("regionNo"));
+          $(".list-group").children().remove();
+        } else {
+          const keyword = $(this).val();
+
+          $.ajax({
+            url: "/together/searchRegion.do",
+            type: "post",
+            data: { keyword: keyword },
+            success: function (data) {
+              const list = $(".list-group");
+              list.children().remove();
+              if (data.length != 0) {
+                for (let i = 0; i < data.length; i++) {
+                  let li = document.createElement("li");
+                  if (i == 0) {
+                    li.id = "selected_region";
+                  }
+                  li.classList.add("list-group-item");
+                  li.setAttribute("regionNo", data[i].regionNo);
+                  li.innerHTML =
+                    data[i].regionCountry + "-" + data[i].regionCity;
+                  li.addEventListener("click", listClick);
+                  li.addEventListener("mouseenter", listHover);
+                  list.append(li);
+                }
+              } else {
+                let li = document.createElement("li");
+                li.classList.add("list-group-item");
+                li.innerHTML = "조회 결과가 없습니다.";
+                list.append(li);
+              }
+            },
+            error: function () {
+              alert("서버 연결에 실패하였습니다.");
+            },
+          });
+        }
       });
+
+      $("#inputRegion").on("search focusout", function () {
+        $(".list-group").children().remove();
+      });
+
+      function listClick() {
+        $("#inputRegion").val($(this).html());
+        $("#regionNo").val($(this).attr("regionNo"));
+        $(".list-group").children().remove();
+      }
+
+      function listHover() {
+        $("#selected_region").removeAttr("id");
+        $(this).attr("id", "selected_region");
+      }
     </script>
     <script>
       $(function () {
