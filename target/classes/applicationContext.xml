@@ -85,4 +85,5 @@
 	<context:component-scan base-package="kr.or.iei.mytrip"/>
 	<context:component-scan base-package="kr.or.iei.notice"/>
 	<context:component-scan base-package="kr.or.iei.tour"/>
+	<context:component-scan base-package="kr.or.iei.notification"/>
 </beans>

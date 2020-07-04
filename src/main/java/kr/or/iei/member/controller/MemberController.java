@@ -40,7 +40,7 @@ public class MemberController {
 	}
 
 	@RequestMapping("/loginMember.do")
-	public String loginMember(Member m, HttpSession session,Model model) {
+	public String loginMember(Member m, HttpSession session, Model model) {
 		Member member = service.loginMember(m);
 		if (member != null) {
 			Company company = service.checkCompanyId(member);
