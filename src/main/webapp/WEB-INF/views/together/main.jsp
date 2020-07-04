@@ -263,7 +263,7 @@ prefix="c"%>
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-          <form action="#" id="writeForm" method="POST">
+          <form action="/together/write.do" id="writeForm" method="POST">
             <div class="modal-body">
               <div class="form-group region_form">
                 <input
@@ -301,6 +301,7 @@ prefix="c"%>
                   class="form-control"
                   id="inputTitle"
                   placeholder="제목을 입력하세요"
+                  maxlength="66"
                 />
               </div>
               <div class="form-group content_form">
@@ -310,6 +311,7 @@ prefix="c"%>
                   name="togetherContent"
                   id="inputContent"
                   placeholder="내용을 입력하세요."
+                  maxlength="333"
                 ></textarea>
               </div>
             </div>
@@ -363,6 +365,35 @@ prefix="c"%>
         $("#writeForm").submit();
       });
 
+      $("#writeForm").submit(function (e) {
+        const postData = $(this).serializeArray();
+        const formUrl = $(this).attr("action");
+
+        $.ajax({
+          url: formUrl,
+          type: "POST",
+          data: postData,
+          success: function (data) {
+            if (data == "1") {
+              alert("성공!");
+            } else {
+              alert("실패!");
+            }
+          },
+          error: function () {
+            alert("실패!");
+          },
+        });
+
+        e.preventDefault();
+      });
+      $("#inputRegion").keypress(function (event) {
+        if (event.keyCode == 13) {
+          event.preventDefault();
+          return false;
+        }
+      });
+
       $("#inputRegion").keyup(function (event) {
         const key = event.key;
         const current = $("#selected_region");
@@ -380,10 +411,12 @@ prefix="c"%>
               next.attr("id", "selected_region");
             }
           }
-        } else if (key == "Enter") {
+        } else if (event.keyCode == 13) {
           $(this).val(current.html());
           $("#regionNo").val(current.attr("regionNo"));
           $(".list-group").children().remove();
+          // setTimeout(function () {
+          // }, 200);
         } else {
           const keyword = $(this).val();
 
@@ -396,14 +429,14 @@ prefix="c"%>
               list.children().remove();
               if (data.length != 0) {
                 for (let i = 0; i < data.length; i++) {
+                  const text = data[i].regionCountry + "-" + data[i].regionCity;
                   let li = document.createElement("li");
                   if (i == 0) {
                     li.id = "selected_region";
                   }
                   li.classList.add("list-group-item");
                   li.setAttribute("regionNo", data[i].regionNo);
-                  li.innerHTML =
-                    data[i].regionCountry + "-" + data[i].regionCity;
+                  li.innerHTML = text;
                   li.addEventListener("click", listClick);
                   li.addEventListener("mouseenter", listHover);
                   list.append(li);
@@ -422,8 +455,10 @@ prefix="c"%>
         }
       });
 
-      $("#inputRegion").on("search focusout", function () {
+      $("#inputRegion").on("search focusout", function (event) {
         $(".list-group").children().remove();
+        event.preventDefault();
+        return false;
       });
 
       function listClick() {

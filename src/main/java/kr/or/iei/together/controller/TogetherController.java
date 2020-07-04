@@ -13,8 +13,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.google.gson.Gson;
 
 import kr.or.iei.common.model.vo.Region;
-import kr.or.iei.member.model.service.MemberService;
-import kr.or.iei.member.model.vo.Member;
 import kr.or.iei.together.model.service.TogetherService;
 import kr.or.iei.together.model.vo.TogetherBoardVO;
 
@@ -25,16 +23,17 @@ public class TogetherController {
 	@Autowired
 	TogetherService service;
 	
-	@RequestMapping("/write.do")
+	@ResponseBody
+	@RequestMapping(value = "/write.do", produces = "text/html;charset=utf-8")
 	public String boardWrite(HttpSession session, TogetherBoardVO board) {
-		
-		return "common/msg";
+		System.out.println(board.getTogetherContent());
+		int result = service.insertBoard(board);
+		return String.valueOf(result);
 	}
 	
 	@ResponseBody
 	@RequestMapping(value = "/searchRegion.do", produces = "application/json;charset=utf-8")
 	public String searchRegion(String keyword) {
-		System.out.println("keyword : "+keyword);
 		ArrayList<Region> list = service.selectRegionByKeyword(keyword);
 		
 		for(Region r : list) {
