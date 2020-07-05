@@ -15,7 +15,7 @@ $(".content").on("mouseenter mouseleave", toggleStrech);
 $(".show_comment").click(showComment);
 
 function toggleStrech() {
-  $(this).find(".strech_area").slideToggle();
+  $(this).find(".stretch_area").slideToggle();
 }
 
 function showComment() {

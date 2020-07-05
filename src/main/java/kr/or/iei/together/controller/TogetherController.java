@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -22,6 +23,35 @@ public class TogetherController {
 	
 	@Autowired
 	TogetherService service;
+	
+	@ResponseBody
+	@RequestMapping(value = "/writeComment.do", produces = "text/html;charset=utf-8")
+	public String writeComment() {
+		
+		return result;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/asyncLoad.do", produces = "application/json;charset=utf-8")
+	public String asyncLoad(int lastNum) {
+		ArrayList<TogetherBoardVO> list = service.selectBoardList(lastNum);
+		return new Gson().toJson(list);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/view.do", produces = "application/json;charset=utf-8")
+	public String asyncView(int togetherNo) {
+		TogetherBoardVO vo = service.selectOneBoard(togetherNo);
+		return new Gson().toJson(vo);
+	}
+		
+	@RequestMapping("/main.do")
+	public String main(Model model) {
+		
+		ArrayList<TogetherBoardVO> list = service.selectBoardList();
+		model.addAttribute("list",list);
+		return "together/main";
+	}
 	
 	@ResponseBody
 	@RequestMapping(value = "/write.do", produces = "text/html;charset=utf-8")

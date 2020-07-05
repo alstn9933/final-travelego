@@ -1,6 +1,7 @@
 package kr.or.iei.together.model.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -22,6 +23,18 @@ public class TogetherDao {
 
 	public int insertBoard(TogetherBoardVO board) {
 		return session.insert("togetherBoard.insertBoard",board);
+	}
+
+	public List selectBoardList(HashMap<String, Integer> map) {
+		return session.selectList("togetherBoard.selectBoardList", map);
+	}
+
+	public int selectTotalCount() {
+		return session.selectOne("togetherBoard.selectTotalCount");
+	}
+
+	public TogetherBoardVO selectOneBoard(int togetherNo) {
+		return session.selectOne("togetherBoard.selectOneBoard", togetherNo);
 	}
 
 }

@@ -37,142 +37,129 @@ prefix="c"%>
           <span id="newCount">+2</span>
         </div>
         <div class="content_area">
-          <div class="content">
-            <div>
-              <div class="board_title_area">
-                <div class="board_title">
-                  <a href="#">title</a>
-                </div>
-                <div class="board_content">
-                  <div>
-                    <p>contentcontentcontentcontent</p>
-                    <p>content</p>
+          <c:forEach items="${list}" var="board" varStatus="status" >
+          	<c:if test="${!status.last }">
+            <div
+              class="content"
+              rnum="${board.rnum}"
+              boardnum="${board.togetherNo}"
+            >
+            </c:if>
+            <c:if test="${status.last }">
+            <div
+              class="content"
+              id = "lastContent"
+              rnum="${board.rnum}"
+              boardnum="${board.togetherNo}"
+            >
+            </c:if>
+              <div>
+                <div class="board_title_area">
+                  <div class="board_title">
+                    <a href="javascript:void(0)">${board.togetherTitle}</a>
+                  </div>
+                  <div class="board_content">
+                    <div>${board.togetherContent}</div>
                   </div>
                 </div>
-              </div>
-              <div class="board_writer_area">
-                <div class="board_date"><span>date</span></div>
-                <div class="board_writer"><span>writer</span></div>
-              </div>
-            </div>
-            <div class="strech_area" style="display: none;">
-              <i class="fas fa-angle-down"></i>
-            </div>
-          </div>
-          <div class="content">
-            <div>
-              <div class="board_title_area">
-                <div class="board_title">
-                  <a href="#">title</a>
-                </div>
-                <div class="board_content">
-                  <div>
-                    <p>
-                      contentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontent
-                    </p>
-                    <p>content</p>
+                <div class="board_writer_area">
+                  <div class="board_date">
+                    <span>${board.togetherDate}</span>
                   </div>
-                </div>
-              </div>
-              <div class="board_writer_area">
-                <div class="board_date"><span>date</span></div>
-                <div class="board_writer"><span>writer</span></div>
-              </div>
-            </div>
-            <div class="strech_area" style="display: none;">
-              <i class="fas fa-angle-down"></i>
-            </div>
-          </div>
-          <div class="open_content">
-            <div>
-              <div class="board_title_area">
-                <div class="board_title">
-                  <a href="#">title</a>
-                </div>
-                <div class="board_content">
-                  <div>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                    do eiusmod tempor incididunt ut labore et dolore magna
-                    aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                    ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                    Duis aute irure dolor in reprehenderit in voluptate velit
-                    esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-                    occaecat cupidatat non proident, sunt in culpa qui officia
-                    deserunt mollit anim id est laborum.
+                  <div class="board_writer">
+                    <span>${board.togetherWriter}</span>
                   </div>
+                  <c:if
+                    test="${sessionScope.member.memberId == board.togetherWriter }"
+                  >
+                    <div class="board_btn">
+                      <button
+                        type="button"
+                        class="btn btn-sm btn-outline-primary"
+                        id="modBoard"
+                      >
+                        수정
+                      </button>
+                      <button
+                        type="button"
+                        id="delBoard"
+                        class="btn btn-sm btn-outline-danger"
+                      >
+                        삭제
+                      </button>
+                    </div>
+                  </c:if>
                 </div>
               </div>
-              <div class="board_writer_area">
-                <div class="board_date"><span>date</span></div>
-                <div class="board_writer"><span>writer</span></div>
-                <div class="board_btn">
-                  <button type="button" class="btn btn-sm btn-outline-primary">
-                    수정
-                  </button>
-                  <button type="button" class="btn btn-sm btn-outline-danger">
-                    삭제
-                  </button>
+              <div class="action_area">
+                <div class="show_comment">
+                  <div>
+                    <i class="far fa-comment-dots"></i>
+                    <span>댓글</span>
+                    <span>(0)</span>
+                  </div>
+                  <div><i class="fas fa-angle-down"></i></div>
+                </div>
+                <div class="comments" style="display: none;">
+                  <form class="comment_form">
+                    <textarea
+                      name=""
+                      class="form-control"
+                      id="autosize"
+                      rows="1"
+                    ></textarea>
+                    <button type="button" id="writeCommentBtn" class="btn btn-primary" boardNo = "${board.togetherNo}">작성</button>
+                  </form>
+                  <table class="table">
+                    <tr class="comment_writer_area">
+                      <th scope="row" class="comment_writer">작성자</th>
+                      <td class="comment_date">2020.06.29.</td>
+                    </tr>
+                    <tr class="comment_content_area">
+                      <td>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                        sed do eiusmod tempor incididunt ut labore et dolore
+                        magna aliqua. Ut enim ad minim veniam, quis nostrud
+                        exercitation ullamco laboris nisi ut aliquip ex ea
+                        commodo consequat. Duis aute irure dolor in
+                        reprehenderit in voluptate velit esse cillum dolore eu
+                        fugiat nulla pariatur. Excepteur sint occaecat cupidatat
+                        non proident, sunt in culpa qui officia deserunt mollit
+                        anim id est laborum.
+                      </td>
+                    </tr>
+                    <tr class="comment_writer_area">
+                      <th scope="row" class="comment_writer">작성자</th>
+                      <td class="comment_date">2020.06.29.</td>
+                    </tr>
+                    <tr class="comment_content_area">
+                      <td>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                        sed do eiusmod tempor incididunt ut labore et dolore
+                        magna aliqua. Ut enim ad minim veniam, quis nostrud
+                        exercitation ullamco laboris nisi ut aliquip ex ea
+                        commodo consequat. Duis aute irure dolor in
+                        reprehenderit in voluptate velit esse cillum dolore eu
+                        fugiat nulla pariatur. Excepteur sint occaecat cupidatat
+                        non proident, sunt in culpa qui officia deserunt mollit
+                        anim id est laborum.
+                      </td>
+                    </tr>
+                  </table>
                 </div>
               </div>
-            </div>
-            <div class="action_area">
-              <div class="show_comment">
-                <div>
-                  <i class="far fa-comment-dots"></i>
-                  <span>댓글</span>
-                  <span>(0)</span>
-                </div>
-                <div><i class="fas fa-angle-down"></i></div>
-              </div>
-              <div class="comments" style="display: none;">
-                <form action="#" class="comment_form">
-                  <textarea
-                    name=""
-                    class="form-control"
-                    id="autosize"
-                    rows="1"
-                  ></textarea>
-                  <button class="btn btn-primary">작성</button>
-                </form>
-                <table class="table">
-                  <tr class="comment_writer_area">
-                    <th scope="row" class="comment_writer">작성자</th>
-                    <td class="comment_date">2020.06.29.</td>
-                  </tr>
-                  <tr class="comment_content_area">
-                    <td>
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                      sed do eiusmod tempor incididunt ut labore et dolore magna
-                      aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                      ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                      Duis aute irure dolor in reprehenderit in voluptate velit
-                      esse cillum dolore eu fugiat nulla pariatur. Excepteur
-                      sint occaecat cupidatat non proident, sunt in culpa qui
-                      officia deserunt mollit anim id est laborum.
-                    </td>
-                  </tr>
-                  <tr class="comment_writer_area">
-                    <th scope="row" class="comment_writer">작성자</th>
-                    <td class="comment_date">2020.06.29.</td>
-                  </tr>
-                  <tr class="comment_content_area">
-                    <td>
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                      sed do eiusmod tempor incididunt ut labore et dolore magna
-                      aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                      ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                      Duis aute irure dolor in reprehenderit in voluptate velit
-                      esse cillum dolore eu fugiat nulla pariatur. Excepteur
-                      sint occaecat cupidatat non proident, sunt in culpa qui
-                      officia deserunt mollit anim id est laborum.
-                    </td>
-                  </tr>
-                </table>
+              <div class="stretch_area" style="display: none;">
+                <i class="fas fa-angle-down"></i>
               </div>
             </div>
-            <div class="strech_area">
-              <i class="fas fa-angle-down"></i>
-            </div>
+          </c:forEach>
+        </div>
+        <div class="loading_area" style="display: none;">
+          <div class="lds-ellipsis">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
           </div>
         </div>
       </div>
@@ -360,117 +347,68 @@ prefix="c"%>
     <script src="/src/js/header/main.js"></script>
     <script src="/src/js/together/board.js"></script>
     <script src="/src/js/together/aside.js"></script>
+    <script src="/src/js/together/write.js"></script>
+    <script src="/src/js/together/boardScrollLoad.js"></script>
     <script>
-      $("#submitBtn").click(function () {
-        $("#writeForm").submit();
-      });
+      $("#writeCommentBtn").on("click", submitComment);
 
-      $("#writeForm").submit(function (e) {
-        const postData = $(this).serializeArray();
-        const formUrl = $(this).attr("action");
-
-        $.ajax({
-          url: formUrl,
-          type: "POST",
-          data: postData,
-          success: function (data) {
-            if (data == "1") {
-              alert("성공!");
-            } else {
-              alert("실패!");
-            }
-          },
-          error: function () {
-            alert("실패!");
-          },
-        });
-
-        e.preventDefault();
-      });
-      $("#inputRegion").keypress(function (event) {
-        if (event.keyCode == 13) {
-          event.preventDefault();
-          return false;
-        }
-      });
-
-      $("#inputRegion").keyup(function (event) {
-        const key = event.key;
-        const current = $("#selected_region");
-        if (key.includes("Arrow")) {
-          if (key.includes("Up")) {
-            const next = current.prev();
-            if (next.length != 0) {
-              current.removeAttr("id");
-              next.attr("id", "selected_region");
-            }
-          } else if (key.includes("Down")) {
-            const next = current.next();
-            if (next.length != 0) {
-              current.removeAttr("id");
-              next.attr("id", "selected_region");
-            }
-          }
-        } else if (event.keyCode == 13) {
-          $(this).val(current.html());
-          $("#regionNo").val(current.attr("regionNo"));
-          $(".list-group").children().remove();
-          // setTimeout(function () {
-          // }, 200);
+      function submitComment(){
+        const commentContent = $(this).prev().val();
+        const commentWriter = $("input[name=togetherWriter]").val();
+        const boardNo = $(this).attr("boardNo");
+        if(commentWriter == ""){
+          alert("로그인이 필요한 기능입니다.")
+        } else if(commentContent == "") {
+          alert("댓글을 입력해주세요.");
         } else {
-          const keyword = $(this).val();
-
           $.ajax({
-            url: "/together/searchRegion.do",
-            type: "post",
-            data: { keyword: keyword },
-            success: function (data) {
-              const list = $(".list-group");
-              list.children().remove();
-              if (data.length != 0) {
-                for (let i = 0; i < data.length; i++) {
-                  const text = data[i].regionCountry + "-" + data[i].regionCity;
-                  let li = document.createElement("li");
-                  if (i == 0) {
-                    li.id = "selected_region";
-                  }
-                  li.classList.add("list-group-item");
-                  li.setAttribute("regionNo", data[i].regionNo);
-                  li.innerHTML = text;
-                  li.addEventListener("click", listClick);
-                  li.addEventListener("mouseenter", listHover);
-                  list.append(li);
-                }
-              } else {
-                let li = document.createElement("li");
-                li.classList.add("list-group-item");
-                li.innerHTML = "조회 결과가 없습니다.";
-                list.append(li);
-              }
+            url : "/together/writeComment.do",
+            type : "POST",
+            data : {boardNo : boardNo, commentWriter : commentWriter, commentContent : commentContent},
+            success : function(data){
+
             },
-            error: function () {
-              alert("서버 연결에 실패하였습니다.");
-            },
+            error : function(){
+              
+            }
           });
         }
-      });
+      };
 
-      $("#inputRegion").on("search focusout", function (event) {
-        $(".list-group").children().remove();
-        event.preventDefault();
-        return false;
-      });
 
-      function listClick() {
-        $("#inputRegion").val($(this).html());
-        $("#regionNo").val($(this).attr("regionNo"));
-        $(".list-group").children().remove();
+      $(".content").on("click", contentClick);
+      
+      function contentClick() {
+        if (!$(this).hasClass("open_content")) {
+          const togetherNo = $(this).attr("boardNum");
+          $.ajax({
+            url : "/together/view.do",
+            type : "POST",
+            data : {togetherNo : togetherNo},
+            success : function(data){
+              console.log(data);
+            },
+            error : function(){
+              alert("게시글 조회에 실패하였습니다.");
+            }
+          });
+
+          $(this).off();
+          $(this).removeClass();
+          $(this).addClass("open_content");
+          $(this).find(".stretch_area").on("click", openContentClick);
+        }
       }
-
-      function listHover() {
-        $("#selected_region").removeAttr("id");
-        $(this).attr("id", "selected_region");
-      }
+      
+      function openContentClick(event) {
+        event.stopPropagation();
+        $(this).off();
+        const content = $(this).parent();
+        content.removeClass();
+        content.addClass("content");
+        content.on("mouseenter mouseleave", toggleStrech);
+        content.on("click", contentClick);
+      }      
     </script>
     <script>
       $(function () {
