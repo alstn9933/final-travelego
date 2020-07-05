@@ -15,7 +15,7 @@
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
 	
 	<bean id="dataSource"
-		class="org.apache.commons.dbcp.BasicDataSource">
+		class="org.apache.commons.dbcp.BasicDataSource"> 
 		<property name="driverClassName"
 			value="oracle.jdbc.driver.OracleDriver" />
 		<property name="url"
@@ -59,8 +59,15 @@
 	<aop:aspectj-autoproxy />
 	
 	<!-- 세션체크 인터셉터 객체 -->
-	
-
+	<!-- 알람 핸들러 -->
+	<!--
+	   <websocket:handlers>
+      <websocket:mapping handler="alarmHandler" path=""/>
+      <websocket:handshake-interceptors>
+         <bean class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor"/>
+      </websocket:handshake-interceptors>
+   </websocket:handlers>
+	-->
 	<!-- 웹소켓 설정 
 	<websocket:handlers>
 		<websocket:mapping handler="myHandler"
@@ -71,10 +78,14 @@
 		</websocket:handshake-interceptors>
 	</websocket:handlers>
 	-->
-	<context:component-scan base-package="kr.or.iei.tour"/>
+	<context:component-scan base-package="kr.or.iei.tour"/> 
 	<context:component-scan base-package="kr.or.iei.reserve"/>
 	<context:component-scan base-package="kr.or.iei.member"/>
 	<context:component-scan base-package="kr.or.iei.common"/>
 	<context:component-scan base-package="kr.or.iei.mypage"/>
 	<context:component-scan base-package="kr.or.iei.recommend"/>
+	<context:component-scan base-package="kr.or.iei.mytrip"/>
+	<context:component-scan base-package="kr.or.iei.notice"/>
+	<context:component-scan base-package="kr.or.iei.tour"/>
+	<context:component-scan base-package="kr.or.iei.notification"/>
 </beans>

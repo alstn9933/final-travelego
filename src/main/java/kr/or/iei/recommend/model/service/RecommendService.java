@@ -15,7 +15,6 @@ import kr.or.iei.common.model.vo.Region;
 import kr.or.iei.recommend.model.dao.RecommendDao;
 import kr.or.iei.recommend.model.vo.Recommend;
 import kr.or.iei.recommend.model.vo.SelectItems;
-import kr.or.iei.tour.model.vo.Photo;
 
 @Service("recommendService")
 public class RecommendService {

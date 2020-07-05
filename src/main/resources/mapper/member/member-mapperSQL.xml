@@ -21,4 +21,53 @@
   <insert id="companymemberjoin" parameterType="member">
  	insert into member values(#{memberId},#{memberPw},#{memberNickname},#{memberName},#{age},#{gender},#{phone},#{email},2,sysdate)
  </insert>
+ <select id="memberchkId" parameterType="member" resultType="integer"> 
+ 	select
+ 	count(*)
+ 	from member
+ 	where member_id=#{memberId}
+ </select>
+ <select id="memberchkNickname" parameterType="member" resultType="integer">
+ 	select
+ 	count(*)
+ 	from member
+ 	where member_Nickname=#{memberNickname}
+ </select>
+ <select id="memberchkEmail" parameterType="member" resultType="integer">
+ 	select
+ 	count(*)
+ 	from member
+ 	where email=#{email}
+ </select>
+ <select id="idSearch" parameterType="member" resultType="member">
+ select
+ member_id as memberId
+ from member where member_name=#{memberName} and email = #{email}
+ </select>
+ <select id="passwordchange" parameterType="member" resultType="member">
+ 	select 
+ 	member_id as memberId,
+ 	member_pw as memberPw,
+ 	member_nickname as memberNickname,
+ 	member_name as memberName,
+ 	age,
+ 	gender,
+ 	phone,
+ 	email,
+ 	member_level as memberLevel,
+ 	reg_Date as regDate
+ 	from member where member_id=#{memberId} and email=#{email}
+ </select>
+ <update id="pwModifyMember" parameterType="member">
+ 	update member set member_pw = #{memberPw} where member_id =#{memberId}
+ </update>
+ <update id="memberModified" parameterType="member">
+ update member set 
+ member_pw = #{memberPw},
+ member_name = #{memberName},
+ member_nickname = #{memberNickname},
+ age = #{age},
+ phone = #{phone}
+ where member_id=#{memberId}
+ </update>
 </mapper>

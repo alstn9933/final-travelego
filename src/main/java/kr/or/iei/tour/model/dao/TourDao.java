@@ -1,13 +1,13 @@
 package kr.or.iei.tour.model.dao;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import kr.or.iei.tour.model.vo.MoreTourVal;
-import kr.or.iei.tour.model.vo.Photo;
+import kr.or.iei.common.model.vo.Photo;
 import kr.or.iei.tour.model.vo.TourVO;
 
 @Repository("tourDao")
@@ -19,8 +19,8 @@ public class TourDao {
 		return sqlSession.selectOne("tour.selectTotalCount",memberId);
 	}
 
-	public List moreItemList(MoreTourVal mtv) {
-		return sqlSession.selectList("tour.selectMoreItem",mtv);
+	public List moreItemList(HashMap<String, String> map) {
+		return sqlSession.selectList("tour.selectMoreItem",map);
 	}
 
 	public List selectReviewList(int itemNo) {
@@ -28,7 +28,7 @@ public class TourDao {
 	}
 
 	public List selectCountryList() {
-		return sqlSession.selectList("tour.selectCList");
+		return sqlSession.selectList("tour.selectCountryList");
 	}
 
 	public List selectCityList(String regionCountry) {
@@ -49,5 +49,13 @@ public class TourDao {
 
 	public TourVO selectOneTour(int itemNo) {
 		return sqlSession.selectOne("tour.selectOneTour",itemNo);
+	}
+
+	public int selectTotalReview(int itemNo) {
+		return sqlSession.selectOne("tour.selectTotalReview",itemNo);
+	}
+
+	public List moreReviewList(HashMap<String, String> map) {
+		return sqlSession.selectList("tour.selectMoreReview", map);
 	}
 }

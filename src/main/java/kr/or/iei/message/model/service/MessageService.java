@@ -2,7 +2,6 @@ package kr.or.iei.message.model.service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -195,6 +194,123 @@ public class MessageService {
 
 	@Transactional
 	public int deleteAllSendMessage(Member member) {
-		return 0;
+		int result = 0;
+		
+		Message msg = new Message();
+		
+		msg.setMessageSender(member.getMemberId());
+		
+		ArrayList<Message> sendList = (ArrayList<Message>) dao.selectMsgList(msg);
+		ArrayList<Message> deletedList = new ArrayList<Message>();
+		
+		if(sendList.isEmpty()) {
+			return -1;
+			
+		} else {
+			for(int i=0; i<sendList.size(); i++) {
+				if(sendList.get(i).getDeleteLevel()>0) {
+					deletedList.add(sendList.get(i));
+					sendList.remove(i);
+					i--;
+				}
+			}
+			
+			if(!sendList.isEmpty()) {
+				result += dao.updateMessageDeleteLevelTo2(sendList);
+			}
+			if(!deletedList.isEmpty()) {
+				result += dao.deleteMessage(deletedList);
+			}
+			
+			if(result == (sendList.size()+deletedList.size())) {
+				return 1;
+			} else {
+				return 0;
+			}
+		}		
+	}
+	
+	@Transactional
+	public int deleteAllSendRead(Member member) {
+		int result = 0;
+		
+		Message msg = new Message();
+		
+		msg.setMessageSender(member.getMemberId());
+		msg.setMessageCheck(1);
+		
+		ArrayList<Message> sendList = (ArrayList<Message>) dao.selectMsgList(msg);
+		ArrayList<Message> deletedList = new ArrayList<Message>();
+		
+		if(sendList.isEmpty()) {
+			return -1;
+			
+		} else {
+			for(int i=0; i<sendList.size(); i++) {
+				if(sendList.get(i).getDeleteLevel()>0) {
+					deletedList.add(sendList.get(i));
+					sendList.remove(i);
+					i--;
+				}
+			}
+			
+			if(!sendList.isEmpty()) {
+				result += dao.updateMessageDeleteLevelTo2(sendList);
+			}
+			if(!deletedList.isEmpty()) {
+				result += dao.deleteMessage(deletedList);
+			}
+			
+			if(result == (sendList.size()+deletedList.size())) {
+				return 1;
+			} else {
+				return 0;
+			}
+		}		
+	}
+	
+	@Transactional
+	public int deleteCheckMessage(Member member, int[] messageNo) {
+		
+		int result = 0;
+		
+		ArrayList<Message> list = (ArrayList<Message>) dao.listCheckMessage(messageNo);
+		ArrayList<Message> deletedList = new ArrayList<Message>();
+		if(!list.isEmpty()) {
+			
+			for(int i=0; i<list.size(); i++) {
+				if(list.get(i).getDeleteLevel()>0) {
+					deletedList.add(list.get(i));
+					list.remove(i);
+					i--;
+				}
+			}
+			
+			if(!deletedList.isEmpty()) {
+				result += dao.deleteMessage(deletedList);
+			}
+			
+			if(!list.isEmpty()) {
+				if(list.get(0).getMessageReceiver().equals(member.getMemberId())) { // inbox 삭제
+					result += dao.updateMessageDeleteLevelTo1(list);
+				} else { //outbox 삭제
+					result += dao.updateMessageDeleteLevelTo2(list);
+				}
+				
+			}
+			
+			if(result == (list.size()+deletedList.size())){
+				if(list.get(0).getMessageReceiver().equals(member.getMemberId())) { // inbox 삭제
+					return 1;
+				} else { //outbox 삭제
+					return -1;
+				}
+			} else {
+				return 0;
+			}
+		} else { // 체크한 메시지가 없을 때
+			return result;
+		}
+		
 	}
 }

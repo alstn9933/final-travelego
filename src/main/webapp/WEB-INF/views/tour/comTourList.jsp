@@ -97,9 +97,9 @@ prefix="c"%>
             transition-duration: 0.5s;
         }
         .itemTitle{
-            width:90%;
-            height: 50px;
-            margin: 0 auto;
+            width:100%;
+            height: 70px;
+            padding:10px;
         }
         .item-main-img{
             border-top-left-radius: 20px;
@@ -107,9 +107,19 @@ prefix="c"%>
             width: 280px;
             height: 280px;
         }
+        .term{
+        	border-top:1px solid gray;
+        	margin-top:10px;
+        	text-align:center;
+        }
         .score{
             text-align: right;
-            margin: 10px;
+            padding:10px;
+            padding-bottom:0;
+            position:absolute;
+            background-color:rgba(100,100,100,0.5);
+            color:white;
+            width:100%;
         }
         .morebtn{
         	overflow:hidden;
@@ -131,8 +141,8 @@ prefix="c"%>
     			location.href="/tourView.do?itemNo="+itemNo;
     		});
     		
-    		function fn_more(start){
-    			var param = {start:start};
+    		function fn_more(start,val){
+    			var param = {start:start,val:val};
     			$.ajax({
     				url: "/moreItem.do",
     				data : param,
@@ -143,9 +153,15 @@ prefix="c"%>
     					var html = "";
     					for(var i=0; i<data.length; i++){
     						html += "<div class='item' itemNo="+data[i].itemNo+" onclick='itemView("+data[i].itemNo+");'>";
+    						if(data[i].score==0){
+    							html += "<div class='score'>후기가 없습니다</div>";
+    						}else{
+    							html += "<div class='score'>"+data[i].score.toFixed(1)+"점</div>";
+    						}
     						html += "<div><img class='item-main-img' src='../../../upload/images/tour/thumnail/"+data[i].filename+"'></div>";
-    						html += "<div class='score'>"+data[i].score+"점</div>";
     						html += "<div class='itemTitle'>"+data[i].itemTitle+"</div>";
+    						
+    						html += "<div class='term'>"+data[i].beginDate+" ~ "+data[i].endDate+"</div>";
     						html += ""
     						if(data[i].closeCheck==1){
     							html += "<h1>마감</h1>"
@@ -157,7 +173,7 @@ prefix="c"%>
     					$("#more-btn").attr("currentCount",Number($("#more-btn").attr("currentCount"))+data.length);
     					var totalCount = $("#more-btn").attr("totalCount");
     					var currentCount = $("#more-btn").attr("currentCount");
-    					if(totalCount==currentCount){
+    					if(totalCount<=currentCount){
     						$("#more-btn").attr("disabled",true);
     						$("#more-btn").css("display","none");
     					}
@@ -168,9 +184,9 @@ prefix="c"%>
     			});
     		}
     		
-   			fn_more(1);
+   			fn_more(1,"ctl");
    			$("#more-btn").click(function(){
-   				fn_more($(this).val());
+   				fn_more($(this).val(),"ctl");
    			});
     	})
     	

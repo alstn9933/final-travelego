@@ -18,7 +18,7 @@
 		up static resources in the ${webappRoot}/resources directory -->
 	<resources mapping="/src/**" location="/src/" />
 	<resources location="/src/ckeditor/" mapping="/ckeditor/**" />
-	<resources location="/src/imgs/tour/content" mapping="/content/**" />
+	<resources location="/src/imgs/tour/content" mapping="/content/**"/>
 
 	<beans:bean class="java.lang.String" id="uploadPath">
 		<beans:constructor-arg value="D:\kubg\workspace\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\kubg\resources" />
@@ -32,5 +32,5 @@
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
 
-	<context:component-scan base-package="kr.or.iei" />
+	<context:component-scan base-package="kr.or.iei"/>
 </beans:beans>

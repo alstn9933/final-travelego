@@ -1,14 +1,12 @@
 package kr.or.iei.message.controller;
 
-import java.util.ArrayList;
-
 import javax.servlet.http.HttpSession;
-import javax.xml.ws.RequestWrapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -124,7 +122,7 @@ public class MessageController {
 			model.addAttribute("msg", "메세지를 전송하였습니다.");
 		} else {
 			model.addAttribute("msg", "메세지를 전송에 실패하였습니다.");
-		}
+		}		
 
 		model.addAttribute("loc", "/message/inbox.do");
 		return "common/msg";
@@ -205,4 +203,44 @@ public class MessageController {
 
 		return "common/msg";
 	}
+	
+	@RequestMapping("/deleteAllSendRead.do")
+	public String deleteAllSendRead(HttpSession session, Model model) {
+		Member member = (Member) session.getAttribute("member");
+		
+		
+		int result = service.deleteAllSendRead(member);
+		if (result < 0) {
+			model.addAttribute("msg", "삭제할 쪽지가 없습니다.");
+		} else if (result > 0) {
+			model.addAttribute("msg", "쪽지가 삭제되었습니다.");
+		} else {
+			model.addAttribute("msg", "쪽지 삭제에 실패하였습니다.");
+		}
+		model.addAttribute("loc", "/message/inbox.do");
+
+		return "common/msg";
+	}
+	
+	@RequestMapping("/deleteCheckMessage.do")
+	public String deleteCheckMessage(HttpSession session, Model model, int[] messageNo) {
+		
+		Member member = (Member)session.getAttribute("member");
+		
+		int result = service.deleteCheckMessage(member, messageNo);
+		
+		if(result > 0) {
+			model.addAttribute("msg","쪽지가 삭제되었습니다.");
+			model.addAttribute("loc","/message/inbox.do");
+		} else if(result < 0) {
+			model.addAttribute("msg","쪽지가 삭제되었습니다.");
+			model.addAttribute("loc","/message/outbox.do");
+		} else {
+			model.addAttribute("msg","쪽지 삭제를 실패하였습니다.");
+			model.addAttribute("loc","/message/inbox.do");
+		}
+		
+		return "common/msg";			
+	}
+
 }

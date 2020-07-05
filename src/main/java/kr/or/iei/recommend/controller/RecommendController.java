@@ -38,7 +38,6 @@ import kr.or.iei.member.model.vo.Member;
 import kr.or.iei.recommend.model.service.RecommendService;
 import kr.or.iei.recommend.model.vo.Recommend;
 import kr.or.iei.recommend.model.vo.SelectItems;
-import kr.or.iei.tour.model.vo.Photo;
 
 
 @Controller

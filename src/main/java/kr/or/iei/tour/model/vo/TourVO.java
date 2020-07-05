@@ -11,6 +11,8 @@ public class TourVO {
 	private int itemNo;
 	private String memberId;
 	private String memberName;
+	private String phone;
+	private String email;
 	private String itemTitle;
 	private int regionNo;
 	private String regionCountry;
@@ -24,6 +26,5 @@ public class TourVO {
 	private int itemPrice;
 	private String tourTimes;
 	private int readCount;
-	private ArrayList<ReviewVO> reveiwList;
-	private float score;
+	private double score;
 }

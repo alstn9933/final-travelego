@@ -12,7 +12,6 @@ import kr.or.iei.common.model.vo.BoardComment;
 import kr.or.iei.common.model.vo.Region;
 import kr.or.iei.recommend.model.vo.Recommend;
 import kr.or.iei.recommend.model.vo.SelectItems;
-import kr.or.iei.tour.model.vo.Photo;
 
 @Repository("recommendDao")
 public class RecommendDao {
