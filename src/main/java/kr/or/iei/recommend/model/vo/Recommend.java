@@ -13,5 +13,8 @@ public class Recommend {
 	private int readCount;
 	private Date recDate;
 	private int recCategory;
+	private int regionNo;
+	private String regionCity;
 	private String coords;
+	private String place;
 }

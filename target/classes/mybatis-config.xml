@@ -25,6 +25,8 @@
 		<typeAlias type="kr.or.iei.recommend.model.vo.Recommend" alias="recommend"/>
 		<typeAlias type="kr.or.iei.tour.model.vo.Photo" alias="photo"/>
 		<typeAlias type="kr.or.iei.common.model.vo.Region" alias="region"/>
+		<typeAlias type="kr.or.iei.recommend.model.vo.SelectItems" alias="items"/>
+		<typeAlias type="kr.or.iei.common.model.vo.BoardComment" alias="comment"/>
 	</typeAliases>	
 	
 	<typeHandlers>

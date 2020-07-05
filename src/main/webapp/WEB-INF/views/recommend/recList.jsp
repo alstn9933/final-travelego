@@ -46,40 +46,63 @@ prefix="c"%>
         }
     </style>
   </head>
+  <script>
+  	$(function(){
+  		$("#regionCountry").change(function(){
+  			$("#regionCity").html("<option id='cityAll' value='전체'>전체</option>");
+  			var country = $(this).val();
+  			$.ajax({
+  				url : "/selectCity.do",
+  				data : {country : country},
+  				type : "post",
+  				dataType:"json",
+  				success : function(data){
+  					for(var i=0;i<data.length;i++){
+  						$("#regionCity").append("<option value='"+data[i].regionNo+"'>"+data[i].regionCity+"</option>");
+  					}
+  				},
+  				error:function(){
+  					console.log("ajax 실패");
+  				}
+  			});
+  		});
+  		$("#writeFrm").click(function(){
+  			location.href="/recWriteFrm.do";
+  		})
+  	});
+  </script>
   <body>
     <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 
     <!-- 웹 콘텐츠는 section 태그 안에 작성을 해주세요!-->
     <section>
       <div>
-            <form>
+            <form action="/sort.do" type="post">
                 여행지역
-                <select>
+                <select id="regionCountry" name="regionCountry">
                     <option value="전체">전체</option>
                     <option value="국내" style="font-weight:bold">국내</option>
                     <optgroup label="해외">
-                    	<c:forEach items="${region}" var="r">
-                    		<option>${r.regionCountry }</option>
+                    	<c:forEach items="${country}" var="r">
+                    		<option value="${r.regionCountry }">${r.regionCountry }</option>
                     	</c:forEach>
                     </optgroup>
                 </select>
-                <select>
-                    <option value="전체">전체</option>
-                    <option value="제주">제주</option>
-                    <option value="경주">경주</option>
+                <select id="regionCity" name="regionCity">
+                    <option id="cityAll" value="전체">전체</option>
                 </select>
                 
                 카테고리
-                <select>
-                    <option value="전체">전체</option>
-                    <option value="0">맛집</option>
-                    <option value="1">카페</option>
-                    <option value="2">숙소</option>
-                    <option value="3">관광지</option>
-                    <option value="4">액티비티</option>
+                <select id="recCategory" name="recCategory">
+                    <option value="0">전체</option>
+                    <option value="1">맛집</option>
+                    <option value="2">카페</option>
+                    <option value="3">숙소</option>
+                    <option value="4">관광지</option>
+                    <option value="5">액티비티</option>
                 </select>
                 <br>
-                <input type=text> <button>검색</button>
+                <input type="text" id="search" name="search"> <button>검색</button>
             </form>
         </div>
         <div>
@@ -88,27 +111,32 @@ prefix="c"%>
                 <span><a href="#">최신순</a></span>
                 <span><a href="#">조회순</a></span>
             </div>
+           
             <table>
                 <tr>
                     <th width="5%"></th>
-                    <th width="50%">제목</th>
+                    <th width="50%">제목</a></th>
                     <th width="10%">여행지</th>
                     <th width="10%">작성자</th>
                     <th width="15%">작성일</th>
                     <th width="10%">조회수</th>
                 </tr>
+                <c:forEach items="${recList}" var="list">
                 <tr>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
+                    <th>${list.recNo }</th>
+                    <th><a href="/recDetail.do?recNo=${list.recNo }">${list.recTitle }</a></th>
+                    <th>${list.regionCity }</th>
+                    <th>${list.recWriter}</th>
+                    <th>${list.recDate }</th>
+                    <th>${list.readCount }</th>
                 </tr>
+                </c:forEach>
             </table>
         </div>
         <div id="page"></div>
-        <div><button>글쓰기</button></div>
+      <%-- <c:if test="${not empty sessionScope.member }"> --%>
+        <div><button id="writeFrm">글쓰기</button></div>
+        <%-- </c:if> --%>
     </section>
 
     <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>

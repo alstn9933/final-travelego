@@ -3,10 +3,107 @@
 <mapper namespace="recommend">
   <select id="selectAllRegion" resultType="region">
   	select
-  		region_no as regionNo,
-  		region_country as regionCountry,
-  		region_city as regionCity,
-  		filename
+  		distinct
+  		region_country as regionCountry
   	from region
   </select>
+  
+  <select id="selectCities" parameterType="string" resultType="region">
+  	select
+  		region_no as regionNo,
+  		region_city as regionCity
+  	from region
+  	where region_country = #{_param}
+  	order by region_city
+  </select>
+  
+  <select id="selectAllRec" resultType="recommend">
+  	select
+  		rec_no as recNo,
+  		rec_title as recTitle,
+  		rec_content as recContent,
+  		rec_writer as recWriter,
+  		read_count as readCount,
+  		rec_date as recDate,
+  		rec_category as recCategory,
+  		region_city as regionCity,
+  		place,
+  		coords
+  	 from recommend_board full join region using(region_no)
+  </select>
+  
+  <select id="selectRecList" parameterType="items" resultType="recommend">
+  	select
+  		rec_no as recNo,
+  		rec_title as recTitle,
+  		rec_content as recContent,
+  		rec_writer as recWriter,
+  		read_count as readCount,
+  		rec_date as recDate,
+  		rec_category as recCategory,
+  		region_city as regionCity,
+  		place,
+  		coords
+  	 from recommend_board full join region using(region_no)
+  	 <trim prefix="where" prefixOverrides="and|or">
+  	 	<if test="!regionCountry.equals('전체')">
+  	 		region_country = #{regionCountry}
+  	 		<!-- <if test="!regionCity.equals('전체')">
+  	 			and region_city = #{regionCity}
+  	 		</if>
+  	 	</if>
+  	 	<if test="recCategory != 0">
+  	 		and rec_category = #{recCategory}
+  	 	</if>
+  	 	<if test="search != null">
+  	 		and rec_title like '%'||#{search}||'%' or rec_content like '%'||#{search}||'%' -->
+  	 	</if>
+  	 </trim>
+  </select>
+  
+  <select id="selectOneRec" parameterType="_int" resultType="recommend">
+  	select
+  		rec_no as recNo,
+  		rec_title as recTitle,
+  		rec_content as recContent,
+  		rec_writer as recWriter,
+  		read_count as readCount,
+  		rec_date as recDate,
+  		rec_category as recCategory,
+  		place,
+  		coords
+  	from recommend_board
+  	where rec_no = #{_param}
+  </select>
+  
+  <select id="selectComments" parameterType="_int" resultType="comment">
+  	select
+  		comment_no as commentNo,
+  		comment_level as commentLevel,
+  		comment_writer as commentWriter,
+  		comment_content as commentContent,
+  		ref_comment as refComment,
+  		comment_date as commentDate
+  	from board_comment
+  	where board_class=2 and board_no=#{_param}
+  </select>
+  
+  <insert id="insertComment" parameterType="comment">
+  	insert into board_comment values(comment_seq.nextval, #{commentLevel}, 2, #{boardNo}, #{commentWriter}, #{commentContent}, 
+  		<if test="refComment == 0">
+  		null
+  		</if>
+   		<if test="refComment gt 0">
+   		#{refComment}
+   		</if> 
+   		  		 ,sysdate)
+  </insert>
+
+  <insert id="insertRec" parameterType="map">
+  insert ALL into RECOMMEND_BOARD values
+  	(rec_seq.nextval,#{recTitle},#{recContent},#{recWriter},default,sysdate,#{regionNo},#{recCategory},#{place},#{coords})
+	into photo values
+	(photo_seq.nextval,1,1,#{p},#{p})
+	 select * from dual
+  </insert>
 </mapper>
