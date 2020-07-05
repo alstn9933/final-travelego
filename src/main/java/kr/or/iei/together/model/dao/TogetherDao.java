@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import kr.or.iei.common.model.vo.Region;
 import kr.or.iei.together.model.vo.TogetherBoardVO;
+import kr.or.iei.together.model.vo.TogetherCommentVO;
 
 @Repository("togetherDao")
 public class TogetherDao {
@@ -35,6 +36,14 @@ public class TogetherDao {
 
 	public TogetherBoardVO selectOneBoard(int togetherNo) {
 		return session.selectOne("togetherBoard.selectOneBoard", togetherNo);
+	}
+
+	public int insertComment(TogetherCommentVO comment) {
+		return session.insert("togetherBoard.insertComment", comment);
+	}
+
+	public List selectCommentList(int boardNo) {
+		return session.selectList("togetherBoard.selectCommentList", boardNo);
 	}
 
 }

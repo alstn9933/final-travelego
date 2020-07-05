@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import kr.or.iei.message.model.vo.Message;
 import kr.or.iei.together.model.vo.TogetherBoardVO;
+import kr.or.iei.together.model.vo.TogetherCommentVO;
 
 @Service
 @Aspect
@@ -23,6 +24,9 @@ public class boardContentHandler {
 	
 	@Pointcut("execution(* kr.or.iei.together.model.dao.TogetherDao.insert*(kr.or.iei.together.model.vo.TogetherBoardVO,..))")
 	public void insertBoardPointcut() {}
+	
+	@Pointcut("execution(* kr.or.iei.together.model.dao.TogetherDao.insert*(kr.or.iei.together.model.vo.TogetherCommentVO,..))")
+	public void insertCommentPointcut() {}
 	
 	@Around("selectMsgPointcut()")
 	public Object addLineOnMessageContent(ProceedingJoinPoint pjp) throws Throwable{
@@ -43,4 +47,12 @@ public class boardContentHandler {
 		
 		return;
 	}
+	
+	@Before("insertCommentPointcut()")
+	public void addLineOnCommentContent(JoinPoint jp) {
+		TogetherCommentVO comment = (TogetherCommentVO)jp.getArgs()[0];
+		comment.setCommentContent(comment.getCommentContent().replaceAll("\n", "<br/>"));
+		return;
+	}
+	
 }

@@ -16,6 +16,7 @@ import com.google.gson.Gson;
 import kr.or.iei.common.model.vo.Region;
 import kr.or.iei.together.model.service.TogetherService;
 import kr.or.iei.together.model.vo.TogetherBoardVO;
+import kr.or.iei.together.model.vo.TogetherCommentVO;
 
 @Controller
 @RequestMapping("/together")
@@ -25,10 +26,17 @@ public class TogetherController {
 	TogetherService service;
 	
 	@ResponseBody
+	@RequestMapping(value = "/asyncCommentLoad.do", produces = "application/json;charset=utf-8")
+	public String asyncCommentLoad(int boardNo) {
+		ArrayList<TogetherCommentVO> list = service.selectCommentList(boardNo);
+		return new Gson().toJson(list);
+	}
+	
+	@ResponseBody
 	@RequestMapping(value = "/writeComment.do", produces = "text/html;charset=utf-8")
-	public String writeComment() {
-		
-		return result;
+	public String writeComment(TogetherCommentVO comment) {
+		int result = service.insertComment(comment);
+		return String.valueOf(result);
 	}
 	
 	@ResponseBody

@@ -22,20 +22,20 @@
 		)
 	</insert>
 	<select id="selectBoardList" parameterType="map" resultType="together">
-select * from (
-		select t.*, rownum as rnum
-        from(
-            select 
-			together_no as togetherNo,
-			together_title as togetherTitle,
-			together_content as togetherContent,
-			together_writer as togetherWriter,
-			region_country as regionCountry,
-			region_city as regionCity,
-			to_char(together_date,'hh24:mi') as writeTime,
-            to_char(together_date,'yyyy. mm. dd.') as togetherDate
-		from together_board
-		join region using(region_no) order by together_no) t
+		select * from (
+			select t.*, rownum as rnum
+  		      from(
+    	        select 
+					together_no as togetherNo,
+					together_title as togetherTitle,
+					together_content as togetherContent,
+					together_writer as togetherWriter,
+					region_country as regionCountry,
+					region_city as regionCity,
+					to_char(together_date,'hh24:mi') as writeTime,
+		            to_char(together_date,'yyyy. mm. dd.') as togetherDate
+				from together_board
+				join region using(region_no) order by together_no) t
         ) where rnum between #{start} and #{end} order by rnum desc
 	</select>
 	<select id="selectTotalCount" resultType="_int">
@@ -56,5 +56,27 @@ select * from (
             (select count(*) from board_comment where board_class = 3 and board_no = #{_parameter}) as commentCount
         from together_board join region using(region_no)
         where together_no = #{_parameter}
+	</select>
+	<insert id="insertComment" parameterType="togetherComment">
+		insert into board_comment values(
+			comment_seq.nextval,
+			0,
+			3,
+			#{boardNo},
+			#{commentWriter},
+			#{commentContent},
+			null,
+			sysdate
+		)		
+	</insert>
+	<select id="selectCommentList" parameterType="_int" resultType="togetherComment">
+		select
+			comment_no as commentNo,
+			member_nickname as commentWriter,
+			comment_content as commentContent,
+			to_char(comment_date,'hh24:mi') as commentTime,
+            to_char(comment_date,'yyyy. mm. dd.') as commentDate
+        from board_comment join member on(comment_writer = member_nickname)
+        where board_class = 3 and board_no = #{_parameter}
 	</select>
 </mapper>

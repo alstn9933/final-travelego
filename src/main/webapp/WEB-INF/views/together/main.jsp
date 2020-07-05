@@ -96,7 +96,7 @@ prefix="c"%>
                   <div>
                     <i class="far fa-comment-dots"></i>
                     <span>댓글</span>
-                    <span>(0)</span>
+                    <span id="commentCount">(0)</span>
                   </div>
                   <div><i class="fas fa-angle-down"></i></div>
                 </div>
@@ -107,6 +107,7 @@ prefix="c"%>
                       class="form-control"
                       id="autosize"
                       rows="1"
+                      maxlength="60"
                     ></textarea>
                     <button type="button" id="writeCommentBtn" class="btn btn-primary" boardNo = "${board.togetherNo}">작성</button>
                   </form>
@@ -366,10 +367,14 @@ prefix="c"%>
             type : "POST",
             data : {boardNo : boardNo, commentWriter : commentWriter, commentContent : commentContent},
             success : function(data){
-
+              if(data == "1"){
+                alert("댓글이 작성되었습니다.");
+              } else {
+                alert("댓글 작성에 실패하였습니다.")
+              }
             },
             error : function(){
-              
+              console.log("서버접속에 실패 하였습니다.")
             }
           });
         }
@@ -381,12 +386,13 @@ prefix="c"%>
       function contentClick() {
         if (!$(this).hasClass("open_content")) {
           const togetherNo = $(this).attr("boardNum");
+          const content = $(this);
           $.ajax({
             url : "/together/view.do",
             type : "POST",
             data : {togetherNo : togetherNo},
             success : function(data){
-              console.log(data);
+              content.find("#commentCount").html("("+data.commentCount+")");
             },
             error : function(){
               alert("게시글 조회에 실패하였습니다.");

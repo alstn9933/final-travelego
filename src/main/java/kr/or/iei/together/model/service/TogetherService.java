@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import kr.or.iei.common.model.vo.Region;
 import kr.or.iei.together.model.dao.TogetherDao;
 import kr.or.iei.together.model.vo.TogetherBoardVO;
+import kr.or.iei.together.model.vo.TogetherCommentVO;
 
 @Service("togetherService")
 public class TogetherService {
@@ -70,6 +71,22 @@ public class TogetherService {
 
 	public TogetherBoardVO selectOneBoard(int togetherNo) {		
 		return dao.selectOneBoard(togetherNo);
+	}
+
+	public int insertComment(TogetherCommentVO comment) {		
+		return dao.insertComment(comment);
+	}
+
+	public ArrayList<TogetherCommentVO> selectCommentList(int boardNo) {
+		
+		ArrayList<TogetherCommentVO> list =(ArrayList<TogetherCommentVO>)dao.selectCommentList(boardNo);
+		String today = dateFormat.format(Calendar.getInstance().getTime());
+		for(TogetherCommentVO vo : list) {
+			if(vo.getCommentDate().equals(today)) {
+				vo.setCommentDate(vo.getCommentTime());
+			}
+		}
+		return list;
 	}
 	
 }

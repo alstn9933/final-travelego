@@ -111,6 +111,7 @@ window.addEventListener("wheel", function (e) {
                 commentTextArea.className = "form-control";
                 commentTextArea.id = "autosize";
                 commentTextArea.rows = "1";
+                commentTextArea.maxLength = "60";
                 commentForm.append(commentTextArea);
 
                 const writeCommentBtn = document.createElement("button");
