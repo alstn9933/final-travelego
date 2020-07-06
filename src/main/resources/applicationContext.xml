@@ -62,8 +62,13 @@
 	
 
 	<!-- 세션체크 인터셉터 객체 -->
-	
-
+	<!-- 알람 핸들러 -->
+	<websocket:handlers>
+      <websocket:mapping handler="alarmHandler" path="/alarm.do"/>
+      <websocket:handshake-interceptors>
+         <bean class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor"/>
+      </websocket:handshake-interceptors>
+   </websocket:handlers>
 	<!-- 웹소켓 설정 
 	<websocket:handlers>
 		<websocket:mapping handler="myHandler"
@@ -82,8 +87,10 @@
 	<context:component-scan base-package="kr.or.iei.reserve"/>
 	<context:component-scan base-package="kr.or.iei.member"/>
 	<context:component-scan base-package="kr.or.iei.common"/>
+	<context:component-scan base-package="kr.or.iei.mytrip"/>
 	<context:component-scan base-package="kr.or.iei.notice"/>
 	<context:component-scan base-package="kr.or.iei.mypage"/>
 	<context:component-scan base-package="kr.or.iei.tripBoard"/>
-
+	<context:component-scan base-package="kr.or.iei.tour"/>
+	<context:component-scan base-package="kr.or.iei.notification"/>
 </beans>

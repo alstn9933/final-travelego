@@ -1,0 +1,311 @@
+.board {
+  border-left: 1px solid #dbdbdb;
+  border-right: 1px solid #dbdbdb;
+  background-color: #f9f9f9;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 40px;
+  min-height: calc(100vh - 10px);
+}
+
+.notify_area {
+  width: 830px;
+  height: 40px;
+  background-color: white;
+  border: 1px solid #ebebeb;
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  box-shadow: 0 0 0 1px rgba(20, 20, 31, 0.05),
+    0 1px 3px 0 rgba(20, 20, 31, 0.15);
+  position: fixed;
+  display: none;
+}
+
+.notify_area span {
+  margin: 5px;
+  font-size: 17px;
+  color: rgba(0, 0, 0, 0.664);
+}
+
+#newCount {
+  font-weight: bold;
+}
+
+.content_area {
+  max-width: 90%;
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.content,
+.open_content {
+  width: fit-content;
+  max-width: 100%;
+  background-color: white;
+  border: 1px solid #ebebeb;
+  box-shadow: 0 7px 14px 0 rgba(59, 65, 94, 0.1),
+    0 3px 6px 0 rgba(0, 0, 0, 0.07);
+  margin-top: 50px;
+}
+
+.content:hover {
+  cursor: pointer;
+}
+.content:hover .stretch_area {
+  background-color: #eaf0f6;
+}
+
+.content > div:first-of-type,
+.open_content > div:first-of-type {
+  display: flex;
+  justify-content: center;
+}
+
+.board_title_area {
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+  min-width: 200px;
+}
+
+.board_title_area > div,
+.board_writer_area > div {
+  display: flex;
+  padding-left: 20px;
+}
+
+.board_title,
+.board_date {
+  align-items: center;
+}
+
+.board_writer > span {
+  margin-top: 6px;
+}
+
+.board_title,
+.board_date {
+  height: 50px;
+}
+
+.content .board_content {
+  height: 60px;
+}
+
+.board_writer {
+  height: 65px;
+}
+
+.board_title,
+.board_date {
+  border-bottom: 1px solid #eaf0f6;
+}
+
+.board_writer_area {
+  min-width: 140px;
+  max-width: 13%;
+}
+
+.board_writer_area > div {
+  display: flex;
+  justify-content: center;
+}
+
+.board_content > div {
+  padding: 10px 0;
+}
+
+.content .board_content {
+  overflow-y: hidden;
+}
+
+.stretch_area {
+  width: 100%;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.stretch_area i {
+  font-size: 30px;
+}
+
+@keyframes blink {
+  from {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.3;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@-webkit-keyframes blink {
+  from {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.3;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.fa-angle-down {
+  animation: blink 1.5s ease-in-out infinite;
+  -webkit-animation: blink 1.5s ease-in-out infinite;
+}
+
+.open_content {
+  width: 100%;
+}
+
+.open_content > div:first-of-type > div {
+  width: 100%;
+}
+
+.open_content > div {
+  width: 100%;
+}
+
+.open_content {
+  transition: transform 0.5s ease-in-out;
+}
+
+.open_content .board_content {
+  height: auto;
+  min-height: 100px;
+  align-items: flex-start;
+  padding: 20px 0 20px 20px;
+}
+
+.open_content .board_btn {
+  justify-content: space-evenly;
+  padding-bottom: 20px;
+}
+
+.board_btn button {
+  cursor: pointer;
+}
+
+.open_content .board_writer {
+  padding-top: 20px;
+}
+
+.action_area {
+  border-top: 1px solid #eaf0f6;
+}
+
+.action_area > div {
+  padding: 0 20px;
+}
+
+.show_comment {
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.show_comment .fa-comment-dots {
+  transform: rotateY(180deg);
+  font-size: 20px;
+  margin-right: 10px;
+}
+
+.show_comment:hover {
+  cursor: pointer;
+  background-color: #eaf0f6;
+}
+
+.show_comment .fa-angle-down {
+  font-size: 30px;
+  margin-right: 20px;
+}
+
+.open_content .stretch_area {
+  height: 50px;
+  display: flex;
+  border-top: 1px solid #dee2e6;
+}
+
+.open_content .stretch_area:hover {
+  cursor: pointer;
+  background-color: #eaf0f6;
+}
+
+.open_content .stretch_area i {
+  transform: rotateX(180deg);
+}
+
+.icon_x_rotate {
+  transform: rotateX(180deg);
+}
+
+.comments {
+  margin: 10px 0;
+}
+
+.comments form {
+  display: flex;
+}
+
+.comments button {
+  margin-left: 20px;
+  width: 90px;
+  height: 38px;
+}
+
+.comments table {
+  margin-top: 15px;
+}
+
+.comment_form > button {
+  align-self: flex-end;
+}
+
+.comment_form > textarea {
+  resize: none;
+}
+
+.comment_date {
+  width: 120px;
+}
+
+.comment_writer_area td:last-of-type {
+  font-weight: normal;
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.65);
+}
+
+tr:nth-child(2n) > td {
+  border-top: none;
+}
+
+.comment_writer_area th,
+.comment_writer_area td {
+  padding-bottom: 0;
+}
+
+#autosize {
+  height: 55px;
+  transition: height 0.3s ease-in-out;
+}
+
+.content .action_area {
+  display: none;
+}
+
+.content .board_btn {
+  display: none;
+}

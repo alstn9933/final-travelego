@@ -31,11 +31,28 @@ prefix="c"%>
     <link rel="stylesheet" href="/src/css/main/web_default.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker3.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker3.standalone.min.css">
+    
     <title>Travelego</title>
     <style>
+        #datePicker{
+            float: left;
+        }
         #tt{
-            margin-top: 300px;
-        }  
+            float: left;
+            margin-left: 100px;
+        }
+        #regionValue{
+            margin-left: 600px;
+        }
+        #makeBtn{
+        	background-color: gray;
+        }
+        #dateList{
+        	margin-top: 200px;
+        	background-color: lightpink;
+        	width: 1200px;
+        	height: 1500px;
+        }
     </style>
   </head>
   <body>
@@ -48,13 +65,133 @@ prefix="c"%>
     <!-- 웹 콘텐츠는 section 태그 안에 작성을 해주세요!-->
     <section>
       <!-- 여기서부터 작성하시면 됨!!!!!!! -->
-      <div>
-      	<h1>테스트111</h1>
-      	<input type="text" id="datePicker">
-      	<div id="tt"></div>
-      </div>
+      <c:if test="${not empty sessionScope.member }">
+	      <div>
+	      	<input type="text" id="datePicker">
+	      	<div id="tt">
+	      		<input type="text" name="regionCity" placeholder="도시명/나라명"><br>
+	      		<table border="1" id="regionTable">
+	      			<tr>
+	      				<th>사진</th><th>도시</th><th>나라</th>
+	      			</tr>
+	      		</table>
+	      	</div>
+	      </div>
+	      <br><br><br>
+	      <input type="text" name="cityValue"><br>
+	      <input type="text" name="countryValue"><br>
+	      <input type="text" name="regionNo"><br>
+		  <button type="button" id="makeBtn">버튼</button><br>
+	      <div id="dateList">
+	      	
+	      </div>
+	  </c:if>
     </section>
 	<script>
+		var dat1Copy="";
+		var dat2="";
+		var regionNo="";
+		var cityValue="";
+		var countryValue="";
+		var datArr;
+		
+		$(document).on("click","#regionTable tr",function(){//동적으로 생성된 태그에 이벤트 적용
+			//regionNo = $(this).children(input type=hidden).val();
+			regionNo = $(this).children().eq(1).val();
+			cityValue = $(this).children().eq(2).text();
+			countryValue = $(this).children().eq(3).text();
+			$("input[name=cityValue]").attr("value",cityValue);
+			$("input[name=countryValue]").attr("value",countryValue);
+			$("input[name=regionNo]").attr("value",regionNo);
+			//console.log(dat1Copy+"ddd");
+			if(dat1Copy!=""){
+				//$("#makeBtn").attr("disabled",true);
+				$("#makeBtn").css("background-color","blue");
+				$("#makeBtn").attr("disabled",false);
+			}else{
+				$("#makeBtn").css("background-color","gray");
+				$("#makeBtn").attr("disabled",true);
+			}
+		});
+		
+		/* $(document).on("change","#datePicker",function(){
+			$("#dataList").children().remove();
+			if(dat1Copy!=""){
+				for(var i=0; i<datArr.length; i++){
+					$("#dateList").append("<input type='text' name='datArr[]' value=''>");
+					$("#dateList").children().last().attr("value",datArr[i]);
+				}
+			}
+		}); */
+		
+		
+		$(function(){
+			$("#makeBtn").click(function(){
+				//var sendArr = {"sendArr":datArr};
+				//jQuery.ajaxSettings.traditional = true;
+				var form = {
+						"sendArr":datArr,
+						"regionNo":regionNo
+				}
+				$.ajax({
+					url : "/makeMytrip.do",
+					type : "POST",
+					data : form,
+					traditional : true,
+					success : function(){
+						var html = "";
+						html += "<hr>";
+						for(var i=0; i<datArr.length; i++){
+							html += "<label>"+datArr[i].getMonth()+"월 "+datArr[i].getDate()+"일</label><br>";
+							html += "<button type='button' name='tripDate' value='"+datArr[i]+"'>장소 추가</button>";
+							html += "<button type='button' name='tripDate' value='"+datArr[i]+"'>메모추가</button><br><br>";
+						}
+						$("#dateList").append(html);
+						console.log("아작스성공!!!!!!!!");
+					},
+					error : function(){
+						console.log("ajax통신 실패222");
+					}
+				});
+			});
+			
+			$("input[name=regionCity]").keyup(function(){
+				var regionCity = $("input[name=regionCity]").val();
+				$.ajax({
+					url : "/searchRegion.do",
+					type : "get",
+					data : {regionCity:regionCity},
+					success : function(data){
+						var html = "";
+						$("table>tbody").empty();
+						html += "<tr><th>사진</th><th>도시</th><th>나라</th></tr>"
+						if(data!="0"){
+						for(var i=0; i<data.length; i++){
+							html += "<tr><td>"+data[i].filename+"</td>";
+							html += "<input type='hidden' value='"+data[i].regionNo+"'>";
+							html += "<td>"+data[i].regionCity+"</td>";
+							html += "<td>"+data[i].regionCountry+"</td></tr>";
+						}
+						$("table>tbody").append(html);
+						}
+					},
+					error : function(){
+						console.log("ajax통신 실패");
+					}
+				});
+			});
+			
+			$("#makeBtn").click(function(){
+				console.log("버튼클릭성공");
+			});
+			
+		});
+		
+		
+		
+	
+	
+	
 		$('#datePicker').datepicker({
 			format : "yyyy-mm-dd", // 달력에서 클릭시 표시할 값 형식
 			language : "kr",
@@ -65,19 +202,17 @@ prefix="c"%>
 		
 	    $("#datePicker").on("change",function(){
 	    	var dpValue = $(this).val();
-	        
 	        var arr = dpValue.split(',');
-	        console.log(arr);
 	        if(arr.length==1){
-	        	$("#tt").html("");
+	        	dat1Copy = "";
 	        }else if(arr.length==2){
 	        	var arr1 = arr[0].split('-');
 		        var arr2 = arr[1].split('-');
 		        var dat1 = new Date(arr1[0],arr1[1],arr1[2]);
-		        var dat2 = new Date(arr2[0],arr2[1],arr2[2]);
+		        dat2 = new Date(arr2[0],arr2[1],arr2[2]);
 		        
 		        if(dat1>dat2){
-		        	var datSet = dat2;
+		        	datSet = dat2;
 		        	dat2 = dat1;
 		        	dat1 = datSet; 
 		        }
@@ -85,8 +220,8 @@ prefix="c"%>
 		        dat1.setDate(dat1.getDate()-3);
 		        dat2.setDate(dat2.getDate()+3);
 		        dat2.setDate(dat2.getDate()-3);
-		        
-		        var datArr = new Array();
+		        dat1Copy = new Date(dat1);
+		        datArr = new Array();
 		        while(true){
 		        	var datPush = new Date(dat1);
 		        	datArr.push(datPush);
@@ -116,11 +251,37 @@ prefix="c"%>
 		        	
 		        }
 		        
-		        for(var i=0; i<datArr.length; i++){
+		        /* for(var i=0; i<datArr.length; i++){
 		        	console.log(datArr[i]);
-		        }
+		        } */
+		        if(dat1Copy!=""&&cityValue!=""){
+					//$("#makeBtn").attr("disabled",true);
+					$("#makeBtn").css("background-color","blue");
+					$("#makeBtn").attr("disabled",false);
+				}else{
+					$("#makeBtn").css("background-color","gray");
+					$("#makeBtn").attr("disabled",true);
+				}
+		        //$("input[name=dpValue1]").attr("value",cityValue);
+		        //$("#dateList").append("<input type='text' name='aaa' value='aaaa'>");
+		        
 	        }else if(arr.length==3){
-	        	$("#tt").html("");
+	        	  var arr1 = arr[0].split('-');
+	              var arr2 = arr[1].split('-');
+	              var arr3 = arr[2].split('-');
+	              var dat1 = new Date(arr1[0],arr1[1],arr1[2]);
+	              var dat2 = new Date(arr2[0],arr2[1],arr2[2]);
+	              var dat3 = new Date(arr3[0],arr3[1],arr3[2]);
+	              if(dat1>dat2){
+	                 var datSet = dat2;
+	                 dat2 = dat1;
+	                 dat1 = datSet; 
+	              }
+	              if((dat3>dat1&&dat3<dat2)||dat2<dat3){
+	                 $("#datePicker").datepicker().datepicker("setDate",arr[0],arr[2]);
+	              }else if(dat1>dat3){
+	            	  $("#datePicker").datepicker().datepicker("setDate",arr[2],arr[0]);
+	              }
 	        }
 	        	
 	        
@@ -153,7 +314,7 @@ prefix="c"%>
     <script src="/src/js/header/owl.carousel.min.js"></script>
     <script src="/src/js/header/isotope.pkgd.min.js"></script>
     <script src="/src/js/header/ajax-form.js"></script>
-    <script src="/src/js/header/waypoints.min.js"></script>
+    <!-- <script src="/src/js/header/waypoints.min.js"></script> -->
     <script src="/src/js/header/jquery.counterup.min.js"></script>
     <script src="/src/js/header/imagesloaded.pkgd.min.js"></script>
     <script src="/src/js/header/scrollIt.js"></script>

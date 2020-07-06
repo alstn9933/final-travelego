@@ -1,9 +1,6 @@
 package kr.or.iei.message.controller;
 
-import java.util.ArrayList;
-
 import javax.servlet.http.HttpSession;
-import javax.xml.ws.RequestWrapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -13,19 +10,28 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import kr.or.iei.common.alarmHandler;
 import kr.or.iei.member.model.vo.Member;
 import kr.or.iei.message.model.service.MessageService;
 import kr.or.iei.message.model.vo.Message;
 import kr.or.iei.message.model.vo.MessageViewData;
+import kr.or.iei.notification.controller.NotificationController;
 import kr.or.iei.message.model.vo.InboxPageData;
 
 @Controller
 @RequestMapping("/message")
 public class MessageController {
+	
+	@Autowired
+	NotificationController notificationController;
 
 	@Autowired
 	@Qualifier("messageService")
 	private MessageService service;
+	
+	@Autowired
+	@Qualifier("alarmHandler")
+	alarmHandler handler;
 
 	@RequestMapping("/view.do")
 	public String messageView(HttpSession session, String messageNo, Model model) {
@@ -123,9 +129,10 @@ public class MessageController {
 		int result = service.insertMessage(m);
 		if (result > 0) {
 			model.addAttribute("msg", "메세지를 전송하였습니다.");
+			notificationController.sendMessge(m.getMessageSender(), m.getMessageReceiver());
 		} else {
 			model.addAttribute("msg", "메세지를 전송에 실패하였습니다.");
-		}
+		}		
 
 		model.addAttribute("loc", "/message/inbox.do");
 		return "common/msg";
