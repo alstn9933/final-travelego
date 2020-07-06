@@ -95,6 +95,32 @@
 </header>
 <c:if test="${not empty sessionScope.member }">
 <script>
+var ws;
+var memberId = '${sessionScope.member.memberId}';
+function connect(){
+	//테스트시 호스트값 변경할것.
+	ws = new WebSocket("ws://192.168.35.138");
+	console.log("웹소켓 연결 생성");	
+	var msg = {
+			type:"register",
+			memberId:memberId
+			
+	};
+	ws.send(JSON.stringify(msg));
+};
+ws.onmessage=function(e){
+	$("#alramCount").html(data+1);
+};
+ws.onclose=function(){
+	var msg = {
+			type:"exit",
+			memberId:memberId
+			
+	};
+	ws.send(JSON.stringify(msg));
+	console.log("웹소켓 연결종료.");	
+};
+
 $(function(){	
 var loginUserId = '${sessionScope.member.memberId}';
 $.ajax({
@@ -121,21 +147,20 @@ var loginUserId = '${sessionScope.member.memberId}';
  $("#bellBtn").click(function(){
 	 $("#alramCount").html("");
 	 $("#alramCount").hide();
-	 $(".alramListBox").toggle(100);
+	 if($(".alramListBox").css("display") == "none"){ // 닫힐때 실행방지 구문
 	 $.ajax({
 		 url : "/alramList.do",
 		 type : "post",
 		 data : {memberId:loginUserId},
 		 success : function(data){
+			 $(".alramListBox").children().remove(); // ajax 통신이 성공했을때 기존의 list 삭제
 			 console.log("1차성공");
 			 html = "";
-			 console.log(data);
-			 console.log(data.length)
 			 for(i=0;i<data.length;i++){
 			  html += "<div class='alramLine' val='" + data[i]['notifyNo'] + "'>"+data[i]["notifyContent"]+"</div>";
 			 }
 			  $(".alramListBox").append(html); 
-				 console.log("2처시작")
+				 console.log("2차시작")
 				 $.ajax({
 					 url : "/zeroCount.do",
 					 type : "post",
@@ -155,7 +180,8 @@ var loginUserId = '${sessionScope.member.memberId}';
 			  consolo.log("리스트 읽어오기 실패");
 		  }
 	 })
+	 }
+	 $(".alramListBox").toggle(100);
  });
-
 </script>
 </c:if>

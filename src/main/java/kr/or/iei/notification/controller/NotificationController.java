@@ -30,10 +30,6 @@ public class NotificationController {
 	@RequestMapping(value = "/alramList.do",produces = "application/json;charset=utf-8")
 	public String alramList(Notification n) {
 		ArrayList<Notification> list = service.checkNotifi(n);
-//		for(Notification no:list) {
-//			System.out.println(no.getMemberId()+"/"+no.getNotifyCheck()+"/"+no.getNotifyContent()+"/"+no.getNotifyNo());
-//			
-//		}
 		return new Gson().toJson(list);
 	}
 	@ResponseBody

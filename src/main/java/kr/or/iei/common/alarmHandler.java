@@ -30,7 +30,20 @@ public class alarmHandler extends TextWebSocketHandler {
 		JsonParser parser = new JsonParser();
 		JsonElement element  = parser.parse(message.getPayload());
 		String type=element.getAsJsonObject().get("type").getAsString();
-		//if()
+		if(type.equals("register")) {
+			String memberId = element.getAsJsonObject().get("memberId").getAsString();
+			userSessionMap.put(memberId,session);
+		}else if(type.equals("exit")) {
+			String memberId = element.getAsJsonObject().get("memberId").getAsString();
+			userSessionMap.remove(memberId);
+		}else {
+			String target = element.getAsJsonObject().get("target").getAsString();
+			String msg = element.getAsJsonObject().get("msg").getAsString();
+			WebSocketSession ws = userSessionMap.get(target);
+			if(ws != null) {
+				ws.sendMessage(new TextMessage(msg));
+			}
+		}
 	}
 	@Override
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
