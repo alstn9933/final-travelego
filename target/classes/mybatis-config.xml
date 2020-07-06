@@ -28,8 +28,10 @@
 		<typeAlias type="kr.or.iei.common.model.vo.BoardComment" alias="comment"/>
 		<typeAlias type="kr.or.iei.tour.model.vo.TourVO" alias="tour"/>
 		<typeAlias type="kr.or.iei.tour.model.vo.ReviewVO" alias="review"/>
+		<typeAlias type="kr.or.iei.together.model.vo.TogetherBoardVO" alias="together"/>
 		<typeAlias type="kr.or.iei.notification.model.vo.Notification" alias="notification"/>
 		<typeAlias type="kr.or.iei.common.model.vo.Liked" alias="liked"/>
+		<typeAlias type="kr.or.iei.together.model.vo.TogetherCommentVO" alias="togetherComment"/>
 	</typeAliases>
 
 	

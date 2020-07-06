@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import kr.or.iei.notification.model.dao.NotificationDao;
 import kr.or.iei.notification.model.vo.Notification;
 
-@Service("notifycationService")
+@Service("notificationService")
 public class NotificationService {
 	private static final int ArrayList = 0;
 	@Autowired
@@ -27,5 +27,13 @@ public class NotificationService {
 
 	public int zeroCount(Notification n) {
 		return dao.zeroCount(n);
+	}
+
+	public int insertsendMessge(String sender, String receiver) {
+		return dao.insertsendMessge(sender,receiver);
+	}
+
+	public int inserttogether(String sender, String receiver) {
+		return dao.inserttogether(sender, receiver);
 	}
 }

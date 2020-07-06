@@ -2,14 +2,14 @@
 @import url("/src/css/together/board.css");
 @import url("/src/css/together/side.css");
 @import url("/src/css/together/write.css");
+@import url("/src/css/together/loader.css");
 
-section{
-    position: relative;
+section {
+  position: relative;
 }
 
-@media (min-width : 1500px){
-    body > section {
-        padding-top: 140px;
-    }
+@media (min-width: 1500px) {
+  body > section {
+    padding-top: 140px;
+  }
 }
-

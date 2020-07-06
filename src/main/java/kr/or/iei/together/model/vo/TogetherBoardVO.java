@@ -12,5 +12,10 @@ public class TogetherBoardVO {
 	private String togetherWriter;
 	private int regionNo;
 	private int readCount;
-	private Date togetherDate;
+	private String togetherDate;
+	private String writeTime;
+	private int rnum;
+	private String regionCity;
+	private String regionCountry;
+	private int commentCount;
 }
