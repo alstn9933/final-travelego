@@ -15,11 +15,15 @@ import kr.or.iei.member.model.vo.Member;
 import kr.or.iei.message.model.service.MessageService;
 import kr.or.iei.message.model.vo.Message;
 import kr.or.iei.message.model.vo.MessageViewData;
+import kr.or.iei.notification.controller.NotificationController;
 import kr.or.iei.message.model.vo.InboxPageData;
 
 @Controller
 @RequestMapping("/message")
 public class MessageController {
+	
+	@Autowired
+	NotificationController notificationController;
 
 	@Autowired
 	@Qualifier("messageService")
@@ -124,7 +128,8 @@ public class MessageController {
 
 		int result = service.insertMessage(m);
 		if (result > 0) {
-			model.addAttribute("msg", "메세지를 전송하였습니다.");			
+			model.addAttribute("msg", "메세지를 전송하였습니다.");
+			notificationController.sendMessge(m.getMessageSender(), m.getMessageReceiver());
 		} else {
 			model.addAttribute("msg", "메세지를 전송에 실패하였습니다.");
 		}		

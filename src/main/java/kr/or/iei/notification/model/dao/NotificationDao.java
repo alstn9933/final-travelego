@@ -27,7 +27,7 @@ public class NotificationDao {
 	}
 
 	public int insertsendMessge(String sender, String receiver) {
-		Notification n = null;
+		Notification n = new Notification();
 		n.setMemberId(receiver);
 		n.setNotifyContent(sender+"님꼐서 쪽지를 보냈습니다.");
 		return sqlSession.insert("notification.insertsendMessge",n);

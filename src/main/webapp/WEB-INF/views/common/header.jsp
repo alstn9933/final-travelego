@@ -97,28 +97,39 @@
 <script>
 var ws;
 var memberId = '${sessionScope.member.memberId}';
-function connect(){
+
+$(function(){
+	wsConnect();
+	
+});
+
+function wsConnect(){
 	//테스트시 호스트값 변경할것.
-	ws = new WebSocket("ws://192.168.35.138");
+	ws = new WebSocket("ws://192.168.10.7/alarm.do");
 	console.log("웹소켓 연결 생성");	
-	var msg = {
+
+	ws.onopen = function(){
+		var msg = {
 			type:"register",
 			memberId:memberId
 			
+		};
+		ws.send(JSON.stringify(msg));
+	}
+				
+	ws.onmessage=function(e){
+		var currentCount = Number($("#alramCount").html());
+		$("#alramCount").html(currentCount+Number(e.data));
 	};
-	ws.send(JSON.stringify(msg));
-};
-ws.onmessage=function(e){
-	$("#alramCount").html(data+1);
-};
-ws.onclose=function(){
-	var msg = {
-			type:"exit",
-			memberId:memberId
-			
+
+	ws.onclose=function(){
+		var msg = {
+				type:"exit",
+				memberId:memberId
+				};
+		ws.send(JSON.stringify(msg));
+		console.log("웹소켓 연결종료.");	
 	};
-	ws.send(JSON.stringify(msg));
-	console.log("웹소켓 연결종료.");	
 };
 
 $(function(){	
