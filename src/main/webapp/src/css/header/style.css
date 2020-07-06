@@ -17,6 +17,7 @@
 	text-overflow: ellipsis;
 	overflow: hidden;
 	text-align: center;
+	padding: 5px;
 }
 .alramIcon{
 	position: relative;
@@ -38,14 +39,15 @@
 }
 .alramListBox{
 	position: absolute;
-	width: 250px;
+	width: 350px;
 	height: 400px;
-	background-color: gray;
-	border-radius: 20px;
+	border-radius: 10px;
+	border: 1px solid black;
 	left: -120px;
 	display : none;
 	opacity: 0.5;
 	overflow: auto;
+	line-height: 40px;
 	/*visibility: hidden;*/
 }
 
