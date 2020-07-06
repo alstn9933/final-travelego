@@ -19,11 +19,9 @@ import kr.or.iei.notification.model.service.NotificationService;
 
 @Component("alarmHandler")
 public class alarmHandler extends TextWebSocketHandler {
-	
 	@Autowired
 	@Qualifier("notifycationService")
-	NotificationService service;
-	
+	private NotificationService service;
 	//로그인 한 전체
 	ArrayList<WebSocketSession>webSessions = new ArrayList<WebSocketSession>();
 	Map<String, WebSocketSession> userSessionMap =  new HashMap<String, WebSocketSession>();
@@ -54,7 +52,18 @@ public class alarmHandler extends TextWebSocketHandler {
 			}
 		}
 	}
-	
+	//쪽지
+	public int sendMessge(String sender, String receiver) {
+		int count = service.insertsendMessge(sender,receiver);
+		if(count>0) {
+			System.out.println("웹소켓 추가성공");
+			count = 1;
+		}else if(count<0){
+			System.out.println("웹소켓 추가 실패");
+			count = -1;
+		}
+		return count;
+	}
 	@Override
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
 		System.out.println("연결 종료!");
