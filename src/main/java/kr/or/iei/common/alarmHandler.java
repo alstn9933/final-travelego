@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
@@ -13,8 +15,15 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
+import kr.or.iei.notification.model.service.NotificationService;
+
 @Component("alarmHandler")
 public class alarmHandler extends TextWebSocketHandler {
+	
+	@Autowired
+	@Qualifier("notifycationService")
+	NotificationService service;
+	
 	//로그인 한 전체
 	ArrayList<WebSocketSession>webSessions = new ArrayList<WebSocketSession>();
 	Map<String, WebSocketSession> userSessionMap =  new HashMap<String, WebSocketSession>();
@@ -45,6 +54,7 @@ public class alarmHandler extends TextWebSocketHandler {
 			}
 		}
 	}
+	
 	@Override
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
 		System.out.println("연결 종료!");

@@ -10,6 +10,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import kr.or.iei.common.alarmHandler;
 import kr.or.iei.member.model.vo.Member;
 import kr.or.iei.message.model.service.MessageService;
 import kr.or.iei.message.model.vo.Message;
@@ -23,6 +24,10 @@ public class MessageController {
 	@Autowired
 	@Qualifier("messageService")
 	private MessageService service;
+	
+	@Autowired
+	@Qualifier("alarmHandler")
+	alarmHandler handler;
 
 	@RequestMapping("/view.do")
 	public String messageView(HttpSession session, String messageNo, Model model) {
@@ -119,7 +124,7 @@ public class MessageController {
 
 		int result = service.insertMessage(m);
 		if (result > 0) {
-			model.addAttribute("msg", "메세지를 전송하였습니다.");
+			model.addAttribute("msg", "메세지를 전송하였습니다.");			
 		} else {
 			model.addAttribute("msg", "메세지를 전송에 실패하였습니다.");
 		}		
