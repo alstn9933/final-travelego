@@ -70,4 +70,21 @@ public class NotificationController {
 		}
 		return count;
 	}
+	//동행초대
+	public int together(String sender, String receiver) {
+		int count = service.inserttogether(sender,receiver);
+		if(count>0) {
+			WebSocketSession ws = handler.getMemberSession(receiver);
+			try {
+				ws.sendMessage(new TextMessage(String.valueOf(count)));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			count =1;
+		}else {
+			count = -1;
+		}
+		return count;
+	}
 }
