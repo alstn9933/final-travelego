@@ -16,7 +16,7 @@ import kr.or.iei.notification.model.vo.Notification;
 @Controller
 public class NotificationController {
 	@Autowired
-	@Qualifier("notifycationService")
+	@Qualifier("notificationService")
 	private NotificationService service;
 	
 	@ResponseBody
