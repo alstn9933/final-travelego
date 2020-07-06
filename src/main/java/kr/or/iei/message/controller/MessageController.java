@@ -1,9 +1,6 @@
 package kr.or.iei.message.controller;
 
-import java.util.ArrayList;
-
 import javax.servlet.http.HttpSession;
-import javax.xml.ws.RequestWrapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -125,7 +122,7 @@ public class MessageController {
 			model.addAttribute("msg", "메세지를 전송하였습니다.");
 		} else {
 			model.addAttribute("msg", "메세지를 전송에 실패하였습니다.");
-		}
+		}		
 
 		model.addAttribute("loc", "/message/inbox.do");
 		return "common/msg";
