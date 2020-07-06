@@ -260,7 +260,7 @@
   display: flex;
 }
 
-.comments button {
+#writeCommentBtn {
   margin-left: 20px;
   width: 90px;
   height: 38px;
@@ -308,4 +308,13 @@ tr:nth-child(2n) > td {
 
 .content .board_btn {
   display: none;
+}
+
+.comment_btn button {
+  cursor: pointer;
+}
+
+.comment_btn {
+  display: flex;
+  justify-content: space-between;
 }

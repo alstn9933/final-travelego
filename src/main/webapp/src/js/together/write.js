@@ -121,3 +121,54 @@ function listHover() {
   $("#selected_region").removeAttr("id");
   $(this).attr("id", "selected_region");
 }
+
+$(".delBoard").on("click", delFunc);
+
+function delFunc() {
+  if (confirm("게시글을 삭제하시겠습니까?")) {
+    const boardNo = $(this).attr("boardNo");
+    const content = $(".open_content[boardNum=" + boardNo + "]");
+
+    $.ajax({
+      url: "/together/delete.do",
+      type: "POST",
+      data: { boardNo: boardNo },
+      success: function (data) {
+        if (data == "1") {
+          content.remove();
+        } else {
+          alert("게시글 삭제에 실패하였습니다.");
+        }
+      },
+      error: function () {
+        console.log("서버 접속에 실패하였습니다.");
+      },
+    });
+  }
+}
+
+$(".modBoard").on("click", modFunc);
+
+function modFunc() {
+  if (confirm("게시글을 수정하시겠습니까?")) {
+    const boardNo = $(this).attr("boardNo");
+    $.ajax({
+      url: "/together/modifyFrm.do",
+      type: "POST",
+      data: { boardNo: boardNo },
+      success: function (data) {
+        $("#inputRegion").val(data.regionCountry + "-" + data.regionCity);
+        $("#regionNo").val(data.regionNo);
+        $("#inputTitle").val(data.togetherTitle);
+        $("#inputContent").val(data.togetherContent);
+        $("#submitBtn").html("수정 완료");
+        $("#writeForm").attr("action", "/together/modify.do");
+        $("#togetherNo").val(data.togetherNo);
+        $("#staticBackdrop").modal("show");
+      },
+      error: function () {
+        console.log("서버 연결에 실패하였습니다.");
+      },
+    });
+  }
+}

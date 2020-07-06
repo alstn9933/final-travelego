@@ -17,6 +17,7 @@ import kr.or.iei.common.model.vo.Region;
 import kr.or.iei.member.model.service.MemberService;
 import kr.or.iei.member.model.vo.Member;
 import kr.or.iei.together.model.service.TogetherService;
+import kr.or.iei.together.model.vo.MainPageDTO;
 import kr.or.iei.together.model.vo.TogetherBoardVO;
 import kr.or.iei.together.model.vo.TogetherCommentVO;
 
@@ -83,8 +84,9 @@ public class TogetherController {
 	@RequestMapping("/main.do")
 	public String main(Model model) {
 		
-		ArrayList<TogetherBoardVO> list = service.selectBoardList();
-		model.addAttribute("list",list);
+		MainPageDTO mpd = service.selectBoardList();
+		model.addAttribute("list",mpd.getBoardList());
+		model.addAttribute("regionList",mpd.getRegionList());
 		return "together/main";
 	}
 	

@@ -54,4 +54,8 @@ public class TogetherDao {
 		return session.delete("togetherBoard.deleteBoard", boardNo);
 	}
 
+	public List selectRegionList() {
+		return session.selectList("togetherBoard.selectRegionList");
+	}
+
 }

@@ -91,4 +91,11 @@
 		delete from together_board
 		where together_no = #{_parameter}
 	</delete>	
+	<select id="selectRegionList" resultType="region">
+		select 
+			distinct region_no as regionNo, 
+			region_country as regionCountry, 
+			region_city as regionCity 
+		from together_board join region using(region_no)
+	</select>
 </mapper>

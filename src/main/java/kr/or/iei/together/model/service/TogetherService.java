@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import kr.or.iei.common.model.vo.Region;
 import kr.or.iei.together.model.dao.TogetherDao;
+import kr.or.iei.together.model.vo.MainPageDTO;
 import kr.or.iei.together.model.vo.TogetherBoardVO;
 import kr.or.iei.together.model.vo.TogetherCommentVO;
 
@@ -32,7 +33,7 @@ public class TogetherService {
 		return dao.insertBoard(board);
 	}
 
-	public ArrayList<TogetherBoardVO> selectBoardList() {
+	public MainPageDTO selectBoardList() {
 		int totalCount = dao.selectTotalCount();
 		int start = totalCount - 10;
 		int end = totalCount;		
@@ -47,8 +48,13 @@ public class TogetherService {
 			if(vo.getTogetherDate().equals(today)) {
 				vo.setTogetherDate(vo.getWriteTime());
 			}
-		}		
-		return list;
+		}
+		
+		ArrayList<Region> regionList = (ArrayList<Region>)dao.selectRegionList();
+		MainPageDTO mpd = new MainPageDTO();
+		mpd.setBoardList(list);
+		mpd.setRegionList(regionList);
+		return mpd;
 	}
 
 	public ArrayList<TogetherBoardVO> selectBoardList(int lastNum) {

@@ -109,9 +109,9 @@ prefix="c"%>
                       rows="1"
                       maxlength="60"
                     ></textarea>
-                    <button type="button" id="writeCommentBtn" class="btn btn-primary" boardNo = "${board.togetherNo}">작성</button>
+                    <button type="button" id="writeCommentBtn" class="btn btn-primary writeCommentBtn" boardNo = "${board.togetherNo}">작성</button>
                   </form>
-                  <table class="table">
+                  <table class="table">       
                   </table>
                 </div>
               </div>
@@ -163,9 +163,10 @@ prefix="c"%>
                 />
               </div>
               <div class="common_region">
-                <ul>
-                  <li>제주도</li>
-                  <li>부산</li>
+                <ul class="select_region">
+                <c:forEach items="${regionList}" var="reg">
+				        	<li regionNo="${reg.regionNo}">${reg.regionCountry }-${reg.regionCity }</li>
+                </c:forEach>
                 </ul>
               </div>
               <div class="searched_region"></div>
@@ -312,122 +313,14 @@ prefix="c"%>
     <script src="/src/js/together/aside.js"></script>
     <script src="/src/js/together/write.js"></script>
     <script src="/src/js/together/boardScrollLoad.js"></script>
+    <script src="/src/js/together/comment.js"></script>
     <script>
-      $(".delBoard").on("click", delFunc);
+      $(".select_region").children().on("click", selectRegion);
 
-      function delFunc(){
-        if(confirm("게시글을 삭제하시겠습니까?")){
-          const boardNo = $(this).attr("boardNo");
-          const content = $(".open_content[boardNum="+boardNo+"]");
-
-          $.ajax({
-            url : "/together/delete.do",
-            type : "POST",
-            data : {boardNo : boardNo},
-            success : function(data){
-              if(data == "1"){
-                content.remove();
-              } else {
-                alert("게시글 삭제에 실패하였습니다.");
-              }
-            },
-            error : function(){
-              console.log("서버 접속에 실패하였습니다.");
-            }
-          });
-        }
-      }
-
-      $(".modBoard").on("click", modFunc);
-
-      function modFunc(){
-        if(confirm("게시글을 수정하시겠습니까?")){
-          const boardNo = $(this).attr("boardNo");
-          $.ajax({
-            url : "/together/modifyFrm.do",
-            type : "POST",
-            data : {boardNo : boardNo},
-            success : function(data){
-              $("#inputRegion").val(data.regionCountry+"-"+data.regionCity);
-              $("#regionNo").val(data.regionNo);
-              $("#inputTitle").val(data.togetherTitle);
-              $("#inputContent").val(data.togetherContent);
-              $("#submitBtn").html("수정 완료");
-              $("#writeForm").attr("action","/together/modify.do");
-              $("#togetherNo").val(data.togetherNo);
-              $("#staticBackdrop").modal('show');
-            },
-            error : function(){
-              console.log("서버 연결에 실패하였습니다.");
-            }
-          });
-        };
+      function selectRegion(){
+        const regionNo = $(this).attr("regionNo");
+        console.log(regionNo);
       };
-
-      $("#writeCommentBtn").on("click", submitComment);
-
-      function submitComment(){
-        const commentContent = $(this).prev().val();
-        const commentWriter = $("input[name=togetherWriter]").val();
-        const boardNo = $(this).attr("boardNo");
-        if(commentWriter == ""){
-          alert("로그인이 필요한 기능입니다.")
-        } else if(commentContent == "") {
-          alert("댓글을 입력해주세요.");
-        } else {
-          $.ajax({
-            url : "/together/writeComment.do",
-            type : "POST",
-            data : {boardNo : boardNo, commentWriter : commentWriter, commentContent : commentContent},
-            success : function(data){
-              if(data == "1"){
-                alert("댓글이 작성되었습니다.");
-              } else {
-                alert("댓글 작성에 실패하였습니다.");
-              }
-            },
-            error : function(){
-              console.log("서버접속에 실패 하였습니다.");
-            }
-          });
-        }
-      };
-
-
-      $(".content").on("click", contentClick);
-      
-      function contentClick() {
-        if (!$(this).hasClass("open_content")) {
-          const togetherNo = $(this).attr("boardNum");
-          const content = $(this);
-          $.ajax({
-            url : "/together/view.do",
-            type : "POST",
-            data : {togetherNo : togetherNo},
-            success : function(data){
-              content.find("#commentCount").html("("+data.commentCount+")");
-            },
-            error : function(){
-              alert("게시글 조회에 실패하였습니다.");
-            }
-          });
-
-          $(this).off();
-          $(this).removeClass();
-          $(this).addClass("open_content");
-          $(this).find(".stretch_area").on("click", openContentClick);
-        }
-      }
-      
-      function openContentClick(event) {
-        event.stopPropagation();
-        $(this).off();
-        const content = $(this).parent();
-        content.removeClass();
-        content.addClass("content");
-        content.on("mouseenter mouseleave", toggleStrech);
-        content.on("click", contentClick);
-      }      
     </script>
     <script>
       $(function () {
