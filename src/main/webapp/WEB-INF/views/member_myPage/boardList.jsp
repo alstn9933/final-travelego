@@ -51,7 +51,14 @@ prefix="c"%>
         }
     </style>
   </head>
-  
+  <script>
+  	$(function(){
+  		$(".board").click(function(){
+  			var val = $(this).val();
+  			location.href="/boardList.do?board="+val;
+  		});
+  	});
+  </script>
   <body>
     <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 
@@ -61,10 +68,10 @@ prefix="c"%>
         <br>
         <div>내가 쓴 게시물</div>
         <br>
-        <div><button>전체</button>
-            <button>일정 게시판</button>
-            <button>추천 게시판</button>
-            <button>동행 구하기</button>
+        <div><button class="board" value="0">전체</button>
+            <button class="board" value="5">일정 게시판</button>
+            <button class="board" value="2">추천 게시판</button>
+            <button class="board" value="3">동행 구하기</button>
         </div>
         <table border="1px solid black">
             <tr><td width="10%"></td>

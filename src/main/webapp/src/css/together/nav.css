@@ -81,10 +81,15 @@ aside > div:first-of-type {
   }
 }
 
-#writeBtn {
+#writeBtn,
+#rollBackBtn {
   padding: 2px;
   width: 100%;
   cursor: pointer;
+}
+
+#rollBackBtn {
+  margin-top: 10px;
 }
 
 .side_area {
