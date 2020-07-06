@@ -51,6 +51,7 @@
 			together_writer as togetherWriter,
 			region_country as regionCountry,
 			region_city as regionCity,
+			region_no as regionNo,
 			to_char(together_date,'hh24:mi') as writeTime,
             to_char(together_date,'yyyy. mm. dd.') as togetherDate,
             (select count(*) from board_comment where board_class = 3 and board_no = #{_parameter}) as commentCount
