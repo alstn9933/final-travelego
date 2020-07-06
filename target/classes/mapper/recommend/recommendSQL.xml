@@ -28,8 +28,14 @@
   		rec_category as recCategory,
   		region_city as regionCity,
   		place,
-  		coords
-  	 from recommend_board full join region using(region_no)
+  		coords,
+  		cnt
+  	 from recommend_board
+  	 left join region using(region_no) 
+  	 full join (select count(*) as cnt , board_no
+  	 			from liked where board_class = 2 group by board_no)rlist
+  	 			on (rec_no = board_no)
+	 order by rec_no desc
   </select>
   
   <select id="selectRecList" parameterType="items" resultType="recommend">
@@ -71,9 +77,12 @@
   		rec_date as recDate,
   		rec_category as recCategory,
   		place,
-  		coords
+  		coords,
+  		cnt
   	from recommend_board
-  	where rec_no = #{_param}
+  	full join
+  	(select count(*) as cnt , board_no from liked where board_class = 2 group by board_no)rlist on (rec_no = board_no)
+  	where rec_no = #{_param} 	
   </select>
   
   <select id="selectComments" parameterType="_int" resultType="comment">
@@ -100,10 +109,48 @@
   </insert>
 
   <insert id="insertRec" parameterType="map">
-  insert ALL into RECOMMEND_BOARD values
-  	(rec_seq.nextval,#{recTitle},#{recContent},#{recWriter},default,sysdate,#{regionNo},#{recCategory},#{place},#{coords})
-	into photo values
-	(photo_seq.nextval,1,1,#{p},#{p})
-	 select * from dual
+  	insert ALL into RECOMMEND_BOARD values
+	  	(rec_seq.nextval,#{recTitle},#{recContent},#{recWriter},default,sysdate,#{regionNo},#{recCategory},#{place},#{coords})
+		into photo values
+		(photo_seq.nextval,1,rec_seq.nextval,#{p},#{p})
+		 select * from dual
   </insert>
+  
+  <insert id="insertBookmark" parameterType="map">
+  	insert into bookmark values(bookmark_seq.nextval, 2, #{boardNo}, #{memberId})
+  </insert>
+  
+  <delete id="deleteBookmark" parameterType="map">
+  	delete from bookmark where member_id = #{memberId} and board_class=2 and board_no = #{boardNo}
+  </delete>
+  
+  <select id="selectBookmark" parameterType="map" resultType="bookmark">
+  	select 
+  		bookmark_no as bookmarkNo,
+  		board_no as boardNo,
+  		member_id as memberId
+  	from bookmark where member_id = #{memberId} and board_class=2 and board_no = #{boardNo}
+  </select>
+  <select id="selectLiked" parameterType="map" resultType="liked">
+  	select 
+  		board_no as boardNo,
+  		member_id as memberId
+  	from liked where member_id = #{memberId} and board_class=2 and board_no = #{boardNo}
+  </select>
+  
+  <insert id="insertLike" parameterType="map">
+  	insert into liked values(2, #{boardNo}, #{memberId})
+  </insert>
+  
+  <delete id="deleteLike" parameterType="map">
+  	delete from liked where member_id = #{memberId} and board_class=2 and board_no = #{boardNo}
+  </delete>
+  
+  <delete id="deleteComment" parameterType="_int">
+  	delete from board_comment where comment_no=#{_param}
+  </delete>
+  
+  <select id="selectCommentCount" parameterType="_int" resultType="_int">
+  	select count(*) as cntCom from board_comment where board_class=2 and board_no = #{_param}
+  </select>
 </mapper>

@@ -9,7 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import kr.or.iei.common.model.vo.BoardComment;
+import kr.or.iei.common.model.vo.Liked;
 import kr.or.iei.common.model.vo.Region;
+import kr.or.iei.mypage.model.vo.Bookmark;
 import kr.or.iei.recommend.model.vo.Recommend;
 import kr.or.iei.recommend.model.vo.SelectItems;
 
@@ -57,5 +59,44 @@ public class RecommendDao {
 		return sqlSession.insert("recommend.insertComment",comment);
 	}
 
+	public int insertBookmark(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("recommend.insertBookmark",map);
+	}
+
+	public int deleteBookmark(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		return sqlSession.delete("recommend.deleteBookmark",map);
+	}
+
+	public Bookmark selectBookmark(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("recommend.selectBookmark", map);
+	}
+
+	public Liked selectLiked(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("recommend.selectLiked",map);
+	}
+
+	public int insertLike(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("recommend.insertLike",map);
+	}
+
+	public int deleteLike(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		return sqlSession.delete("recommend.deleteLike",map);
+	}
+
+	public int deleteComment(int commentNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.delete("recommend.deleteComment",commentNo);
+	}
+
+	public int selectCommentCount(int recNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("recommend.selectCommentCount",recNo);
+	}
 	
 }

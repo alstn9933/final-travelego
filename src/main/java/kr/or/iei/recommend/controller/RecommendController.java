@@ -33,8 +33,10 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import com.google.gson.Gson;
 
 import kr.or.iei.common.model.vo.BoardComment;
+import kr.or.iei.common.model.vo.Liked;
 import kr.or.iei.common.model.vo.Region;
 import kr.or.iei.member.model.vo.Member;
+import kr.or.iei.mypage.model.vo.Bookmark;
 import kr.or.iei.recommend.model.service.RecommendService;
 import kr.or.iei.recommend.model.vo.Recommend;
 import kr.or.iei.recommend.model.vo.SelectItems;
@@ -207,11 +209,23 @@ public class RecommendController {
 	}
 	
 	@RequestMapping(value="/recDetail.do")
-	public String recDetail(int recNo, Model model, Recommend rec, BoardComment comment) {
+	public String recDetail(int recNo, Model model, Recommend rec, BoardComment comment, HttpSession session) {
 		rec = service.selectOneRec(recNo);
 		ArrayList<BoardComment> comments = service.selectComments(recNo);
+		int cntCom = service.selectCommentCount(recNo);
+		String memberId = null;
+		Liked checkLiked = null;
+		Bookmark checkBookmark = null;
+		if(session.getAttribute("member") != null) {
+			memberId = ((Member)session.getAttribute("member")).getMemberId();
+			checkBookmark  = service.bookmarkList(memberId, recNo);
+			checkLiked = service.likedList(memberId,recNo);
+		}
 		model.addAttribute("rec",rec);
 		model.addAttribute("comments",comments);
+		model.addAttribute("bookmark",checkBookmark);
+		model.addAttribute("liked",checkLiked);
+		model.addAttribute("cntCom",cntCom);
 		return "recommend/recDetail";
 	}
 	
@@ -222,6 +236,52 @@ public class RecommendController {
 		comment.setCommentWriter(m.getMemberId());
 		comment.setBoardNo(recNo);
 		int result = service.insertComment(comment);
+		return "redirect:/recDetail.do?recNo="+recNo;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/insertBookmark.do", produces="application/json;charset=utf-8")
+	public String insertBookmark(int recNo, HttpSession session) {
+		String memberId = null;
+		if(session.getAttribute("member") != null) {
+			memberId = ((Member)session.getAttribute("member")).getMemberId();
+		};	
+		int result = service.insertBookmark(recNo, memberId);
+		return "0";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/deleteBookmark.do", produces="application/json;charset=utf-8")
+	public String deleteBookmark(int recNo, HttpSession session) {
+		String memberId = ((Member)session.getAttribute("member")).getMemberId();
+		int result = service.deleteBookmark(recNo, memberId);
+		return "0";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/insertLike.do", produces="application/json;charset=utf-8")
+	public int insertLike(int recNo, HttpSession session, Recommend rec) {
+		String memberId = null;
+		if(session.getAttribute("member") != null) {
+			memberId = ((Member)session.getAttribute("member")).getMemberId();
+		};	
+		int result = service.insertLike(recNo, memberId);
+		rec = service.selectOneRec(recNo);
+		return rec.getCnt();
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/deleteLike.do", produces="application/json;charset=utf-8")
+	public int deleteLike(int recNo, HttpSession session, Recommend rec) {
+		String memberId = ((Member)session.getAttribute("member")).getMemberId();
+		int result = service.deleteLike(recNo, memberId);
+		rec = service.selectOneRec(recNo);
+		return rec.getCnt();
+	}
+	
+	@RequestMapping(value="deleteComment.do")
+	public String deleteComment(int commentNo, int recNo) {
+		int result = service.deleteComment(commentNo);
 		return "redirect:/recDetail.do?recNo="+recNo;
 	}
 }

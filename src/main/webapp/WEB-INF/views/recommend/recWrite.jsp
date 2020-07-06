@@ -281,8 +281,8 @@
 					style="width: 74%; height: 100%; position: relative; overflow: hidden; float: right;"></div>
 			</div>
 			<form id="complete" action="/recWrite.do" method="post">
-			<input type="text" id="coords" name="coords">
-			<input type="text" id="place" name="place">
+			<input type="hidden" id="coords" name="coords">
+			<input type="hidden" id="place" name="place">
 			<input type="hidden" id="photo" name="photo">
 			<div>
 				여행지역
@@ -310,7 +310,6 @@
 				</div>
 				<br>
 				<button>등록</button>
-				<input type="reset" value="초기화">
 			</form>
 			<script>
 				// 마커를 담을 배열입니다

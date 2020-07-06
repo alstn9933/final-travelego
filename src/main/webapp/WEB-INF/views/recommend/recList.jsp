@@ -23,6 +23,8 @@ prefix="c"%>
       src="/src/js/fontawesome/8bd2671777.js"
       crossorigin="anonymous"
     ></script>
+    <script src="https://kit.fontawesome.com/240c78171f.js"
+	crossorigin="anonymous"></script>
     <!-- CSS here -->
     <link rel="stylesheet" href="/src/css/header/header.css" />
     <link rel="stylesheet" href="/src/css/footer/footer.css" />
@@ -44,6 +46,14 @@ prefix="c"%>
         .bold{
         	font-weight: bold;
         }
+        .info>span{
+        	margin-right:10px;
+        	font-size: 14px;
+        }
+        a{
+        	font-size: 22px;
+        }
+        
     </style>
   </head>
   <script>
@@ -112,26 +122,19 @@ prefix="c"%>
                 <span><a href="#">조회순</a></span>
             </div>
            
-            <table>
-                <tr>
-                    <th width="5%"></th>
-                    <th width="50%">제목</a></th>
-                    <th width="10%">여행지</th>
-                    <th width="10%">작성자</th>
-                    <th width="15%">작성일</th>
-                    <th width="10%">조회수</th>
-                </tr>
-                <c:forEach items="${recList}" var="list">
-                <tr>
-                    <th>${list.recNo }</th>
-                    <th><a href="/recDetail.do?recNo=${list.recNo }">${list.recTitle }</a></th>
-                    <th>${list.regionCity }</th>
-                    <th>${list.recWriter}</th>
-                    <th>${list.recDate }</th>
-                    <th>${list.readCount }</th>
-                </tr>
-                </c:forEach>
-            </table>
+           <!-- 추천글 리스트를 이중 foreach를 이용해 3X3으로 정렬 -->
+            <div class="boardList" style="overflow: hidden;">
+            	<div>
+            		<c:forEach items="${recList }" var="rec">
+            		<div style="float:left; margin: 20px 50px;">
+            			<a href="/recDetail.do?recNo=${rec.recNo }"><img src="#" style="width:300px; height:200px; overflow: hidden"></a>
+            			<div class="info"><span>${rec.regionCity }</span><span>/</span><span>${rec.recCategory }</span></div>
+            			<div><a href="/recDetail.do?recNo=${rec.recNo }">${rec.recTitle }</a></div>
+            			<div class="info"><span>${rec.recWriter}</span><span>${rec.recDate }</span><span style="margin-right:3px;"><i class="fas fa-heart"></i></span><span>${rec.cnt }</span><span style="margin-right:3px;">조회수</span><span>${rec.readCount }</span></div>
+            		</div>
+            		</c:forEach>
+            	</div>
+            </div>
         </div>
         <div id="page"></div>
       <%-- <c:if test="${not empty sessionScope.member }"> --%>

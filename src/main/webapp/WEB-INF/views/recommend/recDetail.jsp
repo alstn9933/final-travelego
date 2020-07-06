@@ -46,8 +46,93 @@
     .title{
     	float: left;
     }
+    #detailInfo>span{
+    	margin-left: 20px;
+    }
 </style>
 </head>
+<script>
+	$(function(){
+		$(".insertBookmark").click(function(){
+			var recNo = ${rec.recNo};
+			$.ajax({
+				url:"/insertBookmark.do",
+				data : {recNo : recNo},
+				type : "post",
+				success : function(data){
+					$(".insertBookmark").css("display","none");
+					$(".deleteBookmark").css("display","inline-block");
+					console.log("성공");
+				},
+				error:function(){
+					alert("로그인 후 이용가능합니다.");
+					console.log("실패");
+				}
+			});
+		});
+		
+		$(".deleteBookmark").click(function(){
+			var recNo = ${rec.recNo};
+			$.ajax({
+				url:"/deleteBookmark.do",
+				data : {recNo : recNo},
+				type : "post",
+				success : function(){
+					$(".deleteBookmark").css("display","none");
+					$(".insertBookmark").css("display","inline-block");
+					console.log("성공");
+				},
+				error:function(){
+					alert("로그인 후 이용가능합니다.");
+					console.log("실패");
+				}
+			});
+		});
+		
+		$(".like").click(function(){
+			var recNo = ${rec.recNo};
+			$.ajax({
+				url:"/insertLike.do",
+				data : {recNo : recNo},
+				type : "post",
+				success : function(data){
+					$(".like").css("display","none");
+					$(".dislike").css("display","inline-block");
+					$("#cnt").html("");
+					$("#cnt").html(data);
+					console.log("성공");
+				},
+				error:function(){
+					alert("로그인 후 이용가능합니다.");
+					console.log("실패");
+				}
+			});
+		});
+		
+		$(".dislike").click(function(){
+			var recNo = ${rec.recNo};
+			$.ajax({
+				url:"/deleteLike.do",
+				data : {recNo : recNo},
+				type : "post",
+				success : function(data){
+					$(".dislike").css("display","none");
+					$(".like").css("display","inline-block");
+					$("#cnt").html("");
+					$("#cnt").html(data);
+					console.log("성공");
+				},
+				error:function(){
+					alert("로그인 후 이용가능합니다.");
+					console.log("실패");
+				}
+			});
+		});
+		
+		
+	});
+	
+</script>
 <body>
 	<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 
@@ -75,20 +160,27 @@
 			<div class="title" style="width:90%;">
 				
 				<div style="font-size:30px;">${rec.recTitle}</div>
-				<div>
+				<div id="detailInfo">
 					<span>${rec.recWriter}</span>
 					<span>${rec.recDate}</span>
 					<span>
-						<span>조회수</span><span>${rec.readCount}</span>
+						<span>조회수 </span><span>${rec.readCount}</span>
 					</span>
 					<span>
-						<span><i class="fas fa-heart"></i></span><span>10</span>
+						<span><i class="fas fa-heart"></i> </span><span id="cnt">${rec.cnt}</span>
 					</span>
 				</div>
 			</div>
 			<div class="title" style="width:10%;">
-				<span><i class="far fa-bookmark"></i></span> <span><i
-					class="fas fa-ellipsis-v">수정/삭제</i></span>
+				<c:if test="${empty bookmark}">
+				<span><i class="far fa-bookmark insertBookmark" style="font-size:28px;"></i></span>
+				<span><i class="fas fa-bookmark deleteBookmark" style="display:none; font-size:28px;"></i></span>
+				</c:if>
+				<c:if test="${not empty bookmark }">
+				<span><i class="far fa-bookmark insertBookmark" style="display:none; font-size:28px;"></i></span>
+				<span><i class="fas fa-bookmark deleteBookmark" style="font-size:28px;"></i></span>
+				</c:if>
+<!-- 				<span><i class="fas fa-ellipsis-v" style="font-size:28px;"></i></span> -->
 			</div>
 		</div>
 
@@ -96,27 +188,36 @@
 			<img>
 		</div>
 		<div style="width:100%;">${rec.recContent}</div>
-		<div id="map" style="width:60%;height:400px;"></div>
-		<div>
-			<i class="far fa-heart"></i>
+		<div id="map" style="width:60%;height:400px;margin:80px auto;"></div>
+		<div style="height:40px;">
+			<c:if test="${empty liked }">
+			<span><i class="far fa-heart like" style="float:right; font-size: 40px;"></i></span>
+			<span><i class="fas fa-heart dislike" style="display:none; float:right; font-size: 40px;"></i></span>
+			</c:if>
+			<c:if test="${not empty liked }">
+			<span><i class="far fa-heart like" style="display:none; float:right; font-size: 40px;"></i></span>
+			<span><i class="fas fa-heart dislike" style="float:right; font-size: 40px;"></i></span>
+			</c:if>
 		</div>
 		<div id="review">
-			댓글
+			댓글 <span>${cntCom}</span>
 			<c:forEach items="${comments }" var="cmt">
 				<c:choose>
 					<c:when
 						test="${sessionScope.member.memberId eq cmt.commentWriter }">
 						<div class="comment" style="background-color: skyblue">
+							<input type="hidden" value="${cmt.commentNo }">
 							<div>${cmt.commentWriter }</div>
 							<div>${cmt.commentContent }</div>
 							<div>${cmt.commentDate }</div>
 							<div>
-								<button>수정</button><button>삭제</button>
+								<button>답글</button><button onclick="amendComment('${cmt.commentNo}', '${rec.recNo }');">수정</button><button onclick="deleteComment('${cmt.commentNo}', '${rec.recNo }');">삭제</button>
 							</div>
 						</div>
 					</c:when>
 					<c:otherwise>
 						<div class="comment">
+							<input type="hidden" value="${cmt.commentNo }">
 							<div>${cmt.commentWriter }</div>
 							<div>${cmt.commentContent }</div>
 							<div>${cmt.commentDate }</div>
@@ -240,6 +341,15 @@ geocoder.addressSearch('${rec.coords}', function(result, status) {
           rightIcon: "_$tag___________________________$tag__",
         },
       });
+    </script>
+    <script>
+    function deleteComment(commentNo, recNo){
+		location.href="/deleteComment.do?recNo="+recNo+"&commentNo="+commentNo;
+	};
+	
+	function ammendComment(commentNo, recNo){
+		
+	}
     </script>
     <script>
             ClassicEditor

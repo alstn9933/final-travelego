@@ -11,7 +11,9 @@ import org.springframework.stereotype.Service;
 import com.sun.javafx.collections.MappingChange.Map;
 
 import kr.or.iei.common.model.vo.BoardComment;
+import kr.or.iei.common.model.vo.Liked;
 import kr.or.iei.common.model.vo.Region;
+import kr.or.iei.mypage.model.vo.Bookmark;
 import kr.or.iei.recommend.model.dao.RecommendDao;
 import kr.or.iei.recommend.model.vo.Recommend;
 import kr.or.iei.recommend.model.vo.SelectItems;
@@ -64,9 +66,6 @@ public class RecommendService {
 
 	public int insertRec(Recommend rec, String p) {
 		HashMap<String, Object> map = new HashMap<String, Object>();
-		System.out.println(rec.getRecCategory());
-		System.out.println(rec.getCoords());
-		System.out.println(rec.getPlace());
 		map.put("recTitle", rec.getRecTitle());
 		map.put("recContent", rec.getRecContent());
 		map.put("recWriter", rec.getRecWriter());
@@ -78,6 +77,57 @@ public class RecommendService {
 		System.out.println(map.get("coords"));
 		System.out.println(map.get("place"));
 		return dao.insertRec(map);
+	}
+
+	public int insertBookmark(int recNo, String memberId) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("boardNo", recNo);
+		map.put("memberId", memberId);
+		return dao.insertBookmark(map);
+	}
+
+	public int deleteBookmark(int recNo, String memberId) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("boardNo", recNo);
+		map.put("memberId", memberId);
+		return dao.deleteBookmark(map);
+	}
+
+	public Bookmark bookmarkList(String memberId, int recNo) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("boardNo", recNo);
+		map.put("memberId", memberId);
+		return dao.selectBookmark(map);
+	}
+
+	public Liked likedList(String memberId, int recNo) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("boardNo", recNo);
+		map.put("memberId", memberId);
+		return dao.selectLiked(map);
+	}
+
+	public int insertLike(int recNo, String memberId) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("boardNo", recNo);
+		map.put("memberId", memberId);
+		return dao.insertLike(map);
+	}
+
+	public int deleteLike(int recNo, String memberId) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("boardNo", recNo);
+		map.put("memberId", memberId);
+		return dao.deleteLike(map);
+	}
+
+	public int deleteComment(int commentNo) {
+		return dao.deleteComment(commentNo);
+	}
+
+	public int selectCommentCount(int recNo) {
+		// TODO Auto-generated method stub
+		return dao.selectCommentCount(recNo);
 	}
 
 	

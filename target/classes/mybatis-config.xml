@@ -29,6 +29,7 @@
 		<typeAlias type="kr.or.iei.tour.model.vo.TourVO" alias="tour"/>
 		<typeAlias type="kr.or.iei.tour.model.vo.ReviewVO" alias="review"/>
 		<typeAlias type="kr.or.iei.notification.model.vo.Notification" alias="notification"/>
+		<typeAlias type="kr.or.iei.common.model.vo.Liked" alias="liked"/>
 	</typeAliases>
 
 	

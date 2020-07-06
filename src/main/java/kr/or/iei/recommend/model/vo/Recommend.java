@@ -17,4 +17,5 @@ public class Recommend {
 	private String regionCity;
 	private String coords;
 	private String place;
+	private int cnt;
 }
