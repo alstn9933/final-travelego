@@ -4,9 +4,13 @@ function loadContent(data) {
     const memberId = $("input[name=togetherWriter]").val();
     for (let i = 0; i < data.length; i++) {
       const content = document.createElement("div");
-
       if (i == data.length - 1) {
         content.id = "lastContent";
+        if (data[i].regionNo != 0) {
+          content.setAttribute("regionNo", data[i].regionNo);
+        } else if (data[i].keyword != undefined) {
+          content.setAttribute("keyword", data[i].keyword);
+        }
       }
       content.classList.add("content");
       content.setAttribute("rnum", data[i].rnum);
@@ -97,16 +101,14 @@ function loadContent(data) {
 
       const commentTextArea = document.createElement("textarea");
       commentTextArea.name = "";
-      commentTextArea.className = "form-control";
-      commentTextArea.id = "autosize";
+      commentTextArea.className = "form-control autosize";
       commentTextArea.rows = "1";
       commentTextArea.maxLength = "60";
       commentForm.append(commentTextArea);
 
       const writeCommentBtn = document.createElement("button");
       writeCommentBtn.type = "button";
-      writeCommentBtn.id = "writeCommentBtn";
-      writeCommentBtn.className = "btn btn-primary";
+      writeCommentBtn.className = "btn btn-primary writeCommentBtn";
       writeCommentBtn.setAttribute("boardNo", data[i].togetherNo);
       writeCommentBtn.innerHTML = "작성";
       commentForm.append(writeCommentBtn);
@@ -154,10 +156,38 @@ function loadContent(data) {
 window.addEventListener("wheel", function (e) {
   if ($(".loading_area").css("display") == "none") {
     const pageY = window.scrollY;
-    const lastNum = $("#lastContent").attr("rnum");
     if (document.body.scrollHeight - (pageY + window.screen.height) < 200) {
+      const lastNum = $("#lastContent").attr("rnum");
+      const regionNo = $("#lastContent").attr("regionNo");
+      const keyword = $("#lastContent").attr("keyword");
       $(".loading_area").show();
-      if (lastNum != 1) {
+      if (regionNo != undefined) {
+        $.ajax({
+          url: "/together/asyncLoadByRegion.do",
+          type: "POST",
+          data: { lastNum: lastNum, regionNo: regionNo },
+          success: function (data) {
+            loadContent(data);
+          },
+          error: function () {
+            console.log("서버 연결 실패");
+            $(".loading_area").hide();
+          },
+        });
+      } else if (keyword != undefined) {
+        $.ajax({
+          url: "/together/asyncLoadByKeyword.do",
+          type: "POST",
+          data: { lastNum: lastNum, keyword: keyword },
+          success: function (data) {
+            loadContent(data);
+          },
+          error: function () {
+            console.log("서버 연결 실패");
+            $(".loading_area").hide();
+          },
+        });
+      } else if (lastNum != 1) {
         $.ajax({
           url: "/together/asyncLoad.do",
           type: "POST",

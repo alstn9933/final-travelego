@@ -10,7 +10,7 @@ $(".streched").click(function () {
   }, 350);
 });
 
-$("#searchRegion").keyup(function (e) {
+$("#mainSearchRegion").keyup(function (e) {
   const keyword = $(this).val();
 
   $.ajax({
@@ -28,6 +28,8 @@ $("#searchRegion").keyup(function (e) {
           li.innerHTML = text;
           list.append(li);
         }
+        $(".select_region").children().off();
+        $(".select_region").children().on("click", selectRegion);
       } else {
         let li = document.createElement("li");
         li.classList.add("list-group-item");

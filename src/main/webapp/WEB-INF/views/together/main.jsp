@@ -104,12 +104,11 @@ prefix="c"%>
                   <form class="comment_form">
                     <textarea
                       name=""
-                      class="form-control"
-                      id="autosize"
+                      class="form-control autosize"
                       rows="1"
                       maxlength="60"
                     ></textarea>
-                    <button type="button" id="writeCommentBtn" class="btn btn-primary writeCommentBtn" boardNo = "${board.togetherNo}">작성</button>
+                    <button type="button" class="btn btn-primary writeCommentBtn" boardNo = "${board.togetherNo}">작성</button>
                   </form>
                   <table class="table">       
                   </table>
@@ -158,7 +157,7 @@ prefix="c"%>
                 <input
                   type="text"
                   class="form-control"
-                  id="searchRegion"
+                  id="mainSearchRegion"
                   placeholder="검색어"
                 />
               </div>
@@ -173,12 +172,13 @@ prefix="c"%>
             </div>
             <div class="search_area" style="display: none;">
               <div class="input_area">
-                <form action="#">
+                <form id="mainSearch">
                   <input
-                    type="text"
+                    type="search"
+                    name="searchKeyword"
                     class="form-control"
                     id="searchRegion"
-                    placeholder="검색어"
+                    placeholder="제목+내용으로 검색"
                   />
                 </form>
               </div>
@@ -315,11 +315,10 @@ prefix="c"%>
     <script src="/src/js/together/boardScrollLoad.js"></script>
     <script src="/src/js/together/comment.js"></script>
     <script>
-      $(".select_region").children().on("click", selectRegion);
+      $(".delCommentBtn").on("click",);
 
-      function selectRegion(){
-        const regionNo = $(this).attr("regionNo");
-        console.log(regionNo);
+      function deleteComment(){
+        
       };
     </script>
     <script>

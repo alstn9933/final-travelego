@@ -32,6 +32,34 @@ public class TogetherController {
 	MemberService memberService;
 	
 	@ResponseBody
+	@RequestMapping(value = "/asyncLoadByKeyword.do", produces = "application/json;charset=utf-8")
+	public String asyncLoadByKeyword(int lastNum, String keyword) {
+		ArrayList<TogetherBoardVO> list = service.selectBoardListByKeyword(lastNum,keyword);
+		return new Gson().toJson(list);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/asyncBoardByKeyword.do", produces = "application/json;charset=utf-8")
+	public String selectBoardByKeyword(String searchKeyword) {
+		ArrayList<TogetherBoardVO> list = service.selectBoardListByKeyword(searchKeyword);		
+		return new Gson().toJson(list);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/asyncLoadByRegion.do",produces = "application/json;charset=utf-8")
+	public String asyncLoadByRegion(int regionNo, int lastNum) {
+		ArrayList<TogetherBoardVO> list = service.selectBoardListByRegion(regionNo, lastNum);
+		return new Gson().toJson(list);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/asyncBoardByRegion.do", produces = "application/json;charset=utf-8")
+	public String selectBoardByRegion(int regionNo) {
+		ArrayList<TogetherBoardVO> list = service.selectBoardListByRegion(regionNo);
+		return new Gson().toJson(list);
+	}
+	
+	@ResponseBody
 	@RequestMapping(value = "/delete.do", produces = "text/html;charset=utf-8")
 	public String deleteBoard(int boardNo) {
 		int result = service.deleteBoard(boardNo);

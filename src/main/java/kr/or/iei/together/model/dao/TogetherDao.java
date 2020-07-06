@@ -58,4 +58,20 @@ public class TogetherDao {
 		return session.selectList("togetherBoard.selectRegionList");
 	}
 
+	public List selectBoardListByRegion(HashMap<String, Integer> map) {
+		return session.selectList("togetherBoard.selectBoardListByRegion", map);
+	}
+
+	public int selectTotalCountByRegion(int regionNo) {
+		return session.selectOne("togetherBoard.selectTotalCountByRegion", regionNo);
+	}
+
+	public int selectTotalCountByKeyword(String keyword) {
+		return session.selectOne("togetherBoard.selectTotalCountByKeyword", keyword);
+	}
+
+	public List selectBoardListByKeyword(HashMap<String, String> map) {
+		return session.selectList("togetherBoard.selectBoardListByKeyword", map);
+	}
+
 }
