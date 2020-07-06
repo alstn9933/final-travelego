@@ -53,6 +53,11 @@ prefix="c"%>
         	width: 1200px;
         	height: 1500px;
         }
+        textarea{
+        	width: 300px;
+        	height: 50px;
+        	resize: none;
+        }
     </style>
   </head>
   <body>
@@ -74,6 +79,13 @@ prefix="c"%>
 	      			<tr>
 	      				<th>사진</th><th>도시</th><th>나라</th>
 	      			</tr>
+	      			<c:forEach items="${regionList }" var="regionList">
+						<tr>
+							<td>${regionList.filename }</td><input type='hidden' value="${regionList.regionNo }">
+							<td>${regionList.regionCity }</td>
+							<td>${regionList.regionCountry }</td>
+						</tr>
+					</c:forEach>
 	      		</table>
 	      	</div>
 	      </div>
@@ -82,6 +94,8 @@ prefix="c"%>
 	      <input type="text" name="countryValue"><br>
 	      <input type="text" name="regionNo"><br>
 		  <button type="button" id="makeBtn">버튼</button><br>
+		  <input type="text" name="tripNo"><br>
+		  <input type="text" name="currValIs"><br>
 	      <div id="dateList">
 	      	
 	      </div>
@@ -126,9 +140,55 @@ prefix="c"%>
 		
 		
 		$(function(){
+			$(document).on("click","button[name=addMemo]",function(){
+				//console.log($(this).val());
+				$(this).prev().before("<input type='hidden' name='memoContent'>")
+				$(this).prev().before("<textarea></textarea>");
+				$(this).prev().before("<button type='button' name='addBtn'>등록</button>");
+				$(this).prev().before("<button type='button' name='cancelBtn'>취소</button><br>");
+			});
+			
+			$(document).on("click","button[name=addBtn]",function(){
+				$("input[name=memoContent]").attr("value",$("textarea").val());
+				console.log("addBtn버튼클릭!!!!");
+				var thisDate = $(this).next().next().next().val();
+				var tripNo = $("input[name=currValIs]").val();
+				var tripContent = $(this).prev().val();
+				var html = "";
+				var form = {
+						"tripNo":tripNo,
+						"tripDate":thisDate,
+						"tripContent":tripContent
+				}
+				$.ajax({
+					url : "/addMemo.do",
+					//data : {"tripContent":memoContent},
+					data : form,
+					success : function(){
+						html += "<div>"+tripContent+"</div><br>";
+						
+						console.log("addmemo아작스성공");
+					},
+					error : function(){
+						console.log("addmemo아작스실패");
+					}
+				});
+				$(this).prev().prev().before(html);
+				$(this).prev().remove();
+				$(this).next().next().remove();
+				$(this).next().remove();
+				$(this).remove();
+			});
+			
+			$(document).on("click","button[name=cancelBtn]",function(){
+				$(this).prev().prev().prev().remove();
+				$(this).prev().prev().remove();
+				$(this).prev().remove();
+				$(this).next().remove();
+				$(this).remove();
+			});
+			
 			$("#makeBtn").click(function(){
-				//var sendArr = {"sendArr":datArr};
-				//jQuery.ajaxSettings.traditional = true;
 				var form = {
 						"sendArr":datArr,
 						"regionNo":regionNo
@@ -138,15 +198,37 @@ prefix="c"%>
 					type : "POST",
 					data : form,
 					traditional : true,
-					success : function(){
+					success : function(data){
 						var html = "";
 						html += "<hr>";
 						for(var i=0; i<datArr.length; i++){
 							html += "<label>"+datArr[i].getMonth()+"월 "+datArr[i].getDate()+"일</label><br>";
-							html += "<button type='button' name='tripDate' value='"+datArr[i]+"'>장소 추가</button>";
-							html += "<button type='button' name='tripDate' value='"+datArr[i]+"'>메모추가</button><br><br>";
+							if(datArr[i].getMonth()<10){
+								html += "<button type='button' name='addSpot' value='"+(datArr[i].getYear()-100)+"/0"+datArr[i].getMonth()+"/"+datArr[i].getDate()+"'>장소 추가</button>";
+								html += "<button type='button' name='addMemo' value='"+(datArr[i].getYear()-100)+"/0"+datArr[i].getMonth()+"/"+datArr[i].getDate()+"'>메모추가</button><br><br>";
+							}else{
+								html += "<button type='button' name='addSpot' value='"+(datArr[i].getYear()-100)+"/"+datArr[i].getMonth()+"/"+datArr[i].getDate()+"'>장소 추가</button>";
+								html += "<button type='button' name='addMemo' value='"+(datArr[i].getYear()-100)+"/"+datArr[i].getMonth()+"/"+datArr[i].getDate()+"'>메모추가</button><br><br>";
+							}
+							console.log(datArr[i].getYear()-100);
+							
 						}
+						console.log(data[0].tripNo);
+						$("input[name=currValIs]").attr("value",data[0].tripNo);
+						
 						$("#dateList").append(html);
+						/* var datArrFormat;
+						for(var i=0; i<datArr.length; i++){
+							if(datArr[i].getMonth()<10){
+								datArrFormat = datArr[i].getFullYear()+"/0"+datArr[i].getMonth()+"/"+datArr[i].getDate();
+								$("button[name=addSpot]").attr("value",datArrFormat);
+								$("button[name=addMemo]").attr("value",datArrFormat);
+							}else{
+								datArrFormat = datArr[i].getFullYear()+"/"+datArr[i].getMonth()+"/"+datArr[i].getDate();
+								$("button[name=addSpot]").attr("value",datArrFormat);
+								$("button[name=addMemo]").attr("value",datArrFormat);
+							}
+						} */
 						console.log("아작스성공!!!!!!!!");
 					},
 					error : function(){
