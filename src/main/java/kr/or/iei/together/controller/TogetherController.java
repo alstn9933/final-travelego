@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.google.gson.Gson;
 
 import kr.or.iei.common.model.vo.Region;
+import kr.or.iei.member.model.service.MemberService;
+import kr.or.iei.member.model.vo.Member;
 import kr.or.iei.together.model.service.TogetherService;
 import kr.or.iei.together.model.vo.TogetherBoardVO;
 import kr.or.iei.together.model.vo.TogetherCommentVO;
@@ -24,6 +26,9 @@ public class TogetherController {
 	
 	@Autowired
 	TogetherService service;
+	
+	@Autowired
+	MemberService memberService;
 	
 	@ResponseBody
 	@RequestMapping(value = "/asyncCommentLoad.do", produces = "application/json;charset=utf-8")
@@ -87,25 +92,24 @@ public class TogetherController {
 		return "together/main";
 	}
 	
-//	@RequestMapping("/join.do")
-//	public String join(String userId) {
-//		
-//		Member member = new Member();
-//		member.setMemberId(userId);
-//		member.setMemberPw("1234");
-//		member.setMemberName(userId);
-//		member.setMemberNickname(userId);
-//		member.setPhone("0102345678");
-//		member.setEmail(userId);
-//		member.setMemberLevel(1);
-//		member.setGender("M");
-//		int result = service.joinMember(member);
-//		
-//		if(result >0) {
-//			
-//			return "together/main";
-//		}else {
-//			return null;
-//		}
-//	}
+	@RequestMapping("/join.do")
+	public String join(String userId) {
+		
+		Member member = new Member();
+		member.setMemberId(userId);
+		member.setMemberPw("1234");
+		member.setMemberName(userId);
+		member.setMemberNickname(userId);
+		member.setPhone("0102345678");
+		member.setEmail(userId);
+		member.setMemberLevel(1);
+		member.setGender("M");
+		int result = memberService.joinMember(member);
+		
+		if(result >0) {			
+			return "together/main";
+		}else {
+			return null;
+		}
+	}
 }

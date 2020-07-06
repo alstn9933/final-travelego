@@ -217,6 +217,7 @@ prefix="c"%>
               </div>
             </div>
           </div>
+          <button type="button" class="btn btn-primary" id="rollBackBtn">되돌리기</button>
         </div>
         <div class="streched">
           <i class="fas fa-caret-right fold_icon"></i>
@@ -270,11 +271,6 @@ prefix="c"%>
                     autocomplete="off"
                   />
                   <ul class="list-group shadow-sm">
-                    <li class="list-group-item" id="selected_region">test1</li>
-                    <li class="list-group-item">test2</li>
-                    <li class="list-group-item">test3</li>
-                    <li class="list-group-item">test4</li>
-                    <li class="list-group-item">test5</li>
                   </ul>
                 </div>
                 <span id="regionAlert">
