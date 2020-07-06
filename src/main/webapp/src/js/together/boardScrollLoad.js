@@ -143,11 +143,13 @@ window.addEventListener("wheel", function (e) {
                   modButton.type = "button";
                   modButton.className = "btn btn-sm btn-outline-primary";
                   modButton.id = "modBoard";
+                  modButton.setAttribute(data[i].togetherNo);
 
                   const delButton = document.createElement("button");
                   delButton.type = "button";
                   delButton.className = "btn btn-sm btn-outline-danger";
                   delButton.id = "delBoard";
+                  delButton.setAttribute(data[i].togetherNo);
 
                   boardBtnDiv.append(modButton);
                   boardBtnDiv.append(delButton);

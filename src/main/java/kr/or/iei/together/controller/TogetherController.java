@@ -31,6 +31,13 @@ public class TogetherController {
 	MemberService memberService;
 	
 	@ResponseBody
+	@RequestMapping(value = "/modifyFrm.do", produces = "application/json;charset=utf-8")
+	public String modifyFrm(int boardNo) {
+		TogetherBoardVO vo = service.selectOneBoard(boardNo);
+		return new Gson().toJson(vo);
+	}
+	
+	@ResponseBody
 	@RequestMapping(value = "/asyncCommentLoad.do", produces = "application/json;charset=utf-8")
 	public String asyncCommentLoad(int boardNo) {
 		ArrayList<TogetherCommentVO> list = service.selectCommentList(boardNo);
