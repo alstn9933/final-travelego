@@ -31,9 +31,24 @@ public class TogetherController {
 	MemberService memberService;
 	
 	@ResponseBody
+	@RequestMapping(value = "/delete.do", produces = "text/html;charset=utf-8")
+	public String deleteBoard(int boardNo) {
+		int result = service.deleteBoard(boardNo);
+		return String.valueOf(result);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/modify.do", produces = "text/html;charset=utf-8")
+	public String modifyBoard(TogetherBoardVO vo) {
+		int result = service.modifyBoard(vo);
+		return String.valueOf(result);
+	}
+	
+	@ResponseBody
 	@RequestMapping(value = "/modifyFrm.do", produces = "application/json;charset=utf-8")
 	public String modifyFrm(int boardNo) {
 		TogetherBoardVO vo = service.selectOneBoard(boardNo);
+		vo.setTogetherContent(vo.getTogetherContent().replaceAll("<br/>","\r\n"));
 		return new Gson().toJson(vo);
 	}
 	
@@ -75,9 +90,10 @@ public class TogetherController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/write.do", produces = "text/html;charset=utf-8")
-	public String boardWrite(HttpSession session, TogetherBoardVO board) {
-		System.out.println(board.getTogetherContent());
+	public String boardWrite(TogetherBoardVO board) {
+		System.out.println("글쓰기 호출");
 		int result = service.insertBoard(board);
+		System.out.println(result);
 		return String.valueOf(result);
 	}
 	
@@ -85,11 +101,7 @@ public class TogetherController {
 	@RequestMapping(value = "/searchRegion.do", produces = "application/json;charset=utf-8")
 	public String searchRegion(String keyword) {
 		ArrayList<Region> list = service.selectRegionByKeyword(keyword);
-		
-		for(Region r : list) {
-			System.out.println(r.getRegionCity());			
-		}
-		
+				
 		return new Gson().toJson(list);
 	}
 	

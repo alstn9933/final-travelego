@@ -88,5 +88,13 @@ public class TogetherService {
 		}
 		return list;
 	}
+
+	public int modifyBoard(TogetherBoardVO vo) {		
+		return dao.modifyBoard(vo);
+	}
+
+	public int deleteBoard(int boardNo) {
+		return dao.deleteBoard(boardNo);
+	}
 	
 }

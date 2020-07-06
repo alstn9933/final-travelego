@@ -5,7 +5,8 @@ $("#submitBtn").click(function () {
 $("#writeForm").submit(function (e) {
   const postData = $(this).serializeArray();
   const formUrl = $(this).attr("action");
-
+  console.log(postData);
+  console.log(formUrl);
   $.ajax({
     url: formUrl,
     type: "POST",
@@ -27,9 +28,13 @@ $("#writeForm").submit(function (e) {
 });
 
 function cleanWriteForm() {
+  $("#writeForm").attr("action", "/together/write.do");
+  $("#togetherNo").val("");
+  $("#regionNo").val("");
   $("#inputRegion").val("");
   $("#inputTitle").val("");
   $("#inputContent").val("");
+  $("#submitBtn").html("작성 완료");
 }
 
 $("#inputRegion").keypress(function (event) {

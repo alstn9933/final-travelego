@@ -75,16 +75,14 @@ prefix="c"%>
                     <div class="board_btn">
                       <button
                         type="button"
-                        class="btn btn-sm btn-outline-primary"
-                        id="modBoard"
+                        class="btn btn-sm btn-outline-primary modBoard"
                         boardNo = "${board.togetherNo}"
                       >
                         수정
                       </button>
                       <button
                         type="button"
-                        id="delBoard"
-                        class="btn btn-sm btn-outline-danger"                        
+                        class="btn btn-sm btn-outline-danger delBoard"                        
                         boardNo = "${board.togetherNo}"
                       >
                         삭제
@@ -114,40 +112,6 @@ prefix="c"%>
                     <button type="button" id="writeCommentBtn" class="btn btn-primary" boardNo = "${board.togetherNo}">작성</button>
                   </form>
                   <table class="table">
-                    <tr class="comment_writer_area">
-                      <th scope="row" class="comment_writer">작성자</th>
-                      <td class="comment_date">2020.06.29.</td>
-                    </tr>
-                    <tr class="comment_content_area">
-                      <td>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                        sed do eiusmod tempor incididunt ut labore et dolore
-                        magna aliqua. Ut enim ad minim veniam, quis nostrud
-                        exercitation ullamco laboris nisi ut aliquip ex ea
-                        commodo consequat. Duis aute irure dolor in
-                        reprehenderit in voluptate velit esse cillum dolore eu
-                        fugiat nulla pariatur. Excepteur sint occaecat cupidatat
-                        non proident, sunt in culpa qui officia deserunt mollit
-                        anim id est laborum.
-                      </td>
-                    </tr>
-                    <tr class="comment_writer_area">
-                      <th scope="row" class="comment_writer">작성자</th>
-                      <td class="comment_date">2020.06.29.</td>
-                    </tr>
-                    <tr class="comment_content_area">
-                      <td>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                        sed do eiusmod tempor incididunt ut labore et dolore
-                        magna aliqua. Ut enim ad minim veniam, quis nostrud
-                        exercitation ullamco laboris nisi ut aliquip ex ea
-                        commodo consequat. Duis aute irure dolor in
-                        reprehenderit in voluptate velit esse cillum dolore eu
-                        fugiat nulla pariatur. Excepteur sint occaecat cupidatat
-                        non proident, sunt in culpa qui officia deserunt mollit
-                        anim id est laborum.
-                      </td>
-                    </tr>
                   </table>
                 </div>
               </div>
@@ -228,7 +192,6 @@ prefix="c"%>
     </section>
     <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
     <!-- Modal -->
-    <!-- Modal -->
     <div
       class="modal fade"
       id="staticBackdrop"
@@ -262,6 +225,7 @@ prefix="c"%>
                   name="togetherWriter"
                   value="${sessionScope.member.memberId}"
                 />
+                <input type="hidden" name="togetherNo" id="togetherNo" value="0">
                 <input type="hidden" name="regionNo" id="regionNo" />
                 <label for="inputRegion" class="col-form-label">지역</label>
                 <div>
@@ -349,7 +313,32 @@ prefix="c"%>
     <script src="/src/js/together/write.js"></script>
     <script src="/src/js/together/boardScrollLoad.js"></script>
     <script>
-      $("#modBoard").on("click", modFunc);
+      $(".delBoard").on("click", delFunc);
+
+      function delFunc(){
+        if(confirm("게시글을 삭제하시겠습니까?")){
+          const boardNo = $(this).attr("boardNo");
+          const content = $(".open_content[boardNum="+boardNo+"]");
+
+          $.ajax({
+            url : "/together/delete.do",
+            type : "POST",
+            data : {boardNo : boardNo},
+            success : function(data){
+              if(data == "1"){
+                content.remove();
+              } else {
+                alert("게시글 삭제에 실패하였습니다.");
+              }
+            },
+            error : function(){
+              console.log("서버 접속에 실패하였습니다.");
+            }
+          });
+        }
+      }
+
+      $(".modBoard").on("click", modFunc);
 
       function modFunc(){
         if(confirm("게시글을 수정하시겠습니까?")){
@@ -359,8 +348,13 @@ prefix="c"%>
             type : "POST",
             data : {boardNo : boardNo},
             success : function(data){
-              console.log(data);
               $("#inputRegion").val(data.regionCountry+"-"+data.regionCity);
+              $("#regionNo").val(data.regionNo);
+              $("#inputTitle").val(data.togetherTitle);
+              $("#inputContent").val(data.togetherContent);
+              $("#submitBtn").html("수정 완료");
+              $("#writeForm").attr("action","/together/modify.do");
+              $("#togetherNo").val(data.togetherNo);
               $("#staticBackdrop").modal('show');
             },
             error : function(){
@@ -389,11 +383,11 @@ prefix="c"%>
               if(data == "1"){
                 alert("댓글이 작성되었습니다.");
               } else {
-                alert("댓글 작성에 실패하였습니다.")
+                alert("댓글 작성에 실패하였습니다.");
               }
             },
             error : function(){
-              console.log("서버접속에 실패 하였습니다.")
+              console.log("서버접속에 실패 하였습니다.");
             }
           });
         }

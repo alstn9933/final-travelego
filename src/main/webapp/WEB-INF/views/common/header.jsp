@@ -171,8 +171,8 @@ $(function(){
 					}
 					$(".alramListBox").append(html); 
 					
-					$("#openInbox").off();
-					$("#openInbox").on("click", openInbox);
+					$(".openInbox").off();
+					$(".openInbox").on("click", openInbox);
 					console.log("2차시작")
 					$.ajax({
 						url : "/zeroCount.do",

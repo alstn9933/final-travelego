@@ -80,4 +80,15 @@
         from board_comment join member on(comment_writer = member_nickname)
         where board_class = 3 and board_no = #{_parameter}
 	</select>
+	<update id="updateBoard" parameterType="together">
+		update together_board set
+			together_title = #{togetherTitle},
+			together_content = #{togetherContent},
+			region_no = #{regionNo}
+		where together_no = #{togetherNo}
+	</update>
+	<delete id="deleteBoard" parameterType="_int">
+		delete from together_board
+		where together_no = #{_parameter}
+	</delete>	
 </mapper>
