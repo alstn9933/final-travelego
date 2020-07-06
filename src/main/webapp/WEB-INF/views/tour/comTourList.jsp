@@ -100,12 +100,26 @@ prefix="c"%>
             width:100%;
             height: 70px;
             padding:10px;
+            text-overflow: ellipsis;
         }
         .item-main-img{
             border-top-left-radius: 20px;
             border-top-right-radius: 20px;
             width: 280px;
             height: 280px;
+        }
+        .itemBtn{
+        	width:100%;
+        	height:30px;
+        	position: absolute;
+        	top:240px;
+        	z-index: 52;
+        }
+        .itemBtn>button{
+        	float:right;
+        	margin-right:10px;
+        	line-height:22px;
+        	height:30px;
         }
         .term{
         	border-top:1px solid gray;
@@ -136,11 +150,6 @@ prefix="c"%>
     </style>
     <script>
     	$(function(){
-    		$(".item").click(function(){
-    			var itemNo = $(this).attr("itemNo");
-    			location.href="/tourView.do?itemNo="+itemNo;
-    		});
-    		
     		function fn_more(start,val){
     			var param = {start:start,val:val};
     			$.ajax({
@@ -159,12 +168,17 @@ prefix="c"%>
     							html += "<div class='score'>"+data[i].score.toFixed(1)+"점</div>";
     						}
     						html += "<div><img class='item-main-img' src='../../../upload/images/tour/thumnail/"+data[i].filename+"'></div>";
-    						html += "<div class='itemTitle'>"+data[i].itemTitle+"</div>";
-    						
-    						html += "<div class='term'>"+data[i].beginDate+" ~ "+data[i].endDate+"</div>";
+    						html += "<div class='itemBtn'><button class='btn btn-primary btn-sm' type='button' onclick='modifyItem("+data[i].itemNo+");'>수정</button>";
+    						if(data[i].closeCheck==1){
+    							html += "<button class='btn btn-danger btn-sm' type='button' onclick='deleteItem("+data[i].itemNo+");'>삭제</button></div>";
+    						}else{
+    							html += "<button class='btn btn-primary btn-sm' type='button' onclick='closeItem("+data[i].itemNo+");'>마감</button></div>";
+    						}
     						if(data[i].closeCheck==1){
     							html += "<h1>마감</h1>";
     						}
+    						html += "<div class='itemTitle'>"+data[i].itemTitle+"</div>";
+    						html += "<div class='term'>"+data[i].beginDate+" ~ "+data[i].endDate+"</div>";
     						html += "</div>";
     					}
     					$(".tourContent").append(html);
@@ -183,6 +197,10 @@ prefix="c"%>
     			});
     		}
     		
+    		$("#makeItem").click(function(){
+    			location.href="/createTourFrm.do";
+    		});
+    		
    			fn_more(1,"ctl");
    			$("#more-btn").click(function(){
    				fn_more($(this).val(),"ctl");
@@ -191,6 +209,51 @@ prefix="c"%>
     	
     	function itemView(itemNo){
    			location.href="/tourView.do?itemNo="+itemNo;
+    	};
+    	
+    	function modifyItem(itemNo){
+    		event.stopPropagation();
+    		location.href="/modifyItem.do?itemNo="+itemNo;
+    	};
+    	
+    	function closeItem(itemNo){
+    		event.stopPropagation();
+    		$.ajax({
+    			url:"/closeItem.do",
+    			data:{itemNo:itemNo},
+    			type:"post",
+    			dataType:"json",
+    			success:function(data){
+    				if(data>0){
+    					console.log("마감성공");
+    				}else{
+    					alert("마감 실패");
+    				}
+    				location.reload();
+    			},error:function(){
+    				console.log("상품 마감 오류");
+    			}
+    		});
+    	};
+    	
+    	function deleteItem(itemNo){
+    		event.stopPropagation();
+    		$.ajax({
+    			url:"/deleteItem.do",
+    			data:{itemNo:itemNo},
+    			type:"post",
+    			dataType:"json",
+    			success:function(data){
+    				if(data>0){
+    					console.log("삭제성공");
+    				}else{
+    					alert("삭제 실패");
+    				}
+    				location.reload();
+    			},error:function(){
+    				console.log("상품 삭제 오류");
+    			}
+    		});
     	};
     </script>
   </head>
@@ -217,6 +280,7 @@ prefix="c"%>
                     <option value="1">서울</option>
                     <option value="2">부산</option>
                 </select>
+                <button id="makeItem" class="btn btn-primary" style="float:right; margin-right:30px;">상품등록</button>
             </div>
         </div>
         <div class="tourContent">

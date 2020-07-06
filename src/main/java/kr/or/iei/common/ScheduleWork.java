@@ -15,6 +15,7 @@ public class ScheduleWork {
 	
 	@Scheduled(cron="0 0 0 * * *")
 	public void tourCloseCheck() {
-		service.tourCloseCheck();
+		int result = service.tourCloseCheck();
+		System.out.println(result+"개 상품이 마감되었습니다");
 	}
 }

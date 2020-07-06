@@ -35,6 +35,13 @@ public class ReserveController {
 	}
 	
 	@ResponseBody
+	@RequestMapping(value="/changeTimes.do", produces = "application/json; charset=utf-8")
+	public String checkTourTimes(TourVO t) {
+		String[] tarr = service.checkTourTimes(t);
+		return new Gson().toJson(tarr);
+	}
+	
+	@ResponseBody
 	@RequestMapping(value="/checkAndInsert.do", produces = "application/json; charset=utf-8")
 	public int checkReserve(int itemNo, String tourDate, String tourTime, int personCount, int maxPerson, HttpSession session) {
 		Member m = (Member)session.getAttribute("member");

@@ -10,6 +10,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import kr.or.iei.common.model.vo.Photo;
 import kr.or.iei.common.model.vo.Region;
@@ -66,6 +67,7 @@ public class TourService {
 		return (ArrayList<Region>)clist;
 	}
 
+	@Transactional
 	public int insertTour(TourVO tv, Photo p) {
 		int result =  dao.insertTour(tv);
 		if(result>0) {
@@ -131,23 +133,16 @@ public class TourService {
 		return rd;
 	}
 
-	public void tourCloseCheck() {
-		ArrayList<TourVO> tList = (ArrayList<TourVO>)dao.selectAllTour();
-		SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-mm-dd");
-		Date nowDate = new Date();
-		nowDate.setTime (nowDate.getTime()-((long)1000*60*60*24));
-		for(TourVO t : tList) {
-			try {
-				Date endDate = dateformat.parse(t.getEndDate().substring(0,10));
-				int compare = nowDate.compareTo(endDate);
-				if(compare>0) {
-					int result = dao.tourCloseCheck(t.getItemNo());
-					System.out.println(t.getItemNo()+"이 마감되었습니다");
-				}
-			} catch (ParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
+	@Transactional
+	public int tourCloseCheck() {
+		return dao.tourCloseCheck();
+	}
+
+	public int deleteTourItem(int itemNo) {
+		return dao.deleteTourItem(itemNo);
+	}
+
+	public int closeTourItem(int itemNo) {
+		return dao.closeTourItem(itemNo);
 	}
 }

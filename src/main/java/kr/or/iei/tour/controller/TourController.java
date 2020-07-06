@@ -49,6 +49,7 @@ public class TourController {
 		if (m != null && m.getMemberLevel() == 2) {
 			String memberId = m.getMemberId();
 			int totalCount = service.selectTotalCount(memberId);
+			System.out.println(totalCount);
 			model.addAttribute("totalCount", totalCount);
 			return "tour/comTourList";
 		} else {
@@ -60,6 +61,7 @@ public class TourController {
 	public String tourList(HttpSession session, Model model) {
 		String memberId = null;
 		int totalCount = service.selectTotalCount(memberId);
+		System.out.println(totalCount);
 		model.addAttribute("totalCount", totalCount);
 		return "tour/tourList";
 	}
@@ -82,6 +84,7 @@ public class TourController {
 			memberLevel = m.getMemberLevel();
 		}
 		ArrayList<TourVO> list = service.moreItemList(start, memberId,memberLevel,val);
+		System.out.println(list.size());
 		return new Gson().toJson(list);
 	}
 	
@@ -260,5 +263,19 @@ public class TourController {
 			out.write(imgBuf, 0, length);
 			out.flush();
 		}
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/deleteItem.do", produces = "application/json; charset=utf-8")
+	public String deleteTourItem(int itemNo) {
+		int result = service.deleteTourItem(itemNo);
+		return new Gson().toJson(result);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/closeItem.do", produces = "application/json; charset=utf-8")
+	public String closeTourItem(int itemNo) {
+		int result = service.closeTourItem(itemNo);
+		return new Gson().toJson(result);
 	}
 }

@@ -343,7 +343,7 @@ prefix="c"%>
 									"</td>"+
 									"<td colspan='1'>";
 								if(data[i].status==1){
-									html+="<span style='background-color:red; color:white;'>취소 된 예약</span>";
+									html+="<span style='background-color:red; color:white;'>취소</span>";
 								}else if(tourDate>new Date){
 									html+="<button class='btn btn-primary stsbtn' onclick='cancel("+data[i].reserveNo+")'>취소하기</button>";
 								}else if(data[i].checkReview==0){

@@ -60,11 +60,15 @@ public class TourDao {
 		return sqlSession.selectList("tour.selectMoreReview", map);
 	}
 
-	public List selectAllTour() {
-		return sqlSession.selectList("tour.selectAllTour");
+	public int tourCloseCheck() {
+		return sqlSession.update("tour.closeCheckTour");
 	}
 
-	public int tourCloseCheck(int itemNo) {
-		return sqlSession.update("tour.closeCheckTour",itemNo);
+	public int deleteTourItem(int itemNo) {
+		return sqlSession.update("tour.deleteTour",itemNo);
+	}
+
+	public int closeTourItem(int itemNo) {
+		return sqlSession.update("tour.closeTour",itemNo);
 	}
 }

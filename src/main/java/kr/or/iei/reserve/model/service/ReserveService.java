@@ -50,6 +50,12 @@ public class ReserveService {
 		}
 		return rlist;
 	}
+	
+	public String[] checkTourTimes(TourVO t2) {
+		TourVO t = dao.checkTourTimes(t2);
+		String[] tarr = t.getTourTimes().split(",");
+		return tarr;
+	}
 
 	public int checkAndInsert(ReserveVO r, int maxPerson) {
 		ArrayList<ReserveVO> rList = (ArrayList<ReserveVO>)dao.checkReserve(r);
@@ -121,6 +127,12 @@ public class ReserveService {
 
 	public ArrayList<ReserveVO> selectReserveList(Member m, ReserveVO r) {
 		r.setMemberId(m.getMemberId());
-		return (ArrayList<ReserveVO>)dao.selectReserveList(r);
+		r.setMemberName("%"+r.getMemberName()+"%");
+		r.setPhone("%"+r.getPhone()+"%");
+		ArrayList<ReserveVO> rList = (ArrayList<ReserveVO>)dao.selectReserveList(r);
+		for(ReserveVO rv : rList) {
+			rv.setTourDate(rv.getTourDate().substring(0,10));
+		}
+		return rList;
 	}
 }

@@ -313,6 +313,14 @@ input[name=personCount]{
 					<h2>필요</h2>
 				</div>
 			</c:if>
+			<c:if test="${sessionScope.member.memberLevel eq 1}">
+				<c:if test="${tv.closeCheck!=0}">
+					<div class="plzlogin">
+						<h2>마감된</h2>
+						<h2>상품입니다</h2>
+					</div>
+				</c:if>
+			</c:if>
 			<form action="/reserveTour.do" method="post">
 				<input type="hidden" id="itemNo" name="itemNo" value="${tv.itemNo }">
 				<div class="date">

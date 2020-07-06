@@ -21,6 +21,10 @@ public class ReserveDao {
 	public List checkTourTimes(HashMap<String, String> map) {
 		return sqlSession.selectList("reserve.checkTimePerson",map);
 	}
+	
+	public TourVO checkTourTimes(TourVO t) {
+		return sqlSession.selectOne("tour.selectTourTimes",t);
+	}
 
 	public List checkReserve(ReserveVO r) {
 		return sqlSession.selectList("reserve.checkReserve",r);
