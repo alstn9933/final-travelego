@@ -31,42 +31,80 @@
 	<!-- 웹 콘텐츠는 section 태그 안에 작성을 해주세요!-->
 	<!--컨텐츠 스크립트 -->
 	<script>
-		$(document).ready(function() {
-				$('input[name="search"]').click(function() {
-				var checkRadio = $(this).val();
+		$(document)
+				.ready(
+						function() {
+							$('input[name="search"]')
+									.click(
+											function() {
+												var checkRadio = $(this).val();
 												console.log(checkRadio);
-			$("#keyword").keyup(function() {
-					switch (checkRadio) {
-					    case checkRadio = 'id':
-							var k = $(this).val();
-					$("#user-table > tbody > tr").hide();
-					var temp = $("#user-table > tbody > tr > td:nth-child(1):contains('"+ k+ "')");
-									$(temp).parent().show();
-											break;
-						case checkRadio = "disapproval":
-								var k = $(this).val();
-						$("#user-table > tbody > tr").hide();
-							var temp = $("#user-table > tbody > tr > td:nth-child(6):contains('"+ k+ "')");
-								$(temp).parent().show();
-												break;
-												
-						case checkRadio = "nickname":
-							var k = $(this).val();
-					$("#user-table > tbody > tr").hide();
-						var temp = $("#user-table > tbody > tr > td:nth-child(2):contains('"+ k+ "')");
-							$(temp).parent().show();
-											break;
-											
-						case checkRadio="status" :
-							var k = $(this).val();
-						$("#user-table > tbody > tr").hide();
-							var temp = $("#user-table > tbody > tr > td:nth-child(5):contains('"+ k+ "')");
-								$(temp).parent().show();
-												break;	
-					}
+												$("#keyword")
+														.keyup(
+																function() {
+																	switch (checkRadio) {
+																	case checkRadio = 'id':
+																		var k = $(
+																				this)
+																				.val();
+																		$(
+																				"#user-table > tbody > tr")
+																				.hide();
+																		var temp = $("#user-table > tbody > tr > td:nth-child(1):contains('"
+																				+ k
+																				+ "')");
+																		$(temp)
+																				.parent()
+																				.show();
+																		break;
+																	case checkRadio = "disapproval":
+																		var k = $(
+																				this)
+																				.val();
+																		$(
+																				"#user-table > tbody > tr")
+																				.hide();
+																		var temp = $("#user-table > tbody > tr > td:nth-child(6):contains('"
+																				+ k
+																				+ "')");
+																		$(temp)
+																				.parent()
+																				.show();
+																		break;
+
+																	case checkRadio = "nickname":
+																		var k = $(
+																				this)
+																				.val();
+																		$(
+																				"#user-table > tbody > tr")
+																				.hide();
+																		var temp = $("#user-table > tbody > tr > td:nth-child(2):contains('"
+																				+ k
+																				+ "')");
+																		$(temp)
+																				.parent()
+																				.show();
+																		break;
+
+																	case checkRadio = "status":
+																		var k = $(
+																				this)
+																				.val();
+																		$(
+																				"#user-table > tbody > tr")
+																				.hide();
+																		var temp = $("#user-table > tbody > tr > td:nth-child(5):contains('"
+																				+ k
+																				+ "')");
+																		$(temp)
+																				.parent()
+																				.show();
+																		break;
+																	}
 																});
 											});
-							
+
 							$(".memberConfirm").click(function() {
 								var con_test = confirm("가입을 승인하시겠습니까?");
 								if (con_test == true) {
@@ -91,30 +129,36 @@
 								}
 
 								else {
-									alert("취소하셨습니다.")
+									
+		alert("취소하셨습니다.")
 								}
 							})
-							$(".companyStop").click(function() {
-								var companyStop = confirm("회원 활동이 정지 됩니다.\n 진행하시겠습니까?");
-								if (companyStop == true) {
-									var cId = $(this).attr("data-id");
-											$.ajax({
-													url : "/companyStop.do", // 콤마 없었음
-													type : "get",
-													data : {
+							$(".companyStop")
+									.click(
+											function() {
+												var companyStop = confirm("회원 활동이 정지 됩니다.\n 진행하시겠습니까?");
+												if (companyStop == true) {
+													var cId = $(this).attr(
+															"data-id");
+													$
+															.ajax({
+																url : "/modifyMemberLevel.do", // 콤마 없었음
+																type : "get",
+																data : {
 																	memberId : cId
 
 																},
-																success : function(data) { // 오타
+																success : function(
+																		data) { // 오타
 																	if (data == "1") {
-																		location.reload();
+																		location
+																				.reload();
 																	} else {
 																		alert("회원 정지 실패");
 																	}
 																},
 
-																error : function(
-																		) {
+																error : function() {
 																	alert("시스템 오류로 인한 작업중단");
 																}
 															})
@@ -123,32 +167,34 @@
 													alert("취소하셨습니다.")
 												}
 											})
-							
-							
-							
-							$(".memberStop").click(function() {
-								var stopConfirm = confirm("회원 활동이 정지 됩니다.진행하시겠습니까?");
-								if (stopConfirm == true) {
-									var mId = $(this).attr("data-id");
-											$.ajax({
-													url : "/modifyMemberLevel.do",
-													type : "get",
-													data : {
+
+							$(".memberStop")
+									.click(
+											function() {
+												var stopConfirm = confirm("회원 활동이 정지 됩니다.진행하시겠습니까?");
+												if (stopConfirm == true) {
+													var mId = $(this).attr(
+															"data-id");
+													$
+															.ajax({
+																url : "/modifyMemberLevel.do",
+																type : "get",
+																data : {
 																	memberId : mId
 
 																},
 																success : function(
 																		data) { // 오타
 																	if (data == "1") {
-																		location.reload();
+																		location
+																				.reload();
 
 																	} else {
 																		alert("회원 정지 실패");
 																	}
 																},
 
-																error : function(
-																		) {
+																error : function() {
 																	alert("시스템 오류로 인한 작업중단");
 																}
 															})
@@ -161,16 +207,52 @@
 								var memberRestore = confirm("활동 회원 으로 전환됩니다.");
 								if (memberRestore == true) {
 									var mId = $(this).attr("data-id");
-											$.ajax({
-													url : "/memberRestore.do",
-													type : "post",
-													data : {
+									$.ajax({
+										url : "/modifyMemberLevel.do",
+										type : "post",
+										data : {
+											memberId : mId
+
+										},
+										success : function(data) { // 오타
+											if (data == "1") {
+												location.reload();
+
+											} else {
+												alert("회원 상태 복귀 실패");
+											}
+										},
+
+										error : function() {
+											alert("시스템 오류로 인한 작업중단");
+										}
+									});
+
+								} else {
+									alert("취소하셨습니다.")
+								}
+							});
+
+							$(".memberDelete")
+									.click(
+											function() {
+												var memberDelete = confirm("회원이 삭제 됩니다.\n 진행행하시겠습니까?");
+												if (memberDelete == true) {
+													var mId = $(this).attr(
+															"data-id");
+													$
+															.ajax({
+																url : "/memberDelete.do",
+																type : "post",
+																data : {
 																	memberId : mId
 
 																},
-																success : function(data) { // 오타
+																success : function(
+																		data) { // 오타
 																	if (data == "1") {
-																		location.reload();
+																		location
+																				.reload();
 
 																	} else {
 																		alert("회원 상태 복귀 실패");
@@ -185,41 +267,7 @@
 												} else {
 													alert("취소하셨습니다.")
 												}
-											})				
-											
-											$(".memberDelete").click(function() {
-												var memberDelete = confirm("회원이 삭제 됩니다.진행하시겠습니까?");
-												if (memberDelete == true) {
-													var mId = $(this).attr("data-id");
-															$.ajax({
-																	url : "/memberDelete.do",
-																	type : "post",
-																	data : {
-																					memberId : mId
-
-																				},
-																				success : function(data) { // 오타
-																					if (data == "1") {
-																						location.reload();
-
-																					} else {
-																						alert("회원 상태 복귀 실패");
-																					}
-																				},
-
-																				error : function() {
-																					alert("시스템 오류로 인한 작업중단");
-																				}
-																			})
-
-																} else {
-																	alert("취소하셨습니다.")
-																}
-															})							
-											
-											
-											
-					
+											})
 
 						})
 	</script>
@@ -234,7 +282,7 @@
 </head>
 <style>
 <!--
-컨텐츠 스타일-->#member_container {
+컨텐츠 스타일 -->#member_container {
 	width: 960px;
 	margin: 0 auto;
 }
@@ -356,12 +404,11 @@ main .admin_sidebar {
 			href="https://fonts.googleapis.com/icon?family=Material+Icons" />
 
 		<div id="mySidebar" class="admin_sidebar">
-			<a href="memberManagement.do"><span class="admin_title"></span>회원
-				관리</a></span><a href="spot_managenet.do"><span><span
-					class="admin_title">여행지 관리</span><br></a> <a
-				href="qnaAdmin.do" /><span class="admin_QA">회원문의사항</span><br>
-			<a href="report_mamnagement.do" /><span class="admin_title">신고글
-				관리</span></a>
+			<a href="/memberManagement.do?reqPage=1"><span class="admin_title"></span>회원
+				관리</a></span><a href="spot_managenet.do"></span><span
+					class="admin_title">여행지 관리</span><br></a> <a href="qnaAdmin.do" /><span
+				class="admin_QA">회원문의사항</span><br> <a href="reportList.do" /><span
+				class="admin_title">신고글 관리</span></a>
 		</div>
 		<div id="member_container">
 
@@ -372,11 +419,9 @@ main .admin_sidebar {
 					</label>&nbsp; <label> <input type="radio" name="search"
 						value="nickname" id="sear">&nbsp;닉네임/회사명
 					</label>&nbsp; <label><input type="radio" name="search"
-						value="disapproval">&nbsp;승인/미승인 </label>&nbsp;
-						&nbsp; <label> <input type="radio" name="search"
-						value="status" id="searchStop">&nbsp;회원상태
-					</label>
-					&nbsp; &nbsp; &nbsp; <input type="text" id="keyword" />
+						value="disapproval">&nbsp;승인/미승인 </label>&nbsp; &nbsp; <label>
+						<input type="radio" name="search" value="status" id="searchStop">&nbsp;회원상태
+					</label> &nbsp; &nbsp; &nbsp; <input type="text" id="keyword" />
 				</form>
 			</div>
 			<div id="search_result">
@@ -400,7 +445,6 @@ main .admin_sidebar {
 							<td>${m.memberName }</td>
 							<td>${m.email }</td>
 
-							<!-- 여기서 레벨당 버여줄게 안먹습니다 -->
 							<c:if test="${m.memberLevel eq 1}">
 								<td id="modifyMember">일반 회원 <br> <input type="button"
 									name="memberStop" class="memberStop" value="정지"
@@ -411,53 +455,59 @@ main .admin_sidebar {
 
 							<c:if test="${m.memberLevel eq -1}">
 								<td id="modifyMember">정지 회원 <br> <input type="button"
-									name="memberRecycle" class="memberRestore" value="복구" data-id="${m.memberId}">
-									<input type="button" name="memberDelete" class="memberDelete"
-									value="탈퇴" data-id="${m.memberId}">
-								</td>
-								<td>해당 사항 없음</td>
-							</c:if>
-							
-							<c:if test="${m.memberLevel eq 3}">
-								<td id="modifyMember">관리자
-								</td>
-								<td>해당 사항 없음</td>
-							</c:if>
-							
-							
-							
-							<c:if test="${m.memberLevel eq 2 or m.memberLevel eq -2 }">
-								<c:if test="${m.memberLevel eq 2}">
-								<td id="modifyMember">법인 회원 <br> 
-								<input type="button"
-									name="companyStop" class="companyStop" value="정지"
+									name="memberRecycle" class="memberRestore" value="복구"
+									data-id="${m.memberId}"> <input type="button"
+									name="memberDelete" class="memberDelete" value="탈퇴"
 									data-id="${m.memberId}">
-								</c:if>
-								
-								<c:if test="${m.memberLevel eq-2} ">
-								<input type="button"name="memberRecycle" class="companyRecycle" value="복구" data-id="${m.memberId}">
-									<input type="button" name="memberDelete" class="memberDelete"
-									value="탈퇴" data-id="${m.memberId}">
-								
-								
-								</c:if>
-								<td>
-								<c:forEach items="${cList }" var="c">
-								<c:if test="${c.joinConfirm eq 1}">
+								</td>
+								<td>해당 사항 없음</td>
+							</c:if>
+
+							<c:if test="${m.memberLevel eq 3}">
+								<td id="modifyMember">관리자</td>
+								<td>해당 사항 없음</td>
+							</c:if>
+
+
+
+							
+								<c:if test="${m.memberLevel eq 2}">
+									<td id="modifyMember">법인 회원 <br> <input type="button"
+										name="companyStop" class="companyStop" value="정지"
+										data-id="${m.memberId}"></td>
+									<c:forEach items="${cList }" var="c">
+										<td><c:if test="${c.joinConfirm eq 1}">
 											승인 완료
 										</c:if>
 										<c:if test="${c.joinConfirm eq 0}">
-											<td><input type="button" name="allow"
-												class="memberConfirm" value="미승인 회원"
-												data-id="${c.companyId}"></td>
+												<input type="button" name="allow" class="memberConfirm"
+													value="미승인 회원" data-id="${c.companyId}">
+											</c:if></td>
+									</c:forEach>
+								</c:if>
+
+								<c:if test="${m.memberLevel eq -2}">
+									<td>법인회원<br>
+									<input type="button" name="memberRecycle"
+										class="companyRecycle" value="복구" data-id="${m.memberId}">
+										<input type="button" name="memberDelete" class="memberDelete"
+										value="탈퇴" data-id="${m.memberId}"></td>
+										<c:forEach items="${cList }" var="c">
+										<td><c:if test="${c.joinConfirm eq 1}">
+											승인 완료
 										</c:if>
-										</c:forEach>
-								</td>
-								
-								
-							</c:if>
-							
-							
+										<c:if test="${c.joinConfirm eq 0}">
+												<input type="button" name="allow" class="memberConfirm"
+													value="미승인 회원" data-id="${c.companyId}">
+											</c:if></td>
+									</c:forEach>
+
+									<td></td>
+								</c:if>
+
+
+
+
 						</tr>
 						<!-- 회원관리 1:일반회원 2 :법인회원 3:관리자
 									company 테이블에서  0 승인전, 1 승인 완료
@@ -465,11 +515,13 @@ main .admin_sidebar {
 
 					</c:forEach>
 					<!-- 법인 회원   -->
-				
+			<div>${pagiNavi}</div>
 
 				</table>
 			</div>
 		</div>
+	</div>
+	
 </body>
 
 		</html>

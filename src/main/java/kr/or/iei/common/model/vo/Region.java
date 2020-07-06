@@ -8,4 +8,6 @@ public class Region {
 	private String regionCountry;
 	private String regionCity;
 	private String filename;
+	private String filepath;
+	
 }

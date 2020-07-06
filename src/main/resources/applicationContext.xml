@@ -84,6 +84,5 @@
 	<context:component-scan base-package="kr.or.iei.common"/>
 	<context:component-scan base-package="kr.or.iei.notice"/>
 	<context:component-scan base-package="kr.or.iei.mypage"/>
-	
 
 </beans>

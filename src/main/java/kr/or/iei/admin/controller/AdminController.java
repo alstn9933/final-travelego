@@ -4,26 +4,37 @@ package kr.or.iei.admin.controller;
 
 
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.tomcat.util.http.fileupload.UploadContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.google.gson.Gson;
 
 
 import kr.or.iei.admin.model.service.AdminService;
+import kr.or.iei.admin.model.vo.AdminPage;
+import kr.or.iei.common.model.vo.Photo;
 import kr.or.iei.common.model.vo.Region;
+import kr.or.iei.common.model.vo.Report;
 import kr.or.iei.member.model.vo.Company;
 import kr.or.iei.member.model.vo.Member;
 import kr.or.iei.mypage.model.vo.QNA;
@@ -45,26 +56,38 @@ public class AdminController {
 		return "admin/adminPage";
 	}
 	
+	
 	@RequestMapping(value="/spot_managenet.do")
 	public String spot_managenet(Model model) {
 		ArrayList<Region> rList = service.regionList();
 		model.addAttribute("rList",rList);
 		return "admin/spot_managenet";
 	}
+	
+	
 	@RequestMapping(value="/qnaAdmin.do")
 	public String admin_QNA( Model model) {
 		ArrayList<QNA> qnaList = service.qnaList();
 		model.addAttribute("qnaList",qnaList);
-		
 		return "admin/qnaList";
 	}
+	@RequestMapping(value="reportList.do")
+	public String reportList(Model model) {
+		ArrayList<Report> reList = service.reList();
+		ArrayList<Member> mList =service.selectCustomerMember();
+			model.addAttribute("reList",reList);
+		model.addAttribute("mList",mList);
+		return "admin/reportList";
+	}
+	
 	 @RequestMapping(value="/QnAanswer.do")
 	 public String qnaView(QNA q,HttpSession session) {
 		 QNA answer = service.qnaView(q);
 		 session.setAttribute("q",answer);
-		 System.out.println(answer.getQnaAnswer()+"출력좀 되라 이세키야");
+		 System.out.println(answer.getQnaAnswer()+"출력좀 되라 2색이야");
 		 return "admin/qnaAdminView";
 	 }
+	 
 	 @RequestMapping(value="/question_answer.do")
 	 public String questionAnswer(QNA q,HttpSession session) {
 		 System.out.println(q.getAskDate());
@@ -81,32 +104,35 @@ public class AdminController {
 		
 		 
 	 }
-	
-	
-	
-	
-//	그러고보니 지엽씨 이거 마스터에서 풀안햇어여? update from master 데스크 탑이요? 아직안했어요 미완성이라..
-//			지엽씨 미완성된건 안올리는게 당연한거고 다른사람이 올린건 최신걸로 받아와야죠
-//			저희 거의 일주일전에 region객체 common패키지에다가 만들어서 넣어놨다고 했는데 지엽씨만 따로 저렇게 만들어서 쓰면 mabatis-mapper에서도 충돌나고 여러군데 오류날거에여
-	//이 부분은 내일 강사님꼐 여쭙고 업뎃하는거 봐주실수 있나요~?네네 이게 작업하기전에 항상 무조건 update from mater를 해줘야되요 그래야 다른사람이 만든거 최신으로 받아와서 자신꺼에도 오류가 안나나 봐줄 수도 있고
-	//그사람은 오류안나서 올린건데 혹시나 내가 해보니 오류가 난다? 그럼 알려주기도 해야되요 그런것 땜에 항상 최신걸로 입데이트 해놓는거에여 네네 지우지마세여 ㅎㅎㅎ
-	//지금 업데이트 받으면 좀 충돌 많을거같은데...그리고 클래스아예 바꿔서 코드 수정해야되요 네네 사실 어드민만 해놔서 겹치는게 딱히 없는지라...아까 언급하신 부분 말고는 없을 드 ㅅ합니다.
-	//또 모르는거라 항상 모르는거니까 그래서 항상 최신화!
-	//엄청나게 많이 추가됏쬬?네네 다들 엄청 많이 하셨네요..저만 더딘것 같네요 ㅜ 지엽씨가 갑자기 한꺼번에 받아와서 그래요 아까봤듯이
-	//나는 아직 덜 완성했으니 다른사람껏도 나중에 받아와야지 하면 진짜 충돌 엄청 많이 나서 어떻게 바꿔야하는지 모를수도있어요
-//지엽씨 그럼 지금까지 로그인 기능 만들어놓은것도 안쓰고있었나요?네... 그럼 지금 관리자 페이지 로그인안해도 들어가지겠네요 주소 쳐서 들어갔었습니다.
-	//근데 관리자로 로그인했을때만 드버튼이 있기ㅣㄴ 하겠지만 컨트롤러 자체에서도 관리자로 로그인 안되어있을때는 메인페이지로 이동되게끔 해주는게 좋아요 네네
 	@RequestMapping(value = "/memberManagement.do")
-	public String management(Model model) {
-		 ArrayList<Member> mList = service.selectCustomerMember();
-		 ArrayList<Company> cList = service.selectCompanyMember();
-		 
-		model.addAttribute("mList",mList);
-		model.addAttribute("cList",cList);
-//		model.addAttribute("list",list);
+	public String management(int reqPage, Model model) {
+				AdminPage apg=service.memberList(reqPage);
+				ArrayList<Company> cList = service.selectCompanyMember();
+				model.addAttribute("mList",apg.getList());
+				model.addAttribute("pagiNavi",apg.getPageNavi());
+				model.addAttribute("cList",cList);
 		return "admin/memberManagement";
 		
 	}
+	
+	   @ResponseBody
+	   @RequestMapping(value = "/deletePage.do", produces = "text/html; charset=utf-8")
+	   public String deletePage(Report rt) {
+		   System.out.println("보드 넘버 : "+rt.getBoardNo());
+		   System.out.println("보드클레스 : " +rt.getBoardClass());
+		   int resultP = service.deletePage(rt);
+		   int resultR =service.deleteReport(rt);
+		   int result= resultP +resultR;
+		   if(result==2) {
+			   return String.valueOf(result);
+		   }else {
+			   
+			   return String.valueOf(result);
+		   }
+		   
+	   }
+	
+	
 	/*
 	 * MEMBER_LEVEL 1:일반회원 2:법인회원 3:관리자
 	 * COFIRM 0:승인전 1:승인후
@@ -114,15 +140,14 @@ public class AdminController {
 	/*
 	 * 법인 회원 승인 
 	 */
+	
 	   @ResponseBody
 	   @RequestMapping(value = "/confirmUpdateMember.do", produces = "agpplication/json; charset=utf-8")
-	   
-	   public String confirmUpdateMember(Company cm,HttpSession session) {
+	   public String confirmUpdateMember(Company cm) {
 		   System.out.println(cm.getCompanyId());
 		   int result = service.confirmUpdateMember(cm);
 	     System.out.println(cm.getJoinConfirm());
 	     if(result>0) {
-	    	 session.setAttribute("joinConfirm",1);
 	    	 System.out.println(cm.getJoinConfirm());	     }
 	      return new Gson().toJson(1);
 	      }
@@ -130,56 +155,24 @@ public class AdminController {
 	   
 	   @ResponseBody
 	   @RequestMapping(value = "/modifyMemberLevel.do", produces = "text/html; charset=utf-8") // 굳이 json으로 보낼 필요가 없습니다.
-	   public String modifyMemberLevel(Member m,HttpSession session) {
+	   public String modifyMemberLevel(Member m) {
 		  System.out.println(m.getMemberId());
 		   int result= service.modifyMemberLevel(m);
 		   System.out.println("result : "+result);
 		   if(result>0) {
-			   // session.setAttribute("memberLevel",-1); // session에 set 해주는 attribute의 키 값 잘못됨 - EL 문법의 사용법에 대해 먼저 숙지 필요
-			   // System.out.println("컨트롤러 처리 후"+m.getMemberLevel());
-			   // 아로 수정정			   System.out.println("컨트롤러 처리 후"+m.getMemberLevel());
-//			   
-			   // 이 위의 두 줄 코드를 봅시다
-			   // session에 memberLevel이라는 키값으로 -1 이라는걸 설정했어요
-			   // 그리고 System.print에서는 매개변수로 받은 Member의 getMemberLevel을 호출합니다
-			   // 매개변수인 Member의 memberLevel은 변한적이 없으니 0을 리턴합니다
-			   // 여기서 궁금한점이 있나요??
-			   // 이번에는 제가 보여드릴게요
-			   
-			   session.setAttribute("memberLevel",-1);
+			   System.out.println("컨트롤러 처리 후"+m.getMemberLevel());
 			   return String.valueOf(result);
 		   } else {
 			   return String.valueOf(result);
 		   }
-		   
-		   // return 부정확함 - 성공해도 -1 리턴 실패해도 -1 리턴 , ajax 수신측에서는 성공했는지 실패했는지 알길이 없음
-		   // return new Gson().toJson(-1);
 	   }
-	   @ResponseBody
-	   @RequestMapping(value = "/memberRestore.do", produces = "text/html; charset=utf-8")
-	   public String memberRestore(Member m ,HttpSession session) {
-		  
-		   
-		   
-		   int result = service.memberRestore(m);
-		   
-		   
-		   
-		   if(result>0) {
-			   session.setAttribute("memberLevel",1);
-			   return String.valueOf(result);
-		   }else {
-			   return String.valueOf(result);
-		   }
-		   
-	   }
+
 	   
 	   @ResponseBody
 	   @RequestMapping(value = "/memberDelete.do", produces = "text/html; charset=utf-8")
-	   public String memberDelete(Member m ,HttpSession session) {
+	   public String memberDelete(Member m) {
 		   int result = service.memberDelete(m);
 		   if(result>0) {
-			  
 			   return String.valueOf(result);
 		   }else {
 			   return String.valueOf(result);
@@ -187,27 +180,91 @@ public class AdminController {
 		   
 	   }
 	   
-	   @ResponseBody
-	   @RequestMapping(value = "/companyStop.do", produces = "text/html; charset=utf-8")
-	   public String comapanyStop(Member m ,HttpSession session) {
-		   int result = service.companyStop(m);
-		   if(result>0) {
-			   session.setAttribute("memberLevel",-2);
-			   return String.valueOf(result);
-		   }else {
-			   return String.valueOf(result);
-		   }
-		   
-	   }
-	   
+
 	   @ResponseBody
 	   @RequestMapping(value = "/middleList.do",  produces = "agpplication/json; charset=utf-8")
-	   public String middleList(Region rg ,HttpSession session)  {
+	   public String middleList(Region rg )  {
 		 List list = null;
 			 list =  service.middleList(rg); 
 		return new Gson().toJson(list);
 	   }
+	   
+	   
+	   
+	   @ResponseBody
+	   @RequestMapping(value = "/deleteReg.do",  produces = "agpplication/json; charset=utf-8")
+	   public String deleteReg(Region rg ,Photo pt, HttpServletRequest request)  {
+		   int result = 0;
+		   int resultR = service.deleteReg(rg);
+		   int resultP =service.deletePhoto(pt);
+		   String FilePath = request.getSession().getServletContext().getRealPath("/upload/images/region/"+pt.getFilename());
 		   
+		   File file = new File(FilePath);
+		   if( file.exists() ){ 
+			   if(file.delete()){
+				   System.out.println("파일삭제 성공");
+			   }else{ 
+				   System.out.println("파일삭제 실패"); 
+				   } 
+			}else{
+				System.out.println("파일이 존재하지 않습니다.");
+			}
+
+
+		    result = resultR+resultP;
+		   
+		return new Gson().toJson(result);
+	   }
+	   
+	   @RequestMapping(value = "/insertCity.do")
+	   public String insertCity(Region rg,Photo pt,HttpServletRequest request, MultipartFile file ) throws IOException  {
+		 try {
+			
+			 if(!file.isEmpty()) {
+				 String savePath 
+				 = request.getSession().getServletContext().getRealPath("/upload/images/region/");
+				 //업로드 파일의 실제 파일명 ex) test.txt
+				 UUID uuid = UUID.randomUUID();
+				 String originalFileName =   uuid.toString()+file.getOriginalFilename();
+				 //확장자를 제외한 파일명 ex) test
+				 String onlyFilename = originalFileName;
+				 //확장자 -> .txt
+				 
+				 String extension = originalFileName.substring(originalFileName.lastIndexOf("."));
+				 String filepath = onlyFilename;
+				 String fullpath = savePath +filepath; 
+				 byte[] bytes = file.getBytes();
+				 
+				 BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(new File(fullpath)));
+				 bos.write(bytes);
+				 bos.close();
+				 System.out.println("파일 업로드 완료");
+				 
+				
+				 System.out.println();
+				 
+				 
+				 pt.setFilename(originalFileName);
+				 pt.setFilepath("/upload/images/region/");
+				 rg.setFilename(originalFileName);
+				 System.out.println("!!!!!!!!!!!!!!!!!"+rg);
+				 System.out.println("!!!!!!!!!!!!!!!!!"+pt);
+				 int regionResult =service.insertRegion(rg);
+				 int photoResult = service.insertPhoto(pt);
+				 System.out.println("포토삽입" +photoResult );
+				 System.out.println("지역삽입" +regionResult );
+				 
+			 }else {
+				 System.out.println("!!!!!!!!!!!!!!!!!");
+			 }
+			 
+		} catch (Exception e) {
+			System.out.println("@@@@@@@@@@@"+e);
+		} 
+		 return "redirect:/spot_managenet.do";
+	   }
+	   
+	   
 	   
 	   
 	

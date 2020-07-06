@@ -103,11 +103,11 @@ main .admin_sidebar {
 			href="https://fonts.googleapis.com/icon?family=Material+Icons" />
 
 		<div id="mySidebar" class="admin_sidebar">
-			<a href="memberManagement.do"><span class="admin_title"></span>회원
+			<a href="/memberManagement.do?reqPage=1"><span class="admin_title"></span>회원
 				관리</a></span><a href="spot_managenet.do"><span><span
 					class="admin_title">여행지 관리</span><br></a> <a
 				href="qnaAdmin.do" /><span class="admin_QA">회원문의사항</span><br>
-			<a href="report_mamnagement.do" ><span class="admin_title">신고글
+			<a href="reportList.do" ><span class="admin_title">신고글
 				관리</span></a>
 		</div>
 		<div id="Contents">

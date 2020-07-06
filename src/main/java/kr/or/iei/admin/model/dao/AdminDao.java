@@ -2,13 +2,13 @@ package kr.or.iei.admin.model.dao;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import kr.or.iei.common.model.vo.Photo;
 import kr.or.iei.common.model.vo.Region;
+import kr.or.iei.common.model.vo.Report;
 import kr.or.iei.member.model.vo.Company;
 import kr.or.iei.member.model.vo.Member;
 import kr.or.iei.mypage.model.vo.QNA;
@@ -18,14 +18,12 @@ public class AdminDao {
 	@Autowired
 	SqlSession sqlSession;
 
-	 public List<Member> selectCustomerMember() {
-		 //sqlSession.selectList 
-		 /**
-		  * 큰 따움표 안에 들어가는게 쿼리문 이름
-		  * m이 mapper 가 m이란 객체를 쓸 수 있을 있도록 하는 것
-		  */
-	     return sqlSession.selectList("admin.selectCustomerMember");
+	 public List<Member> selectMemberList(HashMap<String, Integer> map) {
+	     return sqlSession.selectList("admin.selectMemberList",map);
 	   }
+	 public List<Member> selectCustomerMember() {
+		 return sqlSession.selectList("admin.selectCustomerMember");
+	 }
 
 	 public List<Company> selectCompanyMember(){
 		 return sqlSession.selectList("admin.selectCompanyMember");
@@ -42,17 +40,8 @@ public class AdminDao {
 		return sqlSession.update("admin.modifyMemberLevel",m);
 	}
 
-	public int memberRestore(Member m) {
-		return sqlSession.update("admin.memberRestore",m);
-	}
-
 	public int memberDelete(Member m) {
 		return sqlSession.delete("admin.memberDelete",m);
-	}
-
-	public int companyStop(Member m) {
-		// TODO Auto-generated method stub
-		return sqlSession.update("admin.companyStop",m);
 	}
 
 
@@ -80,10 +69,49 @@ public class AdminDao {
 
 	
 
-
 	public List middleList(Region rg) {
 		// TODO Auto-generated method stub
 		return sqlSession.selectList("admin.middleList",rg);
 	}
-	
+
+	public List<Report> reportList() {
+		return sqlSession.selectList("admin.reportList");
+	}
+
+	public int deletePage(Report rt) {
+		return sqlSession.delete("admin.deletePage",rt);
+	}
+
+	public int insertRegion(Region rg) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("admin.insertRegion",rg);
+	}
+
+
+	public int insertPhoto(Photo pt) {
+		// TODO Auto-generated method stub
+		return  sqlSession.insert("admin.insertPhoto",pt);
+	}
+
+	public int deleteReg(Region rg) {
+		
+		return sqlSession.delete("admin.deleteReg",rg);
+	}
+
+public int deletePhoto(Photo pt) {
+		
+		return sqlSession.delete("admin.deletePhoto",pt);
+	}
+
+public int deleteReport(Report rt) {
+	return sqlSession.delete("admin.deleteReport",rt);
+}
+
+public int totalcount() {
+	return sqlSession.selectOne("admin.totalCount");
+}
+
+
+
+
 }
