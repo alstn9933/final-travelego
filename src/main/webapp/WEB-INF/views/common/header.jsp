@@ -105,8 +105,9 @@
 
 		function wsConnect() {
 			//테스트시 호스트값 변경할것.
-			var url = window.location.href.slice(7);
-			ws = new WebSocket("ws://"+url+"alarm.do");
+			var url = window.location.href.slice(7, window.location.href.lastIndexOf("/"));
+			console.log(url);
+			ws = new WebSocket("ws://"+url+"/alarm.do");
 			console.log("웹소켓 연결 생성");
 
 			ws.onopen = function() {
@@ -202,7 +203,7 @@
 												})
 
 											},
-											error : function() {
+											error : function() {-
 												consolo.log("리스트 읽어오기 실패");
 											}
 										})
