@@ -10,7 +10,7 @@ public class TripBoardController {
 	@RequestMapping("/open.do")
 	public String testOpen() {
 		
-		return "tripboard/main";
+		return "tripboard/view";
 	}
 	
 }

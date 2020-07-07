@@ -309,11 +309,11 @@ prefix="c"%>
     <script src="/src/js/header/jquery.validate.min.js"></script>
     <script src="/src/js/header/mail-script.js"></script>
     <script src="/src/js/header/main.js"></script>
+    <script src="/src/js/together/comment.js"></script>
     <script src="/src/js/together/board.js"></script>
     <script src="/src/js/together/aside.js"></script>
     <script src="/src/js/together/write.js"></script>
     <script src="/src/js/together/boardScrollLoad.js"></script>
-    <script src="/src/js/together/comment.js"></script>
     <script>
       $(".delCommentBtn").on("click",);
 

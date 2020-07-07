@@ -95,3 +95,33 @@
 .dropdown-menu {
   margin-left: 5px;
 }
+
+.dropdown-menu a {
+  font-size: 14px;
+}
+
+#searchForm {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+#searchForm > select {
+  font-size: 13px;
+  width: 100px;
+  padding: 6px;
+  height: 38px;
+  margin-right: 5px;
+}
+
+#searchForm > input {
+  width: 200px;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+#searchBtn {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  cursor: pointer;
+}

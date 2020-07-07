@@ -36,7 +36,13 @@ prefix="c"%>
     <section>
       <div class="board">
         <div class="board_row">
-          <div class="content">
+          <div
+            class="content"
+            data-container="body"
+            data-toggle="popover"
+            data-placement="bottom"
+            data-content="글 제목이 여기에 들어올것입니다."
+          >
             <img src="/src/imgs/member/snatiago.jpg" alt="" />
             <i
               class="fas fa-ellipsis-v"
@@ -80,6 +86,44 @@ prefix="c"%>
           <div></div>
           <div></div>
         </div>
+        <nav aria-label="Page navigation">
+          <ul class="pagination">
+            <li class="page-item">
+              <a class="page-link" href="#" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+              </a>
+            </li>
+            <li class="page-item"><a class="page-link" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item">
+              <a class="page-link" href="#" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+        <div class="form-group">
+          <form id="searchForm">
+            <select class="form-control" name="searchOption" id="selectOption">
+              <option value="1">지역</option>
+              <option value="2">제목</option>
+              <option value="3">내용</option>
+              <option value="4">제목+내용</option>
+            </select>
+            <input
+              type="search"
+              class="form-control"
+              name="keyword"
+              id="inputSearch"
+              placeholder="검색어를 입력하세요"
+              autocomplete="off"
+            />
+            <button class="btn btn-outline-primary" id="searchBtn">
+              <i class="fas fa-search"></i>
+            </button>
+          </form>
+        </div>
       </div>
     </section>
 
@@ -105,17 +149,17 @@ prefix="c"%>
     <!-- JS here -->
     <script src="/src/js/header/vendor/modernizr-3.5.0.min.js"></script>
     <!-- <script src="/src/js/header/vendor/jquery-1.12.4.min.js"></script>
-	<script src="/src/js/header/popper.min.js"></script> -->
+      <script src="/src/js/header/popper.min.js"></script>
     <script src="/src/js/header/owl.carousel.min.js"></script>
     <script src="/src/js/header/isotope.pkgd.min.js"></script>
     <script src="/src/js/header/ajax-form.js"></script>
-    <!-- <script src="/src/js/header/waypoints.min.js"></script> -->
+    <script src="/src/js/header/waypoints.min.js"></script> -->
     <script src="/src/js/header/jquery.counterup.min.js"></script>
     <script src="/src/js/header/imagesloaded.pkgd.min.js"></script>
     <script src="/src/js/header/scrollIt.js"></script>
     <script src="/src/js/header/jquery.scrollUp.min.js"></script>
     <script src="/src/js/header/wow.min.js"></script>
-    <script src="/src/js/header/nice-select.min.js"></script>
+    <!-- <script src="/src/js/header/nice-select.min.js"></script> -->
     <script src="/src/js/header/jquery.slicknav.min.js"></script>
     <script src="/src/js/header/jquery.magnific-popup.min.js"></script>
     <script src="/src/js/header/plugins.js"></script>
@@ -131,14 +175,13 @@ prefix="c"%>
     <script src="/src/js/header/main.js"></script>
     <script>
       $(function () {
-        $('[data-toggle="popover"]').popover();
-      });
-
-      $("#datepicker").datepicker({
-        iconsLibrary: "fontawesome",
-        icons: {
-          rightIcon: "_$tag___________________________$tag__",
-        },
+        // $('[data-toggle="popover"]').popover();
+        $(".content").mouseenter(function () {
+          $(this).popover("show");
+        });
+        $(".content").mouseleave(function () {
+          $(this).popover("hide");
+        });
       });
     </script>
   </body>
