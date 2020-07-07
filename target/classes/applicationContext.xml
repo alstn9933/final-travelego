@@ -89,12 +89,8 @@
 	<context:component-scan base-package="kr.or.iei.common"/>
 	<context:component-scan base-package="kr.or.iei.mytrip"/>
 	<context:component-scan base-package="kr.or.iei.notice"/>
-<<<<<<< HEAD
 	<context:component-scan base-package="kr.or.iei.mypage"/>
 	<context:component-scan base-package="kr.or.iei.tripBoard"/>
-
-=======
 	<context:component-scan base-package="kr.or.iei.tour"/>
 	<context:component-scan base-package="kr.or.iei.notification"/>
->>>>>>> master
 </beans>

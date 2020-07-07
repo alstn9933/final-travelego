@@ -220,7 +220,7 @@ width: 50px;}
 		<div id="Contents">
 	<!-- 국가 추가 -->
          <select name="countrySelect" id="countrySelect" style="width: 600px;" >
-               <option value="con1" selected >--국가를 선택해주세요--</option>
+               <option value="선택된국가가 없습니다" selected >--국가를 선택해주세요--</option>
                 <c:forEach items="${rList}" var="con">
                 <option data-image='/src/imgs/member/city.jpg' value="${con.regionCountry }">${con.regionCountry}</option>
                 </c:forEach>

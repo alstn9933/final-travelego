@@ -19,7 +19,7 @@
 							<div class="main-menu d-none d-lg-block">
 								<nav>
 									<ul id="navigation">
-										<li><a class="active" href="index.html">일정게시판</a></li>
+										<li><a class="active" href="/tripBoardList.do">일정게시판</a></li>
 										<li><a href="/recommendList.do">추천게시판</a></li>
 										<li><a class="" href="/tourList.do">투어/티켓</a></li>
 										<li><a href="/noticeList.do?reqPage=1">공지사항</a></li>
