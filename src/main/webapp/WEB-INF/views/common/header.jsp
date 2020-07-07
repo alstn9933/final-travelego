@@ -22,6 +22,7 @@
 										<li><a class="active" href="/tripBoardList.do">일정게시판</a></li>
 										<li><a href="/recommendList.do">추천게시판</a></li>
 										<li><a class="" href="/tourList.do">투어/티켓</a></li>
+										<li><a class="" href="#">동행구하기</a></li>
 										<li><a href="/noticeList.do?reqPage=1">공지사항</a></li>
 									</ul>
 								</nav>
@@ -50,8 +51,8 @@
 								<c:if test="${not empty sessionScope.member }">
 									<!-- 알림 아이콘 자리 -->
 									<div class="alramIcon">
-										<a id="bellBtn" href="javascript:void(0)" title="알람"> <i class="far fa-bell ringmybell"></i>
-										<span id="alramCount"></span></a>
+										<a id="bellBtn" href="javascript:void(0)" title="알람"> <i
+											class="far fa-bell ringmybell"></i> <span id="alramCount"></span></a>
 										<div class="alramListBox"></div>
 									</div>
 									<div class="col-xl-2 col-lg-6">
@@ -91,108 +92,124 @@
 			</div>
 		</div>
 	</div>
-	<script src="/src/js/message/openInbox.js"></script>
 </header>
 <c:if test="${not empty sessionScope.member }">
-<script>
-var ws;
-var memberId = '${sessionScope.member.memberId}';
+	<script>
+		var ws;
+		var memberId = '${sessionScope.member.memberId}';
 
-$(function(){
-	wsConnect();
-	
-});
+		$(function() {
+			wsConnect();
 
-function wsConnect(){
-	//테스트시 호스트값 변경할것.
-	ws = new WebSocket("ws://192.168.10.7/alarm.do");
-	console.log("웹소켓 연결 생성");	
-
-	ws.onopen = function(){
-		var msg = {
-			type:"register",
-			memberId:memberId
-			
-		};
-		ws.send(JSON.stringify(msg));
-	}
-				
-	ws.onmessage=function(e){
-		var currentCount = Number($("#alramCount").html());
-		$("#alramCount").html(currentCount+Number(e.data));
-	};
-
-	ws.onclose=function(){
-		var msg = {
-				type:"exit",
-				memberId:memberId
-				};
-		ws.send(JSON.stringify(msg));
-		console.log("웹소켓 연결종료.");	
-	};
-};
-
-$(function(){	
-var loginUserId = '${sessionScope.member.memberId}';
-$.ajax({
-			url : "/checkNotify.do",
-			type : "post",
-			data : {
-				memberId : loginUserId
-			},
-			success : function(data) {
-				if(data>0){
-				$("#alramCount").html(data);
-				}else{
-				$("#alramCount").hide();	
-				}
-			},
-			error : function() {
-				console.log("알람 읽어오기 에러");
-			}
 		});
-});
-</script>
-<script>
-var loginUserId = '${sessionScope.member.memberId}';
- $("#bellBtn").click(function(){
-	 $("#alramCount").html("");
-	 $("#alramCount").hide();
-	 if($(".alramListBox").css("display") == "none"){ // 닫힐때 실행방지 구문
-	 $.ajax({
-		 url : "/alramList.do",
-		 type : "post",
-		 data : {memberId:loginUserId},
-		 success : function(data){
-			 $(".alramListBox").children().remove(); // ajax 통신이 성공했을때 기존의 list 삭제
-			 console.log("1차성공");
-			 html = "";
-			 for(i=0;i<data.length;i++){
-			  html += "<div class='alramLine' val='" + data[i]['notifyNo'] + "'>"+data[i]["notifyContent"]+"</div>";
-			 }
-			  $(".alramListBox").append(html); 
-				 console.log("2차시작")
-				 $.ajax({
-					 url : "/zeroCount.do",
-					 type : "post",
-					 data : {memberId : loginUserId},
-					
-					 success : function(){
-						 console.log("2차성공");
-						 console.log("전체읽음");
-					 },
-					 error : function(){
-						 console.log("읽기싫패");
-					 }
-				 })
-			 
-		 },
-		  error : function(){
-			  consolo.log("리스트 읽어오기 실패");
-		  }
-	 })
-	 }
-	 $(".alramListBox").toggle(100);
- });
-</script>
+
+		function wsConnect() {
+			//테스트시 호스트값 변경할것.
+			var url = window.location.href.slice(7, window.location.href.lastIndexOf("/"));
+			console.log(url);
+			ws = new WebSocket("ws://"+url+"/alarm.do");
+			console.log("웹소켓 연결 생성");
+
+			ws.onopen = function() {
+				var msg = {
+					type : "register",
+					memberId : memberId
+
+				};
+				ws.send(JSON.stringify(msg));
+			}
+
+			ws.onmessage = function(e) {
+				var currentCount = Number($("#alramCount").html());
+				$("#alramCount").html(currentCount + Number(e.data));
+			};
+
+			ws.onclose = function() {
+				var msg = {
+					type : "exit",
+					memberId : memberId
+				};
+				ws.send(JSON.stringify(msg));
+				console.log("웹소켓 연결종료.");
+			};
+		};
+
+		$(function() {
+			var loginUserId = '${sessionScope.member.memberId}';
+			$.ajax({
+				url : "/checkNotify.do",
+				type : "post",
+				data : {
+					memberId : loginUserId
+				},
+				success : function(data) {
+					if (data > 0) {
+						$("#alramCount").html(data);
+					} else {
+						$("#alramCount").hide();
+					}
+				},
+				error : function() {
+					console.log("알람 읽어오기 에러");
+				}
+			});
+		});
+	</script>
+	<script>
+		var loginUserId = '${sessionScope.member.memberId}';
+		$("#bellBtn")
+				.click(
+						function() {
+							$("#alramCount").html("");
+							$("#alramCount").hide();
+							if ($(".alramListBox").css("display") == "none") { // 닫힐때 실행방지 구문
+								$
+										.ajax({
+											url : "/alramList.do",
+											type : "post",
+											data : {
+												memberId : loginUserId
+											},
+											success : function(data) {
+												$(".alramListBox").children()
+														.remove(); // ajax 통신이 성공했을때 기존의 list 삭제
+												console.log("1차성공");
+												html = "";
+												for (i = 0; i < data.length; i++) {
+													html += "<div class='alramLine' val='" + data[i]['notifyNo'] + "'>"
+															+ data[i]["notifyContent"]
+															+ "</div>";
+												}
+												$(".alramListBox").append(html);
+
+												$(".openInbox").off();
+												$(".openInbox").on("click",
+														openInbox);
+												console.log("2차시작")
+												$.ajax({
+													url : "/zeroCount.do",
+													type : "post",
+													data : {
+														memberId : loginUserId
+													},
+
+													success : function() {
+														console.log("2차성공");
+														console.log("전체읽음");
+													},
+													error : function() {
+														console.log("읽기싫패");
+													}
+												})
+
+											},
+											error : function() {-
+												consolo.log("리스트 읽어오기 실패");
+											}
+										})
+							}
+							$(".alramListBox").toggle(100);
+						});
+	</script>
 </c:if>
+<script src="/src/js/message/openInbox.js"></script>

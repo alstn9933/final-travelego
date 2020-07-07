@@ -77,13 +77,15 @@ prefix="c"%>
                         type="button"
                         class="btn btn-sm btn-outline-primary"
                         id="modBoard"
+                        boardNo = "${board.togetherNo}"
                       >
                         수정
                       </button>
                       <button
                         type="button"
                         id="delBoard"
-                        class="btn btn-sm btn-outline-danger"
+                        class="btn btn-sm btn-outline-danger"                        
+                        boardNo = "${board.togetherNo}"
                       >
                         삭제
                       </button>
@@ -347,6 +349,27 @@ prefix="c"%>
     <script src="/src/js/together/write.js"></script>
     <script src="/src/js/together/boardScrollLoad.js"></script>
     <script>
+      $("#modBoard").on("click", modFunc);
+
+      function modFunc(){
+        if(confirm("게시글을 수정하시겠습니까?")){
+          const boardNo = $(this).attr("boardNo");
+          $.ajax({
+            url : "/together/modifyFrm.do",
+            type : "POST",
+            data : {boardNo : boardNo},
+            success : function(data){
+              console.log(data);
+              $("#inputRegion").val(data.regionCountry+"-"+data.regionCity);
+              $("#staticBackdrop").modal('show');
+            },
+            error : function(){
+              console.log("서버 연결에 실패하였습니다.");
+            }
+          });
+        };
+      };
+
       $("#writeCommentBtn").on("click", submitComment);
 
       function submitComment(){

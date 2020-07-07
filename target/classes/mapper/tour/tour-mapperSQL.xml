@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="tour">
-	<select id="selectTotalCount" parameterType="string" resultType="_int">
-		select count(*) as cnt from tour
+	<select id="selectTotalCount" parameterType="string" resultType="_int"> 
+		select count(*) as cnt from tour where close_check != -1
 		<if test="_parameter!=null">
-			where member_id = #{_parameter}
+			and member_id = #{_parameter}
 		</if>
 	</select>
 	<select id="selectMoreItem" parameterType="map" resultType="tour">
 		select * from(
 		select ROWNUM as rnum, p.* from(
 		select item_no as itemNo, member_name as memberName, item_title as itemTitle, region_no as regionNo, begin_date as beginDate, end_date as endDate, filename, close_check as closeCheck
-		from tour join member using(member_id) join photo on(board_no=item_no and board_class=4)
+		from tour join member using(member_id) join photo on(board_no=item_no and board_class=4) where close_check != -1
 		<if test="val.equals('ctl')">
 			<if test="memberLevel==2">
-				where member_id=#{memberId} 
+				and member_id=#{memberId} 
 			</if>
 		</if>
 		order by item_no desc)p)
@@ -42,7 +42,7 @@
 	<select id="selectOneTour" parameterType="_int" resultType="tour">
 		select item_no as itemNo, member_id as memberId, member_name as memberName, phone, email, item_title as itemTitle, region_country as regionCountry, 
 		region_city as regionCity, max_person as maxPerson, begin_date as beginDate, end_date as endDate, item_content as itemContent,
-		item_price as itemPrice, tour_times as tourTimes, p.filename 
+		item_price as itemPrice, tour_times as tourTimes, p.filename, close_check as closeCheck
 		from tour join member using(member_id) 
 		join photo p on(board_no=item_no and board_class=4) 
 		join region using(region_no)
@@ -58,4 +58,22 @@
 	<select id="selectTotalReview" parameterType="_int" resultType="_int">
 		select count(*) as cnt from tour_review where item_no = #{_parameter}
 	</select>
+	<insert id="insertReview" parameterType="review">
+		insert into tour_review values(review_no_seq.nextval,#{itemNo},#{reserveNo},#{memberId},#{reviewRate},#{reviewContent},sysdate)
+	</insert>
+	<update id="closeCheckTour">
+		update tour set close_check=1 where item_no in(select item_no as itemNo from tour where end_date &lt; (sysdate+1) and close_check=0)
+	</update>
+	<select id="selectComTour" parameterType="string" resultType="tour">
+		select item_no as itemNo, item_title as itemTitle from tour where member_id=#{_parameter}
+	</select>
+	<select id="selectTourTimes" parameterType="tour" resultType="tour">
+		select tour_times as tourTimes from tour where item_no=#{itemNo}
+	</select>
+	<update id="deleteTour" parameterType="_int">
+		update tour set close_check=-1 where item_no=#{_parameter}
+	</update>
+	<update id="closeTour" parameterType="_int">
+		update tour set close_check=1 where item_no=#{_parameter}
+	</update>
 </mapper>

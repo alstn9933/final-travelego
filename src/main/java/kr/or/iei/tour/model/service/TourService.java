@@ -1,12 +1,16 @@
 package kr.or.iei.tour.model.service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import kr.or.iei.common.model.vo.Photo;
 import kr.or.iei.common.model.vo.Region;
@@ -63,6 +67,7 @@ public class TourService {
 		return (ArrayList<Region>)clist;
 	}
 
+	@Transactional
 	public int insertTour(TourVO tv, Photo p) {
 		int result =  dao.insertTour(tv);
 		if(result>0) {
@@ -126,5 +131,18 @@ public class TourService {
 		rd.setReviewList((ArrayList<ReviewVO>)list);
 		
 		return rd;
+	}
+
+	@Transactional
+	public int tourCloseCheck() {
+		return dao.tourCloseCheck();
+	}
+
+	public int deleteTourItem(int itemNo) {
+		return dao.deleteTourItem(itemNo);
+	}
+
+	public int closeTourItem(int itemNo) {
+		return dao.closeTourItem(itemNo);
 	}
 }

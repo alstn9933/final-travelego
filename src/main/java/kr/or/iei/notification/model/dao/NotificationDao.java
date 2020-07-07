@@ -29,7 +29,14 @@ public class NotificationDao {
 	public int insertsendMessge(String sender, String receiver) {
 		Notification n = new Notification();
 		n.setMemberId(receiver);
-		n.setNotifyContent(sender+"님꼐서 쪽지를 보냈습니다.");
+		n.setNotifyContent("<a href=\"javascript:void(0)\" class=\"openInbox\">"+sender+"님께서 쪽지를 보냈습니다.</a>");
+		return sqlSession.insert("notification.insertsendMessge",n);
+	}
+
+	public int inserttogether(String sender, String receiver) {
+		Notification n = new Notification();
+		n.setMemberId(receiver);
+		n.setNotifyContent(sender+"님께서 동행에 초대하셨습니다.");
 		return sqlSession.insert("notification.insertsendMessge",n);
 	}
 

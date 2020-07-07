@@ -49,6 +49,7 @@ public class TourController {
 		if (m != null && m.getMemberLevel() == 2) {
 			String memberId = m.getMemberId();
 			int totalCount = service.selectTotalCount(memberId);
+			System.out.println(totalCount);
 			model.addAttribute("totalCount", totalCount);
 			return "tour/comTourList";
 		} else {
@@ -60,6 +61,7 @@ public class TourController {
 	public String tourList(HttpSession session, Model model) {
 		String memberId = null;
 		int totalCount = service.selectTotalCount(memberId);
+		System.out.println(totalCount);
 		model.addAttribute("totalCount", totalCount);
 		return "tour/tourList";
 	}
@@ -82,6 +84,7 @@ public class TourController {
 			memberLevel = m.getMemberLevel();
 		}
 		ArrayList<TourVO> list = service.moreItemList(start, memberId,memberLevel,val);
+		System.out.println(list.size());
 		return new Gson().toJson(list);
 	}
 	
@@ -116,7 +119,6 @@ public class TourController {
 	public String insertTour(HttpServletRequest request, MultipartFile file,Model model, TourVO tv,String beginEnd) {
 		Photo p = new Photo();
 		String savePath = request.getSession().getServletContext().getRealPath("/upload/images/tour/thumnail");
-		
 		File folder = new File(savePath);
 
 		// 해당 디렉토리 확인
@@ -168,7 +170,6 @@ public class TourController {
 	@RequestMapping(value = "/uploadImage.do", method = RequestMethod.POST)
 	public void imageUpload(HttpServletRequest request, HttpServletResponse response,
 			MultipartHttpServletRequest multiFile, @RequestParam MultipartFile upload) throws Exception {
-
 		OutputStream out = null;
 		PrintWriter printWriter = null;
 
@@ -186,7 +187,7 @@ public class TourController {
 			byte[] bytes = upload.getBytes();
 
 			// 이미지 경로 생성
-			String path = request.getRealPath("/upload/images/tour/content");// fileDir는 전역 변수라 그냥 이미지 경로 설정해주면 된다.
+			String path = request.getSession().getServletContext().getRealPath("/upload/images/tour/content");// fileDir는 전역 변수라 그냥 이미지 경로 설정해주면 된다.
 			String ckUploadPath = path + "/" + filepath;
 			File folder = new File(path);
 
@@ -232,7 +233,7 @@ public class TourController {
 			HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		// 서버에 저장된 이미지 경로
-		String path = request.getRealPath("/upload/images/tour/content");;
+		String path = request.getSession().getServletContext().getRealPath("/upload/images/tour/content");;
 
 		String sDirPath = path + "/" + filepath;
 
@@ -262,5 +263,19 @@ public class TourController {
 			out.write(imgBuf, 0, length);
 			out.flush();
 		}
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/deleteItem.do", produces = "application/json; charset=utf-8")
+	public String deleteTourItem(int itemNo) {
+		int result = service.deleteTourItem(itemNo);
+		return new Gson().toJson(result);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/closeItem.do", produces = "application/json; charset=utf-8")
+	public String closeTourItem(int itemNo) {
+		int result = service.closeTourItem(itemNo);
+		return new Gson().toJson(result);
 	}
 }

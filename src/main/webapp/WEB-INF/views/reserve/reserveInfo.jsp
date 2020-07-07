@@ -122,7 +122,7 @@ prefix="c"%>
 		</div>
 		<div class="section-bottom">
 			<a class="btn btn-outline-danger" href="/">HOME</a>
-			<a class="btn btn-outline-danger" href="/memberReserveList.do">My Reservation</a>
+			<a class="btn btn-outline-danger" href="/myReservation.do">My Reservation</a>
 		</div>
     </section>
 

@@ -32,4 +32,8 @@ public class NotificationService {
 	public int insertsendMessge(String sender, String receiver) {
 		return dao.insertsendMessge(sender,receiver);
 	}
+
+	public int inserttogether(String sender, String receiver) {
+		return dao.inserttogether(sender, receiver);
+	}
 }
