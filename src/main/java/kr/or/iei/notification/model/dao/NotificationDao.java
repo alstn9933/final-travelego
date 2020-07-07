@@ -40,4 +40,11 @@ public class NotificationDao {
 		return sqlSession.insert("notification.insertsendMessge",n);
 	}
 
+	public int inserttourcancel(String receiver) {
+		Notification n = new Notification();
+		n.setMemberId(receiver);
+		n.setNotifyContent("예약하신 티켓이 취소되었습니다.");
+		return sqlSession.insert("notification.insertsendMessge",n);
+	}
+
 }
