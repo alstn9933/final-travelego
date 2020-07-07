@@ -44,13 +44,15 @@ public class TourController {
 	private TourService service;
 
 	@RequestMapping(value = "/comTourList.do")
-	public String comTourList(HttpSession session, Model model) {
+	public String comTourList(HttpSession session, Model model,TourVO t) {
 		Member m = (Member) session.getAttribute("member");
 		if (m != null && m.getMemberLevel() == 2) {
-			String memberId = m.getMemberId();
-			int totalCount = service.selectTotalCount(memberId);
-			System.out.println(totalCount);
+			t.setMemberId(m.getMemberId());
+			int totalCount = service.selectTotalCount(t);
+			ArrayList<Region> rlist = service.selectRegionList();
 			model.addAttribute("totalCount", totalCount);
+			model.addAttribute("rlist",rlist);
+			model.addAttribute("search",t);
 			return "tour/comTourList";
 		} else {
 			return "redirect:/";
@@ -58,11 +60,30 @@ public class TourController {
 	}
 	
 	@RequestMapping(value="/tourList.do")
-	public String tourList(HttpSession session, Model model) {
-		String memberId = null;
-		int totalCount = service.selectTotalCount(memberId);
+	public String tourList(Model model, TourVO t) {
+		if(t.getSearchValue()!=null&&t.getSearchValue()!="") {
+			t.setSearchValue("%"+t.getSearchValue()+"%");
+		}
+		int totalCount = service.selectTotalCount(t);
 		System.out.println(totalCount);
+		ArrayList<Region> rlist = service.selectRegionList();
 		model.addAttribute("totalCount", totalCount);
+		model.addAttribute("rlist",rlist);
+		model.addAttribute("t",t);
+		return "tour/tourList";
+	}
+	
+	@RequestMapping(value="/searchItems.do")
+	public String searchItems(Model model, TourVO t) {
+		if(t.getSearchValue()!=""&&t.getSearchValue()!=null) {
+			t.setSearchValue("%"+t.getSearchValue()+"%");
+		}
+		int totalCount = service.selectTotalCount(t);
+		System.out.println(totalCount);
+		ArrayList<Region> rlist = service.selectRegionList();
+		model.addAttribute("totalCount", totalCount);
+		model.addAttribute("rlist",rlist);
+		model.addAttribute("search",t);
 		return "tour/tourList";
 	}
 
@@ -75,7 +96,7 @@ public class TourController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/moreItem.do", produces = "application/json; charset=utf-8")
-	public String selectTourList(int start, HttpSession session, String val) {
+	public String selectTourList(int start, HttpSession session, String val, TourVO t) {
 		Member m = (Member) session.getAttribute("member");
 		String memberId = null;
 		int memberLevel = 0;
@@ -83,7 +104,7 @@ public class TourController {
 			memberId = m.getMemberId();
 			memberLevel = m.getMemberLevel();
 		}
-		ArrayList<TourVO> list = service.moreItemList(start, memberId,memberLevel,val);
+		ArrayList<TourVO> list = service.moreItemList(start, memberId,memberLevel,val,t);
 		System.out.println(list.size());
 		return new Gson().toJson(list);
 	}
@@ -278,4 +299,5 @@ public class TourController {
 		int result = service.closeTourItem(itemNo);
 		return new Gson().toJson(result);
 	}
+	
 }

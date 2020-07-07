@@ -25,11 +25,11 @@ public class TourService {
 	@Qualifier("tourDao")
 	private TourDao dao;
 
-	public int selectTotalCount(String memberId) {
-		return dao.selectTotalCount(memberId);
+	public int selectTotalCount(TourVO t) {
+		return dao.selectTotalCount(t);
 	}
 
-	public ArrayList<TourVO> moreItemList(int start,String memberId,int memberLevel, String val) {
+	public ArrayList<TourVO> moreItemList(int start,String memberId,int memberLevel, String val, TourVO t) {
 		int length = 12;
 		int end = start+length-1;
 		HashMap<String,String> map = new HashMap<String, String>();
@@ -38,6 +38,10 @@ public class TourService {
 		map.put("end", String.valueOf(end));
 		map.put("memberLevel", String.valueOf(memberLevel));
 		map.put("val", val);
+		map.put("regionCountry",t.getRegionCountry());
+		map.put("regionCity",t.getRegionCity());
+		map.put("tourDate", t.getTourDate());
+		map.put("searchValue",t.getSearchValue());
 		ArrayList<TourVO> list = (ArrayList<TourVO>)dao.moreItemList(map);
 		for(TourVO tv : list) {
 			String beginDate = tv.getBeginDate().substring(0,10);

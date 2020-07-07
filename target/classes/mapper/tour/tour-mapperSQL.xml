@@ -1,21 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="tour">
-	<select id="selectTotalCount" parameterType="string" resultType="_int"> 
-		select count(*) as cnt from tour where close_check != -1
-		<if test="_parameter!=null">
+	<select id="selectTotalCount" parameterType="tour" resultType="_int"> 
+		select count(*) as cnt from tour join region using(region_no) where close_check != -1
+		<if test="memberId!=null">
 			and member_id = #{_parameter}
+		</if>
+		<if test="memberId==null">
+			and close_check!=1
+		</if>
+		<if test="regionCountry!=null and regionCountry!='default'">
+			<if test="regionNo!=0">
+				and region_no=#{regionNo}
+			</if>
+			<if test="regionNo==0">
+				and region_country=#{regionCountry}
+			</if>
+		</if>
+		<if test="tourDate!=null and tourDate!=''">
+			and begin_date &lt; #{tourDate} and #{tourDate} &lt; end_date
+		</if>
+		<if test="searchValue!=null and searchValue!=''">
+			and (item_title like #{seachValue} or region_country like #{seachValue} or region_city like #{seachValue})
 		</if>
 	</select>
 	<select id="selectMoreItem" parameterType="map" resultType="tour">
 		select * from(
 		select ROWNUM as rnum, p.* from(
 		select item_no as itemNo, member_name as memberName, item_title as itemTitle, region_no as regionNo, begin_date as beginDate, end_date as endDate, filename, close_check as closeCheck
-		from tour join member using(member_id) join photo on(board_no=item_no and board_class=4) where close_check != -1
+		from tour join member using(member_id) join photo on(board_no=item_no and board_class=4) join region using(region_no) where close_check != -1
 		<if test="val.equals('ctl')">
 			<if test="memberLevel==2">
 				and member_id=#{memberId} 
 			</if>
+		</if>
+		<if test="val.equals('t1')">
+			and close_check != 1;
+		</if>
+		<if test="regionCountry!=null and regionCountry!='default'">
+			<if test="regionNo!=0">
+				and region_no=#{regionNo}
+			</if>
+			<if test="regionNo==0">
+				and region_country=#{regionCountry}
+			</if>
+		</if>
+		<if test="tourDate!=null and tourDate!=''">
+			and begin_date &lt; #{tourDate} and #{tourDate} &lt; end_date
+		</if>
+		<if test="searchValue!=null and searchValue!=''">
+			and (item_title like #{seachValue} or region_country like #{seachValue} or region_city like #{seachValue})
 		</if>
 		order by item_no desc)p)
 		where rnum between #{start} and #{end}

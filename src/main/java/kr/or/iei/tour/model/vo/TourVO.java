@@ -27,4 +27,6 @@ public class TourVO {
 	private String tourTimes;
 	private int readCount;
 	private double score;
+	private String tourDate;
+	private String searchValue;
 }

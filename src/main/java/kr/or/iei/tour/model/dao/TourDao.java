@@ -16,8 +16,8 @@ public class TourDao {
 	@Autowired
 	private SqlSessionTemplate sqlSession;
 
-	public int selectTotalCount(String memberId) {
-		return sqlSession.selectOne("tour.selectTotalCount",memberId);
+	public int selectTotalCount(TourVO t) {
+		return sqlSession.selectOne("tour.selectTotalCount",t);
 	}
 
 	public List moreItemList(HashMap<String, String> map) {

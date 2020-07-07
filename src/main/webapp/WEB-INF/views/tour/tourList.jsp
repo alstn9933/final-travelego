@@ -38,16 +38,17 @@ prefix="c"%>
         }
     	.search-area{
     		margin-top: 50px;
-            padding-bottom: 20px;
             border-bottom: 1px solid lightgray;
             overflow: hidden;
     	}
         .search-area select{
             width: 200px;
             height: 30px;
-            margin: 10px;
             box-sizing: border-box;
-            margin-left: 20px;
+            margin:10px;
+        }
+        .search-area input{
+        	margin:10px;
         }
         #searchtext{
             width: 430px;
@@ -142,7 +143,11 @@ prefix="c"%>
     		});
     		
     		function fn_more(start,val){
-    			var param = {start:start,val:val};
+    			var regionCountry = $("input[name=regionCountry]").val();
+    			var regionNo = $("input[name=regionNo]").val();
+    			var tourDate = $("input[name=tourDate]").val();
+    			var searchValue = $("input[name=searchValue]").val();
+    			var param = {start:start,val:val,regionCountry:regionCountry,regionNo:regionNo,searchValue:searchValue,tourDate:tourDate};
     			$.ajax({
     				url: "/moreItem.do",
     				data : param,
@@ -181,7 +186,32 @@ prefix="c"%>
     				}
     			});
     		}
-    		
+   			
+   			$("#region-country").change(function(){
+				var regionCountry = $(this).val();
+				if(regionCountry=="default"){
+					$("#regionCity").html("<option value=0>도시 선택");
+				}
+				else{
+					$.ajax({
+						url : "/selectCityList.do",
+						data: {regionCountry:regionCountry},
+						type : "post",
+						success : function(data){
+							$("#regionCity").html("");
+							html = "";
+							html += "<option value=0>도시 선택";
+							for(var i=0; i<data.length; i++){
+								html += "<option value="+data[i].regionNo+">"+data[i].regionCity;
+							}
+							$("#regionCity").append(html);
+						},error : function(){
+							console.log("ajax 통신 실패");
+						}
+					});
+				}
+			});
+   			
    			fn_more(1,"tl");
    			$("#more-btn").click(function(){
    				fn_more($(this).val(),"tl");
@@ -202,20 +232,21 @@ prefix="c"%>
         <div class="search-area">
             <div class="search">
                 <form action="/searchItems.do" method="get">
+                	<div>
+		                <select name="regionCountry" id="region-country">
+		                    <option value="default">나라 선택
+							<c:forEach items="${rlist }" var="r">
+							<option value="${r.regionCountry }">${r.regionCountry }
+							</c:forEach>
+		                </select>
+		                <select name="regionNo" id="regionCity">
+							<option value=0>도시 선택
+						</select>
+					</div>
+					<input type="date" name="tourDate">
                     <input id="searchtext" type="text" name="searchValue" placeholder="보고싶은 상품명을 검색해주세요">
                     <input type="submit" value="검색">
                 </form>
-            </div>
-            <div class="region">
-                <select id="region-country">
-                    <option value="all">나라선택</option>
-                    <option value="1">한국</option>
-                </select>
-                <select id="refgion-city">
-                    <option value="all">지역선택</option>
-                    <option value="1">서울</option>
-                    <option value="2">부산</option>
-                </select>
             </div>
         </div>
         <div class="tourContent">

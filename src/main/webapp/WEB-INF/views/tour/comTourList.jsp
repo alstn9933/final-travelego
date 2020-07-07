@@ -168,9 +168,10 @@ prefix="c"%>
     							html += "<div class='score'>"+data[i].score.toFixed(1)+"점</div>";
     						}
     						html += "<div><img class='item-main-img' src='../../../upload/images/tour/thumnail/"+data[i].filename+"'></div>";
-    						html += "<div class='itemBtn'><button class='btn btn-primary btn-sm' type='button' onclick='modifyItem("+data[i].itemNo+");'>수정</button>";
+    						html += "<div class='itemBtn'>";
     						if(data[i].closeCheck==1){
-    							html += "<button class='btn btn-danger btn-sm' type='button' onclick='deleteItem("+data[i].itemNo+");'>삭제</button></div>";
+    							html += "<button class='btn btn-danger btn-sm' type='button' onclick='deleteItem("+data[i].itemNo+");'>삭제</button>";
+    							html += "<button class='btn btn-primary btn-sm' type='button' onclick='modifyItem("+data[i].itemNo+");'>수정</button></div>";
     						}else{
     							html += "<button class='btn btn-primary btn-sm' type='button' onclick='closeItem("+data[i].itemNo+");'>마감</button></div>";
     						}
@@ -237,7 +238,6 @@ prefix="c"%>
     	};
     	
     	function deleteItem(itemNo){
-    		event.stopPropagation();
     		$.ajax({
     			url:"/deleteItem.do",
     			data:{itemNo:itemNo},
@@ -254,7 +254,7 @@ prefix="c"%>
     				console.log("상품 삭제 오류");
     			}
     		});
-    	};
+    	}
     </script>
   </head>
   <body>
