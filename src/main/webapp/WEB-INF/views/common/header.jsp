@@ -105,8 +105,7 @@
 
 		function wsConnect() {
 			//테스트시 호스트값 변경할것.
-			var url = window.location.href.slice(7, window.location.href.lastIndexOf("/"));
-			console.log(url);
+			var url = window.location.host;
 			ws = new WebSocket("ws://"+url+"/alarm.do");
 			console.log("웹소켓 연결 생성");
 

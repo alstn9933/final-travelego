@@ -1,13 +1,13 @@
 package kr.or.iei.member.controller;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.sql.rowset.serial.SerialArray;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -16,11 +16,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.google.gson.Gson;
+
 import kr.or.iei.member.model.service.MemberService;
 import kr.or.iei.member.model.vo.Company;
 import kr.or.iei.member.model.vo.MailSend;
 import kr.or.iei.member.model.vo.Member;
 import kr.or.iei.member.model.vo.SendPwMail;
+import kr.or.iei.recommend.model.vo.Recommend;
 
 @Controller
 public class MemberController {
@@ -235,5 +238,12 @@ public class MemberController {
 		}
 		return "common/msg";
 	}
+	@ResponseBody
+	@RequestMapping(value = "/mainRecommendList.do",produces = "application/json;charset=utf-8")
+	public String mainRocommendList() {
+		List<Recommend>list = service.mainrecommendList();
+		return new Gson().toJson(list);
+	}
+	
 	
 }

@@ -1,5 +1,8 @@
 package kr.or.iei.member.model.dao;
 
+import java.util.HashMap;
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import kr.or.iei.member.model.vo.Company;
 import kr.or.iei.member.model.vo.Member;
 import kr.or.iei.notice.model.vo.Notice;
+import kr.or.iei.recommend.model.vo.Recommend;
 
 @Repository("memberDao")
 public class MemberDao {
@@ -66,6 +70,10 @@ public class MemberDao {
 
 	public int companyModifiedMember(Company cp) {
 		return sqlsession.update("company.companyModified",cp);
+	}
+
+	public List<Recommend> mainrecommendList(HashMap<String, Integer>map) {
+		return sqlsession.selectList("member.mainrecommendList",map);
 	}
 
 }
