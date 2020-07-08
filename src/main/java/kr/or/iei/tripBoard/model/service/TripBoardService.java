@@ -1,4 +1,4 @@
-package kr.or.iei.tripboard.model.service;
+package kr.or.iei.tripBoard.model.service;
 
 public class TripBoardService {
 

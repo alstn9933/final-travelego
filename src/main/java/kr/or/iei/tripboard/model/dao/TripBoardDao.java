@@ -1,4 +1,4 @@
-package kr.or.iei.tripboard.model.dao;
+package kr.or.iei.tripBoard.model.dao;
 
 public class TripBoardDao {
 
