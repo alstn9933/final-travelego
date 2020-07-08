@@ -48,20 +48,20 @@
 					<!-- The slideshow -->
 					<div class="carousel-inner">
 						<div class="carousel-item active">
-							<img src="/src/imgs/main/add1.png"  width="100%" height="400px">
+							<img src="/src/imgs/main/addtest6.jpg"  width="100%" height="400px">
 						</div>
 						<div class="carousel-item">
-							<img src="/src/imgs/main/add2.jpg"  width="100%" height="400px">
+							<img src="/src/imgs/main/addtest4.jpg"  width="100%" height="400px">
 						</div>
 						<div class="carousel-item">
-							<img src="/src/imgs/main/add3.jpg"  width="100%" height="400px">
+							<img src="/src/imgs/main/addtest5.jpg"  width="100%" height="400px">
 						</div>
 					</div>
 
 					<!-- Left and right controls -->
-					<a class="carousel-control-prev" href="#myCarousel"> <span
+					<a class="carousel-control-prev"> <span
 						class="carousel-control-prev-icon"></span>
-					</a> <a class="carousel-control-next" href="#myCarousel"> <span
+					</a> <a class="carousel-control-next"> <span
 						class="carousel-control-next-icon"></span>
 					</a>
 				</div>
@@ -69,25 +69,22 @@
 		</div>
 		
 		<div class="main-content1">
-			<p class="p1">뜨고있는 나만의 여행</p>
+			<p class="p1">Hot Pick Travel</p>
 			<div  class="sub-content1"id="sub-content1">
 			</div>
+			<br><br>
 			<div class="sub-content2"><a href="/recommendList.do">게시물 보러가기</a></div>
 		</div>
-		<br>
-		<div class="main-content2">
-		<p class="p1">My Tavel mate</p>
-		<div class="sub-content3"></div>
-		<div class="sub-content4"><a href="/recommendList.do">게시물 보러가기</a></div>
-		</div>
+		
 		<br>
 		<div class="main-content3">
-			<p class="p1">쉬면 뭐하니 놀자!</p>
-		<div class="sub-content5"></div>
-		<div class="sub-content6"><a href="/recommendList.do">게시물 보러가기</a></div>
+			<p class="p1">Tour</p>
+		<div class="sub-content5" id="sub-content5"></div>
+		<div class="sub-content6"><a href="/tourList.do">게시물 보러가기</a></div>
 		
 		</div>
-		
+		<br>
+
 </section>
 
 	<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
@@ -158,18 +155,22 @@
 		  });
 		});
 	//추천게시판
+	//현제 사진이 있는 게시판만 출력 , 출력 변경시 mapper 변경.
 	$(function(){
 		$.ajax({
 			url : "/mainRecommendList.do",
 			dataType:"json",
 			success : function(data) {
-				console.log(data[0].recTitle);
+				console.log(data);
 				html = "";
 				for(var i=0;i<data.length;i++){
 					html += "<div class="+"hotpickcher"+"><div class="+"imgsDiv"+">";
-					html += "<img></img></div>";
-					html += "<a href="+"#"+"><p class='p3'>"+data[i].recTitle+"</p></a>";
-					html += "<div>"+data[i].recContent+data[i].readCount+"</div></div>";
+					if(data[i].filename == null){
+						html += "<img class="+"recommendimg"+" src="+"src/imgs/header/"+"rogo2.png"+"></img></div>";
+					}
+					html += "<img class="+"recommendimg"+" src="+"upload/images/recommend/"+data[i].filename+"></img></div>";
+					html += "<a href="+"/recDetail.do?recNo="+data[i].recNo+"><p class='p3'>"+data[i].recTitle+"</p></a>";
+					html += "<div>"+data[i].recWriter+"<div class='readDiv'><i class='fas fa-book-reader'></i>"+data[i].readCount+"</div></div></div>";
 				}
 				$("#sub-content1").append(html);
 			},
@@ -178,6 +179,32 @@
 			}
 		});
 	});
+
+	//trip 게시판
+	$(function(){
+		$.ajax({
+			url : "/maintourList.do",
+			dataType:"json",
+			success : function(data) {
+				html = "";
+				
+				for(var i=0;i<data.length;i++){
+					html += "<div class="+"hotItem"+"><div class="+"itemimgsDiv"+">";
+					html += "<img class="+"tourimg"+" src="+"/upload/images/tour/thumnail/"+data[i].filename+"></img></div>";
+					html += "<a href="+"#"+"><p class='itrmp3'>"+data[i].itemTitle+"</p></a>";
+					html += "<div><span id='sitem'><i class='fas fa-won-sign'></i>"+data[i].itemPrice+"</div>";
+					html += "<span id="+"itemscore"+"><i class='far fa-star'></i>"+data[i].score+"</span></div>";
+			
+				//"+data[i].beginDate+"~"+data[i].endDate+"
+				}
+				$("#sub-content5").append(html);
+			},
+			error : function(){
+				console.log("투어티켓 게시판 출력에러");
+			}
+		});
+	});
+	/*
 		$(function() {
 			$('[data-toggle="popover"]').popover();
 		});
@@ -188,7 +215,7 @@
 				rightIcon : "_$tag___________________________$tag__",
 			},
 		});
-
+		*/
 	</script>
 </body>
 </html>
