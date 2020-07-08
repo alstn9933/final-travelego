@@ -18,4 +18,5 @@ public class TogetherBoardVO {
 	private String regionCity;
 	private String regionCountry;
 	private int commentCount;
+	private String keyword;
 }

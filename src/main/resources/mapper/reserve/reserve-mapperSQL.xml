@@ -21,11 +21,11 @@
 	<insert id="insertReserve" parameterType="reserve">
 		insert into
 		tour_reserve
-		values(tour_reserve_seq.nextval,#{itemNo},#{memberId},#{tourDate},#{tourTime},#{personCount},sysdate,0,0)
+		values(tour_reserve_seq.nextval,#{itemNo},#{memberId},#{tourDate},#{tourTime},#{personCount},sysdate,0,0,0)
 	</insert>
-	<delete id="cancelReserve" parameterType="_int">
-		delete from tour_reserve where reserve_no=#{_paremeter}
-	</delete>
+	<update id="cancelReserve" parameterType="_int">
+		update tour_reserve set status=1 where reserve_no=#{_parameter}
+	</update>
 	<select id="selectReserveNo" parameterType="string" resultType="_int">
 		select reserve_no from
 		(select ROWNUM as rnum, r.* from
@@ -39,5 +39,60 @@
 	<select id="selectOneReserve" parameterType="_int" resultType="reserve">
 		select r.reserve_no as reserveNo, r.item_no as itemNo, t.item_title as itemTitle, r.member_id as memberId, m.member_name as memberName, r.tour_date as tourDate, r.tour_time as tourTime, r.person_count as personCount, r.pay_date as payDate, r.total_pay as totalPay, r.status
 		from tour_reserve r join member m on(r.member_id=m.member_id) join tour t on(r.item_no=t.item_no) where reserve_no=#{_parameter}
+	</select>
+	<select id="selectTotalCount" parameterType="map" resultType="_int">
+		select count(*) as cnt from tour_reserve where member_id=#{memberId}
+		<if test="status != 'all'">
+			<if test="status=='ing'">
+				and status=0
+			</if>
+			<if test="status=='cancel'">
+				and status=1
+			</if>
+		</if>
+	</select>
+	<select id="selectMemberReserve" parameterType="member" resultType="reserve">
+		select r.reserve_no as reserveNo, r.item_no as itemNo, t.item_title as itemTitle, r.member_id as memberId, m.member_name as memberName, r.tour_date as tourDate, r.tour_time as tourTime, r.person_count as personCount, r.pay_date as payDate, r.total_pay as totalPay, r.status, r.check_review as checkReview
+		from tour_reserve r join member m on(r.member_id=m.member_id) join tour t on(r.item_no=t.item_no) where m.member_id=#{memberId}
+	</select>
+	<select id="selectMoreReserve" parameterType="map" resultType="reserve">
+		select * from
+		(select ROWNUM as rnum, p.* from
+		(select r.reserve_no as reserveNo, r.item_no as itemNo, t.item_title as itemTitle, r.member_id as memberId, m.member_name as memberName, r.tour_date as tourDate, r.tour_time as tourTime, r.person_count as personCount, r.pay_date as payDate, r.total_pay as totalPay, r.status, r.check_review as checkReview
+		from tour_reserve r join member m on(m.member_id=r.member_id) join tour t on(r.item_no=t.item_no) where r.member_id=#{memberId} 
+		<if test="status != 'all'">
+			<if test="status=='ing'">
+				and r.status=0
+			</if>
+			<if test="status=='cancel'">
+				and r.status=1
+			</if>
+		</if>
+		order by r.reserve_no desc)p)
+		where rnum between #{start} and #{end}
+	</select>
+	<update id="upReChRe" parameterType="_int">
+		update tour_reserve set check_review=1 where reserve_no=#{_parameter}
+	</update>
+	<select id="selectReserve" parameterType="reserve" resultType="reserve">
+		select r.reserve_no as reserveNo, t.item_title as itemTitle, m.member_name as memberName, m.phone as phone, r.tour_date as tourDate, r.tour_time as tourTime, r.person_count as personCount, r.pay_date as payDate, r.total_pay as totalPay, r.status as status
+		from tour_reserve r join member m on(m.member_id=r.member_id) join tour t on(t.item_no=r.item_no) 
+		where t.member_id=#{memberId} 
+		<if test="itemNo!='' || itemNo!=0">
+			and r.item_no=#{itemNo}
+		</if>
+		<if test="memberName!=''">
+			and m.member_name like #{memberName}
+		</if>
+		<if test="phone!=''">
+			and m.phone like #{phone}
+		</if>
+		<if test="tourDate!=''">
+			and r.tour_date=#{tourDate}
+		</if>
+		<if test="tourTime!='null'">
+			and r.tour_time=#{tourTime}
+		</if>
+		order by r.tour_date asc, r.reserve_no desc
 	</select>
 </mapper>

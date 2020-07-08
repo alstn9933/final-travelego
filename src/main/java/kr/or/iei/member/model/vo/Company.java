@@ -7,4 +7,5 @@ public class Company {
 	private String companyId;
 	private String license;
 	private String companyUrl;
+	private int joinConfirm;
 }

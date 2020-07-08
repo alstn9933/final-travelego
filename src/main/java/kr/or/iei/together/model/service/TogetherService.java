@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import kr.or.iei.common.model.vo.Region;
 import kr.or.iei.together.model.dao.TogetherDao;
+import kr.or.iei.together.model.vo.MainPageDTO;
 import kr.or.iei.together.model.vo.TogetherBoardVO;
 import kr.or.iei.together.model.vo.TogetherCommentVO;
 
@@ -32,7 +33,7 @@ public class TogetherService {
 		return dao.insertBoard(board);
 	}
 
-	public ArrayList<TogetherBoardVO> selectBoardList() {
+	public MainPageDTO selectBoardList() {
 		int totalCount = dao.selectTotalCount();
 		int start = totalCount - 10;
 		int end = totalCount;		
@@ -47,8 +48,13 @@ public class TogetherService {
 			if(vo.getTogetherDate().equals(today)) {
 				vo.setTogetherDate(vo.getWriteTime());
 			}
-		}		
-		return list;
+		}
+		
+		ArrayList<Region> regionList = (ArrayList<Region>)dao.selectRegionList();
+		MainPageDTO mpd = new MainPageDTO();
+		mpd.setBoardList(list);
+		mpd.setRegionList(regionList);
+		return mpd;
 	}
 
 	public ArrayList<TogetherBoardVO> selectBoardList(int lastNum) {
@@ -86,6 +92,102 @@ public class TogetherService {
 				vo.setCommentDate(vo.getCommentTime());
 			}
 		}
+		return list;
+	}
+
+	public int modifyBoard(TogetherBoardVO vo) {		
+		return dao.modifyBoard(vo);
+	}
+
+	public int deleteBoard(int boardNo) {
+		return dao.deleteBoard(boardNo);
+	}
+
+	public ArrayList<TogetherBoardVO> selectBoardListByRegion(int regionNo) {
+		int totalCount = dao.selectTotalCountByRegion(regionNo);
+		int start = totalCount - 10;
+		int end = totalCount;		
+		HashMap<String, Integer> map = new HashMap<String, Integer>();
+		map.put("start", start);
+		map.put("end", end);
+		map.put("regionNo", regionNo);
+		
+		ArrayList<TogetherBoardVO> list =(ArrayList<TogetherBoardVO>)dao.selectBoardListByRegion(map); 
+		
+		String today = dateFormat.format(Calendar.getInstance().getTime());
+		for(TogetherBoardVO vo : list) {
+			if(vo.getTogetherDate().equals(today)) {
+				vo.setTogetherDate(vo.getWriteTime());
+			}
+		}
+		
+		return list;
+	}
+
+	public ArrayList<TogetherBoardVO> selectBoardListByRegion(int regionNo, int lastNum) {
+		int start = lastNum - 11;
+		int end = lastNum -1;		
+		HashMap<String, Integer> map = new HashMap<String, Integer>();
+		map.put("start", start);
+		map.put("end", end);
+		map.put("regionNo", regionNo);
+		
+		ArrayList<TogetherBoardVO> list =(ArrayList<TogetherBoardVO>)dao.selectBoardListByRegion(map); 
+		
+		String today = dateFormat.format(Calendar.getInstance().getTime());
+		for(TogetherBoardVO vo : list) {
+			if(vo.getTogetherDate().equals(today)) {
+				vo.setTogetherDate(vo.getWriteTime());
+			}
+		}
+		
+		return list;
+	}
+
+	public ArrayList<TogetherBoardVO> selectBoardListByKeyword(String keyword) {
+		int totalCount = dao.selectTotalCountByKeyword(keyword);
+		int start = totalCount - 10;
+		int end = totalCount;		
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("start", String.valueOf(start));
+		map.put("end", String.valueOf(end));
+		map.put("keyword", keyword);
+		
+		ArrayList<TogetherBoardVO> list =(ArrayList<TogetherBoardVO>)dao.selectBoardListByKeyword(map); 
+		
+		String today = dateFormat.format(Calendar.getInstance().getTime());
+		for(TogetherBoardVO vo : list) {
+			if(vo.getTogetherDate().equals(today)) {
+				vo.setTogetherDate(vo.getWriteTime());
+			}
+		}
+		if(!list.isEmpty()) {
+			list.get(list.size()-1).setKeyword(keyword);			
+		}
+		
+		return list;
+	}
+
+	public ArrayList<TogetherBoardVO> selectBoardListByKeyword(int lastNum, String keyword) {
+		int start = lastNum - 11;
+		int end = lastNum -1;		
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("start", String.valueOf(start));
+		map.put("end", String.valueOf(end));
+		map.put("keyword", keyword);
+		
+		ArrayList<TogetherBoardVO> list =(ArrayList<TogetherBoardVO>)dao.selectBoardListByKeyword(map); 
+		
+		String today = dateFormat.format(Calendar.getInstance().getTime());
+		for(TogetherBoardVO vo : list) {
+			if(vo.getTogetherDate().equals(today)) {
+				vo.setTogetherDate(vo.getWriteTime());
+			}
+		}
+		if(!list.isEmpty()) {
+			list.get(list.size()-1).setKeyword(keyword);			
+		}
+		
 		return list;
 	}
 	

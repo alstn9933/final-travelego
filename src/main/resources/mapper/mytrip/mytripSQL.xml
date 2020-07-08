@@ -6,6 +6,14 @@
 			my_trip_seq.nextval,#{regionNo},sysdate,sysdate
 		)
 	</insert>
+	<select id="regionList" resultType="region">
+		select
+			region_no as regionNo,
+			region_country as regionCountry,
+			region_city as regionCity,
+			filename
+		from region
+	</select>
 	<select id="searchRegion" parameterType="String" resultType="region">
 		select
 			region_no as regionNo,
@@ -33,4 +41,27 @@
 		from trip_member 
 		where member_id=#{memberId}
 	</select>
+	<select id="currValIs" resultType="mytrip">
+		select my_trip_seq.currval as tripNo from my_trip
+	</select>
+	<select id="ifExist" parameterType="tripDetail" resultType="tripDetail">
+		select 
+		    trip_no as tripNo,
+		    trip_date as tripDate,
+		    trip_order as tripOrder,
+		    trip_spot as tripSpot,
+		    trip_content as tripContent,
+		    coords
+		from trip_detail 
+		where 
+			trip_date=#{tripDate} 
+			and trip_no=#{tripNo} 
+			and trip_order=1
+	</select>
+	<insert id="addMemoFirst" parameterType="tripDetail">
+		insert into trip_detail values(#{tripNo},#{tripDate},1,null,#{tripContent},null)
+	</insert>
+	<insert id="addMemo" parameterType="tripDetail">
+		insert into trip_detail values(#{tripNo},#{tripDate},(select max(trip_order) from trip_detail where trip_no=#{tripNo} and trip_date=#{tripDate})+1,null,#{tripContent},null)
+	</insert>
 </mapper>

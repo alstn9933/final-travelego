@@ -1,5 +1,7 @@
 package kr.or.iei.mypage.model.vo;
 
+
+
 import java.sql.Date;
 
 import lombok.Data;

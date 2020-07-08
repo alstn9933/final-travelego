@@ -8,8 +8,10 @@ import java.util.HashMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import kr.or.iei.member.model.vo.Member;
 import kr.or.iei.reserve.model.dao.ReserveDao;
 import kr.or.iei.reserve.model.vo.ReserveVO;
+import kr.or.iei.tour.model.vo.ReviewVO;
 import kr.or.iei.tour.model.vo.TourVO;
 
 @Service("reserveService")
@@ -48,6 +50,12 @@ public class ReserveService {
 		}
 		return rlist;
 	}
+	
+	public String[] checkTourTimes(TourVO t2) {
+		TourVO t = dao.checkTourTimes(t2);
+		String[] tarr = t.getTourTimes().split(",");
+		return tarr;
+	}
 
 	public int checkAndInsert(ReserveVO r, int maxPerson) {
 		ArrayList<ReserveVO> rList = (ArrayList<ReserveVO>)dao.checkReserve(r);
@@ -83,4 +91,48 @@ public class ReserveService {
 		return dao.selectOneReserve(reserveNo);
 	}
 	
+	public int selectMyReserveTotalCount(Member m, String status) {
+		HashMap<String,String> map = new HashMap<String, String>();
+		map.put("memberId", m.getMemberId());
+		map.put("status", status);
+		return dao.selectMyReserveTotalCount(map);
+	}
+
+	public ArrayList<ReserveVO> selectMoreReserve(Member m, int start, String status) {
+		int length = 10;
+		int end = start+length-1;
+		HashMap<String,String> map = new HashMap<String, String>();
+		map.put("memberId", m.getMemberId());
+		map.put("start",String.valueOf(start));
+		map.put("end",String.valueOf(end));
+		map.put("status",status);
+		ArrayList<ReserveVO> rList = (ArrayList<ReserveVO>)dao.selectMoreReserve(map);
+		for(ReserveVO r : rList) {
+			r.setTourDate(r.getTourDate().substring(0,10));
+		}
+		return rList;
+	}
+
+	public int insertReview(ReviewVO r) {
+		int result =  dao.insertReview(r);
+		if(result==1) {
+			result = dao.upReChRe(r.getReserveNo());
+		}
+		return result;
+	}
+
+	public ArrayList<TourVO> selectAllTour(String memberId) {
+		return (ArrayList<TourVO>)dao.selectAllTour(memberId);
+	}
+
+	public ArrayList<ReserveVO> selectReserveList(Member m, ReserveVO r) {
+		r.setMemberId(m.getMemberId());
+		r.setMemberName("%"+r.getMemberName()+"%");
+		r.setPhone("%"+r.getPhone()+"%");
+		ArrayList<ReserveVO> rList = (ArrayList<ReserveVO>)dao.selectReserveList(r);
+		for(ReserveVO rv : rList) {
+			rv.setTourDate(rv.getTourDate().substring(0,10));
+		}
+		return rList;
+	}
 }

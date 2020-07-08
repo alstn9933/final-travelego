@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import kr.or.iei.common.model.vo.Region;
 import kr.or.iei.mytrip.model.vo.Mytrip;
+import kr.or.iei.mytrip.model.vo.TripDetail;
 import kr.or.iei.mytrip.model.vo.TripMember;
 
 @Repository("mytripDao")
@@ -19,6 +20,10 @@ public class MytripDao {
 	
 	public int insertTrip(Mytrip t) {
 		return sqlSession.insert("mytrip.insertTrip",t);
+	}
+	
+	public List regionList() {
+		return sqlSession.selectList("mytrip.regionList");
 	}
 	
 	public List searchRegion(String regionCity){
@@ -36,6 +41,24 @@ public class MytripDao {
 	public List<TripMember> selectTripList(TripMember tripMember) {
 		return sqlSession.selectList("mytrip.selectTripList",tripMember);
 	}
+	
+	
+	public List<Mytrip> currValIs(){ 
+		return sqlSession.selectList("mytrip.currValIs"); 
+	}
 
+	public TripDetail ifExist(TripDetail tripDetail) {
+		return sqlSession.selectOne("mytrip.ifExist",tripDetail);
+	}
+
+	public int addMemoFirst(TripDetail tripDetail) {
+		return sqlSession.insert("mytrip.addMemoFirst",tripDetail);
+	}
+
+	public int addMemo(TripDetail tripDetail) {
+		return sqlSession.insert("mytrip.addMemo",tripDetail);
+	}
+
+	
 	
 }

@@ -152,21 +152,19 @@ prefix="c"%>
     					console.log(data.length);
     					var html = "";
     					for(var i=0; i<data.length; i++){
-    						html += "<div class='item' itemNo="+data[i].itemNo+" onclick='itemView("+data[i].itemNo+");'>";
-    						if(data[i].score==0){
-    							html += "<div class='score'>후기가 없습니다</div>";
-    						}else{
-    							html += "<div class='score'>"+data[i].score.toFixed(1)+"점</div>";
+    						if(data[i].closeCheck!=1){
+	    						html += "<div class='item' itemNo="+data[i].itemNo+" onclick='itemView("+data[i].itemNo+");'>";
+	    						if(data[i].score==0){
+	    							html += "<div class='score'>후기가 없습니다</div>";
+	    						}else{
+	    							html += "<div class='score'>"+data[i].score.toFixed(1)+"점</div>";
+	    						}
+	    						html += "<div><img class='item-main-img' src='../../../upload/images/tour/thumnail/"+data[i].filename+"'></div>";
+	    						html += "<div class='itemTitle'>"+data[i].itemTitle+"</div>";
+	    						
+	    						html += "<div class='term'>"+data[i].beginDate+" ~ "+data[i].endDate+"</div>";
+	    						html += "</div>";
     						}
-    						html += "<div><img class='item-main-img' src='../../../upload/images/tour/thumnail/"+data[i].filename+"'></div>";
-    						html += "<div class='itemTitle'>"+data[i].itemTitle+"</div>";
-    						
-    						html += "<div class='term'>"+data[i].beginDate+" ~ "+data[i].endDate+"</div>";
-    						html += ""
-    						if(data[i].closeCheck==1){
-    							html += "<h1>마감</h1>"
-    						}
-    						html += "</div>";
     					}
     					$(".tourContent").append(html);
     					$("#more-btn").val(Number(start)+12);
@@ -174,7 +172,7 @@ prefix="c"%>
     					var totalCount = $("#more-btn").attr("totalCount");
     					var currentCount = $("#more-btn").attr("currentCount");
     					if(totalCount==currentCount){
-    						$("#more-btn").attr("disabled",true);
+    						$("#more-btn").prop("disabled",true);
     						$("#more-btn").css("display","none");
     					}
     				},

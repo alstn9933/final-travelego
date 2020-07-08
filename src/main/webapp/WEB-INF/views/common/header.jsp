@@ -19,10 +19,10 @@
 							<div class="main-menu d-none d-lg-block">
 								<nav>
 									<ul id="navigation">
-										<li><a class="active" href="index.html">일정게시판</a></li>
+										<li><a class="active" href="/tripboard/main.do">일정게시판</a></li>
 										<li><a href="/recommendList.do">추천게시판</a></li>
 										<li><a class="" href="/tourList.do">투어/티켓</a></li>
-										<li><a class="" href="#">동행구하기</a></li>
+										<li><a class="" href="/together/main.do">동행구하기</a></li>
 										<li><a href="/noticeList.do?reqPage=1">공지사항</a></li>
 									</ul>
 								</nav>
@@ -105,8 +105,7 @@
 
 		function wsConnect() {
 			//테스트시 호스트값 변경할것.
-			var url = window.location.href.slice(7, window.location.href.lastIndexOf("/"));
-			console.log(url);
+			var url = window.location.host;
 			ws = new WebSocket("ws://"+url+"/alarm.do");
 			console.log("웹소켓 연결 생성");
 
