@@ -12,6 +12,20 @@ prefix="c"%>
     <script src="/src/js/jquery/jquery-3.5.1.js"></script>
     <script src="/src/js/bootstrap/popper.min.js"></script>
     <script src="/src/js/bootstrap/bootstrap-4.5.0.js"></script>
+    
+    <!-- 수민 버튼 부트스트랩 -->
+     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+  
+  <!-- 테이블 부트스트랩 -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    
+    
     <!-- <link rel="manifest" href="site.webmanifest"> -->
     <link
       rel="shortcut icon"
@@ -29,6 +43,9 @@ prefix="c"%>
     <link rel="stylesheet" href="/src/css/main/web_default.css" />
     <title>Travelego</title>
     <style>
+    	#user{
+            font-size: 40px;
+        }
 	    table{
 	            width: 100%;
 	            border-spacing: 0px;
@@ -36,47 +53,100 @@ prefix="c"%>
 	            border-right: none;
 	            border-top: none;
 	        }
-	        td{
-	            border-left: none;
-	            border-right: none;
-	            text-align: center;
-	        }
+        td{
+            border-left: none;
+            border-right: none;
+            text-align: center;
+        }
+        .tr{
+       	font-weight: bold;
+        }
     </style>
   </head>
+  <script>
+  $(function(){
+	  $(".content").hide();
+	  $(".answer").hide();
+  })
+  	
+  </script>
   <body>
     <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 
     <!-- 웹 콘텐츠는 section 태그 안에 작성을 해주세요!-->
     <section>
-      <div id="user">${sessionScope.member.memberNickname }</div>
+      <div id="user" style="width:80%; margin:0 auto; font-size:30px; font-weight: bold; margin-bottom:20px;">${sessionScope.member.memberNickname }</div>
         <br>
-        <div>문의 내역</div>
+        <div style="width:80%; margin:0 auto; font-size:18px;">문의 내역</div>
         <br>
-        <table border="1px solid black">
-            <tr><td width="10%"></td>
-                <td width="60%">제목</td>
+        <table border="1px solid black" style="width:80%; margin:0 auto;"  class="table table-hover">
+            <tr class="tr"><td width="10%">#</td>
+                <td width="55%" >제목</td>
                 <td width="20%">작성일</td>
-                <td width="10%">답변여부</td>
+                <td width="15%">답변여부</td>
             </tr>
             <c:forEach items="${qlist }" var="q">
             	<tr>
-            		<td>1</td>
-            		<td>${q.qnaTitle }</td>
+            		<td>${q.rnum }</td>
+            		<td onclick="showQ(this);">
+            			${q.qnaTitle }
+            		</td>
             		<td>${q.askDate }</td>
-            		<td>
+            		
             		<c:if test="${not empty q.qnaAnswer }">
+            		<td onclick="showA(this);">
             		답변완료
+            		</td>
             		</c:if>
             		<c:if test="${empty q.qnaAnswer }">
+            		<td>
             		답변대기중
-            		</c:if>
             		</td>
+            		</c:if>
+            		
             	</tr>
+            	<tr class="content">
+            		<td></td>
+            		<td>${q.qnaContent }</td>
+            		<td></td>
+            		<td></td>
+            	</tr>
+            	<c:if test="${not empty q.qnaAnswer }">
+            	<tr class="answer">
+            		<td></td>
+	            	<td>${q.qnaAnswer }</td>
+	            	<td></td>
+	            	<td></td>
+            	</tr>
+            	</c:if>
             </c:forEach>
-            
         </table>
+        <div style="width:80%; margin:50px auto; text-align: center;">${pageNavi }</div>
     </section>
 
+	<script>
+	function showQ(value){
+		  $(value).parent().next(".content").show();
+		  $(value).attr("onclick","hideQ(this);")
+	  }
+	
+	function hideQ(value){
+		  $(value).parent().next(".content").hide();
+		  $(value).attr("onclick","showQ(this);")
+	  }
+	
+	function showA(value){
+		var i = $(value).parent("tr").index();
+		  $(value).parent().siblings(".answer").eq((i-1)/3).show();
+		  $(value).attr("onclick","hideA(this);") 
+	  }
+	
+	function hideA(value){
+		var i = $(value).parent("tr").index();
+		  $(value).parent().siblings(".answer").eq((i-1)/3).hide();
+		  $(value).attr("onclick","showA(this);")
+	  }
+	</script>
     <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
     <!-- Modal -->
     <div
