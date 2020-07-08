@@ -29,4 +29,5 @@ public class TourVO {
 	private double score;
 	private String tourDate;
 	private String searchValue;
+	private int reserveCnt;
 }

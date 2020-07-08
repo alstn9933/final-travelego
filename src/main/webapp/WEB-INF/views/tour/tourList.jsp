@@ -137,17 +137,14 @@ prefix="c"%>
     </style>
     <script>
     	$(function(){
-    		$(".item").click(function(){
-    			var itemNo = $(this).attr("itemNo");
-    			location.href="/tourView.do?itemNo="+itemNo;
-    		});
-    		
     		function fn_more(start,val){
-    			var regionCountry = $("input[name=regionCountry]").val();
-    			var regionNo = $("input[name=regionNo]").val();
-    			var tourDate = $("input[name=tourDate]").val();
-    			var searchValue = $("input[name=searchValue]").val();
-    			var param = {start:start,val:val,regionCountry:regionCountry,regionNo:regionNo,searchValue:searchValue,tourDate:tourDate};
+    			var regionCountry = "${t.regionCountry}";
+    			var regionNo = "${t.regionNo }";
+    			var tourDate = "${t.tourDate }";
+    			var searchValue = "${t.searchValue }";
+    			var array1 = $("select[name=array1]").val();
+    			var array2 = $("select[name=array2]").val();
+    			var param = {start:start,val:val,regionCountry:regionCountry,regionNo:regionNo,searchValue:searchValue,tourDate:tourDate,array1:array1,array2:array2};
     			$.ajax({
     				url: "/moreItem.do",
     				data : param,
@@ -176,7 +173,7 @@ prefix="c"%>
     					$("#more-btn").attr("currentCount",Number($("#more-btn").attr("currentCount"))+data.length);
     					var totalCount = $("#more-btn").attr("totalCount");
     					var currentCount = $("#more-btn").attr("currentCount");
-    					if(totalCount==currentCount){
+    					if(totalCount<=currentCount){
     						$("#more-btn").prop("disabled",true);
     						$("#more-btn").css("display","none");
     					}
@@ -205,6 +202,9 @@ prefix="c"%>
 								html += "<option value="+data[i].regionNo+">"+data[i].regionCity;
 							}
 							$("#regionCity").append(html);
+							if(regionCountry=="${t.regionCountry}"){
+								$("select[name=regionNo]").val("${t.regionNo }").prop("selected", true);
+							}
 						},error : function(){
 							console.log("ajax 통신 실패");
 						}
@@ -212,11 +212,31 @@ prefix="c"%>
 				}
 			});
    			
+   			$("select[name=array1]").change(function(){
+   				$(".tourContent").html("");
+   				$("#more-btn").attr("currentCount",0);
+   				$("#more-btn").prop("disabled",false);
+				$("#more-btn").css("display","block");
+   				fn_more(1,"tl");
+   			});
+   			$("select[name=array2]").change(function(){
+   				$(".tourContent").html("");
+   				$("#more-btn").attr("currentCount",0);
+   				$("#more-btn").prop("disabled",false);
+				$("#more-btn").css("display","block");
+   				fn_more(1,"tl");
+   			});
+   			
+   			$("select[name=regionCountry]").val("${t.regionCountry }").prop("selected", true);
+   			$("select[name=regionCountry]").change();
+   			$("input[name=tourDate]").val("${t.tourDate }");
+   			$("input[name=searchValue]").val("${t.searchValue }");
+   			
    			fn_more(1,"tl");
    			$("#more-btn").click(function(){
    				fn_more($(this).val(),"tl");
    			});
-    	})
+    	});
     	
     	function itemView(itemNo){
    			location.href="/tourView.do?itemNo="+itemNo;
@@ -231,7 +251,7 @@ prefix="c"%>
       <!-- 여기서부터 작성하시면 됨!!!!!!! -->
         <div class="search-area">
             <div class="search">
-                <form action="/searchItems.do" method="get">
+                <form action="/tourList.do" method="get">
                 	<div>
 		                <select name="regionCountry" id="region-country">
 		                    <option value="default">나라 선택
@@ -248,6 +268,18 @@ prefix="c"%>
                     <input type="submit" value="검색">
                 </form>
             </div>
+        </div>
+        <div>
+        	<p>정렬</p>
+        	<select name="array1">
+        		<option value="regDate">최신</option>
+        		<option value="score">별점</option>
+        		<option value="reserveCnt">예약수</option>
+       		</select>
+       		<select name="array2">
+       			<option value="up">내림차순</option>
+       			<option value="down">오름차순</option>
+      		</select>
         </div>
         <div class="tourContent">
         </div>

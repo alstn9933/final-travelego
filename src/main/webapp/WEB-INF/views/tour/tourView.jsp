@@ -157,12 +157,6 @@ section {
 .review-page{
 	margin-top:10px;
 }
-#rPaging{
-	fonr-size:15px;
-}
-.curr{
-	background-color:#25e6b5;
-}
 #rPaging:hover{
 	cursor:pointer;
 }
