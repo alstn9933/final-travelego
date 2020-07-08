@@ -10,7 +10,12 @@ public class TripBoardController {
 	@RequestMapping("/open.do")
 	public String testOpen() {
 		
-		return "tripboard/view";
+		return "tripboard/main";
+	}
+	
+	@RequestMapping("/writeFrm.do")
+	public String writeFrm() {
+		return "tripboard/write";
 	}
 	
 }

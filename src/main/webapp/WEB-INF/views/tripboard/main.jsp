@@ -123,6 +123,9 @@ prefix="c"%>
               <i class="fas fa-search"></i>
             </button>
           </form>
+          <button class="btn btn-primary" id="writeBtn" type="button">
+            글쓰기
+          </button>
         </div>
       </div>
     </section>
@@ -173,6 +176,20 @@ prefix="c"%>
     <script src="/src/js/header/jquery.validate.min.js"></script>
     <script src="/src/js/header/mail-script.js"></script>
     <script src="/src/js/header/main.js"></script>
+    <c:if test="${not empty sessionScope.member.memberId }">
+      <script>
+        $("#writeBtn").click(function () {
+          location.href = "/tripboard/writeFrm.do";
+        });
+      </script>
+    </c:if>
+    <c:if test="${empty sessionScope.member.memberId }">
+      <script>
+        $("#writeBtn").click(function () {
+          alert("로그인이 필요한 기능입니다.");
+        });
+      </script>
+    </c:if>
     <script>
       $(function () {
         // $('[data-toggle="popover"]').popover();

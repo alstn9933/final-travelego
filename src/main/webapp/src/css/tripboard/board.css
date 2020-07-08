@@ -125,3 +125,16 @@
   border-bottom-left-radius: 0;
   cursor: pointer;
 }
+
+#writeBtn {
+  height: 38px;
+  margin-left: 350px;
+  cursor: pointer;
+}
+
+.form-group {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+}

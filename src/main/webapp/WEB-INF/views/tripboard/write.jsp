@@ -38,22 +38,28 @@ prefix="c"%>
         <div class="input_wrapper">
           <div class="img_upload_wrapper">
             <div class="img_container">
+              <img id="mainImg" src="" alt="" style="display: none;" />
               <span>대표 이미지</span>
             </div>
-            <label for="input_main_img" class="btn btn-primary">
+            <label for="inputMainImg" class="btn btn-primary">
               이미지 업로드
             </label>
             <input
               type="file"
               name="mainImg"
-              id="input_main_img"
+              id="inputMainImg"
               style="display: none;"
             />
           </div>
           <div class="input_main_wrapper">
             <div class="writer_area">
               <span>작성자</span>
-              <span>작성자</span>
+              <span>${sessionScope.member.memberId }</span>
+              <input
+                type="hidden"
+                name="tripBoardWriter"
+                value="${sessionScope.member.memberId}"
+              />
             </div>
             <div class="input_region_area">
               <span>여행 지역</span>
@@ -70,7 +76,9 @@ prefix="c"%>
           </div>
           <div class="select_trip_wrapper">
             <span>여행 루트</span>
-            <div class="route_container"></div>
+            <div class="route_container">
+              <span>먼저 일정을 불러와주세요.</span>
+            </div>
             <div class="route_btn_container">
               <button type="button" class="btn btn-primary" id="selectTripBtn">
                 내 일정 불러오기
@@ -134,30 +142,8 @@ prefix="c"%>
     <script src="/src/js/header/mail-script.js"></script>
     <script src="/src/js/header/main.js"></script>
     <script src="/src/ckeditor/ckeditor.js"></script>
-    <script>
-      CKEDITOR.replace("editor4", {
-        filebrowserUploadUrl: "/mine/imageUpload.do",
-        height: "600px",
-        toolbarGroups: [
-          { name: "clipboard", groups: ["clipboard", "undo"] },
-          { name: "editing", groups: ["find", "selection", "spellchecker"] },
-          { name: "links" },
-          { name: "insert" },
-          { name: "forms" },
-          { name: "tools" },
-          { name: "document", groups: ["mode", "document", "doctools"] },
-          { name: "others" },
-          { name: "basicstyles", groups: ["basicstyles", "cleanup"] },
-          {
-            name: "paragraph",
-            groups: ["list", "indent", "blocks", "align", "bidi"],
-          },
-          { name: "styles" },
-          { name: "colors" },
-          { name: "about" },
-        ],
-      });
-    </script>
+    <script src="/src/js/tripboard/write.js"></script>
+    <script></script>
     <script>
       $(function () {
         $('[data-toggle="popover"]').popover();
