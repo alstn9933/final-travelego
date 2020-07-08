@@ -32,8 +32,8 @@
 		<typeAlias type="kr.or.iei.notification.model.vo.Notification" alias="notification"/>
 		<typeAlias type="kr.or.iei.common.model.vo.Liked" alias="liked"/>
 		<typeAlias type="kr.or.iei.together.model.vo.TogetherCommentVO" alias="togetherComment"/>
+		<typeAlias type="kr.or.iei.common.model.vo.Report" alias="report" />
 	</typeAliases>
-
 	
 	<typeHandlers>
         <typeHandler handler="kr.or.iei.common.LongHandler" javaType="String" jdbcType="LONGVARCHAR"/>
