@@ -2,12 +2,14 @@ package kr.or.iei.mypage.controller;
 
 import java.util.ArrayList;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import kr.or.iei.member.model.vo.Member;
@@ -30,23 +32,25 @@ public class MypageController {
 	}
 	
 	@RequestMapping(value="/boardList.do")
-	public String boardList(HttpSession session, Model model) {
-		Member m = (Member)session.getAttribute("member");
-		ArrayList<BoardList> bList = service.selectBoardList(m);
+	public String boardList(HttpSession session, Model model, HttpServletRequest req) {
+		String memberId = ((Member)session.getAttribute("member")).getMemberId();
+		int board = Integer.parseInt(req.getParameter("board"));
+		ArrayList<BoardList> bList = service.selectBoardList(memberId,board);
 		model.addAttribute("bList", bList);
 		return "member_myPage/boardList";
 	}
 	
 	@RequestMapping(value="/bookmark.do")
-	public String bookmark(HttpSession session, Model model) {
-		Member m = (Member)session.getAttribute("member");
-		ArrayList<Bookmark> mList = service.selectBookmarkList(m);
+	public String bookmark(HttpSession session, Model model, HttpServletRequest req) {
+		String memberId = ((Member)session.getAttribute("member")).getMemberId();
+		int board = Integer.parseInt(req.getParameter("board"));
+		ArrayList<Bookmark> mList = service.selectBookmarkList(memberId,board);
 		model.addAttribute("mList", mList);
 		return "member_myPage/bookmark";
 	}
 	
 	@RequestMapping(value="/qna.do")
-	public String qna(HttpSession session) {
+	public String qna() {
 		return "member_myPage/qna";
 	}
 	
@@ -55,5 +59,14 @@ public class MypageController {
 		int result = service.insertQuestion(qna);
 		
 		return "redirect:/myPage.do";
+	}
+	
+	@RequestMapping(value="/qnaList.do")
+	public String qnaList(HttpSession session, QNA qna, Model model) {
+		String memberId = ((Member)session.getAttribute("member")).getMemberId();
+		ArrayList<QNA> qlist = service.selectQnaList(memberId);
+		System.out.println("con" + qlist.get(0).getQnaTitle());
+		model.addAttribute("qlist",qlist);
+		return "member_myPage/qnaList";
 	}
 }

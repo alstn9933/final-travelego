@@ -12,7 +12,8 @@
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
-		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd"
+		>
 	
 	<bean id="dataSource"
 		class="org.apache.commons.dbcp.BasicDataSource"> 
@@ -54,10 +55,12 @@
 		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 		<property name="maxUploadSize" value="10485760"></property>
 	</bean>
-
+	
+	
 	<!-- AOP annotation config -->
 	<aop:aspectj-autoproxy />
 	
+
 	<!-- 세션체크 인터셉터 객체 -->
 	<!-- 알람 핸들러 -->
 	<websocket:handlers>
@@ -76,12 +79,20 @@
 		</websocket:handshake-interceptors>
 	</websocket:handlers>
 	-->
+
+
+	<context:component-scan	base-package="kr.or.iei.admin" />
+	<context:component-scan base-package="kr.or.iei.tour"/>
 	<context:component-scan base-package="kr.or.iei.tour"/> 
 	<context:component-scan base-package="kr.or.iei.reserve"/>
 	<context:component-scan base-package="kr.or.iei.member"/>
 	<context:component-scan base-package="kr.or.iei.common"/>
+	<context:component-scan base-package="kr.or.iei.mypage"/>
+	<context:component-scan base-package="kr.or.iei.recommend"/>
 	<context:component-scan base-package="kr.or.iei.mytrip"/>
 	<context:component-scan base-package="kr.or.iei.notice"/>
+	<context:component-scan base-package="kr.or.iei.mypage"/>
+	<context:component-scan base-package="kr.or.iei.tripBoard"/>
 	<context:component-scan base-package="kr.or.iei.tour"/>
 	<context:component-scan base-package="kr.or.iei.notification"/>
 </beans>

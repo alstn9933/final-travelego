@@ -36,4 +36,8 @@ public class NotificationService {
 	public int inserttogether(String sender, String receiver) {
 		return dao.inserttogether(sender, receiver);
 	}
+
+	public int inserttourcancel(String receiver) {
+		return dao.inserttourcancel(receiver);
+	}
 }

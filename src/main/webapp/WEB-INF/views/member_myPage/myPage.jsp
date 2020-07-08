@@ -67,16 +67,19 @@ prefix="c"%>
             <th><a href="#">&nbsp;&nbsp;내 일정</a></th>
         </tr>
         <tr>
-            <th><a href="/boardList.do">&nbsp;&nbsp;내가 쓴 게시글</a></th>
+            <th><a href="/boardList.do?board=0">&nbsp;&nbsp;내가 쓴 게시글</a></th>
         </tr>
         <tr>
             <th><a href="#">&nbsp;&nbsp;내 예약</a></th>
         </tr>
         <tr>
-            <th><a href="/bookmark.do">&nbsp;&nbsp;북마크</a></th>
+            <th><a href="/bookmark.do?board=0">&nbsp;&nbsp;북마크</a></th>
         </tr>
         <tr>
             <th><a href="/qna.do">&nbsp;&nbsp;1:1 문의</a></th>
+        </tr>
+        <tr>
+            <th><a href="/qnaList.do">&nbsp;&nbsp;1:1 문의 내역</a></th>
         </tr>
         <tr>
             <th><a href="#">&nbsp;&nbsp;상품 관리</a></th>

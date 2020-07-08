@@ -51,6 +51,15 @@ prefix="c"%>
     }
     </style>
   </head>
+  <script>
+  	$(".question").click(function(){
+  		location.href="/qna.do";
+  	});
+  	
+  	$(".qlist").click(function(){
+  		
+  	})
+  </script>
   <body>
     <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 
@@ -60,7 +69,7 @@ prefix="c"%>
         <br>
         <div>1:1 문의</div>
         <br>
-        <button class="select">1:1 문의하기</button><button class="select">1:1 문의 내역</button>
+        <button class="select question">1:1 문의하기</button><button class="select qlist">1:1 문의 내역</button>
         <form action="/leaveQuestion.do" method="post">
         <input type="hidden" name="qnaWriter" value="${sessionScope.member.memberId }">
             <div id="text">

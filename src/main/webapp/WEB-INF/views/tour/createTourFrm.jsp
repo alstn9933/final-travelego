@@ -122,7 +122,7 @@ section {
 	margin-left: 20px;
 	float: left;
 	width: 600px;
-	height: 240px;
+	overflow:hidden;
 }
 
 .time>label>span {
@@ -307,6 +307,8 @@ section {
 	<script src="/src/ckeditor/ckeditor.js"></script>
 	<script type="text/javascript">
 		$(function() {
+			var beginDate = new Date();
+			beginDate.setDate(beginDate.getDate()+1);
 			var html;
 			
 			CKEDITOR.replace("editor", {
@@ -317,8 +319,8 @@ section {
 			
 			$('input[name=beginEnd]').datepicker({
 			    language: 'en',
-			    minDate:new Date()
-			})
+			    minDate:beginDate
+			});
 			
 			$("#regionCountry").change(function(){
 				var regionCountry = $(this).val();
@@ -347,7 +349,7 @@ section {
 			
 			$("form").submit(function(){
 				var expDate = /^[0-9]{4}\W{1}[0-9]{2}\W{1}[0-9]{2}~[0-9]{4}\W{1}[0-9]{2}\W{1}[0-9]{2}$/;
-				var content = console.log(CKEDITOR.instances['editor'].getData());
+				var content = CKEDITOR.instances['editor'].getData();
 				if($("#file").val()==""){
 					alert("대표 사진을 등록해주세요");
 					$('html, body').animate({scrollTop : $("#file").offset().top}, 400);
