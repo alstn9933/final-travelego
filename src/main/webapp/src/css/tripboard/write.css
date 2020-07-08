@@ -52,7 +52,7 @@
 }
 
 .route_btn_container {
-  margin-bottom: 10px;
+  margin-top: 10px;
 }
 
 #selectTripBtn {
@@ -111,4 +111,51 @@
   margin-left: 5px;
   color: rgb(255, 100, 100);
   font-size: 14px;
+}
+
+.modal-title {
+  font-size: 20px;
+}
+
+.modal-body {
+  padding: 0;
+}
+
+.modal-body table {
+  margin-bottom: 0;
+}
+
+.modal-body table tr {
+  cursor: pointer;
+}
+
+.modal-body table tr:hover {
+  background-color: #eaf0f6;
+}
+
+.modal-body table th:last-of-type {
+  width: 235px;
+}
+.modal-body table th:first-of-type {
+  width: 60px;
+}
+
+.modal-body table th:not(:nth-child(2)) {
+  text-align: center;
+}
+
+.modal-content button {
+  cursor: pointer;
+}
+
+button.close:hover > span {
+  opacity: 0.7;
+}
+
+.route_btn_container button {
+  cursor: pointer;
+}
+
+#textRoute {
+  resize: none;
 }

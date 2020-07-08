@@ -1,6 +1,7 @@
 package kr.or.iei.member.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,12 +19,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
 
+import kr.or.iei.common.model.vo.mainPhotoRecommed;
 import kr.or.iei.member.model.service.MemberService;
 import kr.or.iei.member.model.vo.Company;
 import kr.or.iei.member.model.vo.MailSend;
 import kr.or.iei.member.model.vo.Member;
 import kr.or.iei.member.model.vo.SendPwMail;
 import kr.or.iei.recommend.model.vo.Recommend;
+import kr.or.iei.tour.model.vo.TourVO;
 
 @Controller
 public class MemberController {
@@ -242,8 +245,16 @@ public class MemberController {
 	@RequestMapping(value = "/mainRecommendList.do",produces = "application/json;charset=utf-8")
 	public String mainRocommendList() {
 		List<Recommend>list = service.mainrecommendList();
+		System.out.println(list);
 		return new Gson().toJson(list);
 	}
+	@ResponseBody
+	@RequestMapping(value = "/maintourList.do",produces = "application/json;charset=utf-8")
+	public String mainTourList() {
+		List<mainPhotoRecommed>list = service.mainTourList();
+		return new Gson().toJson(list);
+	}
+	
 	
 	
 }

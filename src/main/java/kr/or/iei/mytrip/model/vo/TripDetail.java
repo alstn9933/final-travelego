@@ -11,6 +11,5 @@ public class TripDetail {
 	private int tripOrder;
 	private String tripSpot;
 	private String tripContent;
-	private String coords;
-	
+	private String coords;	
 }
