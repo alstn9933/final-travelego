@@ -6,6 +6,8 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import kr.or.iei.admin.model.vo.AdminPage;
+import kr.or.iei.admin.model.vo.SearchAdmin;
 import kr.or.iei.common.model.vo.Photo;
 import kr.or.iei.common.model.vo.Region;
 import kr.or.iei.common.model.vo.Report;
@@ -18,9 +20,7 @@ public class AdminDao {
 	@Autowired
 	SqlSession sqlSession;
 
-	 public List<Member> selectMemberList(HashMap<String, Integer> map) {
-	     return sqlSession.selectList("admin.selectMemberList",map);
-	   }
+
 	 public List<Member> selectCustomerMember() {
 		 return sqlSession.selectList("admin.selectCustomerMember");
 	 }
@@ -68,6 +68,7 @@ public class AdminDao {
 	}
 
 	
+	
 
 	public List middleList(Region rg) {
 		// TODO Auto-generated method stub
@@ -110,8 +111,20 @@ public int deleteReport(Report rt) {
 public int totalcount() {
 	return sqlSession.selectOne("admin.totalCount");
 }
+public int updateAnswer(QNA q) {
+	
+	return sqlSession.update("admin.updateAnswer",q);
+}
 
 
+public List<Member> selecMemberList(AdminPage apg) {
+	
+	return sqlSession.selectList("admin.memberPage", apg);
+}
+public int mListCount(SearchAdmin searchM) {
+		
+	return sqlSession.selectOne("admin.mListCount",searchM);
+}
 
 
 }

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import kr.or.iei.admin.model.dao.AdminDao;
 import kr.or.iei.admin.model.vo.AdminPage;
+import kr.or.iei.admin.model.vo.SearchAdmin;
 import kr.or.iei.common.model.vo.Photo;
 import kr.or.iei.common.model.vo.Region;
 import kr.or.iei.common.model.vo.Report;
@@ -110,48 +111,21 @@ public class AdminService {
 		return dao.deleteReport(rt);
 	}
 
-	public AdminPage memberList(int reqPage) {
-		int totalCount = dao.totalcount();
-		int numPerPage=10;
-		int totalPage =0;
-		if(totalCount%numPerPage==0) {
-			totalPage = totalCount/numPerPage;
-		}else {
-			totalPage = totalCount/numPerPage+1;
-		}
-		int start = (reqPage-1)*numPerPage+1;
-		int end = reqPage*numPerPage;
-		HashMap<String, Integer> map = new HashMap<String, Integer>();
-		map.put("start", start);
-		map.put("end",end);
-		List<Member>list = dao.selectMemberList(map);
-		String pageNavi = "";
+	
 
-		int pageNaviSize = 5;
-		int pageNo =((reqPage-1)/pageNaviSize)*pageNaviSize+1; 
-		if(pageNo != 1) {
-			pageNavi += "<a class='btn' href='/memberManagement.do?reqPage="+(pageNo-pageNaviSize)+"'>이전</a>";
-		}
-		for(int i=0;i<pageNaviSize;i++) {
-			if(reqPage == pageNo) {
-				pageNavi += "<span class='selectPage'>"+pageNo+"</span>";
-			}else {
-				pageNavi += "<a class='btn' href='/memberManagement.do?reqPage="+pageNo+"'>"+pageNo+"</a>";
-			}
-			pageNo++;
-			if(pageNo>totalPage) {
-				break;
-			}
-		}
-		if(pageNo <= totalPage) {
-			pageNavi += "<a class='btn' href='/memberManagement?reqPage="+pageNo+"'>다음</a>";
-		}
-		AdminPage npd= new AdminPage(list,pageNavi);
-		return npd;
-
+	public int updateAnswer(QNA q) {
+		
+		return dao.updateAnswer(q);
 	}
 
+	public ArrayList selecMemberList(SearchAdmin searchM) {
+		return (ArrayList<Member>)dao.selecMemberList(searchM);
+	}
+	public int mListCount(SearchAdmin searchM){
+		return dao.mListCount(searchM);
+	}
 
+	
 	
 
 

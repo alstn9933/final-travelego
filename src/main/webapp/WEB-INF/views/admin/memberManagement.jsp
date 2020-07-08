@@ -31,245 +31,155 @@
 	<!-- 웹 콘텐츠는 section 태그 안에 작성을 해주세요!-->
 	<!--컨텐츠 스크립트 -->
 	<script>
-		$(document)
-				.ready(
-						function() {
-							$('input[name="search"]')
-									.click(
-											function() {
-												var checkRadio = $(this).val();
-												console.log(checkRadio);
-												$("#keyword")
-														.keyup(
-																function() {
-																	switch (checkRadio) {
-																	case checkRadio = 'id':
-																		var k = $(
-																				this)
-																				.val();
-																		$(
-																				"#user-table > tbody > tr")
-																				.hide();
-																		var temp = $("#user-table > tbody > tr > td:nth-child(1):contains('"
-																				+ k
-																				+ "')");
-																		$(temp)
-																				.parent()
-																				.show();
-																		break;
-																	case checkRadio = "disapproval":
-																		var k = $(
-																				this)
-																				.val();
-																		$(
-																				"#user-table > tbody > tr")
-																				.hide();
-																		var temp = $("#user-table > tbody > tr > td:nth-child(6):contains('"
-																				+ k
-																				+ "')");
-																		$(temp)
-																				.parent()
-																				.show();
-																		break;
+		$(document).ready(function() {
 
-																	case checkRadio = "nickname":
-																		var k = $(
-																				this)
-																				.val();
-																		$(
-																				"#user-table > tbody > tr")
-																				.hide();
-																		var temp = $("#user-table > tbody > tr > td:nth-child(2):contains('"
-																				+ k
-																				+ "')");
-																		$(temp)
-																				.parent()
-																				.show();
-																		break;
+			$(".memberConfirm").click(function() {
+				var con_test = confirm("가입을 승인하시겠습니까?");
+				if (con_test == true) {
+					$(this).hide();
 
-																	case checkRadio = "status":
-																		var k = $(
-																				this)
-																				.val();
-																		$(
-																				"#user-table > tbody > tr")
-																				.hide();
-																		var temp = $("#user-table > tbody > tr > td:nth-child(5):contains('"
-																				+ k
-																				+ "')");
-																		$(temp)
-																				.parent()
-																				.show();
-																		break;
-																	}
-																});
-											});
+					var mberId = $(this).attr("data-id");
+					$.ajax({
+						url : "/confirmUpdateMember.do",
+						type : "get",
+						data : {
+							companyId : mberId
+						},
+						success : function(data) {
+							location.reload();
+						},
 
-							$(".memberConfirm").click(function() {
-								var con_test = confirm("가입을 승인하시겠습니까?");
-								if (con_test == true) {
-									$(this).hide();
+						error : function() {
+							alert("시스템 오류로 인한 작업중단");
+						}
 
-									var mberId = $(this).attr("data-id");
-									$.ajax({
-										url : "/confirmUpdateMember.do",
-										type : "get",
-										data : {
-											companyId : mberId
-										},
-										succes : function(data) {
-											location.reload();
-										},
+					})
+				}
 
-										error : function() {
-											alert("시스템 오류로 인한 작업중단");
-										}
+				else {
 
-									})
-								}
+					alert("취소하셨습니다.");
+				}
+			})
+			$(".companyStop").click(function() {
+				var companyStop = confirm("회원 활동이 정지 됩니다.\n 진행하시겠습니까?");
+				if (companyStop == true) {
+					var cId = $(this).attr("data-id");
+					$.ajax({
+						url : "/modifyMemberLevel.do", // 콤마 없었음
+						type : "get",
+						data : {
+							memberId : cId
 
-								else {
-									
-		alert("취소하셨습니다.")
-								}
-							})
-							$(".companyStop")
-									.click(
-											function() {
-												var companyStop = confirm("회원 활동이 정지 됩니다.\n 진행하시겠습니까?");
-												if (companyStop == true) {
-													var cId = $(this).attr(
-															"data-id");
-													$
-															.ajax({
-																url : "/modifyMemberLevel.do", // 콤마 없었음
-																type : "get",
-																data : {
-																	memberId : cId
+						},
+						success : function(data) { // 오타
+							if (data == "1") {
+								location.reload();
+							} else {
+								alert("회원 정지 실패");
+							}
+						},
 
-																},
-																success : function(
-																		data) { // 오타
-																	if (data == "1") {
-																		location
-																				.reload();
-																	} else {
-																		alert("회원 정지 실패");
-																	}
-																},
+						error : function() {
+							alert("시스템 오류로 인한 작업중단");
+						}
+					})
 
-																error : function() {
-																	alert("시스템 오류로 인한 작업중단");
-																}
-															})
+				} else {
+					alert("취소하셨습니다.")
+				}
+			})
 
-												} else {
-													alert("취소하셨습니다.")
-												}
-											})
+			$(".memberStop").click(function() {
+				var stopConfirm = confirm("회원 활동이 정지 됩니다.진행하시겠습니까?");
+				if (stopConfirm == true) {
+					var mId = $(this).attr("data-id");
+					$.ajax({
+						url : "/modifyMemberLevel.do",
+						type : "get",
+						data : {
+							memberId : mId
 
-							$(".memberStop")
-									.click(
-											function() {
-												var stopConfirm = confirm("회원 활동이 정지 됩니다.진행하시겠습니까?");
-												if (stopConfirm == true) {
-													var mId = $(this).attr(
-															"data-id");
-													$
-															.ajax({
-																url : "/modifyMemberLevel.do",
-																type : "get",
-																data : {
-																	memberId : mId
+						},
+						success : function(data) { // 오타
+							if (data == "1") {
+								location.reload();
 
-																},
-																success : function(
-																		data) { // 오타
-																	if (data == "1") {
-																		location
-																				.reload();
+							} else {
+								alert("회원 정지 실패");
+							}
+						},
 
-																	} else {
-																		alert("회원 정지 실패");
-																	}
-																},
+						error : function() {
+							alert("시스템 오류로 인한 작업중단");
+						}
+					})
 
-																error : function() {
-																	alert("시스템 오류로 인한 작업중단");
-																}
-															})
+				} else {
+					alert("취소하셨습니다.")
+				}
+			})
+			$(".memberRestore").click(function() {
+				var memberRestore = confirm("활동 회원 으로 전환됩니다.");
+				if (memberRestore == true) {
+					var mId = $(this).attr("data-id");
+					$.ajax({
+						url : "/modifyMemberLevel.do",
+						type : "post",
+						data : {
+							memberId : mId
 
-												} else {
-													alert("취소하셨습니다.")
-												}
-											})
-							$(".memberRestore").click(function() {
-								var memberRestore = confirm("활동 회원 으로 전환됩니다.");
-								if (memberRestore == true) {
-									var mId = $(this).attr("data-id");
-									$.ajax({
-										url : "/modifyMemberLevel.do",
-										type : "post",
-										data : {
-											memberId : mId
+						},
+						success : function(data) { // 오타
+							if (data == "1") {
+								location.reload();
 
-										},
-										success : function(data) { // 오타
-											if (data == "1") {
-												location.reload();
+							} else {
+								alert("회원 상태 복귀 실패");
+							}
+						},
 
-											} else {
-												alert("회원 상태 복귀 실패");
-											}
-										},
+						error : function() {
+							alert("시스템 오류로 인한 작업중단");
+						}
+					});
 
-										error : function() {
-											alert("시스템 오류로 인한 작업중단");
-										}
-									});
+				} else {
+					alert("취소하셨습니다.");
+				}
+			});
 
-								} else {
-									alert("취소하셨습니다.")
-								}
-							});
+			$(".memberDelete").click(function() {
+				var memberDelete = confirm("회원이 삭제 됩니다.\n 진행행하시겠습니까?");
+				if (memberDelete == true) {
+					var mId = $(this).attr("data-id");
+					$.ajax({
+						url : "/memberDelete.do",
+						type : "post",
+						data : {
+							memberId : mId
 
-							$(".memberDelete")
-									.click(
-											function() {
-												var memberDelete = confirm("회원이 삭제 됩니다.\n 진행행하시겠습니까?");
-												if (memberDelete == true) {
-													var mId = $(this).attr(
-															"data-id");
-													$
-															.ajax({
-																url : "/memberDelete.do",
-																type : "post",
-																data : {
-																	memberId : mId
+						},
+						success : function(data) { // 오타
+							if (data == "1") {
+								location.reload();
 
-																},
-																success : function(
-																		data) { // 오타
-																	if (data == "1") {
-																		location
-																				.reload();
+							} else {
+								alert("회원 상태 복귀 실패");
+							}
+						},
 
-																	} else {
-																		alert("회원 상태 복귀 실패");
-																	}
-																},
+						error : function() {
+							alert("시스템 오류로 인한 작업중단");
+						}
+					})
 
-																error : function() {
-																	alert("시스템 오류로 인한 작업중단");
-																}
-															})
+				} else {
+					alert("취소하셨습니다.")
+				}
+			})
 
-												} else {
-													alert("취소하셨습니다.")
-												}
-											})
-
-						})
+		})
 	</script>
 
 	<section>
@@ -399,15 +309,16 @@ main .admin_sidebar {
 <!-- 게시글 스타일 -->
 
 <body>
+<form role="form" method="get">
 	<div class="admin_page">
 		<link rel="stylesheet"
 			href="https://fonts.googleapis.com/icon?family=Material+Icons" />
 
 		<div id="mySidebar" class="admin_sidebar">
-			<a href="/memberManagement.do?reqPage=1"><span class="admin_title"></span>회원
-				관리</a></span><a href="spot_managenet.do"></span><span
-					class="admin_title">여행지 관리</span><br></a> <a href="qnaAdmin.do" /><span
-				class="admin_QA">회원문의사항</span><br> <a href="reportList.do" /><span
+			<a href="/memberManagement.do"><span
+				class="admin_title"></span>회원 관리</a></span><a href="/spot_managenet.do"></span><span
+				class="admin_title">여행지 관리</span><br></a> <a href="/qnaAdmin.do" /><span
+				class="admin_QA">회원문의사항</span><br> <a href="/reportList.do" /><span
 				class="admin_title">신고글 관리</span></a>
 		</div>
 		<div id="member_container">
@@ -425,6 +336,7 @@ main .admin_sidebar {
 				</form>
 			</div>
 			<div id="search_result">
+			<div name="memberTable">
 				<table id="user-table">
 					<thead>
 						<tr>
@@ -438,9 +350,9 @@ main .admin_sidebar {
 						</tr>
 					</thead>
 					<!-- 일반회원 -->
-					<c:forEach items="${mList }" var="m">
+					<c:forEach items="${mList}" var="m">
 						<tr>
-							<td>${m.memberId }</td>
+							<td><c:out value="${m.memberId }"/></td>
 							<td>${m.memberNickname }</td>
 							<td>${m.memberName }</td>
 							<td>${m.email }</td>
@@ -470,40 +382,49 @@ main .admin_sidebar {
 
 
 
-							
-								<c:if test="${m.memberLevel eq 2}">
-									<td id="modifyMember">법인 회원 <br> <input type="button"
-										name="companyStop" class="companyStop" value="정지"
-										data-id="${m.memberId}"></td>
-									<c:forEach items="${cList }" var="c">
-										<td><c:if test="${c.joinConfirm eq 1}">
+
+							<c:if test="${m.memberLevel eq 2}">
+								<td id="modifyMember">법인 회원 <br> <input type="button"
+									name="companyStop" class="companyStop" value="정지"
+									data-id="${m.memberId}"></td>
+									
+									
+									<td>
+									
+									
+								<c:forEach items="${cList }" var="c">
+								<c:if test="${m.memberId eq c.companyId }">
+									<c:if test="${c.joinConfirm eq 1}">
+											승인 완료 
+										</c:if> 
+									<c:if test="${c.joinConfirm eq 0}">
+											<input type="button" name="allow" class="memberConfirm"
+												value="미승인 회원" data-id="${c.companyId}">
+										
+										</c:if>
+										</c:if>
+											</c:forEach>
+												</td>
+								</c:if>
+							<c:if test="${m.memberLevel eq -2}">
+								<td>법인회원<br> <input type="button" name="memberRecycle"
+									class="memberRestore" value="복구" data-id="${m.memberId}">
+									<input type="button" name="memberDelete" class="memberDelete"
+									value="탈퇴" data-id="${m.memberId}"></td>
+								<td><c:forEach items="${cList }" var="c">
+								<c:if test="${m.memberId eq c.companyId }">
+									<c:if test="${c.joinConfirm eq 1}">
 											승인 완료
 										</c:if>
-										<c:if test="${c.joinConfirm eq 0}">
-												<input type="button" name="allow" class="memberConfirm"
-													value="미승인 회원" data-id="${c.companyId}">
-											</c:if></td>
-									</c:forEach>
-								</c:if>
-
-								<c:if test="${m.memberLevel eq -2}">
-									<td>법인회원<br>
-									<input type="button" name="memberRecycle"
-										class="companyRecycle" value="복구" data-id="${m.memberId}">
-										<input type="button" name="memberDelete" class="memberDelete"
-										value="탈퇴" data-id="${m.memberId}"></td>
-										<c:forEach items="${cList }" var="c">
-										<td><c:if test="${c.joinConfirm eq 1}">
-											승인 완료
+										 <c:if test="${c.joinConfirm eq 0}">
+											<input type="button" name="allow" class="memberConfirm"
+												value="미승인 회원" data-id="${c.companyId}">
 										</c:if>
-										<c:if test="${c.joinConfirm eq 0}">
-												<input type="button" name="allow" class="memberConfirm"
-													value="미승인 회원" data-id="${c.companyId}">
-											</c:if></td>
-									</c:forEach>
-
-									<td></td>
-								</c:if>
+										</c:if>
+								</c:forEach>
+									</td>
+						
+							</c:if>
 
 
 
@@ -515,13 +436,51 @@ main .admin_sidebar {
 
 					</c:forEach>
 					<!-- 법인 회원   -->
-			<div>${pagiNavi}</div>
-
+					
+					
+					
+					
+						
 				</table>
+				</div>
+				<br>
+				<div name="mPage" style="text-align:center;">
+					 <c:if test="${pgm.prev}">
+					 <a href="memberManagement.do${pgm.makeSearch(pgm.startPage - 1)}">이전</a>
+   					 </c:if> 
+					 	<c:forEach begin="${pgm.startPage}" end="${pgm.endPage}" var="idx">
+    				<a href="memberManagement.do${pgm.makeSearch(idx)}">${idx}</a>
+    					</c:forEach>
+					
+						<c:if test="${pgm.next && pgm.endPage > 0}">
+					<a href="memberManagement.do${pgm.makeSearch(pgm.endPage + 1)}">다음</a>
+						</c:if>
+					</div>
 			</div>
 		</div>
 	</div>
-	
+	 <div class="search">
+    <select name="searchType">
+      <option value="n"<c:out value="${searchM.searchType == null ? 'selected' : ''}"/>>-----</option>
+      <option value="id"<c:out value="${searchM.searchType eq 'id' ? 'selected' : ''}"/>>아이디</option>
+      <option value="nickname"<c:out value="${searchM.searchType eq 'nickname' ? 'selected' : ''}"/>>닉네임</option>
+      <option value="name"<c:out value="${scri.searchType eq 'name' ? 'selected' : ''}"/>>이름</option>
+    </select>
+
+    <input type="text" name="keyword" id="keywordInput" value="${searchM.keyword}"/>
+
+    <button id="searchBtn" type="button">검색</button>
+
+  </div>
+   </form>
+      
+    <script>
+    $(function(){
+        $('#searchBtn').click(function() {
+          self.location = "memberManagement.do" + '${pgm.makeQuery(1)}' + "&searchType=" + $("select option:selected").val() + "&keyword=" + encodeURIComponent($('#keywordInput').val());
+        });
+      });   
+    </script>
 </body>
 
 		</html>

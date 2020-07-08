@@ -95,6 +95,7 @@ main .admin_sidebar {
 		font-size: 18px;
 	}
 }
+li {list-style: none; float: left; padding: 6px;}
 </style>
 
 <body>
@@ -112,6 +113,9 @@ main .admin_sidebar {
 		</div>
 		<div id="Contents">
 			<h1>관리자 페이지 입니다.</h1>
+			
+t
+			
 		</div>
 	</div>
 </body>

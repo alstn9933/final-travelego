@@ -146,12 +146,12 @@ main .admin_sidebar {
 						<td>${q.qnaWriter }</td>
 						
 						<c:if test="${!empty q.qnaAnswer}">
-						<td>답변완료</td>
+						<td><a href="/QnAanswer.do?qnaNo=${q.qnaNo}" value="${q.qnaNo}"  >답변완료</td>
 						<td>${q.answerDate }</td>
 						</c:if>
 						<c:if test="${empty q.qnaAnswer  }">
-						<td>미답변</td>
-						<td>없음</td>
+						<td><a href="/QnAanswer.do?qnaNo=${q.qnaNo}" value="${q.qnaNo}"  style="color:red;">미답변</td>
+						<td style="color:red;">X</td>
 						</c:if>
 					</tr>
 					</c:forEach>

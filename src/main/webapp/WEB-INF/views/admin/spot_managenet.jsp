@@ -162,8 +162,8 @@ width: 50px;}
 	})
    	 
    	 $("#countrySelect").change(function(){ // 대분류가 변경되면
+   		$('.citySelect').empty();
    	  var regionCountry = $(this).val();
-       
          $.ajax({
              type : "POST",
          url: "/middleList.do",
@@ -173,27 +173,35 @@ width: 50px;}
              
           success : function(result){
                   var resultMap  = result; 
-                  $('.citySelect').empty();
+                  
                       var List = result;
+                      console.log(result);
                       if ( List.length > 0 ) {
+                    	  
 //                           addOption += "<option value='' title='선택'>선택</option>";
                          var addOption = "";
                          $(".citySelect").append("<option value=''>----국가를 선택해주세요---</option>");
                          for ( var cd = 0 ; cd < List.length; cd++) {
-                        			addOption = "";
-                                addOption += "<option data-id='"+List[cd].filename+"' data-image='"+List[cd].filepath+"\\"+List[cd].filename+"' value = '"+List[cd].regionNo +"'>"+List[cd].regionCity+"</option>"; // 값과 강원도는 알아서 해당 db 변수값으로 넣고
+                        		addOption = "";
+                                addOption += "<option data-id='"+List[cd].filename+"' data-image='"+List[cd].filepath+"\\"+List[cd].filename+"' value = '"
+                                +List[cd].regionNo +"'>"+List[cd].regionCity+"</option>"; 
+                                // 값과 강원도는 알아서 해당 db 변수값으로 넣고
                                 $(".citySelect").append(addOption);
                           }
                          
                          $(".citySelect").append("<option value='insert'>--2.도시직접입력--</option>");
-                         $('.citySelect').msDropDown();
+                       
+                        
                       } else {
                          addOption = "<option value='' title='선택'>--3.도시를 선택해주세요--</option>";
                          $(".citySelect").append(addOption);
                          $(".citySelect").append("<option value='insert'>--도시직접입력--</option>");
+                        
                       }
+                      $('.citySelect').msDropDown();
+                      
            },
-           error  : function(data) {   
+           error  : function(data) {   d
          }
       }); 
         
