@@ -206,54 +206,7 @@ prefix="c"%>
     <script src="/src/js/header/main.js"></script>
     <script src="/src/ckeditor/ckeditor.js"></script>
     <script src="/src/js/tripboard/write.js"></script>
-    <script>
-      $(".modal-body tr").click(function () {
-        const tripNo = $(this).attr("tripNo");
-
-        $.ajax({
-          url: "/tripboard/asyncLoadTripRoute.do",
-          type: "POST",
-          data: { tripNo: tripNo },
-          success: function (data) {
-            console.log(data);
-            let tripRoute = "";
-            let tripDate;
-            for (let i = 0; i < data.length; i++) {
-              if (i == 0) {
-                tripRoute += "1일차 : ";
-              }
-
-              tripRoute += data[i].tripSpot;
-
-              if (tripDate == data[i].tripDate) {
-                tripRoute += " - ";
-              } else {
-                tripRoute += "\n" + data[i].tripDate + "일차 : ";
-              }
-
-              tripDate == data[i].tripDate;
-            }
-            console.log(tripRoute);
-
-            $("#inputRegion").val($(this).find("td").eq(0).html());
-            $("#inputRegion").attr("readonly", true);
-            $("#inputRegionNo").val($(this).attr("regionNo"));
-            $("#inputTripDay").val(
-              $(this).attr("tripDay") +
-                "박" +
-                (Number($(this).attr("tripDay")) + 1) +
-                "일"
-            );
-            $(".route_container").find("span").hide();
-            $("#textRoute").show();
-            $("#selectTripModal").modal("hide");
-          },
-          error: function () {
-            console.log("서버 접속에 실패하였습니다.");
-          },
-        });
-      });
-    </script>
+    <script></script>
     <script>
       $(function () {
         $('[data-toggle="popover"]').popover();
