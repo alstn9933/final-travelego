@@ -146,7 +146,7 @@ public class AdminService {
 		if(pageNo <= totalPage) {
 			pageNavi += "<a class='btn' href='/memberManagement?reqPage="+pageNo+"'>다음</a>";
 		}
-		AdminPage npd= new AdminPage(list,pageNavi);
+		AdminPage npd= new AdminPage();
 		return npd;
 
 	}

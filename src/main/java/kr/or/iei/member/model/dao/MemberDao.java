@@ -8,10 +8,12 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import kr.or.iei.common.model.vo.mainPhotoRecommed;
 import kr.or.iei.member.model.vo.Company;
 import kr.or.iei.member.model.vo.Member;
 import kr.or.iei.notice.model.vo.Notice;
 import kr.or.iei.recommend.model.vo.Recommend;
+import kr.or.iei.tour.model.vo.TourVO;
 
 @Repository("memberDao")
 public class MemberDao {
@@ -75,5 +77,12 @@ public class MemberDao {
 	public List<Recommend> mainrecommendList(HashMap<String, Integer>map) {
 		return sqlsession.selectList("member.mainrecommendList",map);
 	}
+
+	public List<mainPhotoRecommed> maintourList(HashMap<String, Integer> map) {
+		return sqlsession.selectList("member.mainTourList",map);
+	}
+
+
+
 
 }
