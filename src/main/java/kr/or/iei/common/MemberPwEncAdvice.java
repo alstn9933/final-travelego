@@ -13,21 +13,21 @@ import kr.or.iei.member.model.vo.Member;
 @Service
 @Aspect
 public class MemberPwEncAdvice {
-//	@Autowired
-//	@Qualifier("SHA256Util")
-//	private SHA256Util enc;
-//	
-//	@Pointcut("execution(* kr.or.iei.member.model.service.MemberService.*Member(kr.or.iei.member.model.vo.Member,..))")
-//	public void EncPwPointcut() {}
-//	@Before("EncPwPointcut()")
-//	public void passwordEnc(JoinPoint jp)throws Exception{
-//		String methdName = jp.getSignature().getName();
-//		System.out.println(methdName+"() 메소드 pw 암호화");
-//		Object[] args = jp.getArgs();
-//		Member m = (Member)args[0];
-//		if(m.getMemberPw()!=null) {
-//			String encPw = enc.encDate(m.getMemberPw());
-//			m.setMemberPw(encPw);
-//		}
-//	}
+	@Autowired
+	@Qualifier("SHA256Util")
+	private SHA256Util enc;
+	
+	@Pointcut("execution(* kr.or.iei.member.model.service.MemberService.*Member(kr.or.iei.member.model.vo.Member,..))")
+	public void EncPwPointcut() {}
+	@Before("EncPwPointcut()")
+	public void passwordEnc(JoinPoint jp)throws Exception{
+		String methdName = jp.getSignature().getName();
+		System.out.println(methdName+"() 메소드 pw 암호화");
+		Object[] args = jp.getArgs();
+		Member m = (Member)args[0];
+		if(m.getMemberPw()!=null) {
+			String encPw = enc.encDate(m.getMemberPw());
+			m.setMemberPw(encPw);
+		}
+	}
 }

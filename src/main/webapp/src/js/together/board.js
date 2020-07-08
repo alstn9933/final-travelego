@@ -1,4 +1,4 @@
-$("#autosize").on("keyup", function (event) {
+$(".autosize").on("keyup", function (event) {
   const key = event.key;
   const lineNum = $(this).val().split("\n").length;
   if (key == "Enter") {
@@ -18,67 +18,93 @@ function toggleStrech() {
   $(this).find(".stretch_area").slideToggle();
 }
 
-function showComment() {
-  const commentNum = $(this)
-    .find("#commentCount")
-    .html()
-    .slice(
-      $(this).find("#commentCount").html().indexOf("(") + 1,
-      $(this).find("#commentCount").html().indexOf(")")
-    );
+$(".content").on("click", contentClick);
 
-  if (commentNum != 0) {
-    const boardNo = $(this).parent().parent().attr("boardNum");
-    const table = $(this).next().find("table");
-    loadComment(boardNo, table);
+function contentClick() {
+  if (!$(this).hasClass("open_content")) {
+    const togetherNo = $(this).attr("boardNum");
+    const content = $(this);
+    $.ajax({
+      url: "/together/view.do",
+      type: "POST",
+      data: { togetherNo: togetherNo },
+      success: function (data) {
+        content.find("#commentCount").html("(" + data.commentCount + ")");
+      },
+      error: function () {
+        alert("게시글 조회에 실패하였습니다.");
+      },
+    });
+
+    $(this).off();
+    $(this).removeClass();
+    $(this).addClass("open_content");
+    $(this).find(".stretch_area").on("click", openContentClick);
   }
-
-  const icon = $(this).find(".fa-angle-down");
-
-  if (icon.hasClass("icon_x_rotate")) {
-    icon.removeClass("icon_x_rotate");
-  } else {
-    icon.addClass("icon_x_rotate");
-  }
-
-  $(this).next().slideToggle();
 }
 
-function loadComment(boardNo, table) {
+function openContentClick(event) {
+  event.stopPropagation();
+  $(this).off();
+  const content = $(this).parent();
+  content.removeClass();
+  content.addClass("content");
+  content.on("mouseenter mouseleave", toggleStrech);
+  content.on("click", contentClick);
+}
+
+$(".search_tab").children().on("click", selectTab);
+
+function selectTab() {
+  $(".search_tab").children().removeClass();
+  $(this).addClass("selected_tab");
+  const selectTab = $(this).find("a").html();
+
+  if (selectTab == "지역") {
+    $(".region_area").show();
+    $(".search_area").hide();
+  } else if (selectTab == "검색") {
+    $(".region_area").hide();
+    $(".search_area").show();
+  }
+}
+
+$(".select_region").children().on("click", selectRegion);
+
+function selectRegion() {
+  const regionNo = $(this).attr("regionNo");
+  $(".content_area").children().remove();
+
   $.ajax({
-    url: "/together/asyncCommentLoad.do",
+    url: "/together/asyncBoardByRegion.do",
     type: "POST",
-    data: { boardNo: boardNo },
+    data: { regionNo: regionNo },
     success: function (data) {
-      table.children().remove();
-      console.log(data);
-      for (let i = 0; i < data.length; i++) {
-        const commentWriterArea = document.createElement("tr");
-        commentWriterArea.className = "comment_writer_area";
-        table.append(commentWriterArea);
-
-        const commentWriter = document.createElement("th");
-        commentWriter.scope = "row";
-        commentWriter.className = "comment_writer";
-        commentWriter.innerHTML = data[i].commentWriter;
-        commentWriterArea.append(commentWriter);
-
-        const commentDate = document.createElement("td");
-        commentDate.className = "comment_date";
-        commentDate.innerHTML = data[i].commentDate;
-        commentWriterArea.append(commentDate);
-
-        const commentContentArea = document.createElement("tr");
-        commentContentArea.className = "comment_content_area";
-        table.append(commentContentArea);
-
-        const contentTd = document.createElement("td");
-        contentTd.innerHTML = data[i].commentContent;
-        commentContentArea.append(contentTd);
-      }
+      loadContent(data);
     },
     error: function () {
       console.log("서버 접속에 실패하였습니다.");
     },
   });
 }
+
+$("#mainSearch").on("submit", function (e) {
+  const postData = $(this).serializeArray();
+  $.ajax({
+    url: "/together/asyncBoardByKeyword.do",
+    type: "POST",
+    data: postData,
+    success: function (data) {
+      if (data.length != 0) {
+        $(".content_area").children().remove();
+        loadContent(data);
+      } else {
+        alert("검색 결과가 없습니다.");
+      }
+    },
+    error: function () {
+      console.log("서버 접속에 실패하였습니다.");
+    },
+  });
+  e.preventDefault();
+});

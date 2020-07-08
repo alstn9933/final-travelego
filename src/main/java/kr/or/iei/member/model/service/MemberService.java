@@ -1,5 +1,9 @@
 package kr.or.iei.member.model.service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -10,6 +14,7 @@ import kr.or.iei.member.model.vo.Company;
 import kr.or.iei.member.model.vo.CompanyMember;
 import kr.or.iei.member.model.vo.Member;
 import kr.or.iei.notice.model.vo.Notice;
+import kr.or.iei.recommend.model.vo.Recommend;
 
 @Service("memberService")
 public class MemberService {
@@ -83,6 +88,15 @@ public class MemberService {
 			}
 		}
 		return 0;
+	}
+	public List<Recommend> mainrecommendList() {
+		// TODO Auto-generated method stub
+		HashMap<String, Integer> map = new HashMap<String, Integer>();
+		int start = 0;
+		int end = 10;
+		map.put("start", start);
+		map.put("end", end);
+		return (ArrayList<Recommend>)dao.mainrecommendList(map);
 	}
 
 

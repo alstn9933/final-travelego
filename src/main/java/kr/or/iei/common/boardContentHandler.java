@@ -22,7 +22,7 @@ public class boardContentHandler {
 	@Pointcut("execution(java.util.List kr.or.iei.message.model.dao.MessageDao.select*(..)) ")
 	public void selectMsgPointcut() {}
 	
-	@Pointcut("execution(* kr.or.iei.together.model.dao.TogetherDao.insert*(kr.or.iei.together.model.vo.TogetherBoardVO,..))")
+	@Pointcut("execution(* kr.or.iei.together.model.dao.TogetherDao.*Board(kr.or.iei.together.model.vo.TogetherBoardVO,..))")
 	public void insertBoardPointcut() {}
 	
 	@Pointcut("execution(* kr.or.iei.together.model.dao.TogetherDao.insert*(kr.or.iei.together.model.vo.TogetherCommentVO,..))")

@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="admin">
+	<!-- d여기다 쿼리문 작성 -->
+
+	<select id="totalCount"	parameterType="member" resultType="_int">
+	select count(*) from member
+	</select>
+	<select id="selectCustomerMember" resultType="member">
+	select
+		member_id as memberId,
+		member_pw as memberPw,
+		member_nickname as memberNickname,
+		member_name as memberName,
+		age,
+		gender,
+		phone,
+		email,
+		member_level as memberLevel
+		from member
+	</select>
+	<select id="selectMemberList" parameterType="map"
+		resultType="member">
+		select * from
+		(select rownum as rnum,m.*from
+		(select
+		member_id as memberId,
+		member_pw as memberPw,
+		member_nickname as memberNickname,
+		member_name as memberName,
+		age,
+		gender,
+		phone,
+		email,
+		member_level as memberLevel
+		from member
+		order by member_id desc)m)
+		where rnum between #{start} and #{end}
+	</select>
+	<select id="selectCompanyMember" parameterType="company"
+		resultType="company">
+		select
+		company_id as companyId,
+		license,
+		company_url as companyUrl,
+		join_confirm as joinConfirm
+		from company
+	</select>
+	<update id="confirmUpdateMember" parameterType="company">
+		update company
+		set join_confirm =1 where company_id=#{companyId}
+	</update>
+	<update id="modifyMemberLevel" parameterType="member">
+		update member set member_level = (select member_level from member where
+		member_id=#{memberId})*-1 where member_id=#{memberId}
+	</update>
+	<delete id="memberDelete" parameterType="member">
+		delete from member where member_id=#{memberId}
+	</delete>
+	<select id="regionList" resultType="region">
+		select
+		REGION_COUNTRY as
+		regionCountry
+		from region
+		group by region_country
+	</select>
+	<select id="selectCity" parameterType="region"
+		resultType="region">
+		select
+		region_no as regionNo,
+		region_country as regionCountry,
+		region_city as
+		regionCity,
+		filename
+		from region where region_country=#{regionCountry}
+	</select>
+	<select id="middleList" parameterType="region"
+		resultType="region">
+		select
+		rg.REGION_NO as regionNo,
+		rg.REGION_COUNTRY as regionCountry,
+		rg.REGION_CITY as
+		regionCity,
+		ph.FILEPATH as filepath,
+		rg.FILENAME from REGION rg, photo
+		ph
+		where REGION_COUNTRY =#{regionCountry}
+		and ph.FILENAME = rg.FILENAME
+
+	</select>
+
+	<select id="selectQnA" parameterType="qna" resultType="qna">
+		select
+		qna_no as qnaNo,
+		qna_writer as qnaWriter,
+		qna_title as qnaTitle,
+		qna_content as qnaContent,
+		ask_date as askDate,
+		qna_answer as qnaAnswer,
+		answer_date as answerDate
+		from qna
+		join member on
+		member_id=qna_writer
+	</select>
+
+	<select id="qnaView" parameterType="qna" resultType="qna">
+		select
+		qna_no as qnaNo,
+		qna_writer as qnaWriter,
+		qna_title as qnaTitle,
+		qna_content as qnaContent,
+		ask_date as askDate ,
+		qna_answer as qnaAnswer,
+		answer_date as answerDate
+		from qna
+		where qna_no = #{qnaNo}
+	</select>
+
+	<update id="qnaAnswer" parameterType="qna">
+		update qna set
+		qna_answer=#{qnaAnswer},
+		answer_date=sysdate
+		where qna_No=#{qnaNo}
+	</update>
+
+	<select id="reportList" parameterType="report"
+		resultType="report">
+		select
+		report_no as reportNo,
+		report_category as reportCategory,
+		report_content as
+		reportContent,
+		report_date as reportDate,
+		board_class as boardClass,
+		board_no as boardNo,
+		reported_member as reportedMember,
+		report_writer as reportWriter
+		from
+		report
+	</select>
+	<delete id="deletePage" parameterType="report">
+		delete from
+		<if test="boardClass==1">
+			my_trip where trip_no=#{boardNo}
+		</if>
+		<if test="boardClass==2">
+			recommend_board where rec_no=#{boardNo}
+		</if>
+		<if test="boardClass==3">
+			together_board where together_no=#{boardNo}
+		</if>
+		<if test="boardClass==4">
+			tour where item_no=#{boardNo}
+		</if>
+		<if test="boardClass==5">
+			trip_board where trip_board_no=#{boardNo}
+		</if>
+	</delete>
+	<delete id="deleteReport" parameterType="report">
+			delete from report where board_no=#{boardNo}
+	</delete>
+	
+	<insert id="insertRegion" parameterType="region">
+		insert into REGION
+		(REGION_NO,REGION_COUNTRY,REGION_CITY,FILENAME) values
+		(REGION_SEQ.nextval,#{regionCountry},#{regionCity},#{filename})
+
+	</insert>
+
+	<insert id="insertPhoto" parameterType="photo">
+		insert into photo
+		(PHOTO_NO,BOARD_CLASS,BOARD_NO,FILENAME,FILEPATH) values
+		(PHOTO_SEQ.nextval,0,0,#{filename},#{filepath})
+
+	</insert>
+	<delete id="deleteReg" parameterType="region">
+		delete from REGION where REGION_NO = #{regionNo}
+
+	</delete>
+
+	<delete id="deletePhoto" parameterType="photo">
+		delete from photo where
+		FILENAME = #{filename}
+	</delete>
+	
+	
+</mapper>

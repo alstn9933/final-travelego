@@ -70,4 +70,17 @@
  phone = #{phone}
  where member_id=#{memberId}
  </update>
+ <select id="mainrecommendList" resultType="recommend">
+ select
+  		rec_no as recNo,
+  		rec_title as recTitle,
+  		rec_content as recContent,
+  		rec_writer as recWriter,
+  		read_count as readCount,
+  		rec_date as recDate,
+  		rec_category as recCategory,
+  		place,
+  		coords
+  	 from recommend_board order by read_count desc
+ </select>
 </mapper>
