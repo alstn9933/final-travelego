@@ -130,16 +130,6 @@ public class RecommendService {
 		return dao.selectCommentCount(recNo);
 	}
 
-	public int deleteRec(int recNo) {
-		// TODO Auto-generated method stub
-		return dao.deleteRec(recNo);
-	}
-
-	public ArrayList<Recommend> selectAllRecPhoto() {
-		// TODO Auto-generated method stub
-		return (ArrayList<Recommend>)dao.selectAllRecPhoto();
-	}
-
 	
 
 

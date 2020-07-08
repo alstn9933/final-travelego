@@ -53,8 +53,6 @@ public class RecommendController {
 	public String regionList(Model model) {
 		ArrayList<Region> country = service.selectAllRegion();
 		ArrayList<Recommend> rec = service.selectAllRec();
-		//ArrayList<Recommend> recPhoto = service.selectAllRecPhoto();
-		//model.addAttribute("recPhoto",recPhoto);
 		model.addAttribute("country",country);
 		model.addAttribute("recList",rec);
 		return "recommend/recList";
@@ -281,24 +279,9 @@ public class RecommendController {
 		return rec.getCnt();
 	}
 	
-	@RequestMapping(value="/deleteComment.do")
+	@RequestMapping(value="deleteComment.do")
 	public String deleteComment(int commentNo, int recNo) {
 		int result = service.deleteComment(commentNo);
 		return "redirect:/recDetail.do?recNo="+recNo;
-	}
-	
-	@RequestMapping(value="/updateRecFrm.do")
-	public String updateRecFrm(Recommend rec, Model model) {
-		rec = service.selectOneRec(rec.getRecNo());
-		ArrayList<Region> country = service.selectAllRegion();
-		model.addAttribute("country",country);
-		model.addAttribute("rec",rec);
-		return "recommend/recUpdate";
-	}
-	
-	@RequestMapping(value="/deleteRec.do")
-	public String deleteRec(int recNo) {
-		int result = service.deleteRec(recNo);
-		return "redirect:/recommendList.do";
 	}
 }

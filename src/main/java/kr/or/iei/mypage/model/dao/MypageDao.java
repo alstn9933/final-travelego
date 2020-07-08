@@ -22,19 +22,9 @@ public class MypageDao {
 		return sqlSession.selectList("myPage.selectAllBoardList",map);
 	}
 
-	public int totalBoardCount(HashMap<String, Object> map) {
-		// TODO Auto-generated method stub
-		return sqlSession.selectOne("myPage.selectBoardCount",map);
-	}
-	
 	public List selectBookmark(HashMap<String, Object> map) {
 		// TODO Auto-generated method stub
 		return sqlSession.selectList("myPage.selectBookmarkList",map);
-	}
-	
-	public int totalBookmarkCount(HashMap<String, Object> map) {
-		// TODO Auto-generated method stub
-		return sqlSession.selectOne("myPage.selectBookmarkCount",map);
 	}
 
 	public int insertQuestion(QNA qna) {
@@ -42,14 +32,9 @@ public class MypageDao {
 		return sqlSession.insert("myPage.insertQuestion", qna);
 	}
 
-	public List selectQnaList(HashMap<String, Object> map) {
+	public List selectQnaList(String memberId) {
 		// TODO Auto-generated method stub
-		return sqlSession.selectList("myPage.selectQnaList",map);
-	}
-
-	public int totalQNACount(String qnaWriter) {
-		// TODO Auto-generated method stub
-		return sqlSession.selectOne("myPage.selectQNACount",qnaWriter);
+		return sqlSession.selectList("myPage.selectQnaList",memberId);
 	}
 
 }

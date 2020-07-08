@@ -27,7 +27,7 @@ prefix="c"%>
     <link rel="stylesheet" href="/src/css/header/header.css" />
     <link rel="stylesheet" href="/src/css/footer/footer.css" />
     <link rel="stylesheet" href="/src/css/main/web_default.css" />
-    <title>마이페이지</title>
+    <title>Travelego</title>
     <style>
     	a{
             text-decoration: none;
@@ -35,14 +35,13 @@ prefix="c"%>
             color: black;
         }
         table{
-            width: 80%;
-            margin: 0 auto;
+            width: 100%;
         }
         th{
             border-bottom: 2px solid lightgray;
             line-height: 50px;
             height: 50px;
-            font-size: 20px;
+            font-size: 23px;
             padding-top: 30px;
         }
         #user{
@@ -56,50 +55,44 @@ prefix="c"%>
     <!-- 웹 콘텐츠는 section 태그 안에 작성을 해주세요!-->
     <section>
       <!-- 여기서부터 작성하시면 됨!!!!!!! -->
-      <div style="width:80%; margin:0 auto;">
-      <div style="font-size:30px; font-weight: bold; margin-bottom:20px;">${sessionScope.member.memberNickname }</div>
-    <br>
+      <div>${sessionScope.member.memberNickname }</div>
+    
     <div>
         <div>${sessionScope.member.memberNickname } 님의 다음 여행</div>
         <div>계획된 여행이 없습니다. 일정을 추가해보세요.</div>
     </div>
-    </div>
+    
     <table>
-    	<c:if test="${sessionScope.member.memberLevel eq 1 }">
         <tr>
             <th><a href="#">&nbsp;&nbsp;내 일정</a></th>
         </tr>
         <tr>
-            <th><a href="/boardList.do?board=0&reqPage=1">&nbsp;&nbsp;내가 쓴 게시글</a></th>
+            <th><a href="/boardList.do?board=0">&nbsp;&nbsp;내가 쓴 게시글</a></th>
         </tr>
         <tr>
             <th><a href="#">&nbsp;&nbsp;내 예약</a></th>
         </tr>
         <tr>
-            <th><a href="/bookmark.do?board=0&reqPage=1">&nbsp;&nbsp;북마크</a></th>
+            <th><a href="/bookmark.do?board=0">&nbsp;&nbsp;북마크</a></th>
         </tr>
         <tr>
             <th><a href="/qna.do">&nbsp;&nbsp;1:1 문의</a></th>
         </tr>
         <tr>
-            <th><a href="/qnaList.do?reqPage=1">&nbsp;&nbsp;1:1 문의 내역</a></th>
+            <th><a href="/qnaList.do">&nbsp;&nbsp;1:1 문의 내역</a></th>
         </tr>
-        </c:if>
-        <c:if test="${sessionScope.member.memberLevel eq 2 }">
         <tr>
             <th><a href="#">&nbsp;&nbsp;상품 관리</a></th>
         </tr>
         <tr>
             <th><a href="#">&nbsp;&nbsp;예약 관리</a></th>
         </tr>
-        </c:if>
         <tr>
             <th><a href="">&nbsp;&nbsp;내 정보</a></th>
         </tr>
         <tr>
             <th><a href="#">&nbsp;&nbsp;비밀번호 변경</a></th>
         </tr>
-        
     </table>
     </section>
 

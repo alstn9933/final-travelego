@@ -18,34 +18,24 @@
   </select>
   
   <select id="selectAllRec" resultType="recommend">
-	  select * from(
-	  	select
-	  		rec_no as recNo,
-	  		rec_title as recTitle,
-	  		rec_content as recContent,
-	  		rec_writer as recWriter,
-	  		read_count as readCount,
-	  		rec_date as recDate,
-	  		rec_category as recCategory,
-	  		region_city as regionCity,
-	  		place,
-	  		coords,
-	  		cnt
-	  	 from recommend_board
-	  	 left join region using(region_no) 
-	  	 left join (select count(*) as cnt , board_no
-	  	 			from liked where board_class = 2 group by board_no)rlist
-	  	 			on (rec_no = board_no))
-	  	 join photo on (recNo = board_no) order by recNo desc
-  </select>
-  
-  <select id="selectAllRecPhoto">
   	select
   		rec_no as recNo,
-  		filepath
-  	from recommend_board
-  	full join photo on (rec_no = board_no)
-	<!-- where board_class=2 -->
+  		rec_title as recTitle,
+  		rec_content as recContent,
+  		rec_writer as recWriter,
+  		read_count as readCount,
+  		rec_date as recDate,
+  		rec_category as recCategory,
+  		region_city as regionCity,
+  		place,
+  		coords,
+  		cnt
+  	 from recommend_board
+  	 left join region using(region_no) 
+  	 full join (select count(*) as cnt , board_no
+  	 			from liked where board_class = 2 group by board_no)rlist
+  	 			on (rec_no = board_no)
+	 order by rec_no desc
   </select>
   
   <select id="selectRecList" parameterType="items" resultType="recommend">
@@ -88,15 +78,11 @@
   		rec_category as recCategory,
   		place,
   		coords,
-  		cnt,
-  		region_no as regionNo,
-  		region_country as regionCountry,
-        region_city as regionCity
+  		cnt
   	from recommend_board
   	full join
   	(select count(*) as cnt , board_no from liked where board_class = 2 group by board_no)rlist on (rec_no = board_no)
-  	join region using(region_no)
-  	where rec_no = #{_param}
+  	where rec_no = #{_param} 	
   </select>
   
   <select id="selectComments" parameterType="_int" resultType="comment">
@@ -108,7 +94,7 @@
   		ref_comment as refComment,
   		comment_date as commentDate
   	from board_comment
-  	where board_class=2 and board_no=#{_param} order by commentNo desc
+  	where board_class=2 and board_no=#{_param}
   </select>
   
   <insert id="insertComment" parameterType="comment">
@@ -167,8 +153,4 @@
   <select id="selectCommentCount" parameterType="_int" resultType="_int">
   	select count(*) as cntCom from board_comment where board_class=2 and board_no = #{_param}
   </select>
-  
-  <delete id="deleteRec" parameterType="_int">
-  	delete from recommend_board where rec_no = #{_param}
-  </delete>
 </mapper>

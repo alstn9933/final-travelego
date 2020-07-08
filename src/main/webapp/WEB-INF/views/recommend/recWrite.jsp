@@ -27,18 +27,6 @@
 <script src="/src/js/bootstrap/bootstrap-4.5.0.js"></script>
 <script src="/src/ckeditor/ckeditor.js"></script>
 
-<!-- 셀렉트 부트스트랩 -->
- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
-
-<!-- 수민 버튼 부트스트랩 -->
-     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
-  
-
 <!-- services 라이브러리 불러오기 -->
 <script type="text/javascript"
 	src="//dapi.kakao.com/v2/maps/sdk.js?appkey=80d7303a0a0952e6d0ad4b9188ef090b&libraries=services"></script>
@@ -243,10 +231,6 @@
 	cursor: default;
 	color: #777;
 }
-
-#cke_1_contents{
-	height:1000px;
-}
 </style>
 <script>
   	$(function(){
@@ -279,10 +263,9 @@
 		<section>
 			<div class="option">
 				<div>
-				<!-- form이 제출되면서 페이지가 바뀌지 않게 하기 위해 return false; -->
 					<form onsubmit="searchPlaces(); return false; showMapList();">
-						<input type="text" id="keyword" size="100" name="place"
-							placeholder="추천하는 장소를 입력하세요" style="width:50%;">
+						<input type="text" id="keyword" size="50" name="place"
+							placeholder="추천하는 장소를 입력하세요">
 						<button type="submit">검색하기</button>
 					</form>
 				</div>
@@ -297,14 +280,13 @@
 				<div id="realMap"
 					style="width: 74%; height: 100%; position: relative; overflow: hidden; float: right;"></div>
 			</div>
-			<hr>
 			<form id="complete" action="/recWrite.do" method="post">
 			<input type="hidden" id="coords" name="coords">
 			<input type="hidden" id="place" name="place">
 			<input type="hidden" id="photo" name="photo">
 			<div>
 				여행지역
-				<select id="regionCountry" name="regionCountry" class="custom-select custom-select-sm" style="width:150px;">
+				<select id="regionCountry" name="regionCountry">
 					<option value="국내" style="font-weight: bold">국내</option>
 					<optgroup label="해외">
 						<c:forEach items="${country}" var="r">
@@ -312,10 +294,9 @@
 						</c:forEach>
 					</optgroup>
 				</select>
-				<select id="regionCity" name="regionNo" class="custom-select custom-select-sm" style="width:150px;">
+				<select id="regionCity" name="regionNo">
 				</select>
-				카테고리
-				<select id="recCategory" name="recCategory" class="custom-select custom-select-sm" style="width:150px;">
+				카테고리 <select id="recCategory" name="recCategory">
 					<option value="1">맛집</option>
 					<option value="2">카페</option>
 					<option value="3">숙소</option>
@@ -323,16 +304,12 @@
 					<option value="5">액티비티</option>
 				</select>
 			</div>
-			<hr>
-				<input	type="text" id="recTitle" name="recTitle" placeholder="제목을 입력해주세요" style="width:100%;"><br>
-				<hr>
+				<input	type="text" id="recTitle" name="recTitle" placeholder="제목을 입력해주세요"><br>
 				<div id="cont">
 					<textarea rows="10" cols="50" name="recContent" id="editor"></textarea>
 				</div>
 				<br>
-				<div style="text-align:center; margin:40px auto;">
-				<button class="board btn btn-info">등록</button>
-				</div>
+				<button>등록</button>
 			</form>
 			<script>
 				// 마커를 담을 배열입니다
@@ -365,9 +342,6 @@
 				
 				// 키워드 검색을 요청하는 함수입니다
 				function searchPlaces() {
-					if($("#keyword").val() == ""){
-						alert("검색어를 입력하세요");
-					}else{
 					$(".map_wrap").css("display","block");
 					var keyword = document.getElementById('keyword').value;
 
@@ -379,7 +353,6 @@
 					// 장소검색 객체를 통해 키워드로 장소검색을 요청합니다
 					ps.keywordSearch(keyword, placesSearchCB);
 					$("#keyword").val("");
-					}
 				};
 
 				// 장소검색이 완료됐을 때 호출되는 콜백함수 입니다
@@ -620,26 +593,24 @@
 		<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
 		<script>
 			CKEDITOR.replace('editor', {
-				filebrowserUploadUrl : '/uploadEditorImage.do',
-				height:1000
+				filebrowserUploadUrl : '/uploadEditorImage.do'
 			});
 		</script>
-		
 		<script>
 			var mainPhoto;
 			$("#complete").submit(function(){
-				if($("#keyword").val()==""){
-					alert("추천하는 장소를 입력하세요");
-					return false;
-				}
-				if($("#recTitle").val()==""){
-					alert("제목을 입력하세요");
-					return false;
-				}
-				if($("#editor").val()==""){
-					alert("본문을 입력하세요");
-					return false;
-				}
+// 				if($("#keyword").val()==""){
+// 					alert("추천하는 장소를 입력하세요");
+// 					return false;
+// 				}
+// 				if($("#recTitle").val()==""){
+// 					alert("제목을 입력하세요");
+// 					return false;
+// 				}
+// 				if($("#editor").val()==""){
+// 					alert("본문을 입력하세요");
+// 					return false;
+// 				}
 				mainPhoto = $("#cont").find("iframe").contents().find("img").eq(0).attr("src");
 				$("#photo").val(mainPhoto);
 				console.log($("#cont").find("iframe").contents().find("img").eq(0).attr("src"));

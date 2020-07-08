@@ -158,8 +158,9 @@
                 	</c:if>
 				</div>
 			<div class="title" style="width:90%;">
+				
 				<div style="font-size:30px;">${rec.recTitle}</div>
-				<div id="detailInfo" style="width:100%;display:inline-block; float:left;">
+				<div id="detailInfo">
 					<span>${rec.recWriter}</span>
 					<span>${rec.recDate}</span>
 					<span>
@@ -170,7 +171,7 @@
 					</span>
 				</div>
 			</div>
-			<div class="title" style="width:10%; height:45px; text-align:right;">
+			<div class="title" style="width:10%;">
 				<c:if test="${empty bookmark}">
 				<span><i class="far fa-bookmark insertBookmark" style="font-size:28px;"></i></span>
 				<span><i class="fas fa-bookmark deleteBookmark" style="display:none; font-size:28px;"></i></span>
@@ -181,13 +182,12 @@
 				</c:if>
 <!-- 				<span><i class="fas fa-ellipsis-v" style="font-size:28px;"></i></span> -->
 			</div>
-			<div style="float:right;"><a href="/updateRecFrm.do?recNo=${rec.recNo }">수정</a> <a href="javascript:/void(0)" onclick="deleteRec('${rec.recNo }');">삭제</a></div>
 		</div>
 
-		<div>
+		<div >
 			<img>
 		</div>
-		<div style="width:80%; margin:0 auto;">${rec.recContent}</div>
+		<div style="width:100%;">${rec.recContent}</div>
 		<div id="map" style="width:60%;height:400px;margin:80px auto;"></div>
 		<div style="height:40px;">
 			<c:if test="${empty liked }">
@@ -207,24 +207,22 @@
 						test="${sessionScope.member.memberId eq cmt.commentWriter }">
 						<div class="comment" style="background-color: skyblue">
 							<input type="hidden" value="${cmt.commentNo }">
-							<input type="hidden" value="${cmt.commentLevel }">
 							<div>${cmt.commentWriter }</div>
 							<div>${cmt.commentContent }</div>
 							<div>${cmt.commentDate }</div>
 							<div>
-								<button class="repl">답글</button><button onclick="amendComment('${cmt.commentNo}', '${rec.recNo }');">수정</button><button onclick="deleteComment('${cmt.commentNo}', '${rec.recNo }');">삭제</button>
+								<button>답글</button><button onclick="amendComment('${cmt.commentNo}', '${rec.recNo }');">수정</button><button onclick="deleteComment('${cmt.commentNo}', '${rec.recNo }');">삭제</button>
 							</div>
 						</div>
 					</c:when>
 					<c:otherwise>
 						<div class="comment">
 							<input type="hidden" value="${cmt.commentNo }">
-							<input type="hidden" value="${cmt.commentLevel }">
 							<div>${cmt.commentWriter }</div>
 							<div>${cmt.commentContent }</div>
 							<div>${cmt.commentDate }</div>
 							<div>
-								<button class="repl">답글</button>
+								<button>답글</button>
 							</div>
 						</div>
 					</c:otherwise>
@@ -232,7 +230,6 @@
 			</c:forEach>
 			<div id="page"></div>
 		</div>
-		<%-- <c:if test="${not empty sessionScope.member}"> --%>
 		<div>
 			<form action="/insertComment.do" method="post">
 				<input type="hidden" name="commentLevel" value="1">
@@ -242,25 +239,12 @@
 				<button>등록</button>
 			</form>
 		</div>
-		<%-- </c:if> --%>
 	</section>
-<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
+
 	<script>
 		$(function(){
 			$("img").removeAttr("style");
 			$("img").css("width","100%");
-		});
-		
-		function deleteRec(recNo){
-			alert("정말 삭제하시겠습니까?");
-			location.href="/deleteRec.do?recNo="+recNo;
-		}
-		
-		$(".repl").click(function(){
-			var cmtWriter = $(this).parent().siblings("div").eq(0).html();
-			console.log(cmtWriter);
-			$(".ck-content").children("p").html("");
-			$(".ck-content").children("p").html("@"+cmtWriter);
 		});
 	</script>
 	<script>
@@ -305,7 +289,7 @@ geocoder.addressSearch('${rec.coords}', function(result, status) {
 }); 
 	});
 </script>
-	
+	<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
 	<!-- Modal -->
 	<div class="modal fade custom_search_pop" id="exampleModalCenter"
 		tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
