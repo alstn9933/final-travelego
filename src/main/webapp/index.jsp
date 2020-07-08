@@ -48,13 +48,13 @@
 					<!-- The slideshow -->
 					<div class="carousel-inner">
 						<div class="carousel-item active">
-							<img src="/src/imgs/main/addtest6.jpg"  width="100%" height="400px">
+						<a href="/tourList.do"><img src="/src/imgs/main/addtest6.jpg"  width="100%" height="400px"></a>
 						</div>
 						<div class="carousel-item">
-							<img src="/src/imgs/main/addtest4.jpg"  width="100%" height="400px">
+							<a href="/recommendList.do"><img src="/src/imgs/main/addtest4.jpg"  width="100%" height="400px"></a>
 						</div>
 						<div class="carousel-item">
-							<img src="/src/imgs/main/addtest5.jpg"  width="100%" height="400px">
+							<a href="/together/main.do"><img src="/src/imgs/main/addtest5.jpg"  width="100%" height="400px"></a>
 						</div>
 					</div>
 

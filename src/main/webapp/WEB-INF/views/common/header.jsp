@@ -10,7 +10,7 @@
 					<div class="row align-items-center">
 						<div class="col-xl-2 col-lg-2">
 							<div class="logo">
-								<a href="index.jsp"><img
+								<a href="/"><img
 									src="/src/imgs/header/mainlogo2.png"
 									style="width: 100%; height: 90px;" alt="" /> </a>
 							</div>
@@ -31,7 +31,7 @@
 						<div class="col-xl-4 col-lg-4 d-none d-lg-block">
 							<div
 								class="social_wrap d-flex align-items-center justify-content-end">
-								<c:if test="${sessionScope.member.memberId == 'admin'}">
+								<c:if test="${sessionScope.member.memberLevel==3}">
 									<div class="col-xl-2 col-lg-6">
 										<div class="main-menu  d-none d-lg-block">
 											<nav>

@@ -34,11 +34,15 @@
 				</h4>
 			</div>
 			<div class="mainContent">
+			<c:if test="${sessionScope.member.memberLevel==3}">
 				<a href="/noticeInsertFrm.do">
 				<input class="btn btn-outline-secondary" id="insertBtn"
 					type="button" value="글쓰기"></a>
+					</c:if>
 				<form action="/noticeDelete.do" method="post">
+				<c:if test="${sessionScope.member.memberLevel==3}">
 				<input class="btn btn-outline-secondary" id="delBtn" type="button" value="체크게시물 삭제">
+				</c:if>
 				<table class="table table-hover">
 					<tr>
 						<th class="noticetitle">내용</th>
@@ -53,7 +57,9 @@
 								value="${n.noticeNo}">${n.noticeTitle}</a></td>
 							<td class="regdate">${n.noticeDate}</td>
 							<td class="readcount">${n.readCount }</td>
+							<c:if test="${sessionScope.member.memberLevel==3}">
 							<td class="delchkbox"><input name="noticeNo" type="checkbox" value="${n.noticeNo }"></td>
+							</c:if>
 						</tr>
 					</c:forEach>
 				</table>
