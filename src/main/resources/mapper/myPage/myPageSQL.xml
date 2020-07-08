@@ -1,55 +1,58 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="myPage">
-  <select id="selectAllBoardList" parameterType="member" resultType="boardList">
+  <select id="selectAllBoardList" parameterType="map" resultType="boardList">
   	select
   		rownum,
   		b.* from (
-			select 
+  			<if test="board == 5 or board == 0">
+			select
 			    trip_board_title as boardTitle, 
 			    trip_board_date as boardDate,
 			    read_count as readCount
-			    from trip_board where trip_board_writer = 'user'
-			    union all
+			    from trip_board where trip_board_writer = #{memberId}
+			</if>
+			<if test="board==0">union all</if>
+			<if test="board==2 or board==0">
 			select
 			    rec_title as boardTitle, 
 			    rec_date as boardDate,
 			    read_count as readCount
-			    from RECOMMEND_BOARD where rec_writer = 'user'
-			    union all
+			    from RECOMMEND_BOARD where rec_writer = #{memberId}
+			</if>
+			<if test="board==0">union all</if>
+			<if test="board==3 or board==0">
 			select
 			    together_title as boardTitle,
 			    together_date as boardDate,
 			    read_count as readCount
-			    from TOGETHER_BOARD where together_writer = 'user'
+			    from TOGETHER_BOARD where together_writer = #{memberId}
+			 </if>
 			    order by boardDate desc) b
   </select>
   
-  <select id="selectBookmarkList" parameterType="member" resultType="bookmark">
+  <select id="selectBookmarkList" parameterType="map" resultType="bookmark">
   	select
   		rownum,
   		m.* from (
+  			<if test="board == 5 or board == 0">
 			select 
 				trip_board_title as boardTitle,
 				trip_board_writer as boardWriter 
 				from trip_board
 				join bookmark on (trip_board_no = board_no)
-				where board_class=1
-			union all
+				where board_class=1 and member_id = #{memberId}
+			</if>
+			<if test="board == 0">union all</if>
+			<if test="board == 2 or board == 0">
 			select
 				rec_title as boardTitle,
 				rec_writer as boardWriter
 				from recommend_board
 				join bookmark on (rec_no = board_no)
-				where board_class=2
-			union all
-			select
-				together_title as boardTitle,
-				together_writer as boardWriter
-				from together_board
-				join bookmark on (together_no = board_no)
-				where board_class=3) m
-				order by rownum desc
+				where board_class=2 and member_id = #{memberId}
+			</if>
+			) m order by rownum desc
   </select>
   
   <insert id="insertQuestion" parameterType="member">
@@ -62,4 +65,17 @@
   		null, null
   	)
   </insert>
+  
+  <select id="selectQnaList" parameterType="string" resultType="qna">
+  	select
+  		qna_no as qnaNo,
+  		qna_writer as qnaWriter,
+  		qna_title as qnaTitle,
+  		qna_content as qnaContent,
+  		ask_date as askDate,
+  		qna_answer as qnaAnswer,
+  		answer_date as answerDate
+  	from qna where qna_writer = #{_param}
+  	order by qna_no desc
+  </select>
 </mapper>

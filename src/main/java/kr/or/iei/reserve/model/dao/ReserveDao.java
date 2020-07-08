@@ -8,7 +8,9 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import kr.or.iei.member.model.vo.Member;
 import kr.or.iei.reserve.model.vo.ReserveVO;
+import kr.or.iei.tour.model.vo.ReviewVO;
 import kr.or.iei.tour.model.vo.TourVO;
 
 @Repository("reserveDao")
@@ -18,6 +20,10 @@ public class ReserveDao {
 
 	public List checkTourTimes(HashMap<String, String> map) {
 		return sqlSession.selectList("reserve.checkTimePerson",map);
+	}
+	
+	public TourVO checkTourTimes(TourVO t) {
+		return sqlSession.selectOne("tour.selectTourTimes",t);
 	}
 
 	public List checkReserve(ReserveVO r) {
@@ -33,7 +39,7 @@ public class ReserveDao {
 	}
 
 	public int cancelReserve(int reserveNo) {
-		return sqlSession.delete("reserve.cancelReserve",reserveNo);
+		return sqlSession.update("reserve.cancelReserve",reserveNo);
 	}
 
 	public int selectOneReserve(String memberId) {
@@ -46,5 +52,29 @@ public class ReserveDao {
 
 	public ReserveVO selectOneReserve(int reserveNo) {
 		return sqlSession.selectOne("reserve.selectOneReserve",reserveNo);
+	}
+	
+	public int selectMyReserveTotalCount(HashMap<String, String> map) {
+		return sqlSession.selectOne("reserve.selectTotalCount",map);
+	}
+
+	public List selectMoreReserve(HashMap<String, String> map) {
+		return sqlSession.selectList("reserve.selectMoreReserve",map);
+	}
+
+	public int insertReview(ReviewVO r) {
+		return sqlSession.insert("tour.insertReview",r);
+	}
+
+	public int upReChRe(int reserveNo) {
+		return sqlSession.update("reserve.upReChRe",reserveNo);
+	}
+
+	public List selectAllTour(String memberId) {
+		return sqlSession.selectList("tour.selectComTour",memberId);
+	}
+
+	public List selectReserveList(ReserveVO r) {
+		return sqlSession.selectList("reserve.selectReserve",r);
 	}
 }

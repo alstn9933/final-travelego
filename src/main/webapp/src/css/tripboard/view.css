@@ -1,0 +1,26 @@
+@import url("/src/css/tripboard/write.css");
+@import url("/src/css/together/board.css");
+
+section > div {
+  border-left: 1px solid #dbdbdb;
+  border-right: 1px solid #dbdbdb;
+}
+
+.form_button_wrapper {
+  padding-bottom: 40px;
+}
+
+.form_button_wrapper button:last-of-type {
+  margin-left: 100px;
+}
+
+.content_wrapper {
+  min-height: calc(100vh - 200px);
+  border-top: 1px solid #dbdbdb;
+  border-bottom: 1px solid #dbdbdb;
+  padding: 20px;
+}
+
+.comment_wrapper > div {
+  padding: 0 20px;
+}

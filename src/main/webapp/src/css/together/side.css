@@ -1,0 +1,7 @@
+.select_region li {
+  cursor: pointer;
+}
+
+.select_region li:hover {
+  background-color: rgb(220, 237, 255);
+}

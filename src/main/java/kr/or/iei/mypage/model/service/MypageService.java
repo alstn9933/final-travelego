@@ -1,6 +1,7 @@
 package kr.or.iei.mypage.model.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,13 +21,19 @@ public class MypageService {
 	@Qualifier("myPageDao")
 	private MypageDao dao;
 	
-	public ArrayList<BoardList> selectBoardList(Member m) {
-		List list = dao.selectAllBoard(m);
+	public ArrayList<BoardList> selectBoardList(String memberId, int board) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("memberId", memberId);
+		map.put("board",board);
+		List list = dao.selectAllBoard(map);
 		return (ArrayList<BoardList>)list;
 	}
 
-	public ArrayList<Bookmark> selectBookmarkList(Member m) {
-		List list = dao.selectBookmark(m);
+	public ArrayList<Bookmark> selectBookmarkList(String memberId, int board) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("memberId", memberId);
+		map.put("board",board);
+		List list = dao.selectBookmark(map);
 		return (ArrayList<Bookmark>)list;
 	}
 
@@ -35,4 +42,8 @@ public class MypageService {
 		return dao.insertQuestion(qna);
 	}
 
+	public ArrayList<QNA> selectQnaList(String memberId) {
+		List list = dao.selectQnaList(memberId);
+		return (ArrayList<QNA>)list;
+	}
 }

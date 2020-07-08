@@ -3,10 +3,154 @@
 <mapper namespace="recommend">
   <select id="selectAllRegion" resultType="region">
   	select
-  		region_no as regionNo,
-  		region_country as regionCountry,
-  		region_city as regionCity,
-  		filename
+  		distinct
+  		region_country as regionCountry
   	from region
+  </select>
+  
+  <select id="selectCities" parameterType="string" resultType="region">
+  	select
+  		region_no as regionNo,
+  		region_city as regionCity
+  	from region
+  	where region_country = #{_param}
+  	order by region_city
+  </select>
+  
+  <select id="selectAllRec" resultType="recommend">
+  	select
+  		rec_no as recNo,
+  		rec_title as recTitle,
+  		rec_content as recContent,
+  		rec_writer as recWriter,
+  		read_count as readCount,
+  		rec_date as recDate,
+  		rec_category as recCategory,
+  		region_city as regionCity,
+  		place,
+  		coords,
+  		cnt
+  	 from recommend_board
+  	 left join region using(region_no) 
+  	 full join (select count(*) as cnt , board_no
+  	 			from liked where board_class = 2 group by board_no)rlist
+  	 			on (rec_no = board_no)
+	 order by rec_no desc
+  </select>
+  
+  <select id="selectRecList" parameterType="items" resultType="recommend">
+  	select
+  		rec_no as recNo,
+  		rec_title as recTitle,
+  		rec_content as recContent,
+  		rec_writer as recWriter,
+  		read_count as readCount,
+  		rec_date as recDate,
+  		rec_category as recCategory,
+  		region_city as regionCity,
+  		place,
+  		coords
+  	 from recommend_board full join region using(region_no)
+  	 <trim prefix="where" prefixOverrides="and|or">
+  	 	<if test="!regionCountry.equals('전체')">
+  	 		region_country = #{regionCountry}
+  	 		<!-- <if test="!regionCity.equals('전체')">
+  	 			and region_city = #{regionCity}
+  	 		</if>
+  	 	</if>
+  	 	<if test="recCategory != 0">
+  	 		and rec_category = #{recCategory}
+  	 	</if>
+  	 	<if test="search != null">
+  	 		and rec_title like '%'||#{search}||'%' or rec_content like '%'||#{search}||'%' -->
+  	 	</if>
+  	 </trim>
+  </select>
+  
+  <select id="selectOneRec" parameterType="_int" resultType="recommend">
+  	select
+  		rec_no as recNo,
+  		rec_title as recTitle,
+  		rec_content as recContent,
+  		rec_writer as recWriter,
+  		read_count as readCount,
+  		rec_date as recDate,
+  		rec_category as recCategory,
+  		place,
+  		coords,
+  		cnt
+  	from recommend_board
+  	full join
+  	(select count(*) as cnt , board_no from liked where board_class = 2 group by board_no)rlist on (rec_no = board_no)
+  	where rec_no = #{_param} 	
+  </select>
+  
+  <select id="selectComments" parameterType="_int" resultType="comment">
+  	select
+  		comment_no as commentNo,
+  		comment_level as commentLevel,
+  		comment_writer as commentWriter,
+  		comment_content as commentContent,
+  		ref_comment as refComment,
+  		comment_date as commentDate
+  	from board_comment
+  	where board_class=2 and board_no=#{_param}
+  </select>
+  
+  <insert id="insertComment" parameterType="comment">
+  	insert into board_comment values(comment_seq.nextval, #{commentLevel}, 2, #{boardNo}, #{commentWriter}, #{commentContent}, 
+  		<if test="refComment == 0">
+  		null
+  		</if>
+   		<if test="refComment gt 0">
+   		#{refComment}
+   		</if> 
+   		  		 ,sysdate)
+  </insert>
+
+  <insert id="insertRec" parameterType="map">
+  	insert ALL into RECOMMEND_BOARD values
+	  	(rec_seq.nextval,#{recTitle},#{recContent},#{recWriter},default,sysdate,#{regionNo},#{recCategory},#{place},#{coords})
+		into photo values
+		(photo_seq.nextval,1,rec_seq.nextval,#{p},#{p})
+		 select * from dual
+  </insert>
+  
+  <insert id="insertBookmark" parameterType="map">
+  	insert into bookmark values(bookmark_seq.nextval, 2, #{boardNo}, #{memberId})
+  </insert>
+  
+  <delete id="deleteBookmark" parameterType="map">
+  	delete from bookmark where member_id = #{memberId} and board_class=2 and board_no = #{boardNo}
+  </delete>
+  
+  <select id="selectBookmark" parameterType="map" resultType="bookmark">
+  	select 
+  		bookmark_no as bookmarkNo,
+  		board_no as boardNo,
+  		member_id as memberId
+  	from bookmark where member_id = #{memberId} and board_class=2 and board_no = #{boardNo}
+  </select>
+  <select id="selectLiked" parameterType="map" resultType="liked">
+  	select 
+  		board_no as boardNo,
+  		member_id as memberId
+  	from liked where member_id = #{memberId} and board_class=2 and board_no = #{boardNo}
+  </select>
+  
+  <insert id="insertLike" parameterType="map">
+  	insert into liked values(2, #{boardNo}, #{memberId})
+  </insert>
+  
+  <delete id="deleteLike" parameterType="map">
+  	delete from liked where member_id = #{memberId} and board_class=2 and board_no = #{boardNo}
+  </delete>
+  
+  <delete id="deleteComment" parameterType="_int">
+  	delete from board_comment where comment_no=#{_param}
+  </delete>
+  
+  <select id="selectCommentCount" parameterType="_int" resultType="_int">
+  	select count(*) as cntCom from board_comment where board_class=2 and board_no = #{_param}
   </select>
 </mapper>

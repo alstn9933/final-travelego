@@ -17,6 +17,9 @@ import com.google.gson.Gson;
 import kr.or.iei.member.model.vo.Member;
 import kr.or.iei.reserve.model.service.ReserveService;
 import kr.or.iei.reserve.model.vo.ReserveVO;
+import kr.or.iei.tour.model.service.TourService;
+import kr.or.iei.tour.model.vo.ReviewVO;
+import kr.or.iei.tour.model.vo.TourVO;
 
 @Controller
 public class ReserveController {
@@ -29,6 +32,13 @@ public class ReserveController {
 	public String checkTourTimes(int itemNo, String tourDate, String tourTimes, int maxPerson) {
 		ArrayList<ReserveVO> rvlist = service.checkTourTimes(itemNo,tourDate,tourTimes,maxPerson);
 		return new Gson().toJson(rvlist);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/changeTimes.do", produces = "application/json; charset=utf-8")
+	public String checkTourTimes(TourVO t) {
+		String[] tarr = service.checkTourTimes(t);
+		return new Gson().toJson(tarr);
 	}
 	
 	@ResponseBody
@@ -75,5 +85,71 @@ public class ReserveController {
 			}
 		}
 		return "redirect:/";
+	}
+	
+	@RequestMapping(value="/myReservation.do")
+	public String memberReserveList(HttpSession session, Model model) {
+		Member m = (Member)session.getAttribute("member");
+		if(m==null||m.getMemberLevel()!=1) {
+			model.addAttribute("msg","개인회원만 접근가능합니다");
+			model.addAttribute("loc","/");
+			return "common/msg";
+		}
+		return "reserve/memberReserveList";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/selectTotalCount.do", produces = "application/json; charset=utf-8")
+	public String selectMyReserveTotalCount(HttpSession session, String status) {
+		Member m = (Member)session.getAttribute("member");
+		int totalCount = service.selectMyReserveTotalCount(m,status);
+		return new Gson().toJson(totalCount);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/moreReserve.do", produces = "application/json; charset=utf-8")
+	public String selectMoreReserve(HttpSession session, int start, String status) {
+		Member m = (Member)session.getAttribute("member");
+		ArrayList<ReserveVO> rList = service.selectMoreReserve(m,start,status);
+		return new Gson().toJson(rList);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/writeReview.do", produces = "application/json; charset=utf-8")
+	public String insertReview(HttpSession session, String reviewContent, int itemNo, int reserveNo, int reviewRate) {
+		Member m = (Member)session.getAttribute("member");
+		ReviewVO r = new ReviewVO();
+		r.setItemNo(itemNo);
+		r.setMemberId(m.getMemberId());
+		r.setReserveNo(reserveNo);
+		r.setReviewContent(reviewContent);
+		r.setReviewRate(reviewRate);
+		int result = service.insertReview(r);
+		return new Gson().toJson(result);
+	}
+	
+	@RequestMapping(value="/comReserveList.do")
+	public String goComReserveList(HttpSession session, Model model) {
+		Member m = (Member)session.getAttribute("member");
+		if(m==null) {
+			model.addAttribute("msg","로그인을 먼저 해주세요");
+			model.addAttribute("loc","/loginFrm.do");
+			return "common/msg";
+		}else if(m.getMemberLevel()!=2) {
+			model.addAttribute("msg","접근 불가능한 회원입니다");
+			model.addAttribute("loc","/");
+			return "common/msg";
+		}
+		ArrayList<TourVO> tList = service.selectAllTour(m.getMemberId());
+		model.addAttribute("tList",tList);
+		return "reserve/comReserveList";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/changeList.do", produces = "application/json; charset=utf-8")
+	public String changeList(ReserveVO r, HttpSession session) {
+		Member m = (Member)session.getAttribute("member");
+		ArrayList<ReserveVO> rList = service.selectReserveList(m,r);
+		return new Gson().toJson(rList);
 	}
 }

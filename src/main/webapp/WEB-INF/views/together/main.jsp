@@ -37,142 +37,95 @@ prefix="c"%>
           <span id="newCount">+2</span>
         </div>
         <div class="content_area">
-          <div class="content">
-            <div>
-              <div class="board_title_area">
-                <div class="board_title">
-                  <a href="#">title</a>
-                </div>
-                <div class="board_content">
-                  <div>
-                    <p>contentcontentcontentcontent</p>
-                    <p>content</p>
+          <c:forEach items="${list}" var="board" varStatus="status" >
+          	<c:if test="${!status.last }">
+            <div
+              class="content"
+              rnum="${board.rnum}"
+              boardnum="${board.togetherNo}"
+            >
+            </c:if>
+            <c:if test="${status.last }">
+            <div
+              class="content"
+              id = "lastContent"
+              rnum="${board.rnum}"
+              boardnum="${board.togetherNo}"
+            >
+            </c:if>
+              <div>
+                <div class="board_title_area">
+                  <div class="board_title">
+                    <a href="javascript:void(0)">${board.togetherTitle}</a>
+                  </div>
+                  <div class="board_content">
+                    <div>${board.togetherContent}</div>
                   </div>
                 </div>
-              </div>
-              <div class="board_writer_area">
-                <div class="board_date"><span>date</span></div>
-                <div class="board_writer"><span>writer</span></div>
-              </div>
-            </div>
-            <div class="strech_area" style="display: none;">
-              <i class="fas fa-angle-down"></i>
-            </div>
-          </div>
-          <div class="content">
-            <div>
-              <div class="board_title_area">
-                <div class="board_title">
-                  <a href="#">title</a>
-                </div>
-                <div class="board_content">
-                  <div>
-                    <p>
-                      contentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontent
-                    </p>
-                    <p>content</p>
+                <div class="board_writer_area">
+                  <div class="board_date">
+                    <span>${board.togetherDate}</span>
                   </div>
-                </div>
-              </div>
-              <div class="board_writer_area">
-                <div class="board_date"><span>date</span></div>
-                <div class="board_writer"><span>writer</span></div>
-              </div>
-            </div>
-            <div class="strech_area" style="display: none;">
-              <i class="fas fa-angle-down"></i>
-            </div>
-          </div>
-          <div class="open_content">
-            <div>
-              <div class="board_title_area">
-                <div class="board_title">
-                  <a href="#">title</a>
-                </div>
-                <div class="board_content">
-                  <div>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                    do eiusmod tempor incididunt ut labore et dolore magna
-                    aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                    ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                    Duis aute irure dolor in reprehenderit in voluptate velit
-                    esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-                    occaecat cupidatat non proident, sunt in culpa qui officia
-                    deserunt mollit anim id est laborum.
+                  <div class="board_writer">
+                    <span>${board.togetherWriter}</span>
                   </div>
+                  <c:if
+                    test="${sessionScope.member.memberId == board.togetherWriter }"
+                  >
+                    <div class="board_btn">
+                      <button
+                        type="button"
+                        class="btn btn-sm btn-outline-primary modBoard"
+                        boardNo = "${board.togetherNo}"
+                      >
+                        수정
+                      </button>
+                      <button
+                        type="button"
+                        class="btn btn-sm btn-outline-danger delBoard"                        
+                        boardNo = "${board.togetherNo}"
+                      >
+                        삭제
+                      </button>
+                    </div>
+                  </c:if>
                 </div>
               </div>
-              <div class="board_writer_area">
-                <div class="board_date"><span>date</span></div>
-                <div class="board_writer"><span>writer</span></div>
-                <div class="board_btn">
-                  <button type="button" class="btn btn-sm btn-outline-primary">
-                    수정
-                  </button>
-                  <button type="button" class="btn btn-sm btn-outline-danger">
-                    삭제
-                  </button>
+              <div class="action_area">
+                <div class="show_comment">
+                  <div>
+                    <i class="far fa-comment-dots"></i>
+                    <span>댓글</span>
+                    <span id="commentCount">(0)</span>
+                  </div>
+                  <div><i class="fas fa-angle-down"></i></div>
+                </div>
+                <div class="comments" style="display: none;">
+                  <form class="comment_form">
+                    <textarea
+                      name=""
+                      class="form-control autosize"
+                      rows="1"
+                      maxlength="60"
+                    ></textarea>
+                    <button type="button" class="btn btn-primary writeCommentBtn" boardNo = "${board.togetherNo}">작성</button>
+                  </form>
+                  <table class="table">       
+                  </table>
                 </div>
               </div>
-            </div>
-            <div class="action_area">
-              <div class="show_comment">
-                <div>
-                  <i class="far fa-comment-dots"></i>
-                  <span>댓글</span>
-                  <span>(0)</span>
-                </div>
-                <div><i class="fas fa-angle-down"></i></div>
-              </div>
-              <div class="comments" style="display: none;">
-                <form action="#" class="comment_form">
-                  <textarea
-                    name=""
-                    class="form-control"
-                    id="autosize"
-                    rows="1"
-                  ></textarea>
-                  <button class="btn btn-primary">작성</button>
-                </form>
-                <table class="table">
-                  <tr class="comment_writer_area">
-                    <th scope="row" class="comment_writer">작성자</th>
-                    <td class="comment_date">2020.06.29.</td>
-                  </tr>
-                  <tr class="comment_content_area">
-                    <td>
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                      sed do eiusmod tempor incididunt ut labore et dolore magna
-                      aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                      ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                      Duis aute irure dolor in reprehenderit in voluptate velit
-                      esse cillum dolore eu fugiat nulla pariatur. Excepteur
-                      sint occaecat cupidatat non proident, sunt in culpa qui
-                      officia deserunt mollit anim id est laborum.
-                    </td>
-                  </tr>
-                  <tr class="comment_writer_area">
-                    <th scope="row" class="comment_writer">작성자</th>
-                    <td class="comment_date">2020.06.29.</td>
-                  </tr>
-                  <tr class="comment_content_area">
-                    <td>
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                      sed do eiusmod tempor incididunt ut labore et dolore magna
-                      aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                      ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                      Duis aute irure dolor in reprehenderit in voluptate velit
-                      esse cillum dolore eu fugiat nulla pariatur. Excepteur
-                      sint occaecat cupidatat non proident, sunt in culpa qui
-                      officia deserunt mollit anim id est laborum.
-                    </td>
-                  </tr>
-                </table>
+              <div class="stretch_area" style="display: none;">
+                <i class="fas fa-angle-down"></i>
               </div>
             </div>
-            <div class="strech_area">
-              <i class="fas fa-angle-down"></i>
-            </div>
+          </c:forEach>
+        </div>
+        <div class="loading_area" style="display: none;">
+          <div class="lds-ellipsis">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
           </div>
         </div>
       </div>
@@ -204,31 +157,34 @@ prefix="c"%>
                 <input
                   type="text"
                   class="form-control"
-                  id="searchRegion"
+                  id="mainSearchRegion"
                   placeholder="검색어"
                 />
               </div>
               <div class="common_region">
-                <ul>
-                  <li>제주도</li>
-                  <li>부산</li>
+                <ul class="select_region">
+                <c:forEach items="${regionList}" var="reg">
+				        	<li regionNo="${reg.regionNo}">${reg.regionCountry }-${reg.regionCity }</li>
+                </c:forEach>
                 </ul>
               </div>
               <div class="searched_region"></div>
             </div>
             <div class="search_area" style="display: none;">
               <div class="input_area">
-                <form action="#">
+                <form id="mainSearch">
                   <input
-                    type="text"
+                    type="search"
+                    name="searchKeyword"
                     class="form-control"
                     id="searchRegion"
-                    placeholder="검색어"
+                    placeholder="제목+내용으로 검색"
                   />
                 </form>
               </div>
             </div>
           </div>
+          <button type="button" class="btn btn-primary" id="rollBackBtn">되돌리기</button>
         </div>
         <div class="streched">
           <i class="fas fa-caret-right fold_icon"></i>
@@ -236,7 +192,6 @@ prefix="c"%>
       </aside>
     </section>
     <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
-    <!-- Modal -->
     <!-- Modal -->
     <div
       class="modal fade"
@@ -263,7 +218,7 @@ prefix="c"%>
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-          <form action="#" id="writeForm" method="POST">
+          <form action="/together/write.do" id="writeForm" method="POST">
             <div class="modal-body">
               <div class="form-group region_form">
                 <input
@@ -271,6 +226,8 @@ prefix="c"%>
                   name="togetherWriter"
                   value="${sessionScope.member.memberId}"
                 />
+                <input type="hidden" name="togetherNo" id="togetherNo" value="0">
+                <input type="hidden" name="regionNo" id="regionNo" />
                 <label for="inputRegion" class="col-form-label">지역</label>
                 <div>
                   <input
@@ -281,11 +238,6 @@ prefix="c"%>
                     autocomplete="off"
                   />
                   <ul class="list-group shadow-sm">
-                    <li class="list-group-item">test1</li>
-                    <li class="list-group-item">test2</li>
-                    <li class="list-group-item">test3</li>
-                    <li class="list-group-item">test4</li>
-                    <li class="list-group-item">test5</li>
                   </ul>
                 </div>
                 <span id="regionAlert">
@@ -300,6 +252,7 @@ prefix="c"%>
                   class="form-control"
                   id="inputTitle"
                   placeholder="제목을 입력하세요"
+                  maxlength="66"
                 />
               </div>
               <div class="form-group content_form">
@@ -309,6 +262,7 @@ prefix="c"%>
                   name="togetherContent"
                   id="inputContent"
                   placeholder="내용을 입력하세요."
+                  maxlength="333"
                 ></textarea>
               </div>
             </div>
@@ -355,16 +309,17 @@ prefix="c"%>
     <script src="/src/js/header/jquery.validate.min.js"></script>
     <script src="/src/js/header/mail-script.js"></script>
     <script src="/src/js/header/main.js"></script>
+    <script src="/src/js/together/comment.js"></script>
     <script src="/src/js/together/board.js"></script>
     <script src="/src/js/together/aside.js"></script>
+    <script src="/src/js/together/write.js"></script>
+    <script src="/src/js/together/boardScrollLoad.js"></script>
     <script>
-      $("#submitBtn").click(function () {
-        $("#writeForm").submit();
-      });
+      $(".delCommentBtn").on("click",);
 
-      $("#inputRegion").keyup(function (event) {
-        console.log(event.key);
-      });
+      function deleteComment(){
+        
+      };
     </script>
     <script>
       $(function () {

@@ -1,16 +1,21 @@
 package kr.or.iei.tour.model.service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import kr.or.iei.common.model.vo.Photo;
 import kr.or.iei.common.model.vo.Region;
 import kr.or.iei.tour.model.dao.TourDao;
+import kr.or.iei.tour.model.vo.ReviewData;
 import kr.or.iei.tour.model.vo.ReviewVO;
 import kr.or.iei.tour.model.vo.TourVO;
 
@@ -62,6 +67,7 @@ public class TourService {
 		return (ArrayList<Region>)clist;
 	}
 
+	@Transactional
 	public int insertTour(TourVO tv, Photo p) {
 		int result =  dao.insertTour(tv);
 		if(result>0) {
@@ -81,7 +87,7 @@ public class TourService {
 		return tv;
 	}
 
-	public ReviewVO moreReviewList(int reqPage, int itemNo) {
+	public ReviewData moreReviewList(int reqPage, int itemNo) {
 		int totalCount = dao.selectTotalReview(itemNo);
 		int numPerPage = 5;
 		int totalPage=0;
@@ -125,5 +131,18 @@ public class TourService {
 		rd.setReviewList((ArrayList<ReviewVO>)list);
 		
 		return rd;
+	}
+
+	@Transactional
+	public int tourCloseCheck() {
+		return dao.tourCloseCheck();
+	}
+
+	public int deleteTourItem(int itemNo) {
+		return dao.deleteTourItem(itemNo);
+	}
+
+	public int closeTourItem(int itemNo) {
+		return dao.closeTourItem(itemNo);
 	}
 }

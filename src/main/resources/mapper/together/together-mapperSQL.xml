@@ -1,13 +1,147 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="together">
-	<select id="selectRegionByKeyword">
+<mapper namespace="togetherBoard">
+	<select id="selectRegionByKeyword" parameterType="string" resultType="region">
 		select
 			region_no as regionNo,
 			region_country as regionCountry,
 			region_city as regionCity,
 			filename
 		from region
-		where region_country like '%'||
+		where region_country like '%'||#{_parameter}||'%' or region_city like '%'||#{_parameter}||'%'
+	</select>
+	<insert id="insertBoard" parameterType="together">
+		insert into together_board values(
+			together_board_seq.nextval,
+			#{togetherTitle},
+			#{togetherContent},
+			#{togetherWriter},
+			#{regionNo},
+			0,
+			sysdate
+		)
+	</insert>
+	<select id="selectBoardList" parameterType="map" resultType="together">
+		select * from (
+			select t.*, rownum as rnum
+  		      from(
+    	        select 
+					together_no as togetherNo,
+					together_title as togetherTitle,
+					together_content as togetherContent,
+					together_writer as togetherWriter,
+					region_country as regionCountry,
+					region_city as regionCity,
+					to_char(together_date,'hh24:mi') as writeTime,
+		            to_char(together_date,'yyyy. mm. dd.') as togetherDate
+				from together_board
+				join region using(region_no) order by together_no) t
+        ) where rnum between #{start} and #{end} order by rnum desc
+	</select>
+	<select id="selectTotalCount" resultType="_int">
+		select
+			count(together_no)
+		from together_board
+	</select>
+	<select id="selectOneBoard" parameterType="_int" resultType="together">
+		select
+			together_no as togetherNo,
+			together_title as togetherTitle,
+			together_content as togetherContent,
+			together_writer as togetherWriter,
+			region_country as regionCountry,
+			region_city as regionCity,
+			region_no as regionNo,
+			to_char(together_date,'hh24:mi') as writeTime,
+            to_char(together_date,'yyyy. mm. dd.') as togetherDate,
+            (select count(*) from board_comment where board_class = 3 and board_no = #{_parameter}) as commentCount
+        from together_board join region using(region_no)
+        where together_no = #{_parameter}
+	</select>
+	<insert id="insertComment" parameterType="togetherComment">
+		insert into board_comment values(
+			comment_seq.nextval,
+			0,
+			3,
+			#{boardNo},
+			#{commentWriter},
+			#{commentContent},
+			null,
+			sysdate
+		)		
+	</insert>
+	<select id="selectCommentList" parameterType="_int" resultType="togetherComment">
+		select
+			comment_no as commentNo,
+			member_nickname as commentWriter,
+			comment_content as commentContent,
+			to_char(comment_date,'hh24:mi') as commentTime,
+            to_char(comment_date,'yyyy. mm. dd.') as commentDate
+        from board_comment join member on(comment_writer = member_nickname)
+        where board_class = 3 and board_no = #{_parameter}
+	</select>
+	<update id="updateBoard" parameterType="together">
+		update together_board set
+			together_title = #{togetherTitle},
+			together_content = #{togetherContent},
+			region_no = #{regionNo}
+		where together_no = #{togetherNo}
+	</update>
+	<delete id="deleteBoard" parameterType="_int">
+		delete from together_board
+		where together_no = #{_parameter}
+	</delete>	
+	<select id="selectRegionList" resultType="region">
+		select 
+			distinct region_no as regionNo, 
+			region_country as regionCountry, 
+			region_city as regionCity 
+		from together_board join region using(region_no)
+	</select>
+	<select id="selectBoardListByRegion" parameterType="map" resultType="together">
+		select * from (
+			select t.*, rownum as rnum
+  		      from(
+    	        select 
+					together_no as togetherNo,
+					together_title as togetherTitle,
+					together_content as togetherContent,
+					together_writer as togetherWriter,
+                    region_no as regionNo,
+					region_country as regionCountry,
+					region_city as regionCity,
+					to_char(together_date,'hh24:mi') as writeTime,
+		            to_char(together_date,'yyyy. mm. dd.') as togetherDate
+				from together_board
+				join region using(region_no) where region_no = #{regionNo} order by together_no) t
+        ) where rnum between #{start} and #{end} order by rnum desc
+	</select>
+	<select id="selectTotalCountByRegion" parameterType="_int" resultType="_int">		
+		select
+			count(together_no)
+		from together_board where region_no = #{_parameter}
+	</select>
+	<select id="selectTotalCountByKeyword" parameterType="string" resultType="_int">
+		select
+			count(together_no)
+		from together_board where together_title like '%'||#{_parameter}||'%' or together_content like '%'||#{_parameter}||'%'
+	</select>
+	<select id="selectBoardListByKeyword" parameterType="map" resultType="together">
+		select * from (
+			select t.*, rownum as rnum
+  		      from(
+    	        select 
+					together_no as togetherNo,
+					together_title as togetherTitle,
+					together_content as togetherContent,
+					together_writer as togetherWriter,
+					region_country as regionCountry,
+					region_city as regionCity,
+					to_char(together_date,'hh24:mi') as writeTime,
+		            to_char(together_date,'yyyy. mm. dd.') as togetherDate
+				from together_board
+				join region using(region_no) 
+				where together_title like '%'||#{keyword}||'%' or together_content like '%'||#{keyword}||'%' order by together_no) t
+        ) where rnum between #{start} and #{end} order by rnum desc	
 	</select>
 </mapper>
