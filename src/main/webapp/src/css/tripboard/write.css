@@ -52,7 +52,7 @@
 }
 
 .route_btn_container {
-  margin-bottom: 10px;
+  margin-top: 10px;
 }
 
 #selectTripBtn {
@@ -134,7 +134,7 @@
 }
 
 .modal-body table th:last-of-type {
-  width: 230px;
+  width: 235px;
 }
 .modal-body table th:first-of-type {
   width: 60px;
@@ -150,4 +150,12 @@
 
 button.close:hover > span {
   opacity: 0.7;
+}
+
+.route_btn_container button {
+  cursor: pointer;
+}
+
+#textRoute {
+  resize: none;
 }

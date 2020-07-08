@@ -34,6 +34,7 @@
 		<typeAlias type="kr.or.iei.common.model.vo.Liked" alias="liked"/>
 		<typeAlias type="kr.or.iei.together.model.vo.TogetherCommentVO" alias="togetherComment"/>
 		<typeAlias type="kr.or.iei.common.model.vo.Report" alias="report" />
+		<typeAlias type="kr.or.iei.tripboard.model.vo.TripBoardMyTripVO" alias="boardMyTrip"/>
 	</typeAliases>
 	
 	<typeHandlers>

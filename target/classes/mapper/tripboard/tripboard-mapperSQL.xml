@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="tripboard">
+	<select id="selectTrip" parameterType="string" resultType="boardMyTrip">
+		select 
+			region_no as regionNo, 
+			trip_no as tripNo, 
+			to_char(begin_date, 'yyyy. mm. dd.')||' ~ '||to_char(end_date, 'yyyy. mm. dd.') as tripDate,
+			floor(end_date - begin_date) as tripDay, 
+			region_country||'-'||region_city as regionName 
+		from my_trip 
+		join region using(region_no) 
+		where trip_no in(
+			select trip_no from trip_member where member_id = #{_parameter}
+		) order by trip_no
+	</select>
+	<select id="selectTripDetail" parameterType="_int" resultType="tripDetail">
+		select 
+			dense_rank() over(order by trip_date) as tripDate, 
+			trip_spot as tripSpot 
+		from trip_detail 
+		where trip_no = #{_parameter} 
+		order by trip_date, trip_order
+	</select>
+</mapper>
