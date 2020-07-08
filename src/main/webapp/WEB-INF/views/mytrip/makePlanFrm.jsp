@@ -58,6 +58,9 @@ prefix="c"%>
         	height: 50px;
         	resize: none;
         }
+        
+       
+
     </style>
   </head>
   <body>
@@ -72,6 +75,12 @@ prefix="c"%>
       <!-- 여기서부터 작성하시면 됨!!!!!!! -->
       <c:if test="${not empty sessionScope.member }">
 	      <div>
+				<button type="button" name="popupBtn">지도팝업</button>
+				<input type="text" name="receiveAddr"><br>
+				
+				
+			</div>
+				
 	      	<input type="text" id="datePicker">
 	      	<div id="tt">
 	      		<input type="text" name="regionCity" placeholder="도시명/나라명"><br>
@@ -102,6 +111,18 @@ prefix="c"%>
 	  </c:if>
     </section>
 	<script>
+		$("button[name=popupBtn]").click(function(){
+	    
+	     var popUrl ="/mapPopup.do";
+	     //var popUrl ="/mapPopup.jsp";
+	     var popOption = "width=650px, height=550px, resizable=no, location=no, top=300px, left=300px;"
+	        
+	        window.open(popUrl,"타이틀들어갈제목 ",popOption);    
+	    
+	    });
+		
+		
+	
 		var dat1Copy="";
 		var dat2="";
 		var regionNo="";
@@ -154,7 +175,6 @@ prefix="c"%>
 				var thisDate = $(this).next().next().next().val();
 				var tripNo = $("input[name=currValIs]").val();
 				var tripContent = $(this).prev().val();
-				var html = "";
 				var form = {
 						"tripNo":tripNo,
 						"tripDate":thisDate,
@@ -165,19 +185,20 @@ prefix="c"%>
 					//data : {"tripContent":memoContent},
 					data : form,
 					success : function(){
+						var html = "";
 						html += "<div>"+tripContent+"</div><br>";
 						
 						console.log("addmemo아작스성공");
+						$(this).prev().remove();
+						$(this).prev().before(html);
+						$(this).next().next().remove();
+						$(this).next().remove();
+						$(this).remove();
 					},
 					error : function(){
 						console.log("addmemo아작스실패");
 					}
 				});
-				$(this).prev().prev().before(html);
-				$(this).prev().remove();
-				$(this).next().next().remove();
-				$(this).next().remove();
-				$(this).remove();
 			});
 			
 			$(document).on("click","button[name=cancelBtn]",function(){
@@ -202,13 +223,13 @@ prefix="c"%>
 						var html = "";
 						html += "<hr>";
 						for(var i=0; i<datArr.length; i++){
-							html += "<label>"+datArr[i].getMonth()+"월 "+datArr[i].getDate()+"일</label><br>";
+							html += "<div><label>"+datArr[i].getMonth()+"월 "+datArr[i].getDate()+"일</label><br>";
 							if(datArr[i].getMonth()<10){
 								html += "<button type='button' name='addSpot' value='"+(datArr[i].getYear()-100)+"/0"+datArr[i].getMonth()+"/"+datArr[i].getDate()+"'>장소 추가</button>";
 								html += "<button type='button' name='addMemo' value='"+(datArr[i].getYear()-100)+"/0"+datArr[i].getMonth()+"/"+datArr[i].getDate()+"'>메모추가</button><br><br>";
 							}else{
 								html += "<button type='button' name='addSpot' value='"+(datArr[i].getYear()-100)+"/"+datArr[i].getMonth()+"/"+datArr[i].getDate()+"'>장소 추가</button>";
-								html += "<button type='button' name='addMemo' value='"+(datArr[i].getYear()-100)+"/"+datArr[i].getMonth()+"/"+datArr[i].getDate()+"'>메모추가</button><br><br>";
+								html += "<button type='button' name='addMemo' value='"+(datArr[i].getYear()-100)+"/"+datArr[i].getMonth()+"/"+datArr[i].getDate()+"'>메모추가</button></div><br><br>";
 							}
 							console.log(datArr[i].getYear()-100);
 							

@@ -150,5 +150,10 @@ public class MytripController {
 //		tripDetail.setTripDate(tripDate);
 //		return null;
 	}
+	
+	@RequestMapping(value="/mapPopup.do")
+	public String mapPopup() {
+		return "mytrip/mapPopup";
+	}
 
 }
