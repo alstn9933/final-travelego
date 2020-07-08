@@ -80,7 +80,13 @@ prefix="c"%>
               <span>먼저 일정을 불러와주세요.</span>
             </div>
             <div class="route_btn_container">
-              <button type="button" class="btn btn-primary" id="selectTripBtn">
+              <button
+                type="button"
+                class="btn btn-primary"
+                id="selectTripBtn"
+                data-toggle="modal"
+                data-target="#selectTripModal"
+              >
                 내 일정 불러오기
               </button>
             </div>
@@ -97,19 +103,62 @@ prefix="c"%>
     </section>
     <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
     <!-- Modal -->
-    <div
-      class="modal fade custom_search_pop"
-      id="exampleModalCenter"
-      tabindex="-1"
-      role="dialog"
-      aria-labelledby="exampleModalCenterTitle"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal" tabindex="-1" role="dialog" id="selectTripModal">
+      <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-          <div class="serch_form">
-            <input type="text" placeholder="Search" />
-            <button type="submit">search</button>
+          <div class="modal-header">
+            <h5 class="modal-title">일정 선택</h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <table class="table">
+              <thead class="thead-light">
+                <tr>
+                  <th scope="col">번호</th>
+                  <th scope="col">여행지역</th>
+                  <th scope="col">일정</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">1</th>
+                  <td>대한민국-서울</td>
+                  <td>2020.07.03 ~ 2020.07.04</td>
+                </tr>
+                <tr>
+                  <th scope="row">1</th>
+                  <td>대한민국-서울</td>
+                  <td>2020.07.03 ~ 2020.07.04</td>
+                </tr>
+                <tr>
+                  <th scope="row">1</th>
+                  <td>대한민국-서울</td>
+                  <td>2020.07.03 ~ 2020.07.04</td>
+                </tr>
+                <tr>
+                  <th scope="row">1</th>
+                  <td>대한민국-서울</td>
+                  <td>2020.07.03 ~ 2020.07.04</td>
+                </tr>
+                <tr>
+                  <th scope="row">1</th>
+                  <td>대한민국-서울</td>
+                  <td>2020.07.03 ~ 2020.07.04</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-dismiss="modal">
+              취소
+            </button>
           </div>
         </div>
       </div>
