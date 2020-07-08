@@ -10,7 +10,7 @@
 					<div class="row align-items-center">
 						<div class="col-xl-2 col-lg-2">
 							<div class="logo">
-								<a href="index.jsp"><img
+								<a href="/"><img
 									src="/src/imgs/header/mainlogo2.png"
 									style="width: 100%; height: 90px;" alt="" /> </a>
 							</div>

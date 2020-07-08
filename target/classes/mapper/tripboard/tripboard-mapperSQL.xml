@@ -22,4 +22,28 @@
 		where trip_no = #{_parameter} 
 		order by trip_date, trip_order
 	</select>
+	<insert id="insertBoard" parameterType="tripBoardVO">
+		<selectKey keyProperty="tripBoardNo" resultType="int" order="BEFORE">
+			select trip_board_seq.nextval from dual
+		</selectKey>
+		insert into trip_board values(
+			#{tripBoardNo},
+			#{tripBoardTitle},
+			#{tripBoardContent},
+			#{tripRoute},
+			#{tripBoardWriter},
+			sysdate,
+			0,
+			#{regionNo}
+		)
+	</insert>
+	<insert id="insertPhoto" parameterType="photo">
+		insert into photo values(
+			photo_seq.nextval,
+			#{boardClass},
+			#{boardNo},
+			#{filename},
+			#{filepath}
+		)
+	</insert>
 </mapper>
