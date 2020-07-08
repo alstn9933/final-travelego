@@ -1,4 +1,4 @@
-package kr.or.iei.tripBoard.model.service;
+package kr.or.iei.tripboard.model.service;
 
 import java.util.ArrayList;
 

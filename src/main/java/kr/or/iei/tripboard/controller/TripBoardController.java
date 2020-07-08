@@ -1,4 +1,4 @@
-package kr.or.iei.tripBoard.controller;
+package kr.or.iei.tripboard.controller;
 
 import java.util.ArrayList;
 
