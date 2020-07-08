@@ -63,11 +63,22 @@ prefix="c"%>
             </div>
             <div class="input_region_area">
               <span>여행 지역</span>
-              <input type="search" name="" id="" class="form-control" />
+              <input
+                type="search"
+                name=""
+                id="inputRegion"
+                class="form-control"
+              />
+              <input type="hidden" name="regionNo" id="inputRegionNo" />
             </div>
             <div class="trip_date_area">
               <span>여행 기간</span>
-              <input type="text" name="" id="" class="form-control" />
+              <input
+                type="text"
+                name="tripDay"
+                id="inputTripDay"
+                class="form-control"
+              />
             </div>
             <div class="input_title_area">
               <span>제목</span>
@@ -77,11 +88,34 @@ prefix="c"%>
           <div class="select_trip_wrapper">
             <span>여행 루트</span>
             <div class="route_container">
+              <textarea
+                class="form-control"
+                name="tripRoute"
+                id="textRoute"
+                cols="30"
+                rows="3"
+                readonly
+                style="display: none;"
+              ></textarea>
               <span>먼저 일정을 불러와주세요.</span>
             </div>
             <div class="route_btn_container">
-              <button type="button" class="btn btn-primary" id="selectTripBtn">
+              <button
+                type="button"
+                class="btn btn-primary"
+                id="selectTripBtn"
+                data-toggle="modal"
+                data-target="#selectTripModal"
+              >
                 내 일정 불러오기
+              </button>
+              <button
+                type="button"
+                class="btn btn-danger"
+                id="cancelRoute"
+                style="display: none;"
+              >
+                취소
               </button>
             </div>
           </div>
@@ -97,19 +131,48 @@ prefix="c"%>
     </section>
     <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
     <!-- Modal -->
-    <div
-      class="modal fade custom_search_pop"
-      id="exampleModalCenter"
-      tabindex="-1"
-      role="dialog"
-      aria-labelledby="exampleModalCenterTitle"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal" tabindex="-1" role="dialog" id="selectTripModal">
+      <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-          <div class="serch_form">
-            <input type="text" placeholder="Search" />
-            <button type="submit">search</button>
+          <div class="modal-header">
+            <h5 class="modal-title">일정 선택</h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <table class="table">
+              <thead class="thead-light">
+                <tr>
+                  <th scope="col">번호</th>
+                  <th scope="col">여행지역</th>
+                  <th scope="col">일정</th>
+                </tr>
+              </thead>
+              <tbody>
+                <c:forEach items="${list }" var="vo" varStatus="status">
+                  <tr
+                    regionNo="${vo.regionNo}"
+                    tripNo="${vo.tripNo}"
+                    tripDay="${vo.tripDay}"
+                  >
+                    <th scope="row">${status.count}</th>
+                    <td>${vo.regionName}</td>
+                    <td>${vo.tripDate}</td>
+                  </tr>
+                </c:forEach>
+              </tbody>
+            </table>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-dismiss="modal">
+              취소
+            </button>
           </div>
         </div>
       </div>
@@ -143,7 +206,54 @@ prefix="c"%>
     <script src="/src/js/header/main.js"></script>
     <script src="/src/ckeditor/ckeditor.js"></script>
     <script src="/src/js/tripboard/write.js"></script>
-    <script></script>
+    <script>
+      $(".modal-body tr").click(function () {
+        const tripNo = $(this).attr("tripNo");
+
+        $.ajax({
+          url: "/tripboard/asyncLoadTripRoute.do",
+          type: "POST",
+          data: { tripNo: tripNo },
+          success: function (data) {
+            console.log(data);
+            let tripRoute = "";
+            let tripDate;
+            for (let i = 0; i < data.length; i++) {
+              if (i == 0) {
+                tripRoute += "1일차 : ";
+              }
+
+              tripRoute += data[i].tripSpot;
+
+              if (tripDate == data[i].tripDate) {
+                tripRoute += " - ";
+              } else {
+                tripRoute += "\n" + data[i].tripDate + "일차 : ";
+              }
+
+              tripDate == data[i].tripDate;
+            }
+            console.log(tripRoute);
+
+            $("#inputRegion").val($(this).find("td").eq(0).html());
+            $("#inputRegion").attr("readonly", true);
+            $("#inputRegionNo").val($(this).attr("regionNo"));
+            $("#inputTripDay").val(
+              $(this).attr("tripDay") +
+                "박" +
+                (Number($(this).attr("tripDay")) + 1) +
+                "일"
+            );
+            $(".route_container").find("span").hide();
+            $("#textRoute").show();
+            $("#selectTripModal").modal("hide");
+          },
+          error: function () {
+            console.log("서버 접속에 실패하였습니다.");
+          },
+        });
+      });
+    </script>
     <script>
       $(function () {
         $('[data-toggle="popover"]').popover();

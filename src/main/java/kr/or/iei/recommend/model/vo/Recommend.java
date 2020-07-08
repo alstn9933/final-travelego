@@ -19,5 +19,6 @@ public class Recommend {
 	private String place;
 	private int cnt;
 	private String regionCountry;
+	private String filename;
 	private String filepath;
 }

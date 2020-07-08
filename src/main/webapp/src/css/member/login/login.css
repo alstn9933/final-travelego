@@ -1,135 +1,130 @@
 @charset "UTF-8";
-:root {
-  --input-padding-x: 1.5rem;
-  --input-padding-y: 0.75rem;
-}
-
-.login,
-.image {
-  min-height: 100vh;
-}
-/* background-imgs 설정*/
 body{
 	background-image:url("/src/imgs/member/travel.jpg");
-  width:100%; 
+ 	width:100%; 
 }
-.row-1{
-	border-radius:20px;
+.main-content{
+	position: relative;
+	margin: 0 outo;
+}
+.login-div{
+	position: absolute;
+	width: 600px;
+	height: 600px;
+	overflow: hidden;
+	border : 1px solid black;
+	border-radius: 10px;
 	background-color: white;
-	height: 450px;
-	opacity: 0.85;
-	width: 354px;
-	margin: 0 auto;
-
+	opacity: 0.8;
+	right: -300px;
+	top:100px; 
 }
-.col-md-9 col-lg-8 mx-auto{
-	padding-top:100px; 
+#memberId{
+	margin : 0 auto;
+	width: 500px;
+	margin-bottom: 30px;
+}
+#memberPw{
+	margin : 0 auto;
+	width: 500px;
+	margin-bottom: 30px;
+}
+#submitBtn,#joinBtn{
+	margin : 0 auto;
+	width: 400px;
+}
+.loginheader{
+	text-align: center;
+	margin-bottom: 100px;
+}
+.sub-login-box{
+	margin-top: 100px;
+}
+.title-container{
+	position: absolute;
+	top: 120px;
+	left: 0px;	
+}
+
+/*로그인 애니메이션*/
+ @import url('https://fonts.googleapis.com/css?family=Roboto:500,700');
+
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+body {
+	font-family: 'Roboto', serif;
+	-webkit-font-smoothing: antialiased;
+     -moz-osx-font-smoothing: grayscale;
+}
+
+.container {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 100vh;
+	background-color: #dedede;
+}
+
+h1 {
+	position: relative;
+	display: block;
+	margin: 0;
+	font-size: 4rem;
+	line-height: 1;
+	transform: translateY(6rem);
+	animation: up 500ms linear forwards;
+	z-index: 1;
+	text-shadow: 0px 1px 1px rgba(255,255,255,1);
+	
+	&::before,
+	&::after {
+		position: absolute;
+		content: '';
+		width: 0px;
+		height: 1px;
+		left: 0;
+		background-color: rgba(0,0,0,0.2);
+		z-index: -1;
+	}
+	
+	&::before {
+		top: 1.4rem;
+		animation: draw 500ms linear 1s forwards;
+	}
+	
+	&::after {
+		bottom: 0.4rem;
+		animation: draw 500ms linear 1s forwards;
+	}
 	
 }
 
-.bg-image {
-  /**background-image: url('https://source.unsplash.com/WEQbe2jBg40/600x1200');
-  **/
-
-  background-size: cover;
-  background-position: center;
-  z-index: -1;
-
+.title-container {
+	font-size: 0;
+	position: relative;
+	overflow: hidden;
+	padding-bottom: 0.4rem;
 }
 
-.login-heading {
-  font-weight: 300;
+@keyframes up {
+	
+	100% {
+		transform: translateY(0);
+	}
+	
 }
 
-.btn-login {
-  font-size: 0.9rem;
-  letter-spacing: 0.05rem;
-  padding: 0.75rem 1rem;
-  border-radius: 2rem;
+@keyframes draw {
+	
+	100% {
+		width: 100%;
+	}
+	
 }
-
-.form-label-group {
-  position: relative;
-  margin-bottom: 1rem;
-}
-
-.form-label-group>input,
-.form-label-group>label {
-  padding: var(--input-padding-y) var(--input-padding-x);
-  height: auto;
-  border-radius: 2rem;
-}
-
-.form-label-group>label {
-  position: absolute;
-  top: 0;
-  left: 0;
-  display: block;
-  width: 100%;
-  margin-bottom: 0;
-  /* Override default `<label>` margin */
-  line-height: 1.5;
-  color: #495057;
-  cursor: text;
-  /* Match the input under the label */
-  border: 1px solid transparent;
-  border-radius: .25rem;
-  transition: all .1s ease-in-out;
-}
-
-.form-label-group input::-webkit-input-placeholder {
-  color: transparent;
-}
-
-.form-label-group input:-ms-input-placeholder {
-  color: transparent;
-}
-
-.form-label-group input::-ms-input-placeholder {
-  color: transparent;
-}
-
-.form-label-group input::-moz-placeholder {
-  color: transparent;
-}
-
-.form-label-group input::placeholder {
-  color: transparent;
-}
-
-.form-label-group input:not(:placeholder-shown) {
-  padding-top: calc(var(--input-padding-y) + var(--input-padding-y) * (2 / 3));
-  padding-bottom: calc(var(--input-padding-y) / 3);
-}
-
-.form-label-group input:not(:placeholder-shown)~label {
-  padding-top: calc(var(--input-padding-y) / 3);
-  padding-bottom: calc(var(--input-padding-y) / 3);
-  font-size: 12px;
-  color: #777;
-}
-
-/* Fallback for Edge
--------------------------------------------------- */
-
-@supports (-ms-ime-align: auto) {
-  .form-label-group>label {
-    display: none;
-  }
-  .form-label-group input::-ms-input-placeholder {
-    color: #777;
-  }
-}
-
-/* Fallback for IE
--------------------------------------------------- */
-
-@media all and (-ms-high-contrast: none),
-(-ms-high-contrast: active) {
-  .form-label-group>label {
-    display: none;
-  }
-  .form-label-group input:-ms-input-placeholder {
-    color: #777;
-  }
+.jhwhite{
+	color:white;
 }

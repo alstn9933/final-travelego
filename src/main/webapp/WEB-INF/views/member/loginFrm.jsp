@@ -24,15 +24,13 @@ prefix="c"%>
 <body>
  <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 <section>
-	<div class="container-fluid">
-  <div class="row no-gutter">
-    <div class="d-none d-md-flex col-md-4 col-lg-6 bg-image"></div>
-    <div class="col-md-8 col-lg-6">
-      <div class="login d-flex align-items-center py-5">
-        <div class="container">
-          <div class="row"> 
-            <div class="col-md-9 col-lg-8 mx-auto">
-              <h3 class="login-heading mb-4">환영합니다 ! <br> 로그인을 도와드릴게요!</h3>
+<div class="main-content">
+	<div class="title-container">
+		<h1 class="jhwhite">나를 찾는 여행,<br> 같이 가고싶은여행 Travelego</h1>
+	</div>
+            <div class="login-div">
+            <div class="sub-login-box">
+             <h2 class="loginheader">Login</h2>
               <form action="/loginMember.do" method="post">
                 <div class="form-label-group">
                   <input type="text" id="memberId" name="memberId" class="form-control" placeholder="ID" required autofocus>
@@ -40,18 +38,12 @@ prefix="c"%>
                 <div class="form-label-group">
                   <input type="password" id="memberPw" name="memberPw" class="form-control" placeholder="Password" required>                 
                 </div>             
-                <button class="btn btn-lg btn-primary btn-block btn-login text-uppercase font-weight-bold mb-2" type="submit">Login</button>
+                <button id="submitBtn" class="btn btn-lg btn-primary btn-block btn-login text-uppercase font-weight-bold mb-2" type="submit">Login</button>
                 <div class="text-center">
               </form>
-           <a href="/memberTerms.do"><input class="btn btn-lg btn-primary btn-block btn-login text-uppercase font-weight-bold mb-2" type="button" value="회원가입"></a>
+           <a href="/memberTerms.do"><input id="joinBtn" class="btn btn-lg btn-primary btn-block btn-login text-uppercase font-weight-bold mb-2" type="button" value="회원가입"></a>
            <a class="small" href="/memberInformation.do">아이디/비밀번호 찾기</a></div>
-                  </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+           </div>
 </div>
 </section>
  <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
