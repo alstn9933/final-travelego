@@ -18,6 +18,13 @@ prefix="c"%>
       type="image/x-icon"
       href="/src/imgs/header/favicon.png"
     />
+    
+    <!-- 셀렉트 부트스트랩 -->
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+ <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    
+    
     <!-- Place favicon.ico in the root directory -->
     <script
       src="/src/js/fontawesome/8bd2671777.js"
@@ -50,10 +57,6 @@ prefix="c"%>
         	margin-right:10px;
         	font-size: 14px;
         }
-        a{
-        	font-size: 22px;
-        }
-        
     </style>
   </head>
   <script>
@@ -89,7 +92,7 @@ prefix="c"%>
       <div>
             <form action="/sort.do" type="post">
                 여행지역
-                <select id="regionCountry" name="regionCountry">
+                <select id="regionCountry" name="regionCountry" class="custom-select custom-select-sm" style="width:150px;">
                     <option value="전체">전체</option>
                     <option value="국내" style="font-weight:bold">국내</option>
                     <optgroup label="해외">
@@ -98,12 +101,12 @@ prefix="c"%>
                     	</c:forEach>
                     </optgroup>
                 </select>
-                <select id="regionCity" name="regionCity">
+                <select id="regionCity" name="regionCity" class="custom-select custom-select-sm" style="width:150px;">
                     <option id="cityAll" value="전체">전체</option>
                 </select>
                 
                 카테고리
-                <select id="recCategory" name="recCategory">
+                <select id="recCategory" name="recCategory" class="custom-select custom-select-sm" style="width:150px; margin-bottom:0px">
                     <option value="0">전체</option>
                     <option value="1">맛집</option>
                     <option value="2">카페</option>
@@ -111,15 +114,14 @@ prefix="c"%>
                     <option value="4">관광지</option>
                     <option value="5">액티비티</option>
                 </select>
-                <br>
                 <input type="text" id="search" name="search"> <button>검색</button>
             </form>
         </div>
         <div>
-            <div>
-                <span><a href="#">좋아요순</a></span>
-                <span><a href="#">최신순</a></span>
+            <div style="text-align:right;">
+             	<span><a href="#">최신순</a></span>
                 <span><a href="#">조회순</a></span>
+                <span><a href="#">좋아요순</a></span>
             </div>
            
            <!-- 추천글 리스트를 이중 foreach를 이용해 3X3으로 정렬 -->
@@ -127,7 +129,7 @@ prefix="c"%>
             	<div>
             		<c:forEach items="${recList }" var="rec">
             		<div style="float:left; margin: 20px 50px;">
-            			<a href="/recDetail.do?recNo=${rec.recNo }"><img src="#" style="width:300px; height:200px; overflow: hidden"></a>
+            			<a href="/recDetail.do?recNo=${rec.recNo }"><img src="${rec.filepath }" style="width:300px; height:200px; overflow: hidden"></a>
             			<div class="info"><span>${rec.regionCity }</span><span>/</span><span>${rec.recCategory }</span></div>
             			<div><a href="/recDetail.do?recNo=${rec.recNo }">${rec.recTitle }</a></div>
             			<div class="info"><span>${rec.recWriter}</span><span>${rec.recDate }</span><span style="margin-right:3px;"><i class="fas fa-heart"></i></span><span>${rec.cnt }</span><span style="margin-right:3px;">조회수</span><span>${rec.readCount }</span></div>

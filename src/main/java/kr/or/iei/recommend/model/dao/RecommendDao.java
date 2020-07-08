@@ -98,5 +98,15 @@ public class RecommendDao {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("recommend.selectCommentCount",recNo);
 	}
+
+	public int deleteRec(int recNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.delete("recommend.deleteRec",recNo);
+	}
+
+	public List selectAllRecPhoto() {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("recommend.selectAllRecPhoto");
+	}
 	
 }

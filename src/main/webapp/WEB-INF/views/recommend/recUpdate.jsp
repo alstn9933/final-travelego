@@ -38,7 +38,6 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
   
-
 <!-- services 라이브러리 불러오기 -->
 <script type="text/javascript"
 	src="//dapi.kakao.com/v2/maps/sdk.js?appkey=80d7303a0a0952e6d0ad4b9188ef090b&libraries=services"></script>
@@ -243,10 +242,6 @@
 	cursor: default;
 	color: #777;
 }
-
-#cke_1_contents{
-	height:1000px;
-}
 </style>
 <script>
   	$(function(){
@@ -268,7 +263,47 @@
   				}
   			});
   		});
+  		
+  		var category = ${rec.recCategory};
+  		$("#recCategory").children("option").eq(category-1).attr("selected","true");
+  		
+  		
+  		$("#regionCountry").find("option").each(function(index,item){
+  			 if("${rec.regionCountry}" == $(item).val()){
+  				$(item).attr("selected","true");
+  			} 
+  		})
+  		
   	});
+  </script>
+  <script>
+  	$(function(){
+		var country = $("#regionCountry").val();
+		$.ajax({
+			url : "/selectCity.do",
+			data : {country : country},
+			type : "post",
+			dataType:"json",
+			success : function(data){
+				for(var i=0;i<data.length;i++){
+					$("#regionCity").append("<option value='"+data[i].regionCity+"'>"+data[i].regionCity+"</option>");
+				}
+			},
+			error:function(){
+				console.log("ajax 실패");
+			}
+		});
+		
+  	})
+  	
+  	/* $(function(){
+  		$("#regionCity").find("option").each(function(index,item){
+  			$(item).html(index);
+ 			 if("${rec.regionCity}" == $(item).val()){
+ 				$(item).attr("selected","true");
+ 			} 
+ 		})
+  	}) */
   </script>
 </head>
 <body>
@@ -279,10 +314,9 @@
 		<section>
 			<div class="option">
 				<div>
-				<!-- form이 제출되면서 페이지가 바뀌지 않게 하기 위해 return false; -->
 					<form onsubmit="searchPlaces(); return false; showMapList();">
 						<input type="text" id="keyword" size="100" name="place"
-							placeholder="추천하는 장소를 입력하세요" style="width:50%;">
+							placeholder="추천하는 장소를 입력하세요" value="${rec.place }" style="width:50%;">
 						<button type="submit">검색하기</button>
 					</form>
 				</div>
@@ -313,9 +347,10 @@
 					</optgroup>
 				</select>
 				<select id="regionCity" name="regionNo" class="custom-select custom-select-sm" style="width:150px;">
+				<option value="${rec.regionNo}">${rec.regionCity}</option>
 				</select>
-				카테고리
-				<select id="recCategory" name="recCategory" class="custom-select custom-select-sm" style="width:150px;">
+				카테고리 
+				<select id="recCategory" name="recCategory" value="${rec.recCategory }" class="custom-select custom-select-sm" style="width:150px;">
 					<option value="1">맛집</option>
 					<option value="2">카페</option>
 					<option value="3">숙소</option>
@@ -324,10 +359,10 @@
 				</select>
 			</div>
 			<hr>
-				<input	type="text" id="recTitle" name="recTitle" placeholder="제목을 입력해주세요" style="width:100%;"><br>
+				<input	type="text" id="recTitle" name="recTitle" placeholder="제목을 입력해주세요" value="${rec.recTitle }" style="width:100%;"><br>
 				<hr>
 				<div id="cont">
-					<textarea rows="10" cols="50" name="recContent" id="editor"></textarea>
+					<textarea rows="10" cols="50" name="recContent" id="editor" value="${rec.recContent }"></textarea>
 				</div>
 				<br>
 				<div style="text-align:center; margin:40px auto;">
@@ -365,9 +400,6 @@
 				
 				// 키워드 검색을 요청하는 함수입니다
 				function searchPlaces() {
-					if($("#keyword").val() == ""){
-						alert("검색어를 입력하세요");
-					}else{
 					$(".map_wrap").css("display","block");
 					var keyword = document.getElementById('keyword').value;
 
@@ -379,7 +411,6 @@
 					// 장소검색 객체를 통해 키워드로 장소검색을 요청합니다
 					ps.keywordSearch(keyword, placesSearchCB);
 					$("#keyword").val("");
-					}
 				};
 
 				// 장소검색이 완료됐을 때 호출되는 콜백함수 입니다
@@ -533,8 +564,6 @@
 						$("#keyword").val(spotName);
 						$("#place").val(spotName);
 						$("#coords").val(selected);
-						console.log($("#coords").val());
-						console.log($("#place").val());
 					});
 					return el;
 				}
@@ -624,7 +653,6 @@
 				height:1000
 			});
 		</script>
-		
 		<script>
 			var mainPhoto;
 			$("#complete").submit(function(){
