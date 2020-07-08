@@ -14,6 +14,7 @@
 		<typeAlias type="kr.or.iei.reserve.model.vo.ReserveVO" alias="reserve"/>
 		<typeAlias type="kr.or.iei.mytrip.model.vo.Mytrip" alias="mytrip"/>
 		<typeAlias type="kr.or.iei.mytrip.model.vo.TripMember" alias="tripMember"/>
+		<typeAlias type="kr.or.iei.mytrip.model.vo.TripDetail" alias="tripDetail"/>
 		<typeAlias type="kr.or.iei.member.model.vo.Member" alias="member"/>
 		<typeAlias type="kr.or.iei.message.model.vo.Message" alias="msg"/>
 		<typeAlias type="kr.or.iei.member.model.vo.Company" alias="company"/>
