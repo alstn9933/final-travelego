@@ -23,10 +23,6 @@
 <link rel="stylesheet" href="/src/css/main/web_default.css" />
 <title>Travelego</title>
 <style>
-section {
-	
-}
-
 .section-top>div {
 	float: left;
 }
@@ -143,6 +139,8 @@ section {
 
 .section-bottom {
 	width: 100%;
+	margin-left:40%;
+	margin-top:20px;
 	overflow: hidden;
 }
 
@@ -150,8 +148,7 @@ section {
 	width: 100px;
 	height: 50px;
 	diplay: inline-block;
-	margin-left:45%;
-	margin-top:20px;
+	margin:10px;
 	background-color: #25e6b5;
 	border: 0;
 	border-radius: 5px;
@@ -175,9 +172,11 @@ section {
 		<form action="/modifyTour.do" method="post" enctype="multipart/form-data">
 			<div class="section-top">
 				<input type="hidden" name="memberId" value="${tv.memberId }">
+				<input type="hidden" name="itemNo" value="${tv.itemNo }">
+				<input type="hidden" name="filepath" value="${tv.filepath }">
 				<div class="mainImg">
 					<input id="file" type="file" name="file" onchange="loadImg(this);" hidden>
-					<label for="file" id="thumnail"><img id="img-view" src="../../../upload/images/tour/thumnail/${tv.filename }"></label>
+					<label for="file" id="thumnail"><img id="img-view" src="../../../upload/images/tour/thumnail/${tv.filepath }"></label>
 				</div>
 				<div class="itemInfo">
 					<table>
@@ -227,10 +226,11 @@ section {
 				</div>
 			</div>
 			<div class="section-editor">
-				<textarea name="itemContent" id="editor" rows="10" cols="80"></textarea>
+				<textarea name="itemContent" id="editor" rows="10" cols="80">${tv.itemContent }</textarea>
 			</div>
 			<div class="section-bottom">
-				<input type="submit" value="상품 수정" id="submit-btn">
+				<input class="btn btn-primary btn-lg" type="submit" value="상품 수정">
+				<input id="cancel" class="btn btn-danger btn-lg" type="reset" value="취소">
 			</div>
 		</form>
 	</section>
@@ -329,18 +329,23 @@ section {
 	        	});
 	        }
 			
+			$('input[name=beginEnd]').datepicker({
+			    language: 'en',
+			    minDate:beginDate
+			});
+			
+			$('input[name=beginEnd]').data('datepicker').selectDate(tourBeginDate);
+			$('input[name=beginEnd]').data('datepicker').selectDate(tourEndDate);
+			
 			CKEDITOR.replace("editor", {
 				width : '100%',
 				height : '1000px',
 				filebrowserUploadUrl : "/uploadImage.do"
 			});
 			
-			CKEDITOR.instances.editor.setData("${tv.itemContent}");
-			
-			$('input[name=beginEnd]').datepicker({
-			    language: 'en',
-			    minDate:beginDate
-			});
+			var content = $("#editor").html();
+			console.log(content);
+			//CKEDITOR.instances.editor.setData("<img id='img-view' src='../../../upload/images/tour/thumnail/${tv.filepath }'>");
 			
 			$("#regionCountry").change(function(){
 				var regionCountry = $(this).val();
@@ -371,9 +376,11 @@ section {
 				var expDate = /^[0-9]{4}\W{1}[0-9]{2}\W{1}[0-9]{2}~[0-9]{4}\W{1}[0-9]{2}\W{1}[0-9]{2}$/;
 				var content = CKEDITOR.instances['editor'].getData();
 				if($("#file").val()==""){
-					alert("대표 사진을 등록해주세요");
-					$('html, body').animate({scrollTop : $("#file").offset().top}, 400);
-					return false;
+					if(!document.getElementById("img-view")){
+						alert("대표 사진을 등록해주세요");
+						$('html, body').animate({scrollTop : $("#file").offset().top}, 400);
+						return false;
+					}
 				}
 				if($("#regionCity").val()==0){
 					alert("상품의 지역을 선택해주세요");
@@ -413,9 +420,9 @@ section {
 				}
 				return true;
 			});
-			
-			$('input[name=beginEnd]').data('datepicker').selectDate(tourBeginDate);
-			$('input[name=beginEnd]').data('datepicker').selectDate(tourEndDate);
+			$("#cancel").click(function(){
+				location.href="/comTourList.do";
+			});
 		});
 	</script>
 	<!-- datepicker -->

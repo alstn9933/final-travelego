@@ -28,7 +28,7 @@
 		select * from(
 		select ROWNUM as rnum, p.* from(
 		select t.item_no as itemNo, m.member_name as memberName, t.item_title as itemTitle, t.region_no as regionNo, 
-		t.begin_date as beginDate, t.end_date as endDate, p.filename, t.close_check as closeCheck,
+		t.begin_date as beginDate, t.end_date as endDate, p.filepath, t.close_check as closeCheck,
 		NVl((select avg(s.review_rate) from tour_review s where (s.item_no = t.item_no)), 0) as score,
 		NVL((select Count(*) from tour_reserve c where (c.item_no=t.item_no)),0) as reserveCnt
 		from tour t join member m on(m.member_id=t.member_id) join photo p on(p.board_no=t.item_no and p.board_class=4) join region r on(r.region_no=t.region_no) 
@@ -89,12 +89,12 @@
 		select item_no as itemNo from tour where member_id=#{_parameter} order by 1 desc
 	</select>
 	<insert id="insertPhoto" parameterType="photo">
-		insert into photo values(photo_seq.nextval,#{boardClass},#{boardNo},#{filepath},#{filename})
+		insert into photo values(photo_seq.nextval,#{boardClass},#{boardNo},#{filename},#{filepath})
 	</insert>
 	<select id="selectOneTour" parameterType="_int" resultType="tour">
 		select item_no as itemNo, member_id as memberId, member_name as memberName, phone, email, item_title as itemTitle, region_country as regionCountry, 
 		region_city as regionCity, max_person as maxPerson, begin_date as beginDate, end_date as endDate, item_content as itemContent,
-		item_price as itemPrice, tour_times as tourTimes, p.filename, close_check as closeCheck
+		item_price as itemPrice, tour_times as tourTimes, p.filepath, close_check as closeCheck
 		from tour join member using(member_id) 
 		join photo p on(board_no=item_no and board_class=4) 
 		join region using(region_no)
@@ -127,5 +127,12 @@
 	</update>
 	<update id="closeTour" parameterType="_int">
 		update tour set close_check=1 where item_no=#{_parameter}
+	</update>
+	<update id="updateTour" parameterType="tour">
+		update tour set item_title=#{itemTitle},max_person=#{maxPerson},begin_date=#{beginDate},end_date=#{endDate},item_content=#{itemContent},item_price=#{itemPrice},tour_times=#{tourTimes},close_check=0
+		where item_no=#{itemNo}
+	</update>
+	<update id="modifyPhoto" parameterType="photo">
+		update photo set filename=#{filename}, filepath=#{filepath} where board_class=#{boardClass} and board_no=#{boardNo}
 	</update>
 </mapper>

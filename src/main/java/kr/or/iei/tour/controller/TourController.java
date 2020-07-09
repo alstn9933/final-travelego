@@ -301,9 +301,66 @@ public class TourController {
 	}
 	
 	@RequestMapping(value="/modifyItemFrm.do")
-	public String modifyItem(int itemNo, Model model) {
+	public String modifyFrm(int itemNo, Model model) {
 		TourVO tv = service.selectOneTour(itemNo);
 		model.addAttribute("tv",tv);
 		return "tour/modifyTourFrm";
+	}
+	
+	@RequestMapping(value="/modifyTour.do")
+	public String modifyItem(HttpServletRequest request, MultipartFile file,Model model, TourVO tv,String beginEnd) {
+		Photo p = null;
+		String savePath = request.getSession().getServletContext().getRealPath("/upload/images/tour/thumnail");
+		File folder = new File(savePath);
+
+		// 해당 디렉토리 확인
+		if (!folder.exists()) {
+			try {
+				folder.mkdirs(); // 폴더 생성
+			} catch (Exception e) {
+				e.getStackTrace();
+			}
+		}
+		
+		if(!file.isEmpty()) {
+			File delFile = new File(savePath+"/"+tv.getFilepath());
+			Boolean bool = false;
+			if(delFile.exists()) {
+				bool = delFile.delete();
+			}else {
+				bool = true;
+			}
+			if(bool) {
+				p=new Photo();
+				String originalFilename = file.getOriginalFilename();//업로드한 실제 파일명(ex>test.txt)
+				String onlyFilename = originalFilename.substring(0,originalFilename.lastIndexOf("."));//확장자를 제외한 파일 이름(ex>test)
+				String extension = originalFilename.substring(originalFilename.lastIndexOf("."));//확장자 이름(ex>.txt)
+				String filepath = onlyFilename+"_"+getCurrentTime()+extension;
+				String fullpath = savePath+"/"+filepath;
+				try {
+					byte[] bytes = file.getBytes();
+					BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(new File(fullpath)));
+					bos.write(bytes);
+					bos.close();
+					p.setFilename(originalFilename);
+					p.setFilepath(filepath);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		String beginDate = beginEnd.substring(0,10);
+		String endDate = beginEnd.substring(11);
+		tv.setBeginDate(beginDate);
+		tv.setEndDate(endDate);
+		int result = service.modifyTour(tv,p);
+		if(result>0) {
+			model.addAttribute("msg","수정성공");
+		}else {
+			model.addAttribute("msg","수정실패");
+		}
+		model.addAttribute("loc","/comTourList.do");
+		return "common/msg";
 	}
 }

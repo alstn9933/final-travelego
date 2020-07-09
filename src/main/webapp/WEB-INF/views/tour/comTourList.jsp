@@ -174,7 +174,7 @@ prefix="c"%>
     						}else{
     							html += "<div class='score'>"+data[i].score.toFixed(1)+"점</div>";
     						}
-    						html += "<div><img class='item-main-img' src='../../../upload/images/tour/thumnail/"+data[i].filename+"'></div>";
+    						html += "<div><img class='item-main-img' src='../../../upload/images/tour/thumnail/"+data[i].filepath+"'></div>";
     						html += "<div class='itemBtn'>";
     						if(data[i].closeCheck==1){
     							html += "<button class='btn btn-danger btn-sm' type='button' onclick='deleteItem("+data[i].itemNo+");'>삭제</button>";

@@ -148,4 +148,17 @@ public class TourService {
 	public int closeTourItem(int itemNo) {
 		return dao.closeTourItem(itemNo);
 	}
+
+	@Transactional
+	public int modifyTour(TourVO tv, Photo p) {
+		int result =  dao.modifyTour(tv);
+		if(result>0) {
+			if(p!=null) {
+				p.setBoardClass(4);
+				p.setBoardNo(tv.getItemNo());
+				result = dao.modifyPhoto(p);
+			}
+		}
+		return result;
+	}
 }
