@@ -262,6 +262,16 @@ public class TourController {
 			length = imgBuf.length;
 			out.write(imgBuf, 0, length);
 			out.flush();
+			
+			if(fileInputStream != null) {
+                fileInputStream.close();
+            }
+			if(outputStream != null) {
+				outputStream.close();
+			}
+			if(out != null) {
+				out.close();
+			}
 		}
 	}
 	
