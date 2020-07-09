@@ -149,9 +149,6 @@ prefix="c"%>
     <script src="/src/js/header/mail-script.js"></script>
     <script src="/src/js/header/main.js"></script>
     <script src="/src/js/message/messageSend.js"></script>
-    <script>
-      sendMessage("user01");
-    </script>
     <c:if test="${not empty sessionScope.member.memberId }">
       <script>
         $("#writeBtn").click(function () {
