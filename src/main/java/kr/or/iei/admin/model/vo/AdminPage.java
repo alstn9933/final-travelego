@@ -53,6 +53,7 @@ public class AdminPage {
 		return rowEnd;
 	}
 
+
 	@Override
 	public String toString() {
 		return "AdminPage [page=" + page + ", perPageNum=" + perPageNum + ", rowStart=" + rowStart + ", rowEnd=" + rowEnd

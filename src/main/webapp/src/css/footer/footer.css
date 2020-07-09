@@ -2,6 +2,7 @@ footer {
   height: 120px;
   width: 100%;
   background-image: url("/src/imgs/footer/footer8.png");
+ background-size: 100%;
 }
 .main-footer {
   height: 80%;

@@ -123,6 +123,7 @@ public class AdminService {
 		
 		return dao.updateAnswer(q);
 	}
+	
 
 	public ArrayList selecMemberList(SearchAdmin searchM) {
 		return (ArrayList<Member>)dao.selecMemberList(searchM);

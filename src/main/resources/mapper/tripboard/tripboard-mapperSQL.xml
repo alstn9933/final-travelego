@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="tripboard">
+	<select id="selectTrip" parameterType="string" resultType="boardMyTrip">
+		select 
+			region_no as regionNo, 
+			trip_no as tripNo, 
+			to_char(begin_date, 'yyyy. mm. dd.')||' ~ '||to_char(end_date, 'yyyy. mm. dd.') as tripDate,
+			floor(end_date - begin_date) as tripDay, 
+			region_country||'-'||region_city as regionName 
+		from my_trip 
+		join region using(region_no) 
+		where trip_no in(
+			select trip_no from trip_member where member_id = #{_parameter}
+		) order by trip_no
+	</select>
+	<select id="selectTripDetail" parameterType="_int" resultType="tripDetail">
+		select 
+			dense_rank() over(order by trip_date) as tripDate, 
+			trip_spot as tripSpot 
+		from trip_detail 
+		where trip_no = #{_parameter} 
+		order by trip_date, trip_order
+	</select>
+	<insert id="insertBoard" parameterType="tripBoardVO">
+		<selectKey keyProperty="tripBoardNo" resultType="int" order="BEFORE">
+			select trip_board_seq.nextval from dual
+		</selectKey>
+		insert into trip_board values(
+			#{tripBoardNo},
+			#{tripBoardTitle},
+			#{tripBoardContent},
+			#{tripRoute},
+			#{tripBoardWriter},
+			sysdate,
+			0,
+			#{regionNo}
+		)
+	</insert>
+	<insert id="insertPhoto" parameterType="photo">
+		insert into photo values(
+			photo_seq.nextval,
+			#{boardClass},
+			#{boardNo},
+			#{filename},
+			#{filepath}
+		)
+	</insert>
+	<select id="countTotal" resultType="_int">
+		select
+			count(trip_board_no)
+		from trip_board
+	</select>
+	<select id="selectBoardList" parameterType="map" resultType="tripBoardVO">
+		select 
+			* 
+		from (
+			select 
+				rownum as rnum, 
+				trip_board_no as tripBoardNo, 
+				trip_board_title as tripBoardTitle, 
+				trip_board_content as tripBoardContent, 
+				trip_route as tripRoute, 
+				trip_board_writer as tripBoardWriter, 
+				to_char(trip_board_date,'yyyy. mm. dd.') as tripBoardDate, 
+				to_char(trip_board_date,'hh24:mi') as tripBoardTime, 
+				read_count as readCount, 
+				region_no as regionNo,
+				filepath  
+			from(
+				select 
+					* 
+				from trip_board 
+				join photo on(trip_board_no = board_no) 
+				where board_class = 3 
+				order by trip_board_no desc
+			)
+		) where rnum between #{start} and #{end}
+	</select>
+</mapper>

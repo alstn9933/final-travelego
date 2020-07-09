@@ -81,7 +81,7 @@
 	-->
 
 
-	<context:component-scan	base-package="kr.or.iei.admin" />
+	<context:component-scan	base-package="kr.or.iei.admin"/>
 	<context:component-scan base-package="kr.or.iei.tour"/>
 	<context:component-scan base-package="kr.or.iei.tour"/> 
 	<context:component-scan base-package="kr.or.iei.reserve"/>
@@ -92,7 +92,7 @@
 	<context:component-scan base-package="kr.or.iei.mytrip"/>
 	<context:component-scan base-package="kr.or.iei.notice"/>
 	<context:component-scan base-package="kr.or.iei.mypage"/>
-	<context:component-scan base-package="kr.or.iei.tripBoard"/>
+	<context:component-scan base-package="kr.or.iei.tripboard"/>
 	<context:component-scan base-package="kr.or.iei.tour"/>
 	<context:component-scan base-package="kr.or.iei.notification"/>
 </beans>

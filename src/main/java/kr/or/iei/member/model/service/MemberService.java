@@ -1,15 +1,21 @@
 package kr.or.iei.member.model.service;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.StringTokenizer;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import kr.or.iei.common.model.vo.Photo;
+import kr.or.iei.common.model.vo.mainPhotoRecommed;
 import kr.or.iei.member.model.dao.MemberDao;
 import kr.or.iei.member.model.vo.Company;
-import kr.or.iei.member.model.vo.CompanyMember;
 import kr.or.iei.member.model.vo.Member;
-import kr.or.iei.notice.model.vo.Notice;
+import kr.or.iei.recommend.model.vo.Recommend;
+import kr.or.iei.tour.model.vo.TourVO;
 
 @Service("memberService")
 public class MemberService {
@@ -83,6 +89,24 @@ public class MemberService {
 			}
 		}
 		return 0;
+	}
+	public List<Recommend> mainrecommendList() {
+		// TODO Auto-generated method stub
+		HashMap<String, Integer> map = new HashMap<String, Integer>();
+		int start = 0;
+		int end = 4;
+		map.put("start", start);
+		map.put("end", end);
+		return dao.mainrecommendList(map);
+	}
+	public List<mainPhotoRecommed> mainTourList() {
+		HashMap<String, Integer> map = new HashMap<String, Integer>();
+		int start = 0;
+		int end = 4;
+		map.put("start", start);
+		map.put("end", end);
+		return (List<mainPhotoRecommed>) dao.maintourList(map);
+		
 	}
 
 

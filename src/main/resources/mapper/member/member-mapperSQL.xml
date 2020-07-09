@@ -70,4 +70,40 @@
  phone = #{phone}
  where member_id=#{memberId}
  </update>
+ <select id="mainrecommendList" resultType="recommend">
+   select * from
+   (select ROWNUM as RNUM,n.*
+    from
+    (select 
+    r.rec_no as recNo,
+    r.rec_title as recTitle,
+    r.rec_writer as recWriter,
+    r.read_count as readCount,
+    filename as filename,
+    filepath as filepath,
+    board_class
+    from RECOMMEND_BOARD r 
+    full outer join photo p 
+    on(p.board_class=2 and p.board_no=r.rec_no)
+    where p.BOARD_CLASS=2 <!-- and p.board_no=r.rec_no -->
+    order by read_count desc )n)where rnum between #{start} and #{end}
+ </select>
+ <select id="mainTourList"  resultType="tour">
+ 	select * from
+   (select ROWNUM as RNUM,n.*
+    from
+    (select t.item_no as itemNO, 
+	t.item_title as itemTitle, 
+	t.begin_date as beginDate, 
+	t.end_date as endDate,
+	t.item_price as itemPrice,
+	t.item_reg_date as itemRegDate, 
+	NVl((select avg(r.review_rate) from tour_review r where (r.item_no = t.item_no)), 0) as tour_avg, 
+	p.filename 
+	from tour t full outer join photo p on(p.board_no=t.item_no and p.board_class=4) 
+	where t.close_check=0 and p.board_no=t.item_no
+	order by tour_avg desc)n)
+	where rnum between #{start} and #{end}
+ </select>
+
 </mapper>
