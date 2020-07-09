@@ -34,11 +34,7 @@ prefix="c"%>
   <body>
     <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
     <section>
-      <form
-        action="/tripboard/write.do"
-        method="POST"
-        enctype="multipart/form-data"
-      >
+      <form action="">
         <div class="input_wrapper">
           <div class="img_upload_wrapper">
             <div class="img_container">
@@ -50,7 +46,7 @@ prefix="c"%>
             </label>
             <input
               type="file"
-              name="file"
+              name="mainImg"
               id="inputMainImg"
               style="display: none;"
             />
@@ -79,19 +75,14 @@ prefix="c"%>
               <span>여행 기간</span>
               <input
                 type="text"
-                name="tripDays"
+                name="tripDay"
                 id="inputTripDay"
                 class="form-control"
               />
             </div>
             <div class="input_title_area">
               <span>제목</span>
-              <input
-                type="text"
-                name="tripBoardTitle"
-                id=""
-                class="form-control"
-              />
+              <input type="text" name="" id="" class="form-control" />
             </div>
           </div>
           <div class="select_trip_wrapper">
@@ -130,13 +121,11 @@ prefix="c"%>
           </div>
         </div>
         <div class="editor_wrapper">
-          <textarea id="editor4" name="tripBoardContent"></textarea>
+          <textarea id="editor4" name="editor4"></textarea>
         </div>
         <div class="form_button_wrapper">
           <button type="button" class="btn btn-danger">취소</button>
-          <button type="button" class="btn btn-primary" id="submitBtn">
-            작성 완료
-          </button>
+          <button type="button" class="btn btn-primary">작성 완료</button>
         </div>
       </form>
     </section>
@@ -217,11 +206,7 @@ prefix="c"%>
     <script src="/src/js/header/main.js"></script>
     <script src="/src/ckeditor/ckeditor.js"></script>
     <script src="/src/js/tripboard/write.js"></script>
-    <script>
-      $("#submitBtn").click(function () {
-        $("section").find("form").submit();
-      });
-    </script>
+    <script></script>
     <script>
       $(function () {
         $('[data-toggle="popover"]').popover();
