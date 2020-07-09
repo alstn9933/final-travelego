@@ -37,121 +37,191 @@ prefix="c"%>
       <div>
         <div class="input_wrapper">
           <div class="img_upload_wrapper">
-            <div class="img_container">
-              <span>대표 이미지</span>
-            </div>
+            <c:if test="${not empty board.filepath}">
+              <div class="img_container">
+                <img id="mainImg" src="${board.filepath}" alt="" />
+              </div>
+            </c:if>
           </div>
           <div class="input_main_wrapper">
             <div class="writer_area">
               <span>작성자</span>
-              <span>작성자</span>
+              <span>${board.tripBoardWriter}</span>
             </div>
             <div class="input_region_area">
               <span>여행 지역</span>
-              <input type="search" name="" id="" class="form-control" />
+              <span>${board.regionName}</span>
             </div>
             <div class="trip_date_area">
               <span>여행 기간</span>
-              <input type="text" name="" id="" class="form-control" />
+              <span>0박 2일</span>
             </div>
             <div class="input_title_area">
               <span>제목</span>
-              <input type="text" name="" id="" class="form-control" />
+              <span>${board.tripBoardTitle}</span>
             </div>
           </div>
           <div class="select_trip_wrapper">
             <span>여행 루트</span>
-            <div class="route_container"></div>
+            <div class="route_container">
+              <textarea
+                class="form-control"
+                name="tripRoute"
+                id="textRoute"
+                cols="30"
+                rows="3"
+                readonly
+              >
+${board.tripRoute}</textarea
+              >
+            </div>
           </div>
         </div>
-        <div class="content_wrapper"></div>
+        <div class="content_wrapper">${board.tripBoardContent}</div>
         <div class="comment_wrapper">
           <div class="show_comment">
             <div>
               <i class="far fa-comment-dots"></i>
               <span>댓글</span>
-              <span>(0)</span>
+              <span>(${board.commentCount})</span>
             </div>
             <div><i class="fas fa-angle-down"></i></div>
           </div>
           <div class="comments" style="display: none;">
-            <form action="#" class="comment_form">
+            <form action="/tripboard/writeComment.do" class="comment_form">
               <textarea
-                name=""
-                class="form-control"
-                id="autosize"
+                name="commentContent"
+                class="form-control autosize"
                 rows="1"
+                maxlength="60"
               ></textarea>
               <button class="btn btn-primary writeCommentBtn">작성</button>
+              <input type="hidden" name="commentLevel" value="0" />
+              <input
+                type="hidden"
+                name="boardNo"
+                value="${board.tripBoardNo}"
+              />
             </form>
             <table class="table">
-              <tr class="comment_writer_area">
-                <th scope="row" class="comment_writer">작성자</th>
-                <td class="comment_date">2020.06.29.</td>
-              </tr>
-              <tr class="comment_content_area">
-                <td>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                  laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-                  irure dolor in reprehenderit in voluptate velit esse cillum
-                  dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-                  cupidatat non proident, sunt in culpa qui officia deserunt
-                  mollit anim id est laborum.
-                </td>
-                <td class="comment_btn">
-                  <button
-                    type="button"
-                    class="btn btn-sm btn-outline-primary modCommentBtn"
-                  >
-                    수정
-                  </button>
-                  <button
-                    type="button"
-                    class="btn btn-sm btn-outline-danger delCommentBtn"
-                  >
-                    삭제
-                  </button>
-                </td>
-              </tr>
-              <tr class="comment_writer_area">
-                <th scope="row" class="comment_writer">작성자</th>
-                <td class="comment_date">2020.06.29.</td>
-              </tr>
-              <tr class="comment_content_area">
-                <td>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                  laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-                  irure dolor in reprehenderit in voluptate velit esse cillum
-                  dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-                  cupidatat non proident, sunt in culpa qui officia deserunt
-                  mollit anim id est laborum.
-                </td>
-                <td class="comment_btn">
-                  <button
-                    type="button"
-                    class="btn btn-sm btn-outline-primary modCommentBtn"
-                  >
-                    수정
-                  </button>
-                  <button
-                    type="button"
-                    class="btn btn-sm btn-outline-danger delCommentBtn"
-                  >
-                    삭제
-                  </button>
-                </td>
-              </tr>
+              <c:forEach items="${commentList}" var="comment">
+                <c:if test="${comment.refComment == 0}">
+                  <tr class="comment_writer_area">
+                    <th scope="row" class="comment_writer">
+                      ${comment.commentWriter }
+                    </th>
+                    <td class="comment_date">
+                      <div>${comment.commentDate }</div>
+                    </td>
+                  </tr>
+                  <tr class="comment_content_area">
+                    <td>${comment.commentContent }</td>
+                    <td class="comment_btn">
+                      <div>
+                        <c:if
+                          test="${sessionScope.member.memberId == comment.commentWriter }"
+                        >
+                          <button
+                            type="button"
+                            class="btn btn-sm btn-outline-primary modCommentBtn"
+                            commentNo="${comment.commentNo }"
+                            boardNum="${comment.boardNo}"
+                          >
+                            수정
+                          </button>
+                          <button
+                            type="button"
+                            class="btn btn-sm btn-outline-danger delCommentBtn"
+                            commentNo="${comment.commentNo }"
+                            boardNum="${comment.boardNo}"
+                          >
+                            삭제
+                          </button>
+                        </c:if>
+                      </div>
+                      <div>
+                        <c:if test="${not empty sessionScope.member.memberId }">
+                          <button
+                            type="button"
+                            class="btn btn-sm btn-outline-info addComment"
+                            commentNo="${comment.commentNo }"
+                            boardNum="${comment.boardNo}"
+                          >
+                            답글 달기
+                          </button>
+                        </c:if>
+                      </div>
+                    </td>
+                  </tr>
+                </c:if>
+                <c:forEach items="${commentList }" var="reply">
+                  <c:if test="${comment.commentNo == reply.refComment }">
+                    <tr class="comment_writer_area reply">
+                      <th scope="row" class="comment_writer">
+                        ${reply.commentWriter }
+                      </th>
+                      <td class="comment_date">
+                        <div>${reply.commentDate }</div>
+                      </td>
+                    </tr>
+                    <tr class="comment_content_area reply">
+                      <td>${reply.commentContent }</td>
+                      <td class="comment_btn">
+                        <div>
+                          <c:if
+                            test="${sessionScope.member.memberId == comment.commentWriter }"
+                          >
+                            <button
+                              type="button"
+                              class="btn btn-sm btn-outline-primary modCommentBtn"
+                              commentNo="${reply.commentNo }"
+                              boardNum="${reply.boardNo}"
+                            >
+                              수정
+                            </button>
+                            <button
+                              type="button"
+                              class="btn btn-sm btn-outline-danger delCommentBtn"
+                              commentNo="${reply.commentNo }"
+                              boardNum="${reply.boardNo}"
+                            >
+                              삭제
+                            </button>
+                          </c:if>
+                        </div>
+                        <div></div>
+                      </td>
+                    </tr>
+                  </c:if>
+                </c:forEach>
+              </c:forEach>
             </table>
           </div>
         </div>
         <div class="form_button_wrapper">
-          <button type="button" class="btn btn-outline-danger">삭제</button>
-          <button type="button" class="btn btn-outline-primary">수정</button>
-          <button type="button" class="btn btn-primary">목록으로</button>
+          <c:if
+            test="${sessionScope.member.memberId == board.tripBoardWriter }"
+          >
+            <button
+              type="button"
+              class="btn btn-outline-danger"
+              id="delBtn"
+              boardNum="${board.tripBoardNo}"
+            >
+              삭제
+            </button>
+            <button
+              type="button"
+              class="btn btn-outline-primary"
+              id="modBtn"
+              boardNum="${board.tripBoardNo}"
+            >
+              수정
+            </button>
+          </c:if>
+          <button type="button" class="btn btn-primary" id="goListBtn">
+            목록으로
+          </button>
         </div>
       </div>
     </section>
@@ -202,18 +272,23 @@ prefix="c"%>
     <script src="/src/js/header/mail-script.js"></script>
     <script src="/src/js/header/main.js"></script>
     <script src="/src/ckeditor/ckeditor.js"></script>
+    <script src="/src/js/tripboard/comment.js"></script>
     <script>
-      $(".show_comment").click(function () {
-        const icon = $(this).find(".fa-angle-down");
-
-        if (icon.hasClass("icon_x_rotate")) {
-          icon.removeClass("icon_x_rotate");
-        } else {
-          icon.addClass("icon_x_rotate");
-        }
-
-        $(this).next().slideToggle();
+      $(document).on("click", "#modCommentBtn", function () {
+        $(this).parents("tr").find("form").submit();
       });
     </script>
+    <c:if test="${empty sessionScope.member.memberId}">
+      <script>
+        $(".comment_form").on("submit", function () {
+          alert("로그인이 필요한 기능입니다.");
+          return false;
+        });
+        $(".autosize").on("click", function () {
+          alert("로그인이 필요한 기능입니다.");
+          $(this).focusout();
+        });
+      </script>
+    </c:if>
   </body>
 </html>
