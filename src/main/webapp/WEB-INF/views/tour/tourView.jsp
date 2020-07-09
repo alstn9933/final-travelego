@@ -253,9 +253,7 @@ prefix="c"%>
                   <tr>
                     <td>담당</td>
                     <td>
-                      <a id="askmsg" href="javascript:askmsg('${tv.memberId }')"
-                        >${tv.memberName }</a
-                      >
+                      <a id="askmsg" href="javascript:sendMessageById('${tv.memberId }')">${tv.memberName }</a>
                     </td>
                   </tr>
                   <tr>
@@ -699,10 +697,6 @@ prefix="c"%>
             console.log("예약취소실패");
           },
         });
-      }
-
-      function askmsg(memberId) {
-        alert("쪽지보내기");
       }
 
       function moreReview(reqPage) {
