@@ -101,6 +101,13 @@ prefix="c"%>
 		#itemTitle{
 			color:blue;
 		}
+		.modal-title{
+			width:65%;
+			text-overflow: ellipsis;
+		}
+		.starRev{
+			width:35%;
+		}
 		.starR1{
 		    background: url('http://miuu227.godohosting.com/images/icon/ico_review.png') no-repeat -52px 0;
 		    background-size: auto 100%;

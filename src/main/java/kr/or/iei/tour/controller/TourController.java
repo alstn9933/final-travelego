@@ -44,13 +44,19 @@ public class TourController {
 	private TourService service;
 
 	@RequestMapping(value = "/comTourList.do")
-	public String comTourList(HttpSession session, Model model) {
+	public String comTourList(HttpSession session, Model model,TourVO t) {
 		Member m = (Member) session.getAttribute("member");
 		if (m != null && m.getMemberLevel() == 2) {
-			String memberId = m.getMemberId();
-			int totalCount = service.selectTotalCount(memberId);
+			if(t.getRegionCountry()==null) {
+				t.setRegionCountry("default");
+			}
+			t.setMemberId(m.getMemberId());
+			int totalCount = service.selectTotalCount(t);
 			System.out.println(totalCount);
+			ArrayList<Region> rlist = service.selectRegionList();
 			model.addAttribute("totalCount", totalCount);
+			model.addAttribute("rlist",rlist);
+			model.addAttribute("t",t);
 			return "tour/comTourList";
 		} else {
 			return "redirect:/";
@@ -58,11 +64,15 @@ public class TourController {
 	}
 	
 	@RequestMapping(value="/tourList.do")
-	public String tourList(HttpSession session, Model model) {
-		String memberId = null;
-		int totalCount = service.selectTotalCount(memberId);
-		System.out.println(totalCount);
+	public String tourList(Model model, TourVO t) {
+		if(t.getRegionCountry()==null) {
+			t.setRegionCountry("default");
+		}
+		int totalCount = service.selectTotalCount(t);
+		ArrayList<Region> rlist = service.selectRegionList();
 		model.addAttribute("totalCount", totalCount);
+		model.addAttribute("rlist",rlist);
+		model.addAttribute("t",t);
 		return "tour/tourList";
 	}
 
@@ -75,15 +85,16 @@ public class TourController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/moreItem.do", produces = "application/json; charset=utf-8")
-	public String selectTourList(int start, HttpSession session, String val) {
+	public String selectTourList(int start, HttpSession session, String val, TourVO t, String array1, String array2) {
 		Member m = (Member) session.getAttribute("member");
 		String memberId = null;
-		int memberLevel = 0;
-		if(m!=null) {
-			memberId = m.getMemberId();
-			memberLevel = m.getMemberLevel();
+		if(val.equals("ctl")) {
+			System.out.println("법인회원입니다");
+			if(m!=null&&m.getMemberLevel()==2) {
+				memberId = m.getMemberId();
+			}
 		}
-		ArrayList<TourVO> list = service.moreItemList(start, memberId,memberLevel,val);
+		ArrayList<TourVO> list = service.moreItemList(start, memberId,t,array1,array2);
 		System.out.println(list.size());
 		return new Gson().toJson(list);
 	}
@@ -278,4 +289,5 @@ public class TourController {
 		int result = service.closeTourItem(itemNo);
 		return new Gson().toJson(result);
 	}
+	
 }

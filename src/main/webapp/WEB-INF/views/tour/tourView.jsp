@@ -139,14 +139,14 @@ section {
     text-align: center;
 }
 .review-content tr>td:nth-child(2){
-    width:20%;
+    width:17%;
     text-align: center;
 }
 .review-content tr>td:nth-child(3){
-    width:60%;
+    width:58%;
 }
 .review-content tr>td:nth-child(4){
-    width:10%;
+    width:12%;
     text-align: center;
     font-size: 15px;
 }
@@ -156,12 +156,6 @@ section {
 }
 .review-page{
 	margin-top:10px;
-}
-#rPaging{
-	fonr-size:15px;
-}
-.curr{
-	background-color:#25e6b5;
 }
 #rPaging:hover{
 	cursor:pointer;
@@ -223,6 +217,26 @@ input[name=personCount]{
 #itemPrice>td:last-child{
 	border-top:1px solid lightgray;
 }
+.starR1{
+    background: url('http://miuu227.godohosting.com/images/icon/ico_review.png') no-repeat -42px 0;
+    background-size: auto 100%;
+    width: 12px;
+    height: 24px;
+    float:left;
+    text-indent: -9999px;
+    cursor: pointer;
+}
+.starR2{
+    background: url('http://miuu227.godohosting.com/images/icon/ico_review.png') no-repeat right 0;
+    background-size: auto 100%;
+	width: 12px;
+    height: 24px;
+    float:left;
+    text-indent: -9999px;
+    cursor: pointer;
+}
+.starR1.on{background-position:0 0;}
+.starR2.on{background-position:-12px 0;}
 </style>
 </head>
 <body>
@@ -644,7 +658,23 @@ input[name=personCount]{
 					html+="<tr><td>작성자</td><td>점수</td><td>내용</td><td>작성날짜</td></tr>";
 					for(var i=0; i<reviewList.length; i++){
 						html+="<tr><td>"+reviewList[i].memberNickname+"</td>";
-						html+="<td>"+reviewList[i].reviewRate+"</td>";
+						html+="<td><div class='starRev'>";
+						for(var s=1; s<=10; s++){
+							if(s<=reviewList[i].reviewRate){
+								if(s%2!=0){
+									html+="<span class='starR1 on'>별1_왼쪽</span>";
+								}else{
+									html+="<span class='starR2 on'>별1_오른쪽</span>";
+								}
+							}else{
+								if(s%2!=0){
+									html+="<span class='starR1'>별1_왼쪽</span>";
+								}else{
+									html+="<span class='starR2'>별1_오른쪽</span>";
+								}
+							}
+						}
+						html+="</div></td>";
 						html+="<td>"+reviewList[i].reviewContent+"</td>";
 						html+="<td>"+reviewList[i].reviewDate+"</td></tr>";
 					}

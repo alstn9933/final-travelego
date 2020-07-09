@@ -1,6 +1,5 @@
 package kr.or.iei.tour.model.dao;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -16,8 +15,8 @@ public class TourDao {
 	@Autowired
 	private SqlSessionTemplate sqlSession;
 
-	public int selectTotalCount(String memberId) {
-		return sqlSession.selectOne("tour.selectTotalCount",memberId);
+	public int selectTotalCount(TourVO t) {
+		return sqlSession.selectOne("tour.selectTotalCount",t);
 	}
 
 	public List moreItemList(HashMap<String, String> map) {
