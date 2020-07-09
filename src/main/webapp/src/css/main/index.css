@@ -74,19 +74,19 @@
 .hotItem{
 	float: left;
 	margin-bottom: 30px;
+
 	
 }
 .itemimgsDiv{
 	width:250px;
 	height: 200px;
-	margin: 0 auto;
-	border:1px solid black;
-	border-radius: 5px;
+
 	margin: 10px;
 }
 .tourimg{
-	width: 250px;
-	height: 200px;
+	width: 240px;
+	height: 190px;
+	margin-left: 5px;
 }
 .recommendimg{
 	margin : 0 auto;
@@ -98,4 +98,7 @@
 }
 .readDiv{
 	float: right;
+}
+.itemDate{
+	margin-left: 10px;
 }
