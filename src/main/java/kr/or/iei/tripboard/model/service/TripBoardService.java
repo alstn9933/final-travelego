@@ -76,6 +76,13 @@ public class TripBoardService {
 		
 		return result;
 	}
+
+	public ArrayList<TripBoardVO> selectBoardList(int reqPage) {
+		
+		
+		
+		return null;
+	}
 	
 	
 }

@@ -188,7 +188,10 @@ public class TripBoardController {
 	}
 
 	@RequestMapping("/main.do")
-	public String main() {
+	public String main(Model model) {
+		int reqPage = 1;
+		ArrayList<TripBoardVO> list = service.selectBoardList(reqPage);
+		model.addAttribute("list", list);
 		return "tripboard/main";
 	}
 }
