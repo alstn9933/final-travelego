@@ -24,3 +24,18 @@ section > div {
 .comment_wrapper > div {
   padding: 0 20px;
 }
+
+.route_container {
+  width: 100%;
+  padding: 10px;
+  color: #808080;
+}
+
+.content_wrapper img {
+  max-width: 1158px;
+}
+
+.reply th,
+.comment_content_area.reply > td:first-of-type {
+  padding-left: 60px;
+}

@@ -34,6 +34,7 @@ import com.google.gson.Gson;
 
 import kr.or.iei.member.model.vo.Member;
 import kr.or.iei.mytrip.model.vo.TripDetail;
+import kr.or.iei.together.model.vo.TogetherCommentVO;
 import kr.or.iei.tripboard.model.service.TripBoardService;
 import kr.or.iei.tripboard.model.vo.TripBoardMyTripVO;
 import kr.or.iei.tripboard.model.vo.TripBoardPageDTO;
@@ -46,6 +47,74 @@ public class TripBoardController {
 	@Autowired
 	@Qualifier("tripBoardService")
 	TripBoardService service;
+		
+	@RequestMapping(value = "/writeComment.do")
+	public String insertComment(TogetherCommentVO comment, Model model) {
+		int result = service.insertComment(comment); 
+		
+		if(result>0) {
+			model.addAttribute("msg","댓글을 등록했습니다.");
+		} else {
+			model.addAttribute("msg","댓글 등록에 실패했습니다.");
+		}
+		model.addAttribute("loc","tripboard/view.do?tripBoardNo="+comment.getBoardNo());
+		return "common/msg";
+	}
+	
+	@RequestMapping(value = "/view.do")
+	public String selectOneBoard(int tripBoardNo, Model model) {
+		
+		TripBoardPageDTO pd = service.selectOneBoard(tripBoardNo);
+		
+		model.addAttribute("board", pd.getBoard());
+		
+		return "tripboard/view";
+	}                                        
+	
+	@RequestMapping(value = "/modifyFrm.do")
+	public String modifyFrm(int boardNum, Model model, HttpSession session) {
+
+		Member member = (Member) session.getAttribute("member");
+		ArrayList<TripBoardMyTripVO> list = service.selectTrip(member);
+		TripBoardVO board = service.selectModifyBoard(boardNum);
+		
+		model.addAttribute("list", list);
+		model.addAttribute("board", board);
+		
+		return "tripboard/modify";
+	}
+	
+	@RequestMapping(value = "/modify.do")
+	public String modifyBoard(HttpSession session, MultipartFile file, TripBoardVO board, Model model) {
+		
+		int result = service.updateBoard(session, file, board);
+		
+		if(result>0) {
+			model.addAttribute("msg", "게시글을 수정했습니다.");
+			model.addAttribute("loc","/tripboard/main.do?reqPage=1");
+			
+		} else {
+			model.addAttribute("msg", "게시글 수정에 실패했습니다.");
+			model.addAttribute("loc","/tripboard/writeFrm.do");
+		}
+		
+		return "common/msg";
+	}
+	
+	@RequestMapping(value = "/delete.do")
+	public String deleteBoard(int boardNum, Model model) {
+		
+		int result = service.deleteBoard(boardNum);
+		
+		if(result>0) {
+			model.addAttribute("msg", "게시글을 삭제하였습니다.");
+		} else {
+			model.addAttribute("msg", "게시글 삭제에 실패했습니다.");
+		}
+		
+		model.addAttribute("loc", "/tripboard/main.do?reqPage=1");
+		return "common/msg";
+	}
 
 	@RequestMapping(value = "/write.do")
 	public String insertTripBoard(HttpSession session, MultipartFile file, TripBoardVO board, Model model) {
@@ -54,7 +123,7 @@ public class TripBoardController {
 		
 		if(result>0) {
 			model.addAttribute("msg", "게시글을 등록했습니다.");
-			model.addAttribute("loc","/tripboard/main.do");
+			model.addAttribute("loc","/tripboard/main.do?reqPage=1");
 			
 		} else {
 			model.addAttribute("msg", "게시글 등록에 실패했습니다.");

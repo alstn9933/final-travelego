@@ -37,34 +37,47 @@ prefix="c"%>
       <div>
         <div class="input_wrapper">
           <div class="img_upload_wrapper">
-            <div class="img_container">
-              <span>대표 이미지</span>
-            </div>
+            <c:if test="${not empty board.filepath}">
+              <div class="img_container">
+                <img id="mainImg" src="${board.filepath}" alt="" />
+              </div>
+            </c:if>
           </div>
           <div class="input_main_wrapper">
             <div class="writer_area">
               <span>작성자</span>
-              <span>작성자</span>
+              <span>${board.tripBoardWriter}</span>
             </div>
             <div class="input_region_area">
               <span>여행 지역</span>
-              <input type="search" name="" id="" class="form-control" />
+              <span>${board.regionName}</span>
             </div>
             <div class="trip_date_area">
               <span>여행 기간</span>
-              <input type="text" name="" id="" class="form-control" />
+              <span>0박 2일</span>
             </div>
             <div class="input_title_area">
               <span>제목</span>
-              <input type="text" name="" id="" class="form-control" />
+              <span>${board.tripBoardTitle}</span>
             </div>
           </div>
           <div class="select_trip_wrapper">
             <span>여행 루트</span>
-            <div class="route_container"></div>
+            <div class="route_container">
+              <textarea
+                class="form-control"
+                name="tripRoute"
+                id="textRoute"
+                cols="30"
+                rows="3"
+                readonly
+              >
+${board.tripRoute}</textarea
+              >
+            </div>
           </div>
         </div>
-        <div class="content_wrapper"></div>
+        <div class="content_wrapper">${board.tripBoardContent}</div>
         <div class="comment_wrapper">
           <div class="show_comment">
             <div>
@@ -78,9 +91,9 @@ prefix="c"%>
             <form action="#" class="comment_form">
               <textarea
                 name=""
-                class="form-control"
-                id="autosize"
+                class="form-control autosize"
                 rows="1"
+                maxlength="60"
               ></textarea>
               <button class="btn btn-primary writeCommentBtn">작성</button>
             </form>
@@ -115,11 +128,11 @@ prefix="c"%>
                   </button>
                 </td>
               </tr>
-              <tr class="comment_writer_area">
+              <tr class="comment_writer_area reply">
                 <th scope="row" class="comment_writer">작성자</th>
                 <td class="comment_date">2020.06.29.</td>
               </tr>
-              <tr class="comment_content_area">
+              <tr class="comment_content_area reply">
                 <td>
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
                   do eiusmod tempor incididunt ut labore et dolore magna aliqua.
@@ -149,9 +162,29 @@ prefix="c"%>
           </div>
         </div>
         <div class="form_button_wrapper">
-          <button type="button" class="btn btn-outline-danger">삭제</button>
-          <button type="button" class="btn btn-outline-primary">수정</button>
-          <button type="button" class="btn btn-primary">목록으로</button>
+          <c:if
+            test="${sessionScope.member.memberId == board.tripBoardWriter }"
+          >
+            <button
+              type="button"
+              class="btn btn-outline-danger"
+              id="delBtn"
+              boardNum="${board.tripBoardNo}"
+            >
+              삭제
+            </button>
+            <button
+              type="button"
+              class="btn btn-outline-primary"
+              id="modBtn"
+              boardNum="${board.tripBoardNo}"
+            >
+              수정
+            </button>
+          </c:if>
+          <button type="button" class="btn btn-primary" id="goListBtn">
+            목록으로
+          </button>
         </div>
       </div>
     </section>
@@ -202,6 +235,26 @@ prefix="c"%>
     <script src="/src/js/header/mail-script.js"></script>
     <script src="/src/js/header/main.js"></script>
     <script src="/src/ckeditor/ckeditor.js"></script>
+    <script src="/src/js/tripboard/comment.js"></script>
+    <script>
+      $("#delBtn").click(function () {
+        if (confirm("게시글을 삭제하시겠습니까?")) {
+          location.href =
+            "/tripboard/delete.do?boardNum=" + $(this).attr("boardNum");
+        }
+      });
+
+      $("#modBtn").click(function () {
+        if (confirm("게시글을 수정하시겠습니까?")) {
+          location.href =
+            "/tripboard/modifyFrm.do?boardNum=" + $(this).attr("boardNum");
+        }
+      });
+
+      $("#goListBtn").click(function () {
+        location.href = "/tripboard/main.do?reqPage=1";
+      });
+    </script>
     <script>
       $(".show_comment").click(function () {
         const icon = $(this).find(".fa-angle-down");

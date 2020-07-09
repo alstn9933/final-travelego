@@ -15,4 +15,5 @@ public class TripBoardVO {
 	private int regionNo;
 	private String tripDays;
 	private String filepath;
+	private String regionName;
 }
