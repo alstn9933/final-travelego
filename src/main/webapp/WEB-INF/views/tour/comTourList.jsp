@@ -174,7 +174,7 @@ prefix="c"%>
     						}else{
     							html += "<div class='score'>"+data[i].score.toFixed(1)+"점</div>";
     						}
-    						html += "<div><img class='item-main-img' src='../../../upload/images/tour/thumnail/"+data[i].filename+"'></div>";
+    						html += "<div><img class='item-main-img' src='../../../upload/images/tour/thumnail/"+data[i].filepath+"'></div>";
     						html += "<div class='itemBtn'>";
     						if(data[i].closeCheck==1){
     							html += "<button class='btn btn-danger btn-sm' type='button' onclick='deleteItem("+data[i].itemNo+");'>삭제</button>";
@@ -263,10 +263,24 @@ prefix="c"%>
    			});
     	});
     	
-/*     	function modifyItem(itemNo){
+     	function modifyItem(itemNo){
     		event.stopPropagation();
-    		location.href="/modifyItem.do?itemNo="+itemNo;
-    	}; */
+    		$.ajax({
+    			url:"/modifyCheckReserve.do",
+    			data:{itemNo:itemNo},
+    			type:"post",
+    			dataType:"json",
+    			success:function(data){
+    				if(data>0){
+    					alert("해당 상품에 진행중인 예약이 남아있어 수정이 불가능합니다.");
+    				}else{
+    					location.href="/modifyItemFrm.do?itemNo="+itemNo;
+    				}
+    			},error:function(){
+    				console.log("해당아이템의 예약을 불러오는데 에러발생");
+    			}
+    		});
+    	};
     	
     	function itemView(itemNo){
    			location.href="/tourView.do?itemNo="+itemNo;

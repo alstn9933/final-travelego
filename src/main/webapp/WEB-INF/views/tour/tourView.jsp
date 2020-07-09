@@ -253,9 +253,7 @@ prefix="c"%>
                   <tr>
                     <td>담당</td>
                     <td>
-                      <a id="askmsg" href="javascript:askmsg('${tv.memberId }')"
-                        >${tv.memberName }</a
-                      >
+                      <a id="askmsg" href="javascript:sendMessageById('${tv.memberId }')">${tv.memberName }</a>
                     </td>
                   </tr>
                   <tr>
@@ -285,7 +283,7 @@ prefix="c"%>
           </div>
           <div class="morebtn">
             <button type="button" class="btn btn-outline-info openbtn">
-              ▼
+              ▲
             </button>
           </div>
         </div>
@@ -430,7 +428,7 @@ prefix="c"%>
         dd = endDate.substr(8, 2);
         endDate = new Date(yyyy, mm - 1, dd);
 
-        var btnval = "down";
+        var btnval = "up";
         $('[data-toggle="popover"]').popover();
 
         $(".itemContent>img").removeAttr("style");
@@ -611,7 +609,7 @@ prefix="c"%>
           }
         });
 
-        $(".itemContent").hide();
+        $(".itemContent").show();
 
         moreReview(1);
         $("input[name=personCount]").change();
@@ -699,10 +697,6 @@ prefix="c"%>
             console.log("예약취소실패");
           },
         });
-      }
-
-      function askmsg(memberId) {
-        alert("쪽지보내기");
       }
 
       function moreReview(reqPage) {

@@ -9,8 +9,10 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import kr.or.iei.member.model.vo.Member;
+import kr.or.iei.notification.controller.NotificationController;
 import kr.or.iei.reserve.model.dao.ReserveDao;
 import kr.or.iei.reserve.model.vo.ReserveVO;
 import kr.or.iei.tour.model.vo.ReviewVO;
@@ -21,6 +23,9 @@ public class ReserveService {
 	@Autowired
 	@Qualifier("reserveDao")
 	private ReserveDao dao;
+	
+	@Autowired
+	private NotificationController ncontroller;
 
 	public ArrayList<ReserveVO> checkTourTimes(int itemNo, String tourDate, String tourTimes, int maxPerson) {
 		HashMap<String, String> map = new HashMap<String, String>();
@@ -59,6 +64,7 @@ public class ReserveService {
 		return tarr;
 	}
 
+	@Transactional
 	public int checkAndInsert(ReserveVO r, int maxPerson) {
 		ArrayList<ReserveVO> rList = (ArrayList<ReserveVO>)dao.checkReserve(r);
 		int result = 0;
@@ -77,15 +83,25 @@ public class ReserveService {
 		return result;
 	}
 
+	@Transactional
 	public int insertReserve(ReserveVO r) {
 		return dao.insertReserve(r);
 	}
 
+	@Transactional
 	public int cancelReserve(int reserveNo, String memberId, HttpSession session) {
-		
-		return dao.cancelReserve(reserveNo);
+		Member m = (Member)session.getAttribute("member");
+		System.out.println(memberId);
+		int result = dao.cancelReserve(reserveNo);
+		if(result>0) {
+			if(m!= null && m.getMemberLevel()==2 && m.getMemberId()!=memberId) {
+				result = ncontroller.tourcancel(memberId);
+			}
+		}
+		return result;
 	}
 
+	@Transactional
 	public int modifyPayment(ReserveVO r) {
 		return dao.modifyPayment(r);
 	}
@@ -116,6 +132,7 @@ public class ReserveService {
 		return rList;
 	}
 
+	@Transactional
 	public int insertReview(ReviewVO r) {
 		int result =  dao.insertReview(r);
 		if(result==1) {
@@ -139,7 +156,12 @@ public class ReserveService {
 		return rList;
 	}
 
+	@Transactional
 	public int reserveCheck() {
 		return dao.reserveCheck();
+	}
+	
+	public int modifyCheckReserve(int itemNo) {
+		return dao.modifyCheckReserve(itemNo);
 	}
 }

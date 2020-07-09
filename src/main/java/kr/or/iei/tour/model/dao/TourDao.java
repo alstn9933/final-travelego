@@ -70,4 +70,12 @@ public class TourDao {
 	public int closeTourItem(int itemNo) {
 		return sqlSession.update("tour.closeTour",itemNo);
 	}
+
+	public int modifyTour(TourVO tv) {
+		return sqlSession.update("tour.updateTour",tv);
+	}
+
+	public int modifyPhoto(Photo p) {
+		return sqlSession.update("tour.modifyPhoto",p);
+	}
 }

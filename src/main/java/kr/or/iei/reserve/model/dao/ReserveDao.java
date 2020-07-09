@@ -81,4 +81,8 @@ public class ReserveDao {
 	public int reserveCheck() {
 		return sqlSession.delete("reserve.deleteWrongReserve");
 	}
+
+	public int modifyCheckReserve(int itemNo) {
+		return sqlSession.selectOne("reserve.modifyCheckReserve",itemNo);
+	}
 }
