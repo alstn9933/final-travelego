@@ -65,14 +65,93 @@ prefix="c"%>
               </div>
             </div>
           </div>
-          <div></div>
-          <div></div>
-        </div>
-        <div class="board_row">
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
+          <div
+            class="content"
+            data-container="body"
+            data-toggle="popover"
+            data-placement="bottom"
+            data-content="글 제목이 여기에 들어올것입니다."
+          >
+            <img src="/src/imgs/member/snatiago.jpg" alt="" />
+            <i
+              class="fas fa-ellipsis-v"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+              <div class="dropdown-menu">
+                <a class="dropdown-item" href="javascript:void(0)">북마크</a>
+                <a class="dropdown-item" href="javascript:void(0)"
+                  >게시글 신고</a
+                >
+              </div>
+            </i>
+            <div>
+              <span>대한민국 - 제주도</span>
+              <div>
+                <i class="far fa-thumbs-up"></i>
+                <span>0</span>
+              </div>
+            </div>
+          </div>
+          <div
+            class="content"
+            data-container="body"
+            data-toggle="popover"
+            data-placement="bottom"
+            data-content="글 제목이 여기에 들어올것입니다."
+          >
+            <img src="/src/imgs/member/snatiago.jpg" alt="" />
+            <i
+              class="fas fa-ellipsis-v"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+              <div class="dropdown-menu">
+                <a class="dropdown-item" href="javascript:void(0)">북마크</a>
+                <a class="dropdown-item" href="javascript:void(0)"
+                  >게시글 신고</a
+                >
+              </div>
+            </i>
+            <div>
+              <span>대한민국 - 제주도</span>
+              <div>
+                <i class="far fa-thumbs-up"></i>
+                <span>0</span>
+              </div>
+            </div>
+          </div>
+          <div
+            class="content"
+            data-container="body"
+            data-toggle="popover"
+            data-placement="bottom"
+            data-content="글 제목이 여기에 들어올것입니다."
+          >
+            <img src="/src/imgs/member/snatiago.jpg" alt="" />
+            <i
+              class="fas fa-ellipsis-v"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+              <div class="dropdown-menu">
+                <a class="dropdown-item" href="javascript:void(0)">북마크</a>
+                <a class="dropdown-item" href="javascript:void(0)"
+                  >게시글 신고</a
+                >
+              </div>
+            </i>
+            <div>
+              <span>대한민국 - 제주도</span>
+              <div>
+                <i class="far fa-thumbs-up"></i>
+                <span>0</span>
+              </div>
+            </div>
+          </div>
         </div>
         <div class="board_row">
           <div></div>
@@ -93,7 +172,9 @@ prefix="c"%>
                 <span aria-hidden="true">&laquo;</span>
               </a>
             </li>
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
+            <li class="page-item">
+              <a class="page-link current-page" href="#">1</a>
+            </li>
             <li class="page-item"><a class="page-link" href="#">2</a></li>
             <li class="page-item"><a class="page-link" href="#">3</a></li>
             <li class="page-item">

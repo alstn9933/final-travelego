@@ -46,4 +46,9 @@
 			#{filepath}
 		)
 	</insert>
+	<select id="countTotal" resultType="_int">
+		select
+			count(trip_board_no)
+		from trip_board
+	</select>
 </mapper>

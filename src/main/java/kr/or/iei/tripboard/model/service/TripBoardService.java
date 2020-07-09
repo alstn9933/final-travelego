@@ -5,6 +5,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
@@ -78,8 +80,66 @@ public class TripBoardService {
 	}
 
 	public ArrayList<TripBoardVO> selectBoardList(int reqPage) {
+		int totalCount = dao.countBoard();
 		
+		int numPerPage = 12;
 		
+		int totalPage = 0;
+		
+		if(totalCount % numPerPage == 0) {
+			totalPage = totalCount/numPerPage; 
+		} else {
+			totalPage = totalCount/numPerPage +1;
+		}
+		
+		int start = (reqPage - 1)*numPerPage+1;
+		int end = reqPage*numPerPage;
+		
+		HashMap<String, Integer> map = new HashMap<String, Integer>();
+		
+		map.put("start", start);
+		map.put("end", end);
+		
+		List list = dao.selectBoardList(map); 
+		
+		StringBuffer pageNavi = new StringBuffer();
+		
+		int pageNaviSize = 5;
+		int pageNo = 1;
+		
+		pageNavi.append("<nav aria-label='Page navigation'>");
+		pageNavi.append("<ul class='pagination'>");
+		
+		if(pageNo != 1) {
+			pageNavi.append("<li class='page-item'>");
+			pageNavi.append("<a class='page-link' href='/tripboard/main.do?reqPage="+(pageNo-1)+"' aria-labe='Previous'><span aria-hidden='true'>&laquo;</span></a>");
+			pageNavi.append("</li>");
+		}
+		
+		for(int i=0; i<pageNaviSize; i++) {
+			pageNavi.append("<li class='page-item'>");
+			if(reqPage==pageNo) {
+				pageNavi.append("<a class='page-link current-page' href='javascript:void(0)'>"+pageNo+"</a>");
+			} else {
+				pageNavi.append("<a class='page-link' href='/tripboard/main.do?reqPage="+pageNo+"'>"+pageNo+"</a>");
+			}
+			pageNavi.append("</li>");
+			
+			pageNo++;
+			
+			if(pageNo > totalPage) {
+				break;
+			}			
+		}
+		
+		if(pageNo <= totalPage) {
+			pageNavi.append("<li class='page-item'>");
+			pageNavi.append("<a class='page-link' href='/tripboard/main.do?reqPage="+pageNo+"' aria-label='Next'>");
+			pageNavi.append("<span aria-hidden='true'>&raquo;</span>");
+			pageNavi.append("</a></li>");			
+		}
+		
+		pageNavi.append("</ul></nav>");		
 		
 		return null;
 	}
