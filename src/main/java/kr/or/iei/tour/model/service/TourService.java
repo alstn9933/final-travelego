@@ -1,6 +1,9 @@
 package kr.or.iei.tour.model.service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -22,32 +25,35 @@ public class TourService {
 	@Qualifier("tourDao")
 	private TourDao dao;
 
-	public int selectTotalCount(TourVO t) {
-		return dao.selectTotalCount(t);
+	public int selectTotalCount(String memberId) {
+		return dao.selectTotalCount(memberId);
 	}
 
-	public ArrayList<TourVO> moreItemList(int start,String memberId, TourVO t,String array1, String array2) {
-		if(t.getSearchValue()!=null&&t.getSearchValue()!="") {
-			t.setSearchValue("%"+t.getSearchValue()+"%");
-		}
+	public ArrayList<TourVO> moreItemList(int start,String memberId,int memberLevel, String val) {
 		int length = 12;
 		int end = start+length-1;
 		HashMap<String,String> map = new HashMap<String, String>();
 		map.put("memberId", memberId);
 		map.put("start", String.valueOf(start));
 		map.put("end", String.valueOf(end));
-		map.put("regionCountry",t.getRegionCountry());
-		map.put("regionNo",String.valueOf(t.getRegionNo()));
-		map.put("tourDate", t.getTourDate());
-		map.put("searchValue",t.getSearchValue());
-		map.put("array1", array1);
-		map.put("array2", array2);
+		map.put("memberLevel", String.valueOf(memberLevel));
+		map.put("val", val);
 		ArrayList<TourVO> list = (ArrayList<TourVO>)dao.moreItemList(map);
 		for(TourVO tv : list) {
 			String beginDate = tv.getBeginDate().substring(0,10);
 			String endDate = tv.getEndDate().substring(0,10);
 			tv.setBeginDate(beginDate);
 			tv.setEndDate(endDate);
+			double sum = 0;
+			double avg=0;
+			ArrayList<ReviewVO> rvList = (ArrayList<ReviewVO>)dao.selectReviewList(tv.getItemNo());
+			for(ReviewVO rv : rvList) {
+				sum+=rv.getReviewRate();
+			}
+			if(sum!=0) {
+				avg =sum/rvList.size();
+			}
+			tv.setScore(avg);
 		}
 		return (ArrayList<TourVO>)list;
 	}
@@ -103,19 +109,14 @@ public class TourService {
 		if(reqPage>3) {
 			pageNo = reqPage-2;
 		}
-		
-		pageNavi +="<nav aria-label='Page navigation'><ul class='pagination'>";
 		if(pageNo!=1) {
-			pageNavi += "<li class='page-item'><a class='page-link' id='rPaging' onclick='moreReview("+(pageNo-1)+");' aria-label='Previous'><span aria-hidden='true'>&laquo;</span></a></li>";
-			//pageNavi += "<button type='button' class='btn btn-outline-info' id='rPaging' onclick='moreReview("+(pageNo-1)+");'></button>";
+			pageNavi += "<button type='button' class='btn btn-outline-info' id='rPaging' onclick='moreReview("+(pageNo-1)+");'><</button>";
 		}
 		for(int i=0; i<pageNaviSize; i++) {
 			if(reqPage==pageNo) {
-				pageNavi+="<li class='page-item active'><a class='page-link'>"+pageNo+"</a></li>";
-				//pageNavi += "<div class='btn curr'>"+pageNo+"</div>";
+				pageNavi += "<div class='btn curr'>"+pageNo+"</div>";
 			}else {
-				pageNavi+="<li class='page-item'><a id='rPaging' class='page-link' onclick='moreReview("+pageNo+");'>"+pageNo+"</a></li>";
-				//pageNavi += "<button type='button' class='btn btn-outline-info' id='rPaging' onclick='moreReview("+pageNo+");'>"+pageNo+"</button>";
+				pageNavi += "<button type='button' class='btn btn-outline-info' id='rPaging' onclick='moreReview("+pageNo+");'>"+pageNo+"</button>";
 			}
 			pageNo++;
 			if(pageNo>totalPage) {
@@ -123,10 +124,8 @@ public class TourService {
 			}
 		}
 		if(pageNo <= totalPage) {
-			pageNavi += "<li class='page-item'><a class='page-link' id='rPaging' onclick='moreReview("+pageNo+");' aria-label='Next'><span aria-hidden='true'>&raquo;</span></a></li>";
-			//pageNavi += "<button type='button' class='btn btn-outline-info' id='rPaging' onclick='moreReview("+pageNo+");'>></button>";
+			pageNavi += "<button type='button' class='btn btn-outline-info' id='rPaging' onclick='moreReview("+pageNo+");'>></button>";
 		}
-		pageNavi += "</ul></navi>";
 		ReviewData rd = new ReviewData();
 		rd.setPageNavi(pageNavi);
 		rd.setReviewList((ArrayList<ReviewVO>)list);
@@ -139,12 +138,10 @@ public class TourService {
 		return dao.tourCloseCheck();
 	}
 
-	@Transactional
 	public int deleteTourItem(int itemNo) {
 		return dao.deleteTourItem(itemNo);
 	}
 
-	@Transactional
 	public int closeTourItem(int itemNo) {
 		return dao.closeTourItem(itemNo);
 	}
