@@ -138,3 +138,14 @@
   justify-content: flex-end;
   align-items: flex-end;
 }
+
+.current-page {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.page-link {
+  min-width: 36px;
+  display: flex;
+  justify-content: center;
+}

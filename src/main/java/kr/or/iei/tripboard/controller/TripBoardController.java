@@ -183,7 +183,6 @@ public class TripBoardController {
 		Member member = (Member) session.getAttribute("member");
 		ArrayList<TripBoardMyTripVO> list = service.selectTrip(member);
 		model.addAttribute("list", list);
-
 		return "tripboard/write";
 	}
 

@@ -1,6 +1,7 @@
 package kr.or.iei.tripboard.model.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -31,6 +32,14 @@ public class TripBoardDao {
 
 	public int insertPhoto(Photo photo) {
 		return session.insert("tripboard.insertPhoto", photo);
+	}
+
+	public int countBoard() {
+		return session.selectOne("tripboard.countTotal");
+	}
+
+	public List selectBoardList(HashMap<String, Integer> map) {
+		return session.selectList("tripboard.selectBoardList", map);
 	}
 	
 	
