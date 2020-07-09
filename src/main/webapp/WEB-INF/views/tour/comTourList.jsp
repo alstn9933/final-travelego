@@ -352,7 +352,7 @@ prefix="c"%>
 						</select>
 					</div>
 					<input type="date" name="tourDate">
-                    <input id="searchtext" type="text" name="searchValue" placeholder="보고싶은 상품명을 검색해주세요">
+                    <input id="searchtext" type="text" name="searchValue" placeholder="보고싶은 상품 또는 지역을 입력해주세요">
                     <input type="submit" value="검색">
                 </form>
             </div>
