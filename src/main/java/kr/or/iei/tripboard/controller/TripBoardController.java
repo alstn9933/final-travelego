@@ -36,6 +36,7 @@ import kr.or.iei.member.model.vo.Member;
 import kr.or.iei.mytrip.model.vo.TripDetail;
 import kr.or.iei.tripboard.model.service.TripBoardService;
 import kr.or.iei.tripboard.model.vo.TripBoardMyTripVO;
+import kr.or.iei.tripboard.model.vo.TripBoardPageDTO;
 import kr.or.iei.tripboard.model.vo.TripBoardVO;
 
 @Controller
@@ -187,10 +188,14 @@ public class TripBoardController {
 	}
 
 	@RequestMapping("/main.do")
-	public String main(Model model) {
-		int reqPage = 1;
-		ArrayList<TripBoardVO> list = service.selectBoardList(reqPage);
-		model.addAttribute("list", list);
+	public String main(int reqPage, Model model) {
+		System.out.println(reqPage);
+		if(reqPage == 0) {
+			reqPage = 1;			
+		}
+		TripBoardPageDTO pd = service.selectBoardList(reqPage);
+		model.addAttribute("list", pd.getBoardList());
+		model.addAttribute("pageNavi", pd.getPageNavi());
 		return "tripboard/main";
 	}
 }

@@ -92,7 +92,14 @@ public class MessageController {
 	@RequestMapping("/write.do")
 	public String messageWriteFrm(String receiver, Model model) {
 		if (receiver != null) {
-			model.addAttribute("receiver", receiver);
+			int result = service.checkMemberId(receiver);
+			if(result > 0 ) {
+				model.addAttribute("receiver", receiver);				
+			} else {
+				model.addAttribute("msg","상대방을 조회할 수 없습니다.");
+				model.addAttribute("loc","/");
+				return "common/msg";
+			}
 		}
 		return "message/write";
 	}
@@ -154,11 +161,8 @@ public class MessageController {
 	@ResponseBody
 	@RequestMapping(value = "/checkId.do", produces = "text/html;charset=utf-8")
 	public String checkId(String receiver) {
-		if (receiver.equals("user01") || receiver.equals("user02")) {
-			return "1";
-		} else {
-			return "0";
-		}
+		int result = service.checkMemberId(receiver);
+		return String.valueOf(result);
 	}
 
 	@RequestMapping("/deleteAllReadMessage.do")
