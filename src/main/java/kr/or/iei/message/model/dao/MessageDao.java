@@ -80,5 +80,13 @@ public class MessageDao {
 	public List listCheckMessage(int[] messageNo) {
 		return session.selectList("message.selectCheckMessage",messageNo);
 	}
+
+	public String getMemberId(String messageReceiver) {
+		return session.selectOne("message.selectMemberId",messageReceiver);
+	}
+
+	public int checkMemberId(String receiver) {
+		return session.selectOne("message.checkMemberId",receiver);
+	}
 	
 }

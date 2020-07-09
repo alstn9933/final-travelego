@@ -51,4 +51,30 @@
 			count(trip_board_no)
 		from trip_board
 	</select>
+	<select id="selectBoardList" parameterType="map" resultType="tripBoardVO">
+		select 
+			* 
+		from (
+			select 
+				rownum as rnum, 
+				trip_board_no as tripBoardNo, 
+				trip_board_title as tripBoardTitle, 
+				trip_board_content as tripBoardContent, 
+				trip_route as tripRoute, 
+				trip_board_writer as tripBoardWriter, 
+				to_char(trip_board_date,'yyyy. mm. dd.') as tripBoardDate, 
+				to_char(trip_board_date,'hh24:mi') as tripBoardTime, 
+				read_count as readCount, 
+				region_no as regionNo,
+				filepath  
+			from(
+				select 
+					* 
+				from trip_board 
+				join photo on(trip_board_no = board_no) 
+				where board_class = 3 
+				order by trip_board_no desc
+			)
+		) where rnum between #{start} and #{end}
+	</select>
 </mapper>

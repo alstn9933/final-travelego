@@ -22,6 +22,7 @@ import kr.or.iei.member.model.vo.Member;
 import kr.or.iei.mytrip.model.vo.TripDetail;
 import kr.or.iei.tripboard.model.dao.TripBoardDao;
 import kr.or.iei.tripboard.model.vo.TripBoardMyTripVO;
+import kr.or.iei.tripboard.model.vo.TripBoardPageDTO;
 import kr.or.iei.tripboard.model.vo.TripBoardVO;
 
 @Service("tripBoardService")
@@ -79,7 +80,7 @@ public class TripBoardService {
 		return result;
 	}
 
-	public ArrayList<TripBoardVO> selectBoardList(int reqPage) {
+	public TripBoardPageDTO selectBoardList(int reqPage) {
 		int totalCount = dao.countBoard();
 		
 		int numPerPage = 12;
@@ -107,7 +108,6 @@ public class TripBoardService {
 		int pageNaviSize = 5;
 		int pageNo = 1;
 		
-		pageNavi.append("<nav aria-label='Page navigation'>");
 		pageNavi.append("<ul class='pagination'>");
 		
 		if(pageNo != 1) {
@@ -139,9 +139,12 @@ public class TripBoardService {
 			pageNavi.append("</a></li>");			
 		}
 		
-		pageNavi.append("</ul></nav>");		
+		pageNavi.append("</ul>");
 		
-		return null;
+		TripBoardPageDTO pd = new TripBoardPageDTO();
+		pd.setBoardList((ArrayList<TripBoardVO>)list);
+		pd.setPageNavi(pageNavi.toString());
+		return pd;
 	}
 	
 	

@@ -167,4 +167,16 @@
 			#{item}
 		</foreach>
 	</select>
+	<select id="selectMemberId" parameterType="string" resultType="string">
+		select
+			member_id as memberId
+		from member
+		where member_nickname = #{_parameter}
+	</select>
+	<select id="checkMemberId" parameterType="string" resultType="_int">
+		select
+			count(member_id)
+		from member
+		where member_nickname = #{_parameter}
+	</select>
 </mapper>

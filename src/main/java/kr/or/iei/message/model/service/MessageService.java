@@ -52,6 +52,9 @@ public class MessageService {
 	}
 
 	public int insertMessage(Message m) {
+		
+		m.setMessageReceiver(dao.getMemberId(m.getMessageReceiver()));
+		
 		return dao.insertMessage(m);
 	}
 
@@ -312,5 +315,9 @@ public class MessageService {
 			return result;
 		}
 		
+	}
+
+	public int checkMemberId(String receiver) {
+		return dao.checkMemberId(receiver);
 	}
 }
