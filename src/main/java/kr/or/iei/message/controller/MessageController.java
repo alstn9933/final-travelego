@@ -90,13 +90,35 @@ public class MessageController {
 	}
 
 	@RequestMapping("/write.do")
-	public String messageWriteFrm(String receiver, Model model) {
+	public String messageWriteByNickName(String receiver, Model model) {
 		if (receiver != null) {
-			model.addAttribute("receiver", receiver);
+			String memberId = service.selectMemberId(receiver);
+			if(memberId != null) {
+				model.addAttribute("receiver", receiver);				
+			} else {
+				model.addAttribute("msg","상대방을 조회할 수 없습니다.");
+				model.addAttribute("loc","/");
+				return "common/msg";
+			}
 		}
 		return "message/write";
 	}
-
+	
+	@RequestMapping("/writeById.do")
+	public String messageWriteById(String memberId, Model model) {
+		if (memberId != null) {
+			String receiver = service.selectMemberNick(memberId);
+			if(receiver != null) {
+				model.addAttribute("receiver", receiver);				
+			} else {
+				model.addAttribute("msg","상대방을 조회할 수 없습니다.");
+				model.addAttribute("loc","/");
+				return "common/msg";
+			}
+		}
+		return "message/write";
+	}
+	
 	@RequestMapping("/outbox.do")
 	public String selectOutboxMessage(HttpSession session, Model m) {
 		Member member = (Member) session.getAttribute("member");
@@ -154,11 +176,8 @@ public class MessageController {
 	@ResponseBody
 	@RequestMapping(value = "/checkId.do", produces = "text/html;charset=utf-8")
 	public String checkId(String receiver) {
-		if (receiver.equals("user01") || receiver.equals("user02")) {
-			return "1";
-		} else {
-			return "0";
-		}
+		int result = service.checkMemberId(receiver);
+		return String.valueOf(result);
 	}
 
 	@RequestMapping("/deleteAllReadMessage.do")

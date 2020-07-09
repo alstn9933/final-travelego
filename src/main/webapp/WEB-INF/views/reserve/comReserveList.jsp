@@ -52,19 +52,18 @@ prefix="c"%>
     		box-sizing:border-box;
     		overflow:hidden;
             text-overflow: ellipsis;
+            overflow: hidden;
             border: 1px solid lightgray;
     	}
     	#title{
     		width:100%;
-    		height:20px;
-            text-overflow: ellipsis;
+    		height:5px;
     	}
     	table tr>td:nth-child(1) {
 			width:60px;
 		}
 		table tr>td:nth-child(2) {
 			width:213px;
-			white-space:nowrap;
 		}
 		table tr>td:nth-child(3) {
 			width:107px;
@@ -95,10 +94,13 @@ prefix="c"%>
 		}
 		.section-top tr:last-child>td{
 			border-top :none;
-			border-bottom:1px solid black;
+			border-bottom:2px solid black;
 		}
 		#reserveList tr:first-child>td{
 			border-top:none;
+		}
+		#reserveList tr:last-child>td{
+			border-top:2px solid black;
 		}
 		select[name=itemNo]{
 			width:100%;
@@ -148,13 +150,18 @@ prefix="c"%>
 			<td><input type="date" name="tourDate" placeholder="날짜선택"></td>
 			<td>
 				<select name="tourTime">
-					
 				</select>
 			</td>
 			<td></td>
 			<td></td>
 			<td></td>
-			<td></td>
+			<td>
+				<select name="status">
+					<option value=0>예약</option>
+					<option value=1>취소</option>
+					<option value=2>완료</option>
+				</select>
+			</td>
 		</tr>
 	</table>
 	<div class="section-content ">
@@ -256,6 +263,10 @@ prefix="c"%>
 			changeList();
 		});
 		
+		$("select[name=status]").change(function(){
+			changeList();
+		});
+		
 		$("#listAll").click(function(){
 			$("select[name=itemNo]").val("0").prop("selected", true);
 			var html = "";
@@ -279,7 +290,8 @@ prefix="c"%>
     	var phone = $("input[name=phone]").val();
     	var tourDate = $("input[name=tourDate]").val();
     	var tourTime = $("select[name=tourTime]").val();
-    	var param = {itemNo:itemNo, memberName:memberName, phone:phone, tourDate:tourDate, tourTime:tourTime};
+    	var status = $("select[name=status]").val();
+    	var param = {itemNo:itemNo, memberName:memberName, phone:phone, tourDate:tourDate, tourTime:tourTime, status:status};
     	
     	$.ajax({
     		url:"/changeList.do",
@@ -288,29 +300,32 @@ prefix="c"%>
     		dataType:"json",
     		success:function(data){
     			var html="";
+    			var cnt=0;
     			for(var i=0; i<data.length; i++){
     				var tourDate = new Date(data[i].tourDate).getTime();
     				html+="<tr>";
 					html+="<td>"+data[i].reserveNo+"</td>";
-					html+="<td>"+data[i].itemTitle+"</td>";
+					html+="<td><span id='title'>"+data[i].itemTitle+"</span></td>";
 					html+="<td>"+data[i].memberName+"</td>";
 					html+="<td>"+data[i].phone+"</td>";
 					html+="<td>"+data[i].tourDate+"</td>";
 					html+="<td>"+data[i].tourTime+"시</td>";
 					html+="<td>"+data[i].personCount+"명</td>";
+					cnt += data[i].personCount;
 					html+="<td>"+data[i].payDate+"</td>";
 					html+="<td>"+data[i].totalPay+"원</td>";
 					if(data[i].status==0){
 						if(tourDate<=new Date){
 							html+="<td>완료</td>";
 						}else{
-							html+="<td><button type='button' class='btn btn-info btn-sm' onclick='cancel("+data[i].reserveNo+");'>취소</button></td>";
+							html+="<td><button type='button' class='btn btn-info btn-sm' onclick=\"cancel("+data[i].reserveNo+",'"+data[i].memberId+"');\">취소</button></td>";
 						}
 					}else if(data[i].status==1){
 						html+="<td>취소</td>";
 					}
 					html+="</tr>";
     			}
+    			html+="<tr><td>인원수</td><td></td><td></td><td></td><td></td><td></td><td>"+cnt+"명</td><td></td><td></td><td></td>";
     			$("#reserveList").html(html);
     		},
     		error:function(){
@@ -319,10 +334,10 @@ prefix="c"%>
     	});
     };
     
-    function cancel(reserveNo){
+    function cancel(reserveNo,memberId){
     	$.ajax({
     		url:"/cancelReserve.do",
-    		data:{reserveNo:reserveNo},
+    		data:{reserveNo:reserveNo,memberId:memberId},
     		type:"post",
     		dataType:"json",
     		success:function(data){

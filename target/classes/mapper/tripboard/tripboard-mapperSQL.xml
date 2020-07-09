@@ -22,4 +22,59 @@
 		where trip_no = #{_parameter} 
 		order by trip_date, trip_order
 	</select>
+	<insert id="insertBoard" parameterType="tripBoardVO">
+		<selectKey keyProperty="tripBoardNo" resultType="int" order="BEFORE">
+			select trip_board_seq.nextval from dual
+		</selectKey>
+		insert into trip_board values(
+			#{tripBoardNo},
+			#{tripBoardTitle},
+			#{tripBoardContent},
+			#{tripRoute},
+			#{tripBoardWriter},
+			sysdate,
+			0,
+			#{regionNo}
+		)
+	</insert>
+	<insert id="insertPhoto" parameterType="photo">
+		insert into photo values(
+			photo_seq.nextval,
+			#{boardClass},
+			#{boardNo},
+			#{filename},
+			#{filepath}
+		)
+	</insert>
+	<select id="countTotal" resultType="_int">
+		select
+			count(trip_board_no)
+		from trip_board
+	</select>
+	<select id="selectBoardList" parameterType="map" resultType="tripBoardVO">
+		select 
+			* 
+		from (
+			select 
+				rownum as rnum, 
+				trip_board_no as tripBoardNo, 
+				trip_board_title as tripBoardTitle, 
+				trip_board_content as tripBoardContent, 
+				trip_route as tripRoute, 
+				trip_board_writer as tripBoardWriter, 
+				to_char(trip_board_date,'yyyy. mm. dd.') as tripBoardDate, 
+				to_char(trip_board_date,'hh24:mi') as tripBoardTime, 
+				read_count as readCount, 
+				region_no as regionNo,
+				filepath  
+			from(
+				select 
+					* 
+				from trip_board 
+				join photo on(trip_board_no = board_no) 
+				where board_class = 3 
+				order by trip_board_no desc
+			)
+		) where rnum between #{start} and #{end}
+	</select>
 </mapper>

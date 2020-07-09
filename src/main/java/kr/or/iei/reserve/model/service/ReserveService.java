@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -79,7 +81,8 @@ public class ReserveService {
 		return dao.insertReserve(r);
 	}
 
-	public int cancelReserve(int reserveNo) {
+	public int cancelReserve(int reserveNo, String memberId, HttpSession session) {
+		
 		return dao.cancelReserve(reserveNo);
 	}
 
@@ -134,5 +137,9 @@ public class ReserveService {
 			rv.setTourDate(rv.getTourDate().substring(0,10));
 		}
 		return rList;
+	}
+
+	public int reserveCheck() {
+		return dao.reserveCheck();
 	}
 }

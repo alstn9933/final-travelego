@@ -24,7 +24,7 @@ public class MessageService {
 	public InboxPageData selectSendMessageList(Member member) {
 
 		Message msg = new Message();
-		msg.setMessageSender(member.getMemberId());
+		msg.setMessageSender(member.getMemberNickname());
 
 		ArrayList<Message> list = (ArrayList<Message>) dao.selectMsgList(msg);
 
@@ -38,7 +38,7 @@ public class MessageService {
 	public InboxPageData selectReceiveMessageList(Member member) {
 
 		Message msg = new Message();
-		msg.setMessageReceiver(member.getMemberId());
+		msg.setMessageReceiver(member.getMemberNickname());
 
 		ArrayList<Message> list = (ArrayList<Message>) dao.selectMsgList(msg);
 		int unchkCount = dao.countUncheckMsg(msg.getMessageReceiver());
@@ -52,6 +52,9 @@ public class MessageService {
 	}
 
 	public int insertMessage(Message m) {
+		
+		m.setMessageReceiver(dao.getMemberId(m.getMessageReceiver()));
+		
 		return dao.insertMessage(m);
 	}
 
@@ -312,5 +315,17 @@ public class MessageService {
 			return result;
 		}
 		
+	}
+
+	public int checkMemberId(String receiver) {
+		return dao.checkMemberId(receiver);
+	}
+
+	public String selectMemberId(String receiver) {
+		return dao.getMemberId(receiver);
+	}
+
+	public String selectMemberNick(String memberId) {
+		return dao.selectMemberNick(memberId);
 	}
 }

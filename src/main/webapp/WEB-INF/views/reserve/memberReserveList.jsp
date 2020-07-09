@@ -101,13 +101,6 @@ prefix="c"%>
 		#itemTitle{
 			color:blue;
 		}
-		.modal-title{
-			width:65%;
-			text-overflow: ellipsis;
-		}
-		.starRev{
-			width:35%;
-		}
 		.starR1{
 		    background: url('http://miuu227.godohosting.com/images/icon/ico_review.png') no-repeat -52px 0;
 		    background-size: auto 100%;
@@ -352,7 +345,7 @@ prefix="c"%>
 								if(data[i].status==1){
 									html+="<span style='background-color:red; color:white;'>취소</span>";
 								}else if(tourDate>new Date){
-									html+="<button class='btn btn-primary stsbtn' onclick='cancel("+data[i].reserveNo+")'>취소하기</button>";
+									html+="<button class='btn btn-primary stsbtn' onclick=\"cancel("+data[i].reserveNo+",'"+data[i].memberId+"')\">취소하기</button>";
 								}else if(data[i].checkReview==0){
 									html+="<button class='btn btn-success stsbtn' onclick='reviewModal("+data[i].reserveNo+")' data-toggle='modal' data-target='#myModal'>후기 작성</button>";
 								}else if(data[i].checkReview==1){

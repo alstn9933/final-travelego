@@ -415,7 +415,6 @@ prefix="c"%>
       $(function () {
         $('[data-toggle="popover"]').popover();
       });
-
       $("#datepicker").datepicker({
         iconsLibrary: "fontawesome",
         icons: {
