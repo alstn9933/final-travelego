@@ -64,12 +64,12 @@ prefix="c"%>
             float: left;
             width: 280px;
             height: 400px;
-            background-color: aliceblue;
             overflow:hidden;
             border-radius: 20px;
             margin: 10px;
             position: relative;
             z-index:50;
+            box-shadow: 2px 2px 5px 0 lightgray;
         }
         .item>div{
             overflow: hidden;
@@ -84,14 +84,15 @@ prefix="c"%>
         	top:0;
         	text-align: center;
         	background:gray;
-        	z-index:51;
+        	z-index:53;
         	font-size:100px;
         	color:white;
         	opacity:0.7;
         }
         .item:hover{
             cursor: pointer;
-            background-color: #25e6b5;
+            box-shadow: 3px 3px 10px 5px lightgray;
+            transition-duration: 0.3s;
         }
         .item:hover img{
             transform: scale(1.3,1.3);
@@ -114,7 +115,7 @@ prefix="c"%>
         	height:30px;
         	position: absolute;
         	top:240px;
-        	z-index: 52;
+        	z-index: 55;
         }
         .itemBtn>button{
         	float:right;
@@ -127,14 +128,25 @@ prefix="c"%>
         	margin-top:10px;
         	text-align:center;
         }
+        .region{
+        	text-align:left;
+        	padding:10px;
+        	padding-bottom:0;
+            position:absolute;
+            background-color:rgba(100,100,100,0.3);
+            color:white;
+            width:100%;
+            z-index: 52;
+        }
         .score{
             text-align: right;
             padding:10px;
             padding-bottom:0;
             position:absolute;
-            background-color:rgba(100,100,100,0.5);
+            background-color:rgba(100,100,100,0.3);
             color:white;
             width:100%;
+            z-index: 51;
         }
         .morebtn{
         	overflow:hidden;
@@ -168,7 +180,8 @@ prefix="c"%>
     					console.log(data.length);
     					var html = "";
     					for(var i=0; i<data.length; i++){
-    						html += "<div class='item' itemNo="+data[i].itemNo+" onclick='itemView("+data[i].itemNo+");'>";
+    						html += "<div class='item card bg-light mb-3' itemNo="+data[i].itemNo+" onclick='itemView("+data[i].itemNo+");'>";
+    						html += "<div class='region'>"+data[i].regionCountry+"-"+data[i].regionCity+"</div>";
     						if(data[i].score==0){
     							html += "<div class='score'>후기가 없습니다</div>";
     						}else{
