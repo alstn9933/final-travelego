@@ -8,7 +8,8 @@
 	</select>
 	<select id="selectCustomerMember" resultType="member">
 		select
-		member_id as memberId,
+		member_id as
+		memberId,
 		member_pw as memberPw,
 		member_nickname as
 		memberNickname,
@@ -17,7 +18,8 @@
 		gender,
 		phone,
 		email,
-		member_level as memberLevel
+		member_level as
+		memberLevel
 		from member
 	</select>
 
@@ -48,24 +50,74 @@
 		member_level ,
 		row_number() over (order by member_level desc) as rnum
 		from member
-		where 1=1 
-		<include refid="search"></include>
+		where 1=1
+		<include refid="searchMem"></include>
 		)member
 		where rnum between #{rowStart} and #{rowEnd}
-		order by member_level desc
+		order by
+		member_level desc
 	</select>
+
 	<select id="mListCount" resultType="int">
 		select count(member_id)
 		from member where 1=1
-		<include refid="search"></include>	
+		<include refid="searchMem"></include>
 	</select>
 
-	<sql id="search">
+	<sql id="searchMem">
 		<if test="searchType != null">
 			<if test="searchType == 'id'.toString()">AND member_id LIKE '%' || #{keyword} || '%'</if>
 			<if test="searchType == 'nickname'.toString()">AND member_nickname LIKE '%' || #{keyword} || '%'</if>
 			<if test="searchType == 'name'.toString()">AND member_name '%' || #{keyword} || '%'</if>
 			<if test="searchType == 'memberLevel'.toString()">AND member_level '%' || #{keyword} || '%'</if>
+		</if>
+
+	</sql>
+
+	<select id="reportList" parameterType="adminPage"
+		resultType="report">
+		select
+        report_no as reportNo,
+		report_category as
+		reportCategory,
+		report_content as
+		reportContent,
+		report_date as
+		reportDate,
+		board_class as boardClass,
+		board_no as boardNo,
+		reported_member as reportedMember,
+		report_writer as reportWriter
+		from
+        (
+        select 
+        report_no,
+		report_category,
+		report_content, 
+		report_date,
+		board_class ,
+		board_no ,
+		reported_member ,
+		report_writer,
+        row_number() over (order by report_no desc) as rnum
+		from report
+		where 1=1 
+		<include refid="searchRe"></include>
+        )report
+        where rnum between #{rowStart} and #{rowEnd}
+        order by report_no desc
+	</select>
+	
+	<select id="reListCount" resultType="int">
+		select count (report_no) 
+		from report where  1=1
+		<include refid="searchRe"></include>
+	</select>
+
+<sql id="searchRe">
+		<if test="searchType != null">
+			<if test="searchType == 'reportedMember'.toString()">AND reported_member LIKE '%' || #{keyword} || '%'</if>
+			<if test="searchType == 'boardClass'.toString()">AND BOARD_CLASS LIKE '%' || #{keyword} || '%'</if>
 		</if>
 
 	</sql>
@@ -129,8 +181,8 @@
 
 	</select>
 
-	<select id="selectQnA" parameterType="qna" resultType="qna">
-		select
+	<select id="qnaList" parameterType="adminPage" resultType="qna">
+	select
 		qna_no as qnaNo,
 		qna_writer as qnaWriter,
 		qna_title as qnaTitle,
@@ -138,10 +190,38 @@
 		ask_date as askDate,
 		qna_answer as qnaAnswer,
 		answer_date as answerDate
-		from qna
-		join member on
-		member_id=qna_writer
+		from 
+       (
+        select 
+        qna_no ,
+		qna_writer,
+		qna_title ,
+		qna_content,
+		ask_date ,
+		qna_answer ,
+		answer_date ,
+		row_number() over (order by qna_no desc) as rnum
+        from qna
+        where 1=1
+        <include refid="searchQna"></include>
+        )qa
+        where rnum between #{rowStart} and #{rowEnd}
+        order by qna_answer desc
 	</select>
+	<select id="qnaListCount" resultType="int">
+		select count(qna_no) from qna where  1=1
+		<include refid="searchQna"></include>
+	</select>
+
+	<sql id="searchQna">
+		<if test="searchType != null">
+			<if test="searchType == 'qnaTitle'.toString()">AND qna_title LIKE '%' || #{keyword} || '%'</if>
+			<if test="searchType == 'qnaWriter'.toString()">AND qna_writer LIKE '%' || #{keyword} || '%'</if>
+		</if>
+
+	</sql>
+
+
 
 	<select id="qnaView" parameterType="qna" resultType="qna">
 		select
@@ -164,23 +244,10 @@
 		where qna_No=#{qnaNo}
 	</update>
 
-	<select id="reportList" parameterType="report"
-		resultType="report">
-		select
-		report_no as reportNo,
-		report_category as
-		reportCategory,
-		report_content as
-		reportContent,
-		report_date as
-		reportDate,
-		board_class as boardClass,
-		board_no as boardNo,
-		reported_member as reportedMember,
-		report_writer as reportWriter
-		from
-		report
-	</select>
+
+
+
+
 	<delete id="deletePage" parameterType="report">
 		delete from
 		<if test="boardClass==1">
@@ -200,7 +267,8 @@
 		</if>
 	</delete>
 	<delete id="deleteReport" parameterType="report">
-		delete from report where board_no=#{boardNo}
+		delete from report where
+		board_no=#{boardNo}
 	</delete>
 
 	<insert id="insertRegion" parameterType="region">

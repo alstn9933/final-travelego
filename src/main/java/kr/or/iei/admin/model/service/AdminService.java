@@ -44,7 +44,6 @@ public class AdminService {
 	}
 
 	public int modifyMemberLevel(Member m) {
-		System.out.println("서비스"+m.getMemberId());
 		return dao.modifyMemberLevel(m);
 	}
 
@@ -60,13 +59,17 @@ public class AdminService {
 		return (ArrayList<Region>)rList;
 	}
 
-	public ArrayList<QNA> qnaList() {
-		List qnaList = dao.selectQnaList();
-		return (ArrayList<QNA>)qnaList;
+	public ArrayList<QNA> qnaList(SearchAdmin searchQna) {
+		
+		return (ArrayList<QNA>)dao.qnaList(searchQna);
 	}
-
+	public int qnaListCount(SearchAdmin searchQna) {
+		
+		return dao.qnaListCount(searchQna);
+	}
+	
+	
 	public QNA qnaView(QNA q) {
-		System.out.println("문의글 잘 출력 되는가?");
 		return dao.qnaView(q);
 	}
 
@@ -79,9 +82,12 @@ public class AdminService {
 		return dao.middleList(rg);
 	}
 
-	public ArrayList<Report> reList() {
-			List<Report> reList=dao.reportList();
+	public ArrayList<Report> reList(SearchAdmin searchRe) {
+			List<Report> reList=dao.reportList(searchRe);
 		return (ArrayList<Report>)reList;
+	}
+	public int reListCount(SearchAdmin searchRe){
+		return dao.ReListCount(searchRe);
 	}
 
 	public int deletePage(Report rt) {
@@ -124,6 +130,10 @@ public class AdminService {
 	public int mListCount(SearchAdmin searchM){
 		return dao.mListCount(searchM);
 	}
+
+
+
+	
 
 	
 	

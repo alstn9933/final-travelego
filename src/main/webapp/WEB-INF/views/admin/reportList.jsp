@@ -134,89 +134,91 @@ main .admin_sidebar {
 }
 </style>
 <script>
+	$(function() {
+				$("#activeStop").click(function() {
+					var activeStop = $(this).attr("data-id");
+					var confirmOk = confirm("회원 활동이 정지 됩니다.진행하시겠습니까?");
+					if (confirmOk == true) {
 
-$(function() {
-	
-	$("#activeStop").click(function(){
-		var activeStop=$(this).attr("data-id");
-		var  confirmOk = confirm("회원 활동이 정지 됩니다.진행하시겠습니까?");
-			if (confirmOk == true) {
-				alert("진짜 진행합니다?")
-					 $.ajax({
-								url : "/modifyMemberLevel.do", // 콤마 없었음
-								type : "get",
-								data : {
-									memberId : activeStop
+						$.ajax({
+							url : "/modifyMemberLevel.do", // 콤마 없었음
+							type : "get",
+							data : {
+								memberId : activeStop
+							},
+							success : function(data) { // 오타
+								if (data == "1") {
+									location.reload();
+								} else {
+									alert("회원 정지 실패");
+								}
+							},
+							error : function() {
+								alert("시스템 오류로 인한 작업중단");
+							}
+						})
+
+					} else {
+						alert("취소하셨습니다.");
+					}
+				});
+				$(".deletePage").click(
+								function() {
+									alert("게시글을 삭제합니다.");
+									var removeCon = confirm("게시물을 삭제하시겠습니까~?\n 신고자와 신고글이 같은 다수일 경우 다중 삭제 됩니다.");
+									if (removeCon == true) {
+										var boardClass = $(this)
+												.attr("data-id");
+										var boardNo = $(this).parent().parent().find(".boardNo").attr("data-id");
+										$.ajax({
+											url : "/deletePage.do",
+											type : "get",
+											data : {
+												boardClass : boardClass,
+												boardNo : boardNo
 											},
 											success : function(data) { // 오타
-												if (data == "1") {
+												if (data == "2") {
 													location.reload();
-													
+
 												} else {
-													alert("회원 정지 실패");
+													alert("다중삭제 되었습니다.");
 												}
 											},
-
-											error : function(
-													) {
+											error : function() {
 												alert("시스템 오류로 인한 작업중단");
 											}
-										})
 
-							} else {
-								alert("취소하셨습니다.");
-							}
-					});
-					$(".deletePage").click(function(){
-						alert("게시글을 삭제합니다.")
-						var removeCon = confirm("게시물을 삭제하시겠습니까~?\n 신고글이 다수 일경우 다중 삭제 됩니다.");
-						if(removeCon==true){
-						var boardClass=$(this).attr("data-id");
-						var boardNo =$(this).parent().parent().find(".boardNo").attr("data-id");
-						$.ajax({
-						url:"/deletePage.do",
-						type : "get",
-						data:{
-							boardClass:boardClass, 
-							boardNo : boardNo
-						},success : function(data) { // 오타
-							if (data == "2") {
-								location.reload();
+										});
+
+									} else {
+										alert("취소하셨습니다.");
+									}
+
+								});
+
+				$("#keyword").keyup(function() {
+					var k = $(this).val();
+					$("#user-table > tbody > tr").hide();
+					var temp = $("#user-table > tbody > tr > td:nth-child(7):contains('"
+											+ k + "')");
+
+									$(temp).parent().show();
+								})
 								
-							} else {
-								alert("다중삭제 되었습니다.");
-							}
-						},
-						error : function(
-								) {
-							alert("시스템 오류로 인한 작업중단");
-						}
-							
-							
-						});
-							
-						}else{
-							alert("취소하셨습니다.");
-						}
-						
-					});
-					
-					 $("#keyword").keyup(function() {
-			                var k = $(this).val();
-			                $("#user-table > tbody > tr").hide();
-			                var temp = $("#user-table > tbody > tr > td:nth-child(7):contains('" + k + "')");
-
-			                $(temp).parent().show();
-			            })				
-					
-					
-	});
-// 	<!--  *BOARD_CLASS 1:MY_TRIP 2:RECOMMEND_BOARD 3:TOGETHER_BOARD 4:TOUR 5:TRIP_BOARD*/-->
-	
-	
-	
-
-
+			
+				
+								
+			})
+			
+			function reportContent(obj) {
+				var content = $(obj).prev(".reportContent").val();
+				$(".modalcontent").html(content);
+				var reportedMem = $(obj).parent().parent().find(".reportedMem").text();
+				console.log(reportedMem);
+				$(".modalReported").text(reportedMem);
+			
+			}
 </script>
 <body>
 	<div class="admin_page">
@@ -224,84 +226,143 @@ $(function() {
 			href="https://fonts.googleapis.com/icon?family=Material+Icons" />
 
 		<div id="mySidebar" class="admin_sidebar">
-			<a href="/memberManagement.do?reqPage=1"><span class="admin_title"></span>회원
-				관리</a><a href="spot_managenet.do"><span
-					class="admin_title">여행지 관리</span><br></a> <a href="qnaAdmin.do" /><span
-				class="admin_QA">회원문의사항</span><br> <a
-				href="report_mamnagement.do"><span class="admin_title">신고글
-					관리</span></a>
+			<a href="/memberManagement.do?reqPage=1"><span
+				class="admin_title"></span>회원 관리</a><a href="/spot_managenet.do"><span
+				class="admin_title">여행지 관리</span><br></a> <a
+				href="/adminQnaList.do"><span class="admin_QA">회원문의사항</span></a> <a
+				href="/reportList.do"><span class="admin_title">신고글 관리</span></a>
 		</div>
+
+
+
 		<div id="container">
-			<div id="input-form">
-				신고 게시글 작성자 : <input type="text" id="keyword" />
-			</div>
-
-			<table id="user-table" style="font-size:0.9rem;">
-				<thead>
-					<tr>
-						<th>신고번호</th>
-						<th>신고사유</th>
-						<th>신고내용</th>
-						<th>출처</th>
-						<th>게시글 번호</th>
-						<th>신고자</th>
-						<!-- 신고자 -->
-						<th>피신고자</th>
-						<!-- 신고글 작성자(가해자) -->
-						<th>신고날짜</th>
-						<th>게시글 삭제</th>
-					</tr>
-				</thead>
-				
-					
-						<c:forEach items="${reList}" var="r">
-						<tr>
-							<td>${r.reportNo}</td>
-							<td>${r.reportCategory}<br> <input type="button"
-								value="상세페이지 이동" data-id="${r.boardClass}" id="reportlPage">
-							</td>
-							<td>${r.reportContent }</td>
-							<!--  *BOARD_CLASS 1:MY_TRIP 2:RECOMMEND_BOARD 3:TOGETHER_BOARD 4:TOUR 5:TRIP_BOARD*/ 상세 주소 찾고, 넣기-->
-
-							<c:if test="${r.boardClass eq 1 }">
-								<td>내 여행</td>
-							</c:if>
-							<c:if test="${r.boardClass eq 2 }">
-								<td>추천게시판</td>
-							</c:if>
-							<c:if test="${r.boardClass eq 3 }">
-								<td>동행구하기</td>
-							</c:if>
-							<c:if test="${r.boardClass eq 4 }">
-								<td>투어티켓</td>
-							</c:if>
-							<c:if test="${r.boardClass eq 5 }">
-								<td>일정 게시판</td>
-							</c:if>
-							<td class="boardNo" data-id="${r.boardNo}">${r.boardNo }</td>
-							<td>${r.reportWriter}</td>
-							<c:forEach items="${mList }" var="m">
-								<c:if test="${m.memberId eq r.reportedMember}">
-									<c:if test="${m.memberLevel gt 0 }">
-										<td>${r.reportedMember}<br><input type="button" name="memberStop"
-											id="activeStop" value="정지"
-											data-id="${r.reportedMember}"></td>
-									</c:if>
-									<c:if test="${ m.memberLevel lt 0 }">
-										<td>${r.reportedMember }<br>
-										정지 회원</td>
-									</c:if>
-								</c:if>
-							</c:forEach>
-							<td>${r.reportDate }</td>
-							<td><input type="button" name="delete" value="게시글 삭제"
-								class="deletePage" data-id="${r.boardClass}"></td>
-							<!-- 아작스 쓸꺼고 여기서 아이디값 넘기고 그 아이디로 조회를 할꺼고 아작스로 신고당한사람,보드 클레스를 받아서 보내줘야겠지? ㅇㅋㅇㅋservice에서 1~5까지 값을 구해서 줘여 겠군 -->
+			<form role="form" method="get">
+				<div name="reportContainer">
+					<div class="search"
+						style="padding-left: 575px; margin-bottom: 10px;">
+						<span> <select name="searchType"
+							style="width: 140px; height: 29px;">
+								<option value="n"
+									<c:out value="${searchRe.searchType == null ? 'selected' : ''}"/>>선택</option>
+								<option value="id"
+									<c:out value="${searchRe.searchType eq 'reportedMember' ? 'selected' : ''}"/>>신고받은
+									아이디</option>
+						</select> <input type="text" name="keyword" id="keywordInput"
+							value="${searchRe.keyword}" />
+							<button id="searchBtn" type="button">검색</button>
+						</span>
+					</div>
+					<table id="user-table" class="reTable" style="font-size: 0.85rem;">
+						<thead>
+							<tr>
+								<th>신고번호</th>
+								<th>신고분류</th>
+								<th>신고내용</th>
+								<th>출처</th>
+								<th>게시글 번호</th>
+								<th>신고자</th>
+								<!-- 신고자 -->
+								<th>피신고자</th>
+								<!-- 신고글 작성자(가해자) -->
+								<th>신고날짜</th>
+								<th>게시글 삭제</th>
 							</tr>
+						</thead>
+
+
+						<c:forEach items="${reList}" var="r">
+							<tr>
+								<td>${r.reportNo}</td>
+								<td>${r.reportCategory}<br> <input type="button"
+									value="상세페이지 이동" data-id="${r.reportNo }" id="reportlPage">
+								</td>
+								<td>
+								<input class="reportContent" type="hidden" value="${r.reportContent }">
+								<button type="button" onclick="reportContent(this);"
+										id="${r.reportNo}" data-toggle="modal" data-target="#exampleModal" style="background-color:white;border:0.2em;outline:0.1;">상세보기</button></td>
+								<!--  *BOARD_CLASS 1:MY_TRIP 2:RECOMMEND_BOARD 3:TOGETHER_BOARD 4:TOUR 5:TRIP_BOARD*/ 상세 주소 찾고, 넣기-->
+								<c:if test="${r.boardClass eq 1 }">
+									<td>내 여행</td>
+								</c:if>
+								<c:if test="${r.boardClass eq 2 }">
+									<td>추천게시판</td>
+								</c:if>
+								<c:if test="${r.boardClass eq 3 }">
+									<td>동행구하기</td>
+								</c:if>
+								<c:if test="${r.boardClass eq 4 }">
+									<td>투어티켓</td>
+								</c:if>
+								<c:if test="${r.boardClass eq 5 }">
+									<td>일정 게시판</td>
+								</c:if>
+								<td class="boardNo" data-id="${r.boardNo}">${r.boardNo }</td>
+								<td>${r.reportWriter}</td>
+								<c:forEach items="${mList }" var="m">
+									<c:if test="${m.memberId eq r.reportedMember}">
+										<c:if test="${m.memberLevel gt 0 }">
+											<td class="reportedMem">${r.reportedMember}<br> <input type="button"
+												name="memberStop" id="activeStop" value="정지"
+												data-id="${r.reportedMember}"></td>
+										</c:if>
+										<c:if test="${ m.memberLevel lt 0 }">
+											<td class="reportedMem"> ${r.reportedMember } <br> 정지 회원
+											</td>
+										</c:if>
+									</c:if>
+								</c:forEach>
+								<td>${r.reportDate }</td>
+								<td><input type="button" name="delete" value="게시글 삭제"
+									class="deletePage" data-id="${r.boardClass}"></td>
+							</tr>
+
+
+
+
+
 						</c:forEach>
-			</table>
+					</table>
+
+					<br>
+					<div name="rePage" style="text-align: center;">
+						<c:if test="${pgm.prev}">
+							<a href="reportList.do${pgm.makeSearch(pgm.startPage - 1)}">이전</a>
+						</c:if>
+						<c:forEach begin="${pgm.startPage}" end="${pgm.endPage}" var="idx">
+							<a href="reportList.do${pgm.makeSearch(idx)}">${idx}</a>
+						</c:forEach>
+
+						<c:if test="${pgm.next && pgm.endPage > 0}">
+							<a href="reportList.do${pgm.makeSearch(pgm.endPage + 1)}">다음</a>
+						</c:if>
+					</div>
+				</div>
+			</form>
 		</div>
 	</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      	<div class="modalcontent"></div>
+      	<div class="modalReported"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 </body>
 
 		</html>
@@ -315,6 +376,7 @@ $(function() {
 		aria-hidden="true">
 		<div class="modal-dialog modal-dialog-centered" role="document">
 			<div class="modal-content">
+			<div class="modal-reported"></div>
 				<div class="serch_form">
 					<input type="text" placeholder="Search" />
 					<button type="submit">search</button>
@@ -335,7 +397,7 @@ $(function() {
 	<script src="/src/js/header/scrollIt.js"></script>
 	<script src="/src/js/header/jquery.scrollUp.min.js"></script>
 	<script src="/src/js/header/wow.min.js"></script>
-	<script src="/src/js/header/nice-select.min.js"></script>
+	<!-- 	<script src="/src/js/header/nice-select.min.js"></script> -->
 	<script src="/src/js/header/jquery.slicknav.min.js"></script>
 	<script src="/src/js/header/jquery.magnific-popup.min.js"></script>
 	<script src="/src/js/header/plugins.js"></script>
@@ -352,8 +414,9 @@ $(function() {
 	<script>
 		$(function() {
 			$('[data-toggle="popover"]').popover();
-		});
 
+		});
+	
 		$("#datepicker").datepicker({
 			iconsLibrary : "fontawesome",
 			icons : {

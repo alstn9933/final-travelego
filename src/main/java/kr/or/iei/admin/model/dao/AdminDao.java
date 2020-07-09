@@ -52,10 +52,16 @@ public class AdminDao {
 	}
 
 
-	public List selectQnaList() {
-		return sqlSession.selectList("admin.selectQnA");
+	public List qnaList(SearchAdmin searchQna) {
+		return sqlSession.selectList("admin.qnaList",searchQna);
 		
 	}
+	public int qnaListCount(SearchAdmin searchQna) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("admin.qnaListCount",searchQna);
+	}
+	
+	
 
 	public QNA qnaView(QNA q) {
 		// TODO Auto-generated method stub
@@ -75,8 +81,8 @@ public class AdminDao {
 		return sqlSession.selectList("admin.middleList",rg);
 	}
 
-	public List<Report> reportList() {
-		return sqlSession.selectList("admin.reportList");
+	public List<Report> reportList(AdminPage apg) {
+		return sqlSession.selectList("admin.reportList",apg);
 	}
 
 	public int deletePage(Report rt) {
@@ -125,6 +131,13 @@ public int mListCount(SearchAdmin searchM) {
 		
 	return sqlSession.selectOne("admin.mListCount",searchM);
 }
+
+public int ReListCount(SearchAdmin searchRe) {
+	
+	return sqlSession.selectOne("admin.reListCount",searchRe);
+}
+
+
 
 
 }

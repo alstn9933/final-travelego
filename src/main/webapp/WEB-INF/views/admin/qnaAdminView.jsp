@@ -83,7 +83,8 @@ main .admin_sidebar {
 #Contents {
 	transition: margin-left 0.5s;
 	padding: 16px;
-	margin-left: 250px;
+	margin-left: 350px;
+	
 }
 
 @media screen and (max-height: 450px) {
@@ -94,6 +95,9 @@ main .admin_sidebar {
 		font-size: 18px;
 	}
 }
+
+
+
 </style>
 
 
@@ -112,10 +116,10 @@ main .admin_sidebar {
 							qnaAnswer : qnaAnswer
 						},
 						success : function(data) {
-							if(data=="1"){
-							alert("답변을 변경하셨습니다.");
-							loaction.reload();
-							}else{
+							if (data == "1") {
+								alert("답변을 변경하셨습니다.");
+								loaction.reload();
+							} else {
 								alert("답변변경 오류");
 							}
 						},
@@ -131,72 +135,74 @@ main .admin_sidebar {
 				href="https://fonts.googleapis.com/icon?family=Material+Icons" />
 
 			<div id="mySidebar" class="admin_sidebar">
-				<a href="/memberManagement.do?reqPage=1"><span
-					class="admin_title"></span>회원 관리</a></span><a href="spot_managenet.do"><span><span
-						class="admin_title">여행지 관리</span><br></a> <a href="qnaAdmin.do" /><span
-					class="admin_QA">회원문의사항</span><br> <a href="reportList.do"><span
-					class="admin_title">신고글 관리</span></a>
+				<a href="/memberManagement.do"><span class="admin_title"></span>회원
+					관리</a></span><a href="spot_managenet.do"><span><span
+						class="admin_title">여행지 관리</span><br></a> <a
+					href="/adminQnaList.do" /><span class="admin_QA">회원문의사항</span><br>
+				<a href="/reportList.do"><span class="admin_title">신고글 관리</span></a>
 			</div>
 			<div id="Contents">
-				<table>
-
-
-
-
-				</table>
+				
 				<form action="/question_answer.do" method="post">
 					<div>
-						글 번호 :<input type="text" value="${q.qnaNo }" name="qnaNo" readonly
-							id="qnaNo" data-id="${q.qnaNo}">
+						글 번호     <input type="text" value="${q.qnaNo }" name="qnaNo" readonly
+							id="qnaNo" data-id="${q.qnaNo}" style="margin-left:100px;">
 					</div>
 					<div>
-						문의 아이디 :<input type="text" value="${q.qnaWriter }"
-							name="qnaWriter" readonly>
+						문의 아이디  <input type="text" value="${q.qnaWriter }"
+							name="qnaWriter" readonly style="margin-left:100px;">
 					</div>
 					<div>
-						제목 : <input type="text" value="${q.qnaTitle }" name="qnaTitle"
-							readonly>
+						문의 제목     <input type="text" value="${q.qnaTitle }" name="qnaTitle"
+							readonly style="margin-left:100px;">
 					</div>
 					<div>
-						질문 날짜 : <input type="text" value="${q.askDate }" name="askDate"
-							readonly>
-					</div>
+						질문 날짜  <input type="text" value="${q.askDate }" name="askDate"
+							readonly style="margin-left:92px;" >
+					</div></span>
 
 					<div>
-						질문내용 :
-						<textarea rows="5" cols="20" " style="resize: none;" readonly
-							name="qnaContent">${q.qnaContent }</textarea>
+						질문내용 
+						<textarea rows="5" cols="50" " style="resize:none;margin-left:100px;" readonly
+							name="qnaContent" >${q.qnaContent }</textarea>
 					</div>
 
 
 					<c:if test="${!empty q.qnaAnswer }">
 						<div>
 							답변 :
-							<textarea rows="5" cols="20" style="resize: none;"
+							<textarea rows="5" cols="50" style="resize: none;margin-left:130px;"
 								name="qnaAnswer" value="${q.qnaAnswer}" id="answer"
 								data-id="${q.qnaAnswer}" placeholder="${q.qnaAnswer}">${q.qnaAnswer} </textarea>
 						</div>
-						<input type="button" onclick="location.href='/qnaAdmin.do'" value="이전">
-						<input type="reset" vlaue="초기화">
+						<br>
+						<div id="submit">
+						<input type="button" onclick="location.href='/adminQnaList.do'"
+							value="이전">
+						<input type="reset" vlaue="초기화" >
 						<input type="button" id="updateAnswer" name="updateAnswer"
 							value="수정">
-							
+							</div>
 					</c:if>
 
 					<c:if test="${empty q.qnaAnswer }">
 						<div>
 							답변 :
-							<textarea rows="5" cols="20" style="resize: none;"
+							<textarea rows="5" cols="50" style="resize: none;"
 								name="qnaAnswer"> </textarea>
 						</div>
-						<input type="button"  onclick="location.href='/qnaAdmin.do'" value="이전">
+						<br>
+						<div id="submit">
+						<input type="button" onclick="location.href='/adminQnaList.do'"
+							value="이전">
 						<input type="reset" vlaue="초기화">
 						<input type="submit" value="완료">
+						</div>
 					</c:if>
 
-					
-					
-					
+
+
+
 				</form>
 			</div>
 		</div>

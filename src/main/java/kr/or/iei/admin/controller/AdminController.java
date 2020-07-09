@@ -45,10 +45,7 @@ public class AdminController {
 		System.out.println("AdminController생성완료");
 	}
 
-	@RequestMapping(value = "/adminPage.do")
-	public String adminPage() {
-		return "admin/adminPage";
-	}
+
 
 	@RequestMapping(value = "/spot_managenet.do")
 	public String spot_managenet(Model model) {
@@ -57,24 +54,53 @@ public class AdminController {
 		return "admin/spot_managenet";
 	}
 
-	@RequestMapping(value = "/qnaAdmin.do")
-	public String admin_QNA(Model model) {
-		ArrayList<QNA> qnaList = service.qnaList();
+	/*
+	 * 	@RequestMapping(value = "/memberManagement.do")
+	public String management(Model model,@ModelAttribute("scri") SearchAdmin searchM) {
+
+		ArrayList<Company> cList = service.selectCompanyMember();
+		PageMarker pgm = new PageMarker();
+		pgm.setapg(searchM);
+		pgm.setTotalCount(service.mListCount(searchM));
+		System.out.println(searchM.getKeyword());
+		ArrayList<Member> mList = service.selecMemberList(searchM);
+		model.addAttribute("mList", mList);
+		model.addAttribute("cList", cList);
+		model.addAttribute("pgm", pgm);
+		return "admin/memberManagement";
+
+	}	
+	 */
+	
+	@RequestMapping(value = "/adminQnaList.do")
+	public String admin_QNA(Model model ,@ModelAttribute("scri") SearchAdmin searchQna) {
+		
+		ArrayList<QNA> qnaList = service.qnaList(searchQna);
+		PageMarker pgm = new PageMarker();
+		pgm.setapg(searchQna);
+		pgm.setTotalCount(service.qnaListCount(searchQna));
+		model.addAttribute("pgm",pgm);
 		model.addAttribute("qnaList", qnaList);
-		return "admin/qnaList";
+		return "admin/adminQnaList";
 	}
 
-	@RequestMapping(value = "reportList.do")
-	public String reportList(Model model) {
-		ArrayList<Report> reList = service.reList();
+	
+	@RequestMapping(value = "/reportList.do")
+	public String reportList(Model model,@ModelAttribute("scri") SearchAdmin searchRe) {
+		
+		PageMarker pgm = new PageMarker();
+		pgm.setapg(searchRe);
+		pgm.setTotalCount(service.reListCount(searchRe));
+		ArrayList<Report> reList = service.reList(searchRe);
 		// 페이징 처리때문에 여기 바꿔줘야 함
 		ArrayList<Member> mList = service.selectCustomerMember();
 		model.addAttribute("reList", reList);
 		model.addAttribute("mList", mList);
+		model.addAttribute("pgm", pgm);
 		return "admin/reportList";
 	}
 
-	@RequestMapping(value = "/QnAanswer.do")
+	@RequestMapping(value = "/qnaAnswer.do")
 	public String qnaView(QNA q, Model model) {
 		QNA answer = service.qnaView(q);
 		model.addAttribute("q", answer);
@@ -104,7 +130,6 @@ public class AdminController {
 		PageMarker pgm = new PageMarker();
 		pgm.setapg(searchM);
 		pgm.setTotalCount(service.mListCount(searchM));
-		System.out.println(searchM.getKeyword());
 		ArrayList<Member> mList = service.selecMemberList(searchM);
 		model.addAttribute("mList", mList);
 		model.addAttribute("cList", cList);
@@ -116,8 +141,6 @@ public class AdminController {
 	@ResponseBody
 	@RequestMapping(value = "/deletePage.do", produces = "text/html; charset=utf-8")
 	public String deletePage(Report rt) {
-		System.out.println("보드 넘버 : " + rt.getBoardNo());
-		System.out.println("보드클레스 : " + rt.getBoardClass());
 		int resultP = service.deletePage(rt);
 		int resultR = service.deleteReport(rt);
 		int result = resultP + resultR;
@@ -140,7 +163,6 @@ public class AdminController {
 	@ResponseBody
 	@RequestMapping(value = "/confirmUpdateMember.do", produces = "agpplication/json; charset=utf-8")
 	public String confirmUpdateMember(Company cm) {
-		System.out.println(cm.getCompanyId());
 		int result = service.confirmUpdateMember(cm);
 		System.out.println(cm.getJoinConfirm());
 		if (result > 0) {
@@ -152,7 +174,6 @@ public class AdminController {
 	@ResponseBody
 	@RequestMapping(value = "/modifyMemberLevel.do", produces = "text/html; charset=utf-8") // 굳이 json으로 보낼 필요가 없습니다.
 	public String modifyMemberLevel(Member m) {
-		System.out.println(m.getMemberId());
 		int result = service.modifyMemberLevel(m);
 		System.out.println("result : " + result);
 		if (result > 0) {
@@ -178,7 +199,6 @@ public class AdminController {
 	@RequestMapping(value = "/updateAnswer.do", produces = "text/html; charset=utf-8")
 	public String updateAnswer(QNA q) {
 		int result = service.updateAnswer(q);
-		System.out.println(q.getQnaAnswer());
 		if (result > 0) {
 			return String.valueOf(result);
 		} else {
@@ -243,24 +263,18 @@ public class AdminController {
 				bos.close();
 				System.out.println("파일 업로드 완료");
 
-				System.out.println();
-
 				pt.setFilename(originalFileName);
 				pt.setFilepath("/upload/images/region/");
 				rg.setFilename(originalFileName);
-				System.out.println("!!!!!!!!!!!!!!!!!" + rg);
-				System.out.println("!!!!!!!!!!!!!!!!!" + pt);
 				int regionResult = service.insertRegion(rg);
 				int photoResult = service.insertPhoto(pt);
 				System.out.println("포토삽입" + photoResult);
 				System.out.println("지역삽입" + regionResult);
 
 			} else {
-				System.out.println("!!!!!!!!!!!!!!!!!");
 			}
 
 		} catch (Exception e) {
-			System.out.println("@@@@@@@@@@@" + e);
 		}
 		return "redirect:/spot_managenet.do";
 	}

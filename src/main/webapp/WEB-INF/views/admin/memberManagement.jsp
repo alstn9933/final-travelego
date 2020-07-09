@@ -83,12 +83,13 @@
 						error : function() {
 							alert("시스템 오류로 인한 작업중단");
 						}
-					})
+					});
 
 				} else {
-					alert("취소하셨습니다.")
+					alert("취소하셨습니다.");
 				}
-			})
+				;
+			});
 
 			$(".memberStop").click(function() {
 				var stopConfirm = confirm("회원 활동이 정지 됩니다.진행하시겠습니까?");
@@ -113,11 +114,12 @@
 						error : function() {
 							alert("시스템 오류로 인한 작업중단");
 						}
-					})
+					});
 
 				} else {
 					alert("취소하셨습니다.")
 				}
+				;
 			})
 			$(".memberRestore").click(function() {
 				var memberRestore = confirm("활동 회원 으로 전환됩니다.");
@@ -309,178 +311,171 @@ main .admin_sidebar {
 <!-- 게시글 스타일 -->
 
 <body>
-<form role="form" method="get">
+
 	<div class="admin_page">
 		<link rel="stylesheet"
 			href="https://fonts.googleapis.com/icon?family=Material+Icons" />
 
 		<div id="mySidebar" class="admin_sidebar">
-			<a href="/memberManagement.do"><span
-				class="admin_title"></span>회원 관리</a></span><a href="/spot_managenet.do"></span><span
-				class="admin_title">여행지 관리</span><br></a> <a href="/qnaAdmin.do" /><span
-				class="admin_QA">회원문의사항</span><br> <a href="/reportList.do" /><span
-				class="admin_title">신고글 관리</span></a>
+			<a href="/memberManagement.do"><span class="admin_title"></span>회원
+				관리</a></span><a href="/spot_managenet.do"></span><span class="admin_title">여행지
+					관리</span><br></a> <a href="/adminQnaList.do" /><span class="admin_QA">회원문의사항</span><br>
+			<a href="/reportList.do" /><span class="admin_title">신고글 관리</span></a>
 		</div>
+
+
 		<div id="member_container">
 
-			<div id="input-form">
-				<form name="search">
-					<label> <input type="radio" name="search" value="id"
-						id="searchId">&nbsp;아이디
-					</label>&nbsp; <label> <input type="radio" name="search"
-						value="nickname" id="sear">&nbsp;닉네임/회사명
-					</label>&nbsp; <label><input type="radio" name="search"
-						value="disapproval">&nbsp;승인/미승인 </label>&nbsp; &nbsp; <label>
-						<input type="radio" name="search" value="status" id="searchStop">&nbsp;회원상태
-					</label> &nbsp; &nbsp; &nbsp; <input type="text" id="keyword" />
-				</form>
-			</div>
-			<div id="search_result">
-			<div name="memberTable">
-				<table id="user-table">
-					<thead>
-						<tr>
+			<form role="form" method="get">
+				<div name="memberTable">
+					<div class="search"
+						style="padding-left: 710px; margin-bottom: 10px;">
+						
+						<select name="searchType" style="width: 100px; height: 29px;">
+							<option value="n"
+								<c:out value="${searchM.searchType == null ? 'selected' : ''}"/>>선택</option>
+							<option value="id"
+								<c:out value="${searchM.searchType eq 'id' ? 'selected' : ''}"/>>아이디</option>
+							<option value="nickname"
+								<c:out value="${searchM.searchType eq 'nickname' ? 'selected' : ''}"/>>닉네임</option>
+							<option value="name"
+								<c:out value="${scri.searchType eq 'name' ? 'selected' : ''}"/>>이름</option>
+						</select> <input type="text" name="keyword" id="keywordInput"
+							value="${searchM.keyword}" />
 
-							<th>회원 아이디</th>
-							<th>닉네임/회사명</th>
-							<th>이름</th>
-							<th>이메일</th>
-							<th>회원 상태</th>
-							<th>승인/미승인</th>
-						</tr>
-					</thead>
-					<!-- 일반회원 -->
-					<c:forEach items="${mList}" var="m">
-						<tr>
-							<td><c:out value="${m.memberId }"/></td>
-							<td>${m.memberNickname }</td>
-							<td>${m.memberName }</td>
-							<td>${m.email }</td>
+						<button id="searchBtn" type="button">검색</button>
+					
+					</div>
 
-							<c:if test="${m.memberLevel eq 1}">
-								<td id="modifyMember">일반 회원 <br> <input type="button"
-									name="memberStop" class="memberStop" value="정지"
-									data-id="${m.memberId}">
-								</td>
-								<td>해당 사항 없음</td>
-							</c:if>
+					<table id="user-table" style="font-size: 0.85rem;">
+						<thead>
+							<tr>
+								<th>회원 아이디</th>
+								<th>닉네임/회사명</th>
+								<th>이름</th>
+								<th>이메일</th>
+								<th>회원 상태</th>
+								<th>승인/미승인</th>
+							</tr>
+						</thead>
+						<!-- 일반회원 -->
+						<c:forEach items="${mList}" var="m">
+							<tr>
+								<td><c:out value="${m.memberId }" /></td>
+								<td>${m.memberNickname }</td>
+								<td>${m.memberName }</td>
+								<td>${m.email }</td>
 
-							<c:if test="${m.memberLevel eq -1}">
-								<td id="modifyMember">정지 회원 <br> <input type="button"
-									name="memberRecycle" class="memberRestore" value="복구"
-									data-id="${m.memberId}"> <input type="button"
-									name="memberDelete" class="memberDelete" value="탈퇴"
-									data-id="${m.memberId}">
-								</td>
-								<td>해당 사항 없음</td>
-							</c:if>
-
-							<c:if test="${m.memberLevel eq 3}">
-								<td id="modifyMember">관리자</td>
-								<td>해당 사항 없음</td>
-							</c:if>
-
-
-
-
-							<c:if test="${m.memberLevel eq 2}">
-								<td id="modifyMember">법인 회원 <br> <input type="button"
-									name="companyStop" class="companyStop" value="정지"
-									data-id="${m.memberId}"></td>
-									
-									
-									<td>
-									
-									
-								<c:forEach items="${cList }" var="c">
-								<c:if test="${m.memberId eq c.companyId }">
-									<c:if test="${c.joinConfirm eq 1}">
-											승인 완료 
-										</c:if> 
-									<c:if test="${c.joinConfirm eq 0}">
-											<input type="button" name="allow" class="memberConfirm"
-												value="미승인 회원" data-id="${c.companyId}">
-										
-										</c:if>
-										</c:if>
-											</c:forEach>
-												</td>
+								<c:if test="${m.memberLevel eq 1}">
+									<td id="modifyMember">일반 회원 <br> <input type="button"
+										name="memberStop" class="memberStop" value="정지"
+										data-id="${m.memberId}">
+									</td>
+									<td>해당 사항 없음</td>
 								</c:if>
-							<c:if test="${m.memberLevel eq -2}">
-								<td>법인회원<br> <input type="button" name="memberRecycle"
-									class="memberRestore" value="복구" data-id="${m.memberId}">
-									<input type="button" name="memberDelete" class="memberDelete"
-									value="탈퇴" data-id="${m.memberId}"></td>
-								<td><c:forEach items="${cList }" var="c">
-								<c:if test="${m.memberId eq c.companyId }">
-									<c:if test="${c.joinConfirm eq 1}">
+
+								<c:if test="${m.memberLevel eq -1}">
+									<td id="modifyMember">정지 회원 <br> <input type="button"
+										name="memberRecycle" class="memberRestore" value="복구"
+										data-id="${m.memberId}"> <input type="button"
+										name="memberDelete" class="memberDelete" value="탈퇴"
+										data-id="${m.memberId}">
+									</td>
+									<td>해당 사항 없음</td>
+								</c:if>
+
+								<c:if test="${m.memberLevel eq 3}">
+									<td id="modifyMember">관리자</td>
+									<td>해당 사항 없음</td>
+								</c:if>
+
+
+								<c:if test="${m.memberLevel eq 2}">
+									<td id="modifyMember">법인 회원 <br> <input type="button"
+										name="companyStop" class="companyStop" value="정지"
+										data-id="${m.memberId}"></td>
+
+
+									<td><c:forEach items="${cList }" var="c">
+											<c:if test="${m.memberId eq c.companyId }">
+												<c:if test="${c.joinConfirm eq 1}">
+											승인 완료 
+										</c:if>
+												<c:if test="${c.joinConfirm eq 0}">
+													<input type="button" name="allow" class="memberConfirm"
+														value="미승인 회원" data-id="${c.companyId}"
+														style="color: red;">
+
+												</c:if>
+											</c:if>
+										</c:forEach></td>
+								</c:if>
+								<c:if test="${m.memberLevel eq -2}">
+									<td>법인회원<br> <input type="button"
+										name="memberRecycle" class="memberRestore" value="복구"
+										data-id="${m.memberId}"> <input type="button"
+										name="memberDelete" class="memberDelete" value="탈퇴"
+										data-id="${m.memberId}"></td>
+									<td><c:forEach items="${cList }" var="c">
+											<c:if test="${m.memberId eq c.companyId }">
+												<c:if test="${c.joinConfirm eq 1}">
 											승인 완료
 										</c:if>
-										 <c:if test="${c.joinConfirm eq 0}">
-											<input type="button" name="allow" class="memberConfirm"
-												value="미승인 회원" data-id="${c.companyId}">
-										</c:if>
-										</c:if>
-								</c:forEach>
-									</td>
-						
-							</c:if>
+												<c:if test="${c.joinConfirm eq 0}">
+													<input type="button" name="allow" class="memberConfirm"
+														value="미승인 회원" data-id="${c.companyId}"
+														style="color: red;">
+												</c:if>
+											</c:if>
+										</c:forEach></td>
+
+								</c:if>
 
 
 
 
-						</tr>
-						<!-- 회원관리 1:일반회원 2 :법인회원 3:관리자
+							</tr>
+							<!-- 회원관리 1:일반회원 2 :법인회원 3:관리자
 									company 테이블에서  0 승인전, 1 승인 완료
 			 -->
 
-					</c:forEach>
-					<!-- 법인 회원   -->
-					
-					
-					
-					
-						
-				</table>
-				</div>
-				<br>
-				<div name="mPage" style="text-align:center;">
-					 <c:if test="${pgm.prev}">
-					 <a href="memberManagement.do${pgm.makeSearch(pgm.startPage - 1)}">이전</a>
-   					 </c:if> 
-					 	<c:forEach begin="${pgm.startPage}" end="${pgm.endPage}" var="idx">
-    				<a href="memberManagement.do${pgm.makeSearch(idx)}">${idx}</a>
-    					</c:forEach>
-					
+						</c:forEach>
+						<!-- 법인 회원   -->
+
+					</table>
+					<br>
+					<div name="mPage" style="text-align: center;">
+						<c:if test="${pgm.prev}">
+							<a href="memberManagement.do${pgm.makeSearch(pgm.startPage - 1)}">이전</a>
+						</c:if>
+						<c:forEach begin="${pgm.startPage}" end="${pgm.endPage}" var="idx">
+							<a href="memberManagement.do${pgm.makeSearch(idx)}">${idx}</a>
+						</c:forEach>
+
 						<c:if test="${pgm.next && pgm.endPage > 0}">
-					<a href="memberManagement.do${pgm.makeSearch(pgm.endPage + 1)}">다음</a>
+							<a href="memberManagement.do${pgm.makeSearch(pgm.endPage + 1)}">다음</a>
 						</c:if>
 					</div>
-			</div>
+
+				</div>
+			</form>
 		</div>
+
 	</div>
-	 <div class="search">
-    <select name="searchType">
-      <option value="n"<c:out value="${searchM.searchType == null ? 'selected' : ''}"/>>-----</option>
-      <option value="id"<c:out value="${searchM.searchType eq 'id' ? 'selected' : ''}"/>>아이디</option>
-      <option value="nickname"<c:out value="${searchM.searchType eq 'nickname' ? 'selected' : ''}"/>>닉네임</option>
-      <option value="name"<c:out value="${scri.searchType eq 'name' ? 'selected' : ''}"/>>이름</option>
-    </select>
 
-    <input type="text" name="keyword" id="keywordInput" value="${searchM.keyword}"/>
 
-    <button id="searchBtn" type="button">검색</button>
-
-  </div>
-   </form>
-      
-    <script>
-    $(function(){
-        $('#searchBtn').click(function() {
-          self.location = "memberManagement.do" + '${pgm.makeQuery(1)}' + "&searchType=" + $("select option:selected").val() + "&keyword=" + encodeURIComponent($('#keywordInput').val());
-        });
-      });   
-    </script>
+	<script>
+		$(function() {
+			$('#searchBtn').click(
+					function() {
+						self.location = "memberManagement.do"
+								+ '${pgm.makeQuery(1)}' + "&searchType="
+								+ $("select option:selected").val()
+								+ "&keyword="
+								+ encodeURIComponent($('#keywordInput').val());
+					});
+		});
+	</script>
 </body>
 
 		</html>
@@ -514,7 +509,7 @@ main .admin_sidebar {
 	<script src="/src/js/header/scrollIt.js"></script>
 	<script src="/src/js/header/jquery.scrollUp.min.js"></script>
 	<script src="/src/js/header/wow.min.js"></script>
-	<script src="/src/js/header/nice-select.min.js"></script>
+	<!-- 	<script src="/src/js/header/nice-select.min.js"></script> -->
 	<script src="/src/js/header/jquery.slicknav.min.js"></script>
 	<script src="/src/js/header/jquery.magnific-popup.min.js"></script>
 	<script src="/src/js/header/plugins.js"></script>
