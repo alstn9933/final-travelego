@@ -121,6 +121,7 @@
 			ws.onmessage = function(e) {
 				var currentCount = Number($("#alramCount").html());
 				$("#alramCount").html(currentCount + Number(e.data));
+				$("#alramCount").show();
 			};
 
 			ws.onclose = function() {

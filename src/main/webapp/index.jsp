@@ -186,14 +186,13 @@
 			url : "/maintourList.do",
 			dataType:"json",
 			success : function(data) {
-				html = "";
-				
+				html = "";	
 				for(var i=0;i<data.length;i++){
 					html += "<div class="+"hotItem"+"><div class="+"itemimgsDiv"+">";
 					html += "<img class="+"tourimg"+" src="+"/upload/images/tour/thumnail/"+data[i].filename+"></img></div>";
-					html += "<a href="+"#"+"><p class='itrmp3'>"+data[i].itemTitle+"</p></a>";
-					html += "<div><span id='sitem'><i class='fas fa-won-sign'></i>"+data[i].itemPrice+"</div>";
-					html += "<span id="+"itemscore"+"><i class='far fa-star'></i>"+data[i].score+"</span></div>";
+					html += "<div class='itemDate'><a href="+"/tourView.do?itemNo="+data[i].itemNo+"><p class='itrmp3'>"+data[i].itemTitle+"</p></a>";
+					html += "<span id='sitem'><i class='fas fa-won-sign'></i>"+data[i].itemPrice+"</span><br>";
+					html += "<span id="+"itemscore"+"><i class='far fa-star'></i>"+data[i].score+"</span></div></div>";
 			
 				//"+data[i].beginDate+"~"+data[i].endDate+"
 				}
