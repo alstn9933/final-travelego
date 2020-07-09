@@ -107,4 +107,7 @@
 	<delete id="deleteWrongReserve">
 		delete from tour_reserve where total_pay=0
 	</delete>
+	<select id="modifyCheckReserve" parameterType="_int" resultType="_int">
+		select count(*) as cnt from tour_reserve where status=0 and sysdate &lt; tour_date and item_no=#{_parameter}
+	</select>
 </mapper>

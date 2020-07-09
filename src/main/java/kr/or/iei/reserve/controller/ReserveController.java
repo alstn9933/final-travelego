@@ -152,4 +152,11 @@ public class ReserveController {
 		ArrayList<ReserveVO> rList = service.selectReserveList(m,r);
 		return new Gson().toJson(rList);
 	}
+	
+	@ResponseBody
+	@RequestMapping(value="/modifyCheckReserve.do", produces = "application/json; charset=utf-8")
+	public String modifyCheckReserve(int itemNo) {
+		int result = service.modifyCheckReserve(itemNo);
+		return new Gson().toJson(result);
+	}
 }

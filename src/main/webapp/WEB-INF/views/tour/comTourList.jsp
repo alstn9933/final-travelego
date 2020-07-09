@@ -263,10 +263,24 @@ prefix="c"%>
    			});
     	});
     	
-/*     	function modifyItem(itemNo){
+     	function modifyItem(itemNo){
     		event.stopPropagation();
-    		location.href="/modifyItem.do?itemNo="+itemNo;
-    	}; */
+    		$.ajax({
+    			url:"/modifyCheckReserve.do",
+    			data:{itemNo:itemNo},
+    			type:"post",
+    			dataType:"json",
+    			success:function(data){
+    				if(data>0){
+    					alert("해당 상품에 진행중인 예약이 남아있어 수정이 불가능합니다.");
+    				}else{
+    					location.href="/modifyItemFrm.do?itemNo="+itemNo;
+    				}
+    			},error:function(){
+    				console.log("해당아이템의 예약을 불러오는데 에러발생");
+    			}
+    		});
+    	};
     	
     	function itemView(itemNo){
    			location.href="/tourView.do?itemNo="+itemNo;

@@ -300,4 +300,10 @@ public class TourController {
 		return new Gson().toJson(result);
 	}
 	
+	@RequestMapping(value="/modifyItemFrm.do")
+	public String modifyItem(int itemNo, Model model) {
+		TourVO tv = service.selectOneTour(itemNo);
+		model.addAttribute("tv",tv);
+		return "tour/modifyTourFrm";
+	}
 }
