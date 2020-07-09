@@ -52,19 +52,18 @@ prefix="c"%>
     		box-sizing:border-box;
     		overflow:hidden;
             text-overflow: ellipsis;
+            overflow: hidden;
             border: 1px solid lightgray;
     	}
     	#title{
     		width:100%;
-    		height:20px;
-            text-overflow: ellipsis;
+    		height:5px;
     	}
     	table tr>td:nth-child(1) {
 			width:60px;
 		}
 		table tr>td:nth-child(2) {
 			width:213px;
-			white-space:nowrap;
 		}
 		table tr>td:nth-child(3) {
 			width:107px;
@@ -292,7 +291,7 @@ prefix="c"%>
     				var tourDate = new Date(data[i].tourDate).getTime();
     				html+="<tr>";
 					html+="<td>"+data[i].reserveNo+"</td>";
-					html+="<td>"+data[i].itemTitle+"</td>";
+					html+="<td><span id='title'>"+data[i].itemTitle+"</span></td>";
 					html+="<td>"+data[i].memberName+"</td>";
 					html+="<td>"+data[i].phone+"</td>";
 					html+="<td>"+data[i].tourDate+"</td>";
