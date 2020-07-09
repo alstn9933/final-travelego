@@ -71,7 +71,7 @@
  where member_id=#{memberId}
  </update>
  <select id="mainrecommendList" resultType="recommend">
-   select * from
+    select * from
    (select ROWNUM as RNUM,n.*
     from
     (select 
@@ -79,14 +79,14 @@
     r.rec_title as recTitle,
     r.rec_writer as recWriter,
     r.read_count as readCount,
-    filename as filename,
-    filepath as filepath,
+    nvl(filename,null) as filename,
+    nvl(filepath,null) as filepath,
     board_class
     from RECOMMEND_BOARD r 
-    full outer join photo p 
-    on(p.board_class=2 and p.board_no=r.rec_no)
-    where p.BOARD_CLASS=2 <!-- and p.board_no=r.rec_no -->
+    left join (select * from photo where board_class = 2) p  
+    on(p.board_no=r.rec_no)
     order by read_count desc )n)where rnum between #{start} and #{end}
+   
  </select>
  <select id="mainTourList"  resultType="tour">
  	select * from
