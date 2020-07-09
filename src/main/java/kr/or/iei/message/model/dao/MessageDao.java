@@ -88,5 +88,9 @@ public class MessageDao {
 	public int checkMemberId(String receiver) {
 		return session.selectOne("message.checkMemberId",receiver);
 	}
+
+	public String selectMemberNick(String memberId) {
+		return session.selectOne("message.checkMemberNick", memberId);
+	}
 	
 }

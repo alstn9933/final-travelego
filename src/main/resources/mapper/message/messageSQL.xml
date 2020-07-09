@@ -179,4 +179,10 @@
 		from member
 		where member_nickname = #{_parameter}
 	</select>
+	<select id="checkMemberNick" parameterType="string" resultType="string">
+		select
+			member_nickname
+		from member
+		where member_id = #{_parameter}
+	</select>	
 </mapper>
