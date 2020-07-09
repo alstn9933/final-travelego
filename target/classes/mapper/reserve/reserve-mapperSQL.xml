@@ -75,7 +75,7 @@
 		update tour_reserve set check_review=1 where reserve_no=#{_parameter}
 	</update>
 	<select id="selectReserve" parameterType="reserve" resultType="reserve">
-		select r.reserve_no as reserveNo, t.item_title as itemTitle, m.member_name as memberName, m.phone as phone, r.tour_date as tourDate, r.tour_time as tourTime, r.person_count as personCount, r.pay_date as payDate, r.total_pay as totalPay, r.status as status
+		select r.reserve_no as reserveNo, t.item_title as itemTitle, r.member_id as memberId, m.member_name as memberName, m.phone as phone, r.tour_date as tourDate, r.tour_time as tourTime, r.person_count as personCount, r.pay_date as payDate, r.total_pay as totalPay, r.status as status
 		from tour_reserve r join member m on(m.member_id=r.member_id) join tour t on(t.item_no=r.item_no) 
 		where t.member_id=#{memberId} 
 		<if test="itemNo!='' || itemNo!=0">
@@ -92,6 +92,15 @@
 		</if>
 		<if test="tourTime!='null'">
 			and r.tour_time=#{tourTime}
+		</if>
+		<if test="status==0">
+			and status=0 and sysdate &lt;= r.tour_date
+		</if>
+		<if test="status==1">
+			and status=1
+		</if>
+		<if test="status==2">
+			and status=0 and r.tour_date &lt; sysdate
 		</if>
 		order by r.tour_date asc, r.reserve_no desc
 	</select>

@@ -58,8 +58,8 @@ public class ReserveController {
 	
 	@ResponseBody
 	@RequestMapping(value="/cancelReserve.do", produces = "application/json; charset=utf-8")
-	public int cancelResereve(int reserveNo) {
-		return service.cancelReserve(reserveNo);
+	public int cancelResereve(int reserveNo,String memberId, HttpSession session) {
+		return service.cancelReserve(reserveNo,memberId,session);
 	}
 	
 	@ResponseBody
