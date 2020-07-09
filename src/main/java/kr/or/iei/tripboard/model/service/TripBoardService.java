@@ -4,7 +4,9 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
@@ -32,6 +34,8 @@ public class TripBoardService {
 	@Autowired
 	@Qualifier("tripBoardDao")
 	TripBoardDao dao;
+	
+	private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy. MM. dd.");
 
 	public ArrayList<TripBoardMyTripVO> selectTrip(Member member) {
 		return (ArrayList<TripBoardMyTripVO>)dao.selectTrip(member.getMemberId());
@@ -152,7 +156,14 @@ public class TripBoardService {
 		
 		TripBoardPageDTO pd = new TripBoardPageDTO();		
 		TripBoardVO vo = dao.selectOneBoard(tripBoardNo);
-		ArrayList<TogetherCommentVO> commentList = (ArrayList<TogetherCommentVO>) dao.selectCommentList(tripBoardNo);		
+		ArrayList<TogetherCommentVO> commentList = (ArrayList<TogetherCommentVO>) dao.selectCommentList(tripBoardNo);
+		String today = dateFormat.format(Calendar.getInstance().getTime());
+		for(TogetherCommentVO comment : commentList) {
+			if(comment.getCommentDate().equals(today)) {
+				comment.setCommentDate(comment.getCommentTime());
+			}
+		}
+		vo.setCommentCount(commentList.size());
 		pd.setBoard(vo);
 		pd.setCommentList(commentList);
 		return pd;
@@ -217,8 +228,28 @@ public class TripBoardService {
 		return dao.selectOneBoard(boardNum);
 	}
 
-	public int insertComment(TogetherCommentVO comment) {
+	public int insertComment(HttpSession session, TogetherCommentVO comment) {
+		Member member = (Member) session.getAttribute("member");
+		comment.setCommentWriter(member.getMemberId());
+		System.out.println(comment.getRefComment());
 		return dao.insertComment(comment);
+	}
+
+	public int deleteComment(int commentNo) {
+		
+		int result = dao.checkRef(commentNo);
+		
+		if(result>0) {
+			result = -1;
+		} else {
+			result = dao.deleteComment(commentNo);
+		}
+		
+		return result;
+	}
+
+	public int modifyComment(TogetherCommentVO comment) {
+		return dao.updateComment(comment);
 	}
 	
 	

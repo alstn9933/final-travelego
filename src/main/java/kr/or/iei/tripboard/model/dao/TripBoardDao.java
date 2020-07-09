@@ -62,7 +62,16 @@ public class TripBoardDao {
 	public int insertComment(TogetherCommentVO comment) {
 		return session.insert("tripboard.insertComment", comment);
 	}
-	
-	
-	
+
+	public int checkRef(int commentNo) {
+		return session.selectOne("tripboard.checkCommentRef", commentNo);
+	}
+
+	public int deleteComment(int commentNo) {
+		return session.delete("tripboard.deleteComment", commentNo);
+	}
+
+	public int updateComment(TogetherCommentVO comment) {
+		return session.update("tripboard.updateComment", comment);
+	}
 }

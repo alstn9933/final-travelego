@@ -47,17 +47,56 @@ public class TripBoardController {
 	@Autowired
 	@Qualifier("tripBoardService")
 	TripBoardService service;
+	
+	@RequestMapping(value = "/modComment.do")
+	public String modifyComment(TogetherCommentVO comment, Model model) {
+		
+		int result = service.modifyComment(comment);
+			
+		if(result>0) {
+			model.addAttribute("msg", "댓글을 수정했습니다.");
+		} else {
+			model.addAttribute("msg", "댓글을 수정에 실패했습니다.");
+		}		
+		model.addAttribute("loc","/tripboard/view.do?tripBoardNo="+comment.getBoardNo());
+		return "common/msg";
+	}
+	
+	@RequestMapping(value = "/deleteComment.do")
+	public String deleteComment(int boardNo, int commentNo, Model model) {
+		
+		int result = service.deleteComment(commentNo);
+		
+		switch (result) {
+		case -1:
+			model.addAttribute("msg", "답글이 작성된 댓글은 삭제할 수 없습니다.");
+			break;
+
+		case 0:
+
+			model.addAttribute("msg", "댓글 삭제에 실패했습니다.");
+			break;
+			
+		case 1:
+
+			model.addAttribute("msg", "댓글을 삭제했습니다.");
+			break;
+		}
+		
+		model.addAttribute("loc","/tripboard/view.do?tripBoardNo="+boardNo);
+		return "common/msg";
+	}
 		
 	@RequestMapping(value = "/writeComment.do")
-	public String insertComment(TogetherCommentVO comment, Model model) {
-		int result = service.insertComment(comment); 
+	public String insertComment(TogetherCommentVO comment, Model model, HttpSession session) {
+		int result = service.insertComment(session, comment); 
 		
 		if(result>0) {
 			model.addAttribute("msg","댓글을 등록했습니다.");
 		} else {
 			model.addAttribute("msg","댓글 등록에 실패했습니다.");
 		}
-		model.addAttribute("loc","tripboard/view.do?tripBoardNo="+comment.getBoardNo());
+		model.addAttribute("loc","/tripboard/view.do?tripBoardNo="+comment.getBoardNo());
 		return "common/msg";
 	}
 	
@@ -67,7 +106,7 @@ public class TripBoardController {
 		TripBoardPageDTO pd = service.selectOneBoard(tripBoardNo);
 		
 		model.addAttribute("board", pd.getBoard());
-		
+		model.addAttribute("commentList", pd.getCommentList());
 		return "tripboard/view";
 	}                                        
 	

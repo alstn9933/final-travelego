@@ -39,3 +39,46 @@ section > div {
 .comment_content_area.reply > td:first-of-type {
   padding-left: 60px;
 }
+
+.comment_btn {
+  display: flex;
+  flex-direction: column;
+}
+
+.comment_btn > div:last-of-type {
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+}
+
+.addComment {
+  width: 96px;
+}
+
+.comment_date div {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.comment_writer {
+  font-size: 14px;
+  color: #575757;
+}
+
+.autosize {
+  resize: none;
+}
+
+.add_comment_area > td:first-of-type {
+  padding-left: 60px;
+}
+
+.add_comment_area > td:last-of-type > div > button:first-of-type,
+.mod_comment_area > td:last-of-type > div > button:first-of-type {
+  margin-bottom: 10px;
+}
+
+button {
+  cursor: pointer;
+}

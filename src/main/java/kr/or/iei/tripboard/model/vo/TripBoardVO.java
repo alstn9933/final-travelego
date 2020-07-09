@@ -16,4 +16,5 @@ public class TripBoardVO {
 	private String tripDays;
 	private String filepath;
 	private String regionName;
+	private int commentCount;
 }
