@@ -104,4 +104,7 @@
 		</if>
 		order by r.tour_date asc, r.reserve_no desc
 	</select>
+	<delete id="deleteWrongReserve">
+		delete from tour_reserve where total_pay=0
+	</delete>
 </mapper>

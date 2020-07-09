@@ -82,6 +82,7 @@ public class ReserveService {
 	}
 
 	public int cancelReserve(int reserveNo, String memberId, HttpSession session) {
+		
 		return dao.cancelReserve(reserveNo);
 	}
 
@@ -136,5 +137,9 @@ public class ReserveService {
 			rv.setTourDate(rv.getTourDate().substring(0,10));
 		}
 		return rList;
+	}
+
+	public int reserveCheck() {
+		return dao.reserveCheck();
 	}
 }
