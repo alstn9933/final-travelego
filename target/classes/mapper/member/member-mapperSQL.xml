@@ -99,7 +99,7 @@
 	t.item_price as itemPrice,
 	t.item_reg_date as itemRegDate, 
 	NVl((select avg(r.review_rate) from tour_review r where (r.item_no = t.item_no)), 0) as tour_avg, 
-	p.filename 
+	p.filepath 
 	from tour t full outer join photo p on(p.board_no=t.item_no and p.board_class=4) 
 	where t.close_check=0 and p.board_no=t.item_no
 	order by tour_avg desc)n)
