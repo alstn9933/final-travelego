@@ -42,16 +42,19 @@ prefix="c"%>
             data-toggle="popover"
             data-placement="bottom"
             data-content="${b.tripBoardTitle}"
+            boardNum="${b.tripBoardNo}"
           >
-            <c:if test="${not empty b.filepath}">
-              <img src="${b.filepath}" alt="" />
-            </c:if>
-            <c:if test="${empty b.filepath}">
-              <img src="/src/imgs/header/rogo2.png" alt="" />
-            </c:if>
+            <a href="/tripboard/view.do?tripBoardNo=${b.tripBoardNo}">
+              <c:if test="${not empty b.filepath}">
+                <img src="${b.filepath}" alt="" />
+              </c:if>
+              <c:if test="${empty b.filepath}">
+                <img src="/src/imgs/header/rogo2.png" alt="" />
+              </c:if>
+            </a>
 
             <i
-              class="fas fa-ellipsis-v"
+              class="fas fa-ellipsis-v moreIcon"
               data-toggle="dropdown"
               aria-haspopup="true"
               aria-expanded="false"
@@ -63,13 +66,15 @@ prefix="c"%>
                 >
               </div>
             </i>
-            <div>
-              <span>대한민국 - 제주도</span>
+            <a href="/tripboard/view.do?tripBoardNo=${b.tripBoardNo}">
               <div>
-                <i class="far fa-thumbs-up"></i>
-                <span>0</span>
+                <span>대한민국 - 제주도</span>
+                <div>
+                  <i class="far fa-thumbs-up"></i>
+                  <span>0</span>
+                </div>
               </div>
-            </div>
+            </a>
           </div>
         </c:forEach>
       </div>
@@ -149,6 +154,14 @@ prefix="c"%>
     <script src="/src/js/header/mail-script.js"></script>
     <script src="/src/js/header/main.js"></script>
     <script src="/src/js/message/messageSend.js"></script>
+    <script>
+      // $(".content").on("click", viewContent);
+
+      // function viewContent() {
+      //   location.href =
+      //     "/tripboard/view.do?tripBoardNo=" + $(this).attr("boardNum");
+      // }
+    </script>
     <c:if test="${not empty sessionScope.member.memberId }">
       <script>
         $("#writeBtn").click(function () {
