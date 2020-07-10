@@ -53,6 +53,13 @@ public class MypageController {
 		int reqPage = Integer.parseInt(req.getParameter("reqPage"));
 		HashMap<String, Object> map = service.selectBookmarkList(memberId,board,reqPage);
 		ArrayList<Bookmark> mList = (ArrayList<Bookmark>)map.get("list");
+		for(Bookmark b : mList) {
+			if(b.getBoardClass() == 2) {
+				b.setBoardTitle("<a href='/recDetail.do?reqPage=1&recNo="+b.getBoardNo()+"'>"+b.getBoardTitle()+"</a>");
+			}else if(b.getBoardClass()==5) {
+				/* b.setBoardTitle("<a href='/"); */
+			}
+		}
 		String pageNavi = (String)map.get("pageNavi");
 		model.addAttribute("mList", mList);
 		model.addAttribute("pageNavi",pageNavi);

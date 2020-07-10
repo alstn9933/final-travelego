@@ -310,7 +310,6 @@
 	<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 
 	<!-- 웹 콘텐츠는 section 태그 안에 작성을 해주세요!-->
-	<section>
 		<section>
 			<div class="option">
 				<div>
@@ -657,7 +656,7 @@
 		<script>
 			var mainPhoto;
 			$("#complete").submit(function(){
-				if($("#keyword").val()==""){
+				/* if($("#keyword").val()==""){
 					alert("추천하는 장소를 입력하세요");
 					return false;
 				}
@@ -668,7 +667,7 @@
 				if($("#editor").val()==""){
 					alert("본문을 입력하세요");
 					return false;
-				}
+				} */
 				mainPhoto = $("#cont").find("iframe").contents().find("img").eq(0).attr("src");
 				$("#photo").val(mainPhoto);
 				console.log($("#cont").find("iframe").contents().find("img").eq(0).attr("src"));

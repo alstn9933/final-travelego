@@ -12,6 +12,14 @@
 <script src="/src/js/jquery/jquery-3.5.1.js"></script>
 <script src="/src/js/bootstrap/popper.min.js"></script>
 <script src="/src/js/bootstrap/bootstrap-4.5.0.js"></script>
+
+ <!-- 수민 버튼 부트스트랩 -->
+     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+  
+
 <!-- <link rel="manifest" href="site.webmanifest"> -->
 <link rel="shortcut icon" type="image/x-icon"
 	href="/src/imgs/header/favicon.png" />
@@ -58,6 +66,12 @@
 		display: none;
 	}
     
+    button{
+    	width:60px;
+    	height:30px;
+    	text-shadow: 0.2px 0.2px white;
+    	line-height: 20px;
+    }
 </style>
 </head>
 <script>
@@ -150,21 +164,21 @@
 	<section>
 		<!-- 여기서부터 작성하시면 됨!!!!!!! -->
 		<div id="wrap" style="width:100%;">
-		<div style="margin-left:10px; font-size:14px;">
+		<div style="margin-left:10px; font-size:14px; color:gray; text-shadow: 0.2px 0.2px gray;">
 					<c:if test="${rec.recCategory == 1 }">
-                		맛집
+                		&lt맛집&gt
                 	</c:if>
 					<c:if test="${rec.recCategory == 2 }">
-                		카페
+                		&lt카페&gt
                 	</c:if>
 					<c:if test="${rec.recCategory == 3 }">
-                		숙소
+                		&lt숙소&gt
                 	</c:if>
 					<c:if test="${rec.recCategory == 4 }">
-                		관광지
+                		&lt관광지&gt
                 	</c:if>
 					<c:if test="${rec.recCategory == 5 }">
-                		액티비티
+                		&lt액티비티&gt
                 	</c:if>
 				</div>
 			<div class="title" style="width:90%;">
@@ -203,7 +217,7 @@
 		</div>
 
 		
-		<div style="width:80%; margin:0 auto;">${rec.recContent}</div>
+		<div style="width:80%; margin:50px auto;">${rec.recContent}</div>
 		<div id="map" style="width:60%;height:400px;margin:80px auto;"></div>
 		<div style="height:40px;">
 			<c:if test="${empty liked }">
@@ -227,34 +241,36 @@
 						test="${sessionScope.member.memberId eq cmt.commentWriter or sessionScope.member.memberId eq 'admin'}">
 						<ul>
 							<li>
-								<div class="comment" style="background-color: #dcecfa">
+								<div class="comment" style="background-color: #dcecfa; padding: 10px 20px;">
 									<input type="hidden" value="${cmt.commentNo }">
 									<input type="hidden" value="${cmt.commentLevel }">
-									<div>${cmt.commentWriter }</div>
-									<div>${cmt.commentContent }</div>
+									<div style="font-weight:450;">${cmt.commentWriter }</div>
+									<div style="padding-left:20px; margin:5px;">${cmt.commentContent }</div>
 									<textarea rows="5" cols="50" name="amendComment" class="amendtxt" style="resize:none;width:100%;">${cmt.commentContent }</textarea>
-									<div>${cmt.commentDate }</div>
+									<div style="color:gray; text-shadow: 0.1px 0.1px gray;">${cmt.commentDate }</div>
 									<div>
 									<c:if test="${sessionScope.member.memberId eq cmt.commentWriter}">
-										<button class="repl">답글</button>
-										<button class="amend" onclick="amendComment(this,'${cmt.commentNo}','${rec.recNo }');">수정</button>
+										<button class="repl btn btn-info" style="display: none;">답글</button>
+										<button class="amend btn btn-info" onclick="amendComment(this,'${cmt.commentNo}','${rec.recNo }');">수정</button>
 									</c:if>
-										<button class="delete" onclick="deleteComment('${cmt.commentNo}', '${rec.recNo }');">삭제</button>
+										<button class="delete btn btn-info" onclick="deleteComment('${cmt.commentNo}', '${rec.recNo }');">삭제</button>
 									</div>
 								</div>
 							</li>
 						</ul>
 					</c:when>
 					<c:otherwise>
-						<div class="comment">
+						<div class="comment" style="padding: 10px 20px;">
 							<input type="hidden" value="${cmt.commentNo }">
 							<input type="hidden" value="${cmt.commentLevel }">
-							<div>${cmt.commentWriter }</div>
-							<div>${cmt.commentContent }</div>
-							<div>${cmt.commentDate }</div>
+							<div style="font-weight:450;">${cmt.commentWriter }</div>
+							<div style="padding-left:20px;  margin:5px;">${cmt.commentContent }</div>
+							<div style="color:gray; text-shadow: 0.1px 0.1px gray;">${cmt.commentDate }</div>
+							<c:if test="${not empty sessionScope }">
 							<div>
-								<button class="repl">답글</button>
+								<button class="repl btn btn-info" style="display: none;">답글</button>
 							</div>
+							</c:if>
 						</div>
 					</c:otherwise>
 				</c:choose>
@@ -305,16 +321,16 @@
 				</c:forEach> --%>
 				
 			</c:forEach>
-			<div id="page">${pageNavi }</div>
+			<div id="page" style="width:80%; margin:20px auto; text-align: center;">${pageNavi }</div>
 		</div>
-		<%-- <c:if test="${not empty sessionScope.member}"> --%>
+		<c:if test="${not empty sessionScope.member}">
 		<div>
 			<form action="/insertComment.do?commentLevel=1" method="post" id="first">
 				<!-- <input type="hidden" name="commentLevel" value="1"> -->
 				<input type="hidden" name="refComment" value="0">
 				<input type="hidden" name="recNo" value="${rec.recNo }">
 				<textarea rows="5" cols="50" name="commentContent" style="resize:none;width:100%;"></textarea>
-				<button>등록</button>
+				<div style="text-align: right; margin-bottom: 50px;"><button class="btn btn-info">등록</button></div>
 			</form>
 			
 			<form action="/insertComment.do?commentLevel=2" method="post" id="second">
@@ -322,10 +338,12 @@
 				<input type="hidden" name="refComment" value="0">
 				<input type="hidden" name="recNo" value="${rec.recNo }">
 				<textarea rows="5" cols="50" name="commentContent" style="resize:none; width:100%;"></textarea>
-				<button>등록</button>
+				<div style="text-align: right;">
+				<button class="btn btn-info">등록</button>
+				</div>
 			</form>
 		</div>
-		<%-- </c:if> --%>
+		</c:if>
 	</section>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
 	<script>

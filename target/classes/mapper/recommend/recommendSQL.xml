@@ -87,7 +87,17 @@
 	  	 		and recTitle like '%'||#{search}||'%'
 	  	 	</if>
 	  	 </trim>
-	  	 order by recNo desc)fin
+	  	 order by 
+	  	 <if test="order.equals('date')">
+	  	 recNo desc
+	  	 </if>
+	  	 <if test="order.equals('readCount')">
+	  	 readCount desc
+	  	 </if>
+	  	 <if test="order.equals('liked')">
+	  	 cnt asc
+	  	 </if>
+	  	 )fin
 		where rownum between #{start} and #{end}
   </select>
   

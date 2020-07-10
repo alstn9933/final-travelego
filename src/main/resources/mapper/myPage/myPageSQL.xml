@@ -39,8 +39,10 @@
   			<if test="board == 5 or board == 0">
 			select 
 				bookmark_no as bookmarkNo,
+				trip_board_no as boardNo,
 				trip_board_title as boardTitle,
-				trip_board_writer as boardWriter 
+				trip_board_writer as boardWriter,
+				board_class as boardClass
 				from trip_board
 				join bookmark on (trip_board_no = board_no)
 				where board_class=1 and member_id = #{memberId}
@@ -49,8 +51,10 @@
 			<if test="board == 2 or board == 0">
 			select
 				bookmark_no as bookmarkNo,
+				rec_no as boardNo,
 				rec_title as boardTitle,
-				rec_writer as boardWriter
+				rec_writer as boardWriter,
+				board_class as boardClass
 				from recommend_board
 				join bookmark on (rec_no = board_no)
 				where board_class=2 and member_id = #{memberId}

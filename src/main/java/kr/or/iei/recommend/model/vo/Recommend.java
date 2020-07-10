@@ -22,4 +22,5 @@ public class Recommend {
 	private String regionCountry;
 	private String filename;
 	private String filepath;
+	private String order;
 }

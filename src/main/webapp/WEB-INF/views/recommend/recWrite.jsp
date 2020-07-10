@@ -276,7 +276,6 @@
 
 	<!-- 웹 콘텐츠는 section 태그 안에 작성을 해주세요!-->
 	<section>
-		<section>
 			<div class="option">
 				<div>
 				<!-- form이 제출되면서 페이지가 바뀌지 않게 하기 위해 return false; -->
@@ -628,7 +627,7 @@
 		<script>
 			var mainPhoto;
 			$("#complete").submit(function(){
-				if($("#keyword").val()==""){
+				/* if($("#keyword").val()==""){
 					alert("추천하는 장소를 입력하세요");
 					return false;
 				}
@@ -639,11 +638,19 @@
 				if($("#editor").val()==""){
 					alert("본문을 입력하세요");
 					return false;
-				}
+				} */
+				checkPhoto = $("#cont").find("iframe").contents().find("img").eq(0);
 				mainPhoto = $("#cont").find("iframe").contents().find("img").eq(0).attr("src");
-				$("#photo").val(mainPhoto);
-				console.log($("#cont").find("iframe").contents().find("img").eq(0).attr("src"));
-				return true;
+				console.log(checkPhoto);
+				if(checkPhoto.length == 0){
+					alert("사진을 첨부하세요");
+					return false;
+				}else{
+					//mainPhoto = $("#cont").find("iframe").contents().find("img").eq(0).attr("src");
+					$("#photo").val(mainPhoto);
+					console.log($("#cont").find("iframe").contents().find("img").eq(0).attr("src"));
+					return true;
+				}
 			});
 		</script>
 		<!-- JS here -->
