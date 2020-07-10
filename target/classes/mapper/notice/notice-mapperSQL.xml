@@ -50,4 +50,19 @@ update notice set read_count = read_count+1 where notice_no = #{noticeNo}
 	delete from notice
 	where notice_no = #{str}
 </delete>
+<select id="mainNoticeBox" resultType="notice">
+	SELECT * FROM
+ 	(
+	 	SELECT ROWNUM AS RNUM,N.* FROM 
+	 	(
+		 	select 
+				notice_no as noticeNo,
+				notice_title as noticeTitle,
+				to_char(notice_date,'[yyyy/mm/dd]') as strNoticeDate
+			from notice
+		    order by notice_no desc
+	    ) N
+    )
+ 	WHERE RNUM = #{start}
+</select>
 </mapper>

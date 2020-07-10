@@ -64,12 +64,12 @@ prefix="c"%>
             float: left;
             width: 280px;
             height: 400px;
-            background-color: aliceblue;
             overflow:hidden;
             border-radius: 20px;
             margin: 10px;
             position: relative;
             z-index:50;
+            box-shadow: 2px 2px 5px 0 lightgray;
         }
         .item>div{
             overflow: hidden;
@@ -84,14 +84,15 @@ prefix="c"%>
         	top:0;
         	text-align: center;
         	background:gray;
-        	z-index:51;
+        	z-index:53;
         	font-size:100px;
         	color:white;
         	opacity:0.7;
         }
         .item:hover{
             cursor: pointer;
-            background-color: #25e6b5;
+            box-shadow: 3px 3px 10px 5px lightgray;
+            transition-duration: 0.3s;
         }
         .item:hover img{
             transform: scale(1.3,1.3);
@@ -113,14 +114,29 @@ prefix="c"%>
         	margin-top:10px;
         	text-align:center;
         }
+        .item-top{
+        	position:absolute;
+            background-color:rgba(100,100,100,0.3);
+            width:100%;
+            z-index: 51;
+        }
+        .region{
+        	text-align:left;
+        	float:left;
+        	padding:10px;
+        	padding-bottom:0;
+            color:white;
+            width:50%;
+            z-index: 52;
+        }
         .score{
             text-align: right;
+            float:right;
             padding:10px;
             padding-bottom:0;
-            position:absolute;
-            background-color:rgba(100,100,100,0.5);
             color:white;
-            width:100%;
+            width:50%;
+            z-index: 52;
         }
         .morebtn{
         	overflow:hidden;
@@ -137,6 +153,8 @@ prefix="c"%>
     </style>
     <script>
     	$(function(){
+    		var cnt=0;
+    		
     		function fn_more(start,val){
     			var regionCountry = "${t.regionCountry}";
     			var regionNo = "${t.regionNo }";
@@ -151,16 +169,18 @@ prefix="c"%>
     				type : "post",
     				dataType : "json",
     				success : function(data){
-    					console.log(data.length);
     					var html = "";
     					for(var i=0; i<data.length; i++){
     						if(data[i].closeCheck!=1){
-	    						html += "<div class='item' itemNo="+data[i].itemNo+" onclick='itemView("+data[i].itemNo+");'>";
+	    						html += "<div class='item card bg-light mb-3' itemNo="+data[i].itemNo+" onclick='itemView("+data[i].itemNo+");'>";
+	    						html+="<div class='item-top'>";
+	    						html += "<div class='region'>"+data[i].regionCountry+"-"+data[i].regionCity+"</div>";
 	    						if(data[i].score==0){
 	    							html += "<div class='score'>후기가 없습니다</div>";
 	    						}else{
 	    							html += "<div class='score'>"+data[i].score.toFixed(1)+"점</div>";
 	    						}
+	    						html+="</div>";
 	    						html += "<div><img class='item-main-img' src='../../../upload/images/tour/thumnail/"+data[i].filepath+"'></div>";
 	    						html += "<div class='itemTitle'>"+data[i].itemTitle+"</div>";
 	    						
@@ -202,9 +222,10 @@ prefix="c"%>
 								html += "<option value="+data[i].regionNo+">"+data[i].regionCity;
 							}
 							$("#regionCity").append(html);
-							if(regionCountry=="${t.regionCountry}"){
+							if(regionCountry=="${t.regionCountry}"&&cnt==0){
 								$("select[name=regionNo]").val("${t.regionNo }").prop("selected", true);
 							}
+							cnt++;
 						},error : function(){
 							console.log("ajax 통신 실패");
 						}
@@ -264,7 +285,7 @@ prefix="c"%>
 						</select>
 					</div>
 					<input type="date" name="tourDate">
-                    <input id="searchtext" type="text" name="searchValue" placeholder="보고싶은 상품명을 검색해주세요">
+                    <input id="searchtext" type="text" name="searchValue" placeholder="보고싶은 상품 또는 지역을 입력해주세요">
                     <input type="submit" value="검색">
                 </form>
             </div>

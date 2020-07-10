@@ -46,6 +46,13 @@ public class NoticeDao {
 		return sqlsession.delete("notice.noticeDelete",str);
 	}
 
+	public List<Notice> mainNoticeBox() {
+		HashMap<String, Integer> map = new HashMap<String, Integer>();
+		int start = 1;
+		map.put("start", start);
+		return sqlsession.selectList("notice.mainNoticeBox",map);
+	}
+
 
 	
 }

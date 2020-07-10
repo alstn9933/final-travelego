@@ -170,3 +170,7 @@ $(document).on("click", "#cancelmodBtn", function () {
   $(this).parents("tr").eq(0).prev().show();
   $(this).parents("tr").eq(0).remove();
 });
+
+$(document).on("click", "#modCommentBtn", function () {
+  $(this).parents("tr").find("form").submit();
+});

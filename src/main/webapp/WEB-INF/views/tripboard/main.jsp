@@ -71,7 +71,7 @@ prefix="c"%>
                 <span>대한민국 - 제주도</span>
                 <div>
                   <i class="far fa-thumbs-up"></i>
-                  <span>0</span>
+                  <span>${b.likeCount}</span>
                 </div>
               </div>
             </a>
@@ -82,12 +82,10 @@ prefix="c"%>
         ${pageNavi}
       </nav>
       <div class="form-group">
-        <form id="searchForm">
+        <form action="/tripboard/search.do" id="searchForm">
           <select class="form-control" name="searchOption" id="selectOption">
             <option value="1">지역</option>
             <option value="2">제목</option>
-            <option value="3">내용</option>
-            <option value="4">제목+내용</option>
           </select>
           <input
             type="search"
@@ -97,6 +95,7 @@ prefix="c"%>
             placeholder="검색어를 입력하세요"
             autocomplete="off"
           />
+          <input type="hidden" name="reqPage" value="1" />
           <button class="btn btn-outline-primary" id="searchBtn">
             <i class="fas fa-search"></i>
           </button>
@@ -108,24 +107,6 @@ prefix="c"%>
     </section>
 
     <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
-    <!-- Modal -->
-    <div
-      class="modal fade custom_search_pop"
-      id="exampleModalCenter"
-      tabindex="-1"
-      role="dialog"
-      aria-labelledby="exampleModalCenterTitle"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-          <div class="serch_form">
-            <input type="text" placeholder="Search" />
-            <button type="submit">search</button>
-          </div>
-        </div>
-      </div>
-    </div>
     <!-- JS here -->
     <script src="/src/js/header/vendor/modernizr-3.5.0.min.js"></script>
     <!-- <script src="/src/js/header/vendor/jquery-1.12.4.min.js"></script>

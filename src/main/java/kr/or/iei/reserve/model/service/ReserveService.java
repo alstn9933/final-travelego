@@ -91,7 +91,6 @@ public class ReserveService {
 	@Transactional
 	public int cancelReserve(int reserveNo, String memberId, HttpSession session) {
 		Member m = (Member)session.getAttribute("member");
-		System.out.println(memberId);
 		int result = dao.cancelReserve(reserveNo);
 		if(result>0) {
 			if(m!= null && m.getMemberLevel()==2 && m.getMemberId()!=memberId) {
