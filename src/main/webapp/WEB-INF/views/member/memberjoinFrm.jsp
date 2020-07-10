@@ -155,7 +155,9 @@
 	$("#memberPw")
 			.keyup(
 					function(event) {
-						regExp = /^[a-zA-Z0-9]{4,15}$/;
+						 pwrecheck();
+						regExp = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,15}$/;
+						//regExp = /^[a-zA-Z0-9]{4,15}$/;
 						if ($("#memberPw").val() == "") {
 							$("#sPw").html("비밀번호를 입력해주세요.");
 							$("#sPw").css("color", "red");
@@ -168,10 +170,11 @@
 								$("#sPw").html("생성 가능한 비밀번호 입니다.");
 								$("#sPw").css("color", "green");
 								checkArr[1] = true;
+							
 							} else {
 								$("#sPw")
 										.html(
-												"비밀번호 규격을 맞춰주세요<br>(대문자,소문자를 시작으로  숫자포함  15글자 이내)");
+												"비밀번호 규격을 맞춰주세요<br>(8~15글자 특수문자,대/소문자,숫자 15글자 이내)");
 								$("#sPw").css("color", "red");
 								$("#lPW").css("color","red");
 								$("#memberPw").focus();
@@ -180,6 +183,9 @@
 						}
 					});
 	$("#memberPwRe").keyup(function() {
+		 pwrecheck();
+	});
+	function pwrecheck(){
 		if ($("#memberPwRe").val() == "") {
 			$("#sPwRe").html("비밀번호를 입력해주세요.");
 			$("#sPwRe").css("color", "red");
@@ -197,7 +203,7 @@
 				checkArr[2] = false;
 			}
 		}
-	});
+	}
 	$("#memberName").keyup(function() {
 		regExp = /^[가-힣]{2,5}$/;
 		if (regExp.test($("#memberName").val())) {
