@@ -191,7 +191,7 @@ prefix="c"%>
             </div>
         </div>
         <div id="page" style="width:80%; margin:50px auto; text-align: center;">${pageNavi }</div>
-      <c:if test="${not empty sessionScope.member }">
+      <c:if test="${not empty sessionScope.member && sessionScope.member.memberLevel eq 1 }">
         <div style="margin:20px 50px; text-align:right;"><button id="writeFrm" class="board btn btn-info" style="padding:none;">글쓰기</button></div>
         </c:if> 
     </section>
