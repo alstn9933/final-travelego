@@ -19,6 +19,7 @@ import kr.or.iei.member.model.vo.Member;
 import kr.or.iei.together.model.service.TogetherService;
 import kr.or.iei.together.model.vo.MainPageDTO;
 import kr.or.iei.together.model.vo.TogetherBoardVO;
+import kr.or.iei.together.model.vo.TogetherCommentListVO;
 import kr.or.iei.together.model.vo.TogetherCommentVO;
 
 @Controller
@@ -93,8 +94,8 @@ public class TogetherController {
 	@ResponseBody
 	@RequestMapping(value = "/asyncCommentLoad.do", produces = "application/json;charset=utf-8")
 	public String asyncCommentLoad(int boardNo) {
-		ArrayList<TogetherCommentVO> list = service.selectCommentList(boardNo);
-		return new Gson().toJson(list);
+		TogetherCommentListVO listVo = service.selectCommentList(boardNo);
+		return new Gson().toJson(listVo);
 	}
 	
 	@ResponseBody

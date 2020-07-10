@@ -74,4 +74,8 @@ public class TogetherDao {
 		return session.selectList("togetherBoard.selectBoardListByKeyword", map);
 	}
 
+	public int selectCommentCount(int boardNo) {
+		return session.selectOne("togetherBoard.selectCommentCount", boardNo);
+	}
+
 }

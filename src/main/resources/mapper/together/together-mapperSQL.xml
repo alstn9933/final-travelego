@@ -77,7 +77,7 @@
 			comment_content as commentContent,
 			to_char(comment_date,'hh24:mi') as commentTime,
             to_char(comment_date,'yyyy. mm. dd.') as commentDate
-        from board_comment join member on(comment_writer = member_nickname)
+        from board_comment join member on(comment_writer = member_id)
         where board_class = 3 and board_no = #{_parameter}
 	</select>
 	<update id="updateBoard" parameterType="together">
@@ -143,5 +143,11 @@
 				join region using(region_no) 
 				where together_title like '%'||#{keyword}||'%' or together_content like '%'||#{keyword}||'%' order by together_no) t
         ) where rnum between #{start} and #{end} order by rnum desc	
+	</select>
+	<select id="selectCommentCount" parameterType="_int" resultType="_int">
+		select
+			count(*)
+		from board_comment
+		where board_class = 3 and board_no = #{_parameter}
 	</select>
 </mapper>

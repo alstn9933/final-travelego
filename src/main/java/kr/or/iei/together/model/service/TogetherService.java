@@ -13,6 +13,7 @@ import kr.or.iei.common.model.vo.Region;
 import kr.or.iei.together.model.dao.TogetherDao;
 import kr.or.iei.together.model.vo.MainPageDTO;
 import kr.or.iei.together.model.vo.TogetherBoardVO;
+import kr.or.iei.together.model.vo.TogetherCommentListVO;
 import kr.or.iei.together.model.vo.TogetherCommentVO;
 
 @Service("togetherService")
@@ -82,7 +83,9 @@ public class TogetherService {
 		return dao.insertComment(comment);
 	}
 
-	public ArrayList<TogetherCommentVO> selectCommentList(int boardNo) {
+	public TogetherCommentListVO selectCommentList(int boardNo) {
+		
+		TogetherCommentListVO listVo = new TogetherCommentListVO();
 		
 		ArrayList<TogetherCommentVO> list =(ArrayList<TogetherCommentVO>)dao.selectCommentList(boardNo);
 		String today = dateFormat.format(Calendar.getInstance().getTime());
@@ -91,7 +94,10 @@ public class TogetherService {
 				vo.setCommentDate(vo.getCommentTime());
 			}
 		}
-		return list;
+		
+		listVo.setCommentList(list);
+		listVo.setCommentCount(dao.selectCommentCount(boardNo));
+		return listVo;
 	}
 
 	public int modifyBoard(TogetherBoardVO vo) {		

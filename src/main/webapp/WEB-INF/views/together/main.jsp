@@ -226,6 +226,7 @@ prefix="c"%>
                   name="togetherWriter"
                   value="${sessionScope.member.memberId}"
                 />
+                <input type="hidden" name="" value="${sessionScope.member.memberNickname}" id="inputMemberNick">
                 <input type="hidden" name="togetherNo" id="togetherNo" value="0">
                 <input type="hidden" name="regionNo" id="regionNo" />
                 <label for="inputRegion" class="col-form-label">지역</label>
