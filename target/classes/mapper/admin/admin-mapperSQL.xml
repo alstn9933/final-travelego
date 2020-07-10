@@ -52,7 +52,7 @@
 		from member
 		where 1=1
 		<include refid="searchMem"></include>
-		)member
+		)mb
 		where rnum between #{rowStart} and #{rowEnd}
 		order by
 		member_level desc
@@ -68,8 +68,7 @@
 		<if test="searchType != null">
 			<if test="searchType == 'id'.toString()">AND member_id LIKE '%' || #{keyword} || '%'</if>
 			<if test="searchType == 'nickname'.toString()">AND member_nickname LIKE '%' || #{keyword} || '%'</if>
-			<if test="searchType == 'name'.toString()">AND member_name '%' || #{keyword} || '%'</if>
-			<if test="searchType == 'memberLevel'.toString()">AND member_level '%' || #{keyword} || '%'</if>
+			<if test="searchType == 'name'.toString()">AND member_name Like '%' || #{keyword} || '%'</if>
 		</if>
 
 	</sql>
