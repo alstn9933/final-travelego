@@ -57,7 +57,9 @@ public class MypageController {
 			if(b.getBoardClass() == 2) {
 				b.setBoardTitle("<a href='/recDetail.do?reqPage=1&recNo="+b.getBoardNo()+"'>"+b.getBoardTitle()+"</a>");
 			}else if(b.getBoardClass()==5) {
-				/* b.setBoardTitle("<a href='/"); */
+				b.setBoardTitle("<a href='/tripboard/view.do?tripBoardNo="+b.getBoardNo()+"'>"+b.getBoardTitle()+"</a>");
+			} else if(b.getBoardClass()==3) {
+				b.setBoardTitle("<a href='/together/singleView.do?boardNo="+b.getBoardNo()+"'>"+b.getBoardTitle()+"</a>");
 			}
 		}
 		String pageNavi = (String)map.get("pageNavi");

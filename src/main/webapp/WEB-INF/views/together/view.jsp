@@ -24,6 +24,7 @@ prefix="c"%>
     <link rel="stylesheet" href="/src/css/footer/footer.css" />
     <link rel="stylesheet" href="/src/css/main/web_default.css" />
     <link rel="stylesheet" href="/src/css/together/main.css" />
+    <link rel="stylesheet" href="/src/css/together/view.css" />
     <script src="/src/js/fontawesome/8bd2671777.js"></script>
     <title>Travelego</title>
     <style></style>
