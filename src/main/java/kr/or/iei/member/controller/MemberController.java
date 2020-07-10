@@ -53,11 +53,9 @@ public class MemberController {
 			if(company != null) {
 				session.setAttribute("company", company);
 				session.setAttribute("member", member);
-				model.addAttribute("msg", "환연합니다!");
 				model.addAttribute("loc", "/");
 			}else {
 				session.setAttribute("member", member);
-				model.addAttribute("msg", "환연합니다!");
 				model.addAttribute("loc", "/");
 			}
 		}else {

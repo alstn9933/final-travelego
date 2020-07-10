@@ -15,4 +15,9 @@ public class TripBoardVO {
 	private int regionNo;
 	private String tripDays;
 	private String filepath;
+	private String regionName;
+	private int commentCount;
+	private String likedId;
+	private String bookmarkNo;
+	private int likeCount;
 }

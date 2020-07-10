@@ -8,9 +8,16 @@ prefix="c"%>
     <title>Insert title here</title>
   </head>
   <body>
+  	<c:if test="${not empty msg }">
     <script>
       alert("${msg}");
       location.href = "${loc}";
     </script>
+    </c:if>    
+  	<c:if test="${empty msg }">
+    <script>
+      location.href = "${loc}";
+    </script>
+    </c:if>
   </body>
 </html>

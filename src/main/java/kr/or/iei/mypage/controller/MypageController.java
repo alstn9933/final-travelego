@@ -1,6 +1,7 @@
 package kr.or.iei.mypage.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -35,8 +36,13 @@ public class MypageController {
 	public String boardList(HttpSession session, Model model, HttpServletRequest req) {
 		String memberId = ((Member)session.getAttribute("member")).getMemberId();
 		int board = Integer.parseInt(req.getParameter("board"));
-		ArrayList<BoardList> bList = service.selectBoardList(memberId,board);
+		int reqPage = Integer.parseInt(req.getParameter("reqPage"));
+		HashMap<String, Object> map = service.selectBoardList(memberId,board,reqPage);
+		ArrayList<BoardList> bList = (ArrayList<BoardList>)map.get("list");
+		String pageNavi = (String)map.get("pageNavi");
 		model.addAttribute("bList", bList);
+		model.addAttribute("pageNavi",pageNavi);
+		model.addAttribute("board",board);
 		return "member_myPage/boardList";
 	}
 	
@@ -44,8 +50,22 @@ public class MypageController {
 	public String bookmark(HttpSession session, Model model, HttpServletRequest req) {
 		String memberId = ((Member)session.getAttribute("member")).getMemberId();
 		int board = Integer.parseInt(req.getParameter("board"));
-		ArrayList<Bookmark> mList = service.selectBookmarkList(memberId,board);
+		int reqPage = Integer.parseInt(req.getParameter("reqPage"));
+		HashMap<String, Object> map = service.selectBookmarkList(memberId,board,reqPage);
+		ArrayList<Bookmark> mList = (ArrayList<Bookmark>)map.get("list");
+		for(Bookmark b : mList) {
+			if(b.getBoardClass() == 2) {
+				b.setBoardTitle("<a href='/recDetail.do?reqPage=1&recNo="+b.getBoardNo()+"'>"+b.getBoardTitle()+"</a>");
+			}else if(b.getBoardClass()==5) {
+				b.setBoardTitle("<a href='/tripboard/view.do?tripBoardNo="+b.getBoardNo()+"'>"+b.getBoardTitle()+"</a>");
+			} else if(b.getBoardClass()==3) {
+				b.setBoardTitle("<a href='/together/singleView.do?boardNo="+b.getBoardNo()+"'>"+b.getBoardTitle()+"</a>");
+			}
+		}
+		String pageNavi = (String)map.get("pageNavi");
 		model.addAttribute("mList", mList);
+		model.addAttribute("pageNavi",pageNavi);
+		model.addAttribute("board",board);
 		return "member_myPage/bookmark";
 	}
 	
@@ -62,11 +82,22 @@ public class MypageController {
 	}
 	
 	@RequestMapping(value="/qnaList.do")
-	public String qnaList(HttpSession session, QNA qna, Model model) {
-		String memberId = ((Member)session.getAttribute("member")).getMemberId();
-		ArrayList<QNA> qlist = service.selectQnaList(memberId);
-		System.out.println("con" + qlist.get(0).getQnaTitle());
+	public String qnaList(HttpSession session, QNA qna, Model model, HttpServletRequest req) {
+		String qnaWriter = ((Member)session.getAttribute("member")).getMemberId();
+		int reqPage = Integer.parseInt(req.getParameter("reqPage"));
+		HashMap<String, Object> map = service.selectQnaList(qnaWriter, reqPage);
+		ArrayList<QNA> qlist = (ArrayList<QNA>)map.get("list");
+		String pageNavi = (String)map.get("pageNavi");
+		System.out.println(qlist.size());
 		model.addAttribute("qlist",qlist);
+		model.addAttribute("pageNavi",pageNavi);
 		return "member_myPage/qnaList";
+	}
+	
+	@RequestMapping(value="/leaveAnswer.do")
+	public String leaveAnswer(QNA qna, HttpSession session) {
+		String qnaWriter = ((Member)session.getAttribute("member")).getMemberId();
+		int result = service.leaveAnswer(qna);
+		return "redirect:/qnaList.do?reqPage=1&qnaWriter="+qnaWriter;
 	}
 }

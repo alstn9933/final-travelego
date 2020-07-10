@@ -1,4 +1,5 @@
 $(".writeCommentBtn").on("click", submitComment);
+$(document).on("click", ".writeCommentBtn", submitComment);
 
 function submitComment() {
   const commentContent = $(this).prev().val();

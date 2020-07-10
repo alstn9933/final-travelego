@@ -25,6 +25,7 @@ public class RecommendService {
 	private RecommendDao dao;
 
 	public ArrayList<Region> selectAllRegion() {
+		
 		List list = dao.selectAllRegion();
 		return (ArrayList<Region>)list;
 	}
@@ -35,25 +36,161 @@ public class RecommendService {
 		
 	}
 	
-	public ArrayList<Recommend> selectAllRec() {
-		List list = dao.selectAllRec();
-		return (ArrayList<Recommend>)(list);
+	public HashMap<String, Object> selectAllRec(int reqPage) {
+		int numPerPage = 12;
+		//총 게시글 수 구하기
+		int totalCount = dao.totalRecCount();
+		int totalPage = 0;
+		if(totalCount%numPerPage==0) {
+			totalPage = totalCount/numPerPage;
+		}else {
+			totalPage = totalCount/numPerPage+1;
+		}
+		
+		int start = (reqPage-1)*numPerPage+1;
+		int end = reqPage*numPerPage;
+		
+		HashMap<String, Integer> map = new HashMap<String, Integer>();
+		map.put("reqPage", reqPage);
+		map.put("start", start);
+		map.put("end", end);
+		
+		List list = dao.selectAllRec(map);
+		
+		String pageNavi = "";
+		int pageNaviSize = 5;
+		int pageNo = ((reqPage-1)/pageNaviSize)*pageNaviSize+1;
+		
+		if(pageNo!=1) {
+			pageNavi += "<a class='btn' href='/recommendList.do?reqPage="+(pageNo-pageNaviSize)+"'>이전</a>";
+		}
+		for(int i=0;i<pageNaviSize;i++) {
+			if(reqPage==pageNo) {
+				pageNavi += "<span class='selectPage'>"+pageNo+"</span>";
+			}else {
+				pageNavi += "<a class='btn' href='/recommendList.do?reqPage="+pageNo+"'>"+pageNo+"</a>";
+			}
+			pageNo++;		//pageNo은 페이지 시작번호만 나타내기 때문에 페이지네비의 다른 페이지들을 출력하기 위해 ++
+			
+			//마지막 페이지 만났을 때 더이상 페이지넘버 출력 X
+			if(pageNo>totalPage) {
+				break;
+			}
+		}
+		if(pageNo <= totalPage) {
+			pageNavi += "<a class='btn' href='/recommendList.do?reqPage="+pageNo+"'>다음</a>";
+		}
+		
+		HashMap<String, Object> map2 = new HashMap<String, Object>();
+		map2.put("list", list);
+		map2.put("pageNavi", pageNavi);
+		return map2;
 	}
 
-	public ArrayList<Recommend> selectRecList(SelectItems items) {
-		System.out.println(items.regionCountry + items.regionCity + items.recCategory + items.search);
-		List list = dao.selectRecList(items);
+	public HashMap<String, Object> selectRecList(HashMap<String, Object> map) {
+		int reqPage = (int) map.get("reqPage");
 		
-		return (ArrayList<Recommend>)list;
+		int numPerPage = 12;
+		//총 게시글 수 구하기
+		int totalCount = dao.totalSelectedRecCount(map);
+		int totalPage = 0;
+		if(totalCount%numPerPage==0) {
+			totalPage = totalCount/numPerPage;
+		}else {
+			totalPage = totalCount/numPerPage+1;
+		}
+		
+		int start = (reqPage-1)*numPerPage+1;
+		int end = reqPage*numPerPage;
+		
+		map.put("reqPage", reqPage);
+		map.put("start", start);
+		map.put("end", end);
+		
+		List list = dao.selectRecList(map);
+		
+		String pageNavi = "";
+		int pageNaviSize = 5;
+		int pageNo = ((reqPage-1)/pageNaviSize)*pageNaviSize+1;
+		
+		if(pageNo!=1) {
+			pageNavi += "<a class='btn' href='/recommendList.do?reqPage="+(pageNo-pageNaviSize)+"'>이전</a>";
+		}
+		for(int i=0;i<pageNaviSize;i++) {
+			if(reqPage==pageNo) {
+				pageNavi += "<span class='selectPage'>"+pageNo+"</span>";
+			}else {
+				pageNavi += "<a class='btn' href='/recommendList.do?reqPage="+pageNo+"'>"+pageNo+"</a>";
+			}
+			pageNo++;		//pageNo은 페이지 시작번호만 나타내기 때문에 페이지네비의 다른 페이지들을 출력하기 위해 ++
+			
+			//마지막 페이지 만났을 때 더이상 페이지넘버 출력 X
+			if(pageNo>totalPage) {
+				break;
+			}
+		}
+		if(pageNo <= totalPage) {
+			pageNavi += "<a class='btn' href='/recommendList.do?reqPage="+pageNo+"'>다음</a>";
+		}
+		
+		HashMap<String, Object> map2 = new HashMap<String, Object>();
+		map2.put("list", list);
+		map2.put("pageNavi", pageNavi);
+		return map2;
 	}
 
 	public Recommend selectOneRec(int recNo) {
 		// TODO Auto-generated method stub
 		return dao.selectOneRec(recNo);
 	}
-	public ArrayList<BoardComment> selectComments(int recNo) {
-		List list = dao.selectComments(recNo);
-		return (ArrayList<BoardComment>)list;
+	public HashMap<String, Object> selectComments(int recNo, int reqPage, int cntCom) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("recNo", recNo);
+		
+		int numPerPage = 5;
+		int totalPage = 0;
+		if(cntCom%numPerPage==0) {
+			totalPage = cntCom/numPerPage;
+		}else {
+			totalPage = cntCom/numPerPage+1;
+		}
+		
+		int start = (reqPage-1)*numPerPage+1;
+		int end = reqPage*numPerPage;
+		
+		map.put("start", start);
+		map.put("end", end);
+		
+		List list = dao.selectComments(map);
+		
+		String pageNavi = "";
+		int pageNaviSize = 5;
+		int pageNo = ((reqPage-1)/pageNaviSize)*pageNaviSize+1;
+		
+		if(pageNo!=1) {
+			pageNavi += "<a class='btn' href='/recDetail.do?recNo="+recNo+"&reqPage"+(pageNo-pageNaviSize)+"'>이전</a>";
+		}
+		for(int i=0;i<pageNaviSize;i++) {
+			if(reqPage==pageNo) {
+				pageNavi += "<span class='selectPage'>"+pageNo+"</span>";
+			}else {
+				pageNavi += "<a class='btn' href='/recDetail.do?recNo="+recNo+"&reqPage="+pageNo+"'>"+pageNo+"</a>";
+			}
+			pageNo++;		//pageNo은 페이지 시작번호만 나타내기 때문에 페이지네비의 다른 페이지들을 출력하기 위해 ++
+			
+			//마지막 페이지 만났을 때 더이상 페이지넘버 출력 X
+			if(pageNo>totalPage) {
+				break;
+			}
+		}
+		if(pageNo <= totalPage) {
+			pageNavi += "<a class='btn' href='/recDetail.do?recNo="+recNo+"&reqPage="+pageNo+"'>다음</a>";
+		}
+		
+		HashMap<String, Object> map2 = new HashMap<String, Object>();
+		map2.put("list", list);
+		map2.put("pageNavi", pageNavi);
+		return map2;
 	}
 
 	public int insertComment(BoardComment comment) {
@@ -74,8 +211,6 @@ public class RecommendService {
 		map.put("coords", rec.getCoords());
 		map.put("place", rec.getPlace());
 		map.put("p", p);
-		System.out.println(map.get("coords"));
-		System.out.println(map.get("place"));
 		return dao.insertRec(map);
 	}
 
@@ -128,6 +263,46 @@ public class RecommendService {
 	public int selectCommentCount(int recNo) {
 		// TODO Auto-generated method stub
 		return dao.selectCommentCount(recNo);
+	}
+
+	public int deleteRec(int recNo) {
+		// TODO Auto-generated method stub
+		return dao.deleteRec(recNo);
+	}
+
+	public ArrayList<Recommend> selectAllRecPhoto() {
+		// TODO Auto-generated method stub
+		return (ArrayList<Recommend>)dao.selectAllRecPhoto();
+	}
+
+	public int updateComment(BoardComment c) {
+		// TODO Auto-generated method stub
+		return dao.updateComment(c);
+	}
+
+	public int updateRec(Recommend rec, String p) {
+		// TODO Auto-generated method stub
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("recNo", rec.getRecNo());
+		map.put("recTitle", rec.getRecTitle());
+		map.put("recContent", rec.getRecContent());
+		map.put("recWriter", rec.getRecWriter());
+		map.put("recCategory", rec.getRecCategory());
+		map.put("regionNo", rec.getRegionNo());
+		map.put("coords", rec.getCoords());
+		map.put("place", rec.getPlace());
+		System.out.println(rec.getRecNo());
+		int result2 = 0;
+		int result = dao.updateRec(map);
+		if(result > 0) {
+			result2 = dao.updatePhoto(map);
+		}
+		return result2;
+	}
+
+	public int plusReadCount(int recNo) {
+		// TODO Auto-generated method stub
+		return dao.plusReadCount(recNo);
 	}
 
 	

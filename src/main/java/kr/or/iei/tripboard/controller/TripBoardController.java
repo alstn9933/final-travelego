@@ -1,4 +1,4 @@
-package kr.or.iei.tripBoard.controller;
+package kr.or.iei.tripboard.controller;
 
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
@@ -34,11 +34,11 @@ import com.google.gson.Gson;
 
 import kr.or.iei.member.model.vo.Member;
 import kr.or.iei.mytrip.model.vo.TripDetail;
-import kr.or.iei.tripBoard.model.service.TripBoardService;
-import kr.or.iei.tripBoard.model.vo.TripBoardMyTripVO;
-import kr.or.iei.tripBoard.model.vo.TripBoardPageDTO;
-import kr.or.iei.tripBoard.model.vo.TripBoardVO;
-
+import kr.or.iei.together.model.vo.TogetherCommentVO;
+import kr.or.iei.tripboard.model.service.TripBoardService;
+import kr.or.iei.tripboard.model.vo.TripBoardMyTripVO;
+import kr.or.iei.tripboard.model.vo.TripBoardPageDTO;
+import kr.or.iei.tripboard.model.vo.TripBoardVO;
 
 @Controller
 @RequestMapping("/tripboard")
@@ -47,6 +47,168 @@ public class TripBoardController {
 	@Autowired
 	@Qualifier("tripBoardService")
 	TripBoardService service;
+	
+	@ResponseBody
+	@RequestMapping(value = "/asyncBookmark.do", produces = "text/html;charset=utf-8")
+	public String insertBookmark(HttpSession session, String boardNum) {
+
+		Member member = (Member) session.getAttribute("member");
+		int result = service.insertBookmark(member, boardNum);	
+		
+		return String.valueOf(result);
+	}
+	
+	
+	@ResponseBody
+	@RequestMapping(value = "/asyncUnBookmark.do", produces = "text/html;charset=utf-8")
+	public String deleteBookmark(HttpSession session, String boardNum) {
+
+		Member member = (Member) session.getAttribute("member");
+		int result = service.deleteBookmark(member, boardNum);	
+		
+		return String.valueOf(result);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/asyncLike.do", produces = "text/html;charset=utf-8")
+	public String insertLike(HttpSession session, String boardNum) {
+		Member member = (Member) session.getAttribute("member");
+		int result = service.insertLike(member, boardNum);
+		return String.valueOf(result);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/asyncUnLike.do", produces = "text/html;charset=utf-8")
+	public String deleteLike(HttpSession session, String boardNum) {
+		Member member = (Member) session.getAttribute("member");
+		int result = service.deleteLike(member, boardNum);
+		return String.valueOf(result);
+	}
+	
+	@RequestMapping(value = "/search.do")
+	public String searchBoard(int reqPage, String searchOption, String keyword, Model model) {
+		
+		TripBoardPageDTO pd = service.searchBoardList(reqPage, searchOption, keyword);
+		
+		model.addAttribute("list", pd.getBoardList());
+		model.addAttribute("pageNavi", pd.getPageNavi());
+		
+		return "tripboard/main";
+	}
+	
+	@RequestMapping(value = "/modComment.do")
+	public String modifyComment(TogetherCommentVO comment, Model model) {
+		
+		int result = service.modifyComment(comment);
+			
+		if(result>0) {
+			model.addAttribute("msg", "댓글을 수정했습니다.");
+		} else {
+			model.addAttribute("msg", "댓글을 수정에 실패했습니다.");
+		}		
+		model.addAttribute("loc","/tripboard/view.do?tripBoardNo="+comment.getBoardNo());
+		return "common/msg";
+	}
+	
+	@RequestMapping(value = "/deleteComment.do")
+	public String deleteComment(int boardNo, int commentNo, Model model) {
+		
+		int result = service.deleteComment(commentNo);
+		
+		switch (result) {
+		case -1:
+			model.addAttribute("msg", "답글이 작성된 댓글은 삭제할 수 없습니다.");
+			break;
+
+		case 0:
+
+			model.addAttribute("msg", "댓글 삭제에 실패했습니다.");
+			break;
+			
+		case 1:
+
+			model.addAttribute("msg", "댓글을 삭제했습니다.");
+			break;
+		}
+		
+		model.addAttribute("loc","/tripboard/view.do?tripBoardNo="+boardNo);
+		return "common/msg";
+	}
+		
+	@RequestMapping(value = "/writeComment.do")
+	public String insertComment(TogetherCommentVO comment, Model model, HttpSession session) {
+		int result = service.insertComment(session, comment); 
+		
+		if(result>0) {
+			model.addAttribute("msg","댓글을 등록했습니다.");
+		} else {
+			model.addAttribute("msg","댓글 등록에 실패했습니다.");
+		}
+		model.addAttribute("loc","/tripboard/view.do?tripBoardNo="+comment.getBoardNo());
+		return "common/msg";
+	}
+	
+	@RequestMapping(value = "/view.do")
+	public String selectOneBoard(HttpSession session, int tripBoardNo, Model model) {
+
+		Member member = (Member) session.getAttribute("member");
+		String memberId = null;
+		
+		if(member != null) {
+			memberId = member.getMemberId();
+		}
+		
+		TripBoardPageDTO pd = service.selectOneBoard(memberId, tripBoardNo);
+		
+		model.addAttribute("board", pd.getBoard());
+		model.addAttribute("commentList", pd.getCommentList());
+		return "tripboard/view";
+	}                                        
+	
+	@RequestMapping(value = "/modifyFrm.do")
+	public String modifyFrm(int boardNum, Model model, HttpSession session) {
+
+		Member member = (Member) session.getAttribute("member");
+		ArrayList<TripBoardMyTripVO> list = service.selectTrip(member);
+		TripBoardVO board = service.selectModifyBoard(boardNum);
+		
+		model.addAttribute("list", list);
+		model.addAttribute("board", board);
+		
+		return "tripboard/modify";
+	}
+	
+	@RequestMapping(value = "/modify.do")
+	public String modifyBoard(HttpSession session, MultipartFile file, TripBoardVO board, Model model) {
+		
+		int result = service.updateBoard(session, file, board);
+		
+		if(result>0) {
+			model.addAttribute("msg", "게시글을 수정했습니다.");
+			model.addAttribute("loc","/tripboard/main.do?reqPage=1");
+			
+		} else {
+			model.addAttribute("msg", "게시글 수정에 실패했습니다.");
+			model.addAttribute("loc","/tripboard/writeFrm.do");
+		}
+		
+		return "common/msg";
+	}
+	
+	@RequestMapping(value = "/delete.do")
+	public String deleteBoard(int boardNum, Model model) {
+		
+		int result = service.deleteBoard(boardNum);
+		
+		if(result>0) {
+			model.addAttribute("msg", "게시글을 삭제하였습니다.");
+		} else {
+			model.addAttribute("msg", "게시글 삭제에 실패했습니다.");
+		}
+		
+		model.addAttribute("loc", "/tripboard/main.do?reqPage=1");
+		return "common/msg";
+	}
 
 	@RequestMapping(value = "/write.do")
 	public String insertTripBoard(HttpSession session, MultipartFile file, TripBoardVO board, Model model) {
@@ -55,7 +217,7 @@ public class TripBoardController {
 		
 		if(result>0) {
 			model.addAttribute("msg", "게시글을 등록했습니다.");
-			model.addAttribute("loc","/tripboard/main.do");
+			model.addAttribute("loc","/tripboard/main.do?reqPage=1");
 			
 		} else {
 			model.addAttribute("msg", "게시글 등록에 실패했습니다.");
@@ -190,7 +352,6 @@ public class TripBoardController {
 
 	@RequestMapping("/main.do")
 	public String main(int reqPage, Model model) {
-		System.out.println(reqPage);
 		if(reqPage == 0) {
 			reqPage = 1;			
 		}

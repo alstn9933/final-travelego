@@ -1,4 +1,5 @@
 @charset "UTF-8";
+
  .carousel-inner img {
     width: 100%;
     height: 400px;
@@ -9,9 +10,11 @@
 	border : none;
 }
 .p1{
-	font-weight : bold;
-	font-size: 25px;
+
+	font-size: 35px;
 	margin: 20px;
+	font-family: 'Yellowtail', cursive;
+
 }
 .main-content1{
 	/*box-shadow: 5px 5px 3px rgba(0,0,0,.3),0 0 3px rgba(0,0,0,.3);*/
@@ -42,18 +45,17 @@
 .hotpickcher{
 	float: left;
 	margin-bottom: 30px;
-	margin-right:20px; 
+	margin-right:10px;
 }
+/*
 .imgsDiv{
 	width:250px;
 	height: 200px;
 	margin: 0 auto;
-	border:1px solid black;
 	border-radius: 5px;
 	margin: 10px;
-	
-	
 }
+*/
 .sub-content3{
 	text-align: center;
 }
@@ -74,23 +76,23 @@
 .hotItem{
 	float: left;
 	margin-bottom: 30px;
+    margin-right: 10px;
 
 	
 }
-.itemimgsDiv{
+.itemimgsDiv,.imgsDiv{
 	width:250px;
-	height: 200px;
-
+	height: 280px;
 	margin: 10px;
 }
 .tourimg{
 	width: 240px;
-	height: 190px;
+	height: 280px;
 	margin-left: 5px;
 }
 .recommendimg{
 	margin : 0 auto;
-	width: 250px;
+	width: 100%;
 	height: 200px;
 }
 .idspan{
@@ -101,4 +103,41 @@
 }
 .itemDate{
 	margin-left: 10px;
+}
+.writerDiv{
+	float: right;
+}
+.hotpickcher>a{
+	margin-left: 10px;
+}
+.itemDate2{
+	margin-right : 20px;
+	float: right;
+}
+
+.itrmp3,.Stringdelete{
+	width:200px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.mainNoticetitle{
+	margin-left : 100px;
+	width: 1000px;
+}
+.div1{
+	display : inline-block;
+	width: 600px;
+}
+.noticetitlebox1{
+	width: 600px;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+}
+.div2{
+	display : inline-block;
+	width: 200px;
+	float: right;
 }

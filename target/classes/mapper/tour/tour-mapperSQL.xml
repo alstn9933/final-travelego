@@ -27,7 +27,7 @@
 	<select id="selectMoreItem" parameterType="map" resultType="tour">
 		select * from(
 		select ROWNUM as rnum, p.* from(
-		select t.item_no as itemNo, m.member_name as memberName, t.item_title as itemTitle, t.region_no as regionNo, 
+		select t.item_no as itemNo, m.member_name as memberName, t.item_title as itemTitle, t.region_no as regionNo, r.region_country as regionCountry, r.region_city as regionCity,
 		t.begin_date as beginDate, t.end_date as endDate, p.filepath, t.close_check as closeCheck,
 		NVl((select avg(s.review_rate) from tour_review s where (s.item_no = t.item_no)), 0) as score,
 		NVL((select Count(*) from tour_reserve c where (c.item_no=t.item_no)),0) as reserveCnt

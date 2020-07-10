@@ -10,6 +10,7 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.UUID;
 
 import javax.servlet.ServletException;
@@ -50,11 +51,21 @@ public class RecommendController {
 	private RecommendService service;
 	
 	@RequestMapping(value="/recommendList.do")
-	public String regionList(Model model) {
+	public String regionList(Model model, HttpServletRequest req) {
+		int reqPage = Integer.parseInt(req.getParameter("reqPage"));
+		
 		ArrayList<Region> country = service.selectAllRegion();
-		ArrayList<Recommend> rec = service.selectAllRec();
+		HashMap<String, Object> map = service.selectAllRec(reqPage);
+		
+		ArrayList<Recommend> recList = (ArrayList<Recommend>) map.get("list");
+	
+		model.addAttribute("pageNavi",map.get("pageNavi"));
 		model.addAttribute("country",country);
-		model.addAttribute("recList",rec);
+		model.addAttribute("recList",recList);
+		model.addAttribute("regionCountry","전체");
+		model.addAttribute("regionCity","전체");
+		model.addAttribute("recCategory",0);
+		model.addAttribute("order","date");
 		return "recommend/recList";
 	}
 	
@@ -66,21 +77,32 @@ public class RecommendController {
 	}
 	
 	@RequestMapping(value="/sort.do")
-	public String sort(HttpServletRequest request, Model model) {
+	public String sort(HttpServletRequest request, Model model, String order) {
+		int reqPage = Integer.parseInt(request.getParameter("reqPage"));
+		ArrayList<Region> countries = service.selectAllRegion();
 		String country = request.getParameter("regionCountry");
 		String city = request.getParameter("regionCity");
 		int category = Integer.parseInt(request.getParameter("recCategory"));
 		String search = request.getParameter("search");
-		SelectItems items = new SelectItems();
-		items.setRecCategory(category);
-		items.setRegionCity(city);
-		items.setRegionCountry(country);
-		items.setSearch(search);
-		
-		ArrayList<Recommend> recList = service.selectRecList(items);
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("country", country);
+		map.put("city", city);
+		map.put("category", category);
+		map.put("search", search);
+		map.put("reqPage", reqPage);
+		map.put("order", order);
+		System.out.println(order);
+		HashMap<String, Object> map2 = service.selectRecList(map);
+		ArrayList<Recommend> recList = (ArrayList<Recommend>) map2.get("list");
+		model.addAttribute("regionCountry",country);
+		model.addAttribute("regionCity",city);
+		model.addAttribute("recCategory",category);
+		model.addAttribute("pageNavi",map2.get("pageNavi"));
 		model.addAttribute("recList",recList);
-		
-		return "redirect:/recommendList.do?regionCountry="+country+"&regionCity="+city+"&recCategory="+category+"&search="+search;
+		model.addAttribute("country",countries);
+		model.addAttribute("order",order);
+		return "recommend/recList";
+//		return "redirect:/recommendList.do?regionCountry="+country+"&regionCity="+city+"&recCategory="+category+"&search="+search;
 	}
 	
 	@RequestMapping(value="/recWrite.do")
@@ -89,15 +111,15 @@ public class RecommendController {
 		rec.setRecWriter(memberId);
 		String p = request.getParameter("photo");
 		int result = service.insertRec(rec,p);
-		return "redirect:/recommendList.do";
+		return "redirect:/recommendList.do?reqPage=1";
 	}
 	
 	@RequestMapping(value="/recWriteFrm.do")
 	public String recWriteFrm(Model model) {
 		ArrayList<Region> country = service.selectAllRegion();
-		ArrayList<Recommend> rec = service.selectAllRec();
+	//	ArrayList<Recommend> rec = service.selectAllRec();
 		model.addAttribute("country",country);
-		model.addAttribute("recList",rec);
+	//	model.addAttribute("recList",rec);
 		return "recommend/recWrite";
 	}
 	
@@ -209,10 +231,13 @@ public class RecommendController {
 	}
 	
 	@RequestMapping(value="/recDetail.do")
-	public String recDetail(int recNo, Model model, Recommend rec, BoardComment comment, HttpSession session) {
+	public String recDetail(int recNo, HttpServletRequest req, Model model, Recommend rec, BoardComment comment, HttpSession session) {
+		int readCount = service.plusReadCount(recNo);
 		rec = service.selectOneRec(recNo);
-		ArrayList<BoardComment> comments = service.selectComments(recNo);
+		int reqPage = Integer.parseInt(req.getParameter("reqPage"));
 		int cntCom = service.selectCommentCount(recNo);
+		HashMap<String, Object> map = service.selectComments(recNo,reqPage,cntCom);
+		ArrayList<BoardComment> comments = (ArrayList<BoardComment>) map.get("list");
 		String memberId = null;
 		Liked checkLiked = null;
 		Bookmark checkBookmark = null;
@@ -221,11 +246,13 @@ public class RecommendController {
 			checkBookmark  = service.bookmarkList(memberId, recNo);
 			checkLiked = service.likedList(memberId,recNo);
 		}
+		String pageNavi = (String)map.get("pageNavi");
 		model.addAttribute("rec",rec);
 		model.addAttribute("comments",comments);
 		model.addAttribute("bookmark",checkBookmark);
 		model.addAttribute("liked",checkLiked);
 		model.addAttribute("cntCom",cntCom);
+		model.addAttribute("pageNavi",pageNavi);
 		return "recommend/recDetail";
 	}
 	
@@ -236,7 +263,7 @@ public class RecommendController {
 		comment.setCommentWriter(m.getMemberId());
 		comment.setBoardNo(recNo);
 		int result = service.insertComment(comment);
-		return "redirect:/recDetail.do?recNo="+recNo;
+		return "redirect:/recDetail.do?reqPage=1&recNo="+recNo;
 	}
 	
 	@ResponseBody
@@ -279,9 +306,46 @@ public class RecommendController {
 		return rec.getCnt();
 	}
 	
-	@RequestMapping(value="deleteComment.do")
+	@RequestMapping(value="/deleteComment.do")
 	public String deleteComment(int commentNo, int recNo) {
 		int result = service.deleteComment(commentNo);
-		return "redirect:/recDetail.do?recNo="+recNo;
+		return "redirect:/recDetail.do?reqPage=1&recNo="+recNo;
+	}
+	
+	@RequestMapping(value="/updateRecFrm.do")
+	public String updateRecFrm(Recommend rec, Model model) {
+		rec = service.selectOneRec(rec.getRecNo());
+		ArrayList<Region> country = service.selectAllRegion();
+		model.addAttribute("country",country);
+		model.addAttribute("rec",rec);
+		return "recommend/recUpdate";
+	}
+	
+	@RequestMapping(value="/recUpdate.do")
+	public String updateRec(int recNo, Recommend rec, HttpServletRequest req) {
+		//rec = service.selectOneRec(rec.getRecNo());
+		String p = req.getParameter("photo");
+		System.out.println(rec.getRecTitle() + rec.getCoords() + rec.getRecCategory());
+		System.out.println(rec.getRecContent());
+		int result = service.updateRec(rec,p);
+		System.out.println(result);
+		return "redirect:/recommendList.do?reqPage=1";
+		
+	}
+	
+	@RequestMapping(value="/deleteRec.do")
+	public String deleteRec(int recNo) {
+		int result = service.deleteRec(recNo);
+		return "redirect:/recommendList.do?reqPage=1";
+	}
+	
+	@RequestMapping(value="/amendComment.do")
+	public String updateComment(int commentNo, int recNo, BoardComment c, HttpServletRequest req) {
+		String commentContent = req.getParameter("amendComment");
+		c.setCommentNo(commentNo);
+		c.setBoardNo(recNo);
+		c.setCommentContent(commentContent);
+		int result = service.updateComment(c);
+		return "redirect:/recDetail.do?reqPage=1&recNo="+recNo;
 	}
 }

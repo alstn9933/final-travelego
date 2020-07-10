@@ -12,6 +12,14 @@
 <script src="/src/js/jquery/jquery-3.5.1.js"></script>
 <script src="/src/js/bootstrap/popper.min.js"></script>
 <script src="/src/js/bootstrap/bootstrap-4.5.0.js"></script>
+
+ <!-- 수민 버튼 부트스트랩 -->
+     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+  
+
 <!-- <link rel="manifest" href="site.webmanifest"> -->
 <link rel="shortcut icon" type="image/x-icon"
 	href="/src/imgs/header/favicon.png" />
@@ -49,10 +57,26 @@
     #detailInfo>span{
     	margin-left: 20px;
     }
+    
+	.amendtxt{
+		display: none;
+	}
+	
+	#second{
+		display: none;
+	}
+    
+    button{
+    	width:60px;
+    	height:30px;
+    	text-shadow: 0.2px 0.2px white;
+    	line-height: 20px;
+    }
 </style>
 </head>
 <script>
 	$(function(){
+		$("#second").hide();
 		$(".insertBookmark").click(function(){
 			var recNo = ${rec.recNo};
 			$.ajax({
@@ -140,27 +164,26 @@
 	<section>
 		<!-- 여기서부터 작성하시면 됨!!!!!!! -->
 		<div id="wrap" style="width:100%;">
-		<div style="margin-left:10px; font-size:14px;">
+		<div style="margin-left:10px; font-size:14px; color:gray; text-shadow: 0.2px 0.2px gray;">
 					<c:if test="${rec.recCategory == 1 }">
-                		맛집
+                		&lt맛집&gt
                 	</c:if>
 					<c:if test="${rec.recCategory == 2 }">
-                		카페
+                		&lt카페&gt
                 	</c:if>
 					<c:if test="${rec.recCategory == 3 }">
-                		숙소
+                		&lt숙소&gt
                 	</c:if>
 					<c:if test="${rec.recCategory == 4 }">
-                		관광지
+                		&lt관광지&gt
                 	</c:if>
 					<c:if test="${rec.recCategory == 5 }">
-                		액티비티
+                		&lt액티비티&gt
                 	</c:if>
 				</div>
 			<div class="title" style="width:90%;">
-				
 				<div style="font-size:30px;">${rec.recTitle}</div>
-				<div id="detailInfo">
+				<div id="detailInfo" style="width:100%;display:inline-block; float:left;">
 					<span>${rec.recWriter}</span>
 					<span>${rec.recDate}</span>
 					<span>
@@ -171,7 +194,7 @@
 					</span>
 				</div>
 			</div>
-			<div class="title" style="width:10%;">
+			<div class="title" style="width:10%; height:45px; text-align:right;">
 				<c:if test="${empty bookmark}">
 				<span><i class="far fa-bookmark insertBookmark" style="font-size:28px;"></i></span>
 				<span><i class="fas fa-bookmark deleteBookmark" style="display:none; font-size:28px;"></i></span>
@@ -182,12 +205,19 @@
 				</c:if>
 <!-- 				<span><i class="fas fa-ellipsis-v" style="font-size:28px;"></i></span> -->
 			</div>
+			
+				<div style="float:right;">
+					<c:if test="${sessionScope.member.memberId eq rec.recWriter }">
+					<a href="/updateRecFrm.do?recNo=${rec.recNo }">수정</a>
+					</c:if>
+					<c:if test="${sessionScope.member.memberId eq 'admin' or sessionScope.member.memberId eq rec.recWriter }">
+					<a href="javascript:/void(0)" onclick="deleteRec('${rec.recNo }');">삭제</a>
+					</c:if>
+				</div>
 		</div>
 
-		<div >
-			<img>
-		</div>
-		<div style="width:100%;">${rec.recContent}</div>
+		
+		<div style="width:80%; margin:50px auto;">${rec.recContent}</div>
 		<div id="map" style="width:60%;height:400px;margin:80px auto;"></div>
 		<div style="height:40px;">
 			<c:if test="${empty liked }">
@@ -199,53 +229,200 @@
 			<span><i class="fas fa-heart dislike" style="float:right; font-size: 40px;"></i></span>
 			</c:if>
 		</div>
+		<hr>
+		
+		<!-- 댓글 -->
 		<div id="review">
 			댓글 <span>${cntCom}</span>
 			<c:forEach items="${comments }" var="cmt">
+			<c:if test="${cmt.commentLevel eq 1 }">
 				<c:choose>
 					<c:when
-						test="${sessionScope.member.memberId eq cmt.commentWriter }">
-						<div class="comment" style="background-color: skyblue">
-							<input type="hidden" value="${cmt.commentNo }">
-							<div>${cmt.commentWriter }</div>
-							<div>${cmt.commentContent }</div>
-							<div>${cmt.commentDate }</div>
-							<div>
-								<button>답글</button><button onclick="amendComment('${cmt.commentNo}', '${rec.recNo }');">수정</button><button onclick="deleteComment('${cmt.commentNo}', '${rec.recNo }');">삭제</button>
-							</div>
-						</div>
+						test="${sessionScope.member.memberId eq cmt.commentWriter or sessionScope.member.memberId eq 'admin'}">
+						<ul>
+							<li>
+								<div class="comment" style="background-color: #dcecfa; padding: 10px 20px;">
+									<input type="hidden" value="${cmt.commentNo }">
+									<input type="hidden" value="${cmt.commentLevel }">
+									<div style="font-weight:450;">${cmt.commentWriter }</div>
+									<div style="padding-left:20px; margin:5px;">${cmt.commentContent }</div>
+									<textarea rows="5" cols="50" name="amendComment" class="amendtxt" style="resize:none;width:100%;">${cmt.commentContent }</textarea>
+									<div style="color:gray; text-shadow: 0.1px 0.1px gray;">${cmt.commentDate }</div>
+									<div>
+									<c:if test="${sessionScope.member.memberId eq cmt.commentWriter}">
+										<button class="repl btn btn-info" style="display: none;">답글</button>
+										<button class="amend btn btn-info" onclick="amendComment(this,'${cmt.commentNo}','${rec.recNo }');">수정</button>
+									</c:if>
+										<button class="delete btn btn-info" onclick="deleteComment('${cmt.commentNo}', '${rec.recNo }');">삭제</button>
+									</div>
+								</div>
+							</li>
+						</ul>
 					</c:when>
 					<c:otherwise>
-						<div class="comment">
+						<div class="comment" style="padding: 10px 20px;">
 							<input type="hidden" value="${cmt.commentNo }">
-							<div>${cmt.commentWriter }</div>
-							<div>${cmt.commentContent }</div>
-							<div>${cmt.commentDate }</div>
+							<input type="hidden" value="${cmt.commentLevel }">
+							<div style="font-weight:450;">${cmt.commentWriter }</div>
+							<div style="padding-left:20px;  margin:5px;">${cmt.commentContent }</div>
+							<div style="color:gray; text-shadow: 0.1px 0.1px gray;">${cmt.commentDate }</div>
+							<c:if test="${not empty sessionScope }">
 							<div>
-								<button>답글</button>
+								<button class="repl btn btn-info" style="display: none;">답글</button>
 							</div>
+							</c:if>
 						</div>
 					</c:otherwise>
 				</c:choose>
+				</c:if>
+				
+				<%-- <c:forEach items="${comments }" var="cmtt">
+				<c:if test="${cmt.commentLevel eq 2 and cmtt.refComment eq cmt.commentNo}">
+				<c:choose>
+					<c:when test="${sessionScope.member.memberId eq cmt.commentWriter or sessionScope.member.memberId eq 'admin'}">	
+					<ul>
+						<li>
+							<div class="comment reple" style="background-color: #dcecfa">
+									<input type="hidden" value="${cmtt.commentNo }">
+									<input type="hidden" value="${cmtt.commentLevel }">
+									<div>${cmtt.commentWriter }</div>
+									<div>${cmtt.commentContent }</div>
+									<textarea rows="5" cols="50" name="amendComment" class="amendtxt" style="resize:none;width:100%;">${cmt.commentContent }</textarea>
+									<div>${cmtt.commentDate }</div>
+									<div>
+									<c:if test="${sessionScope.member.memberId eq cmt.commentWriter}">
+										<button class="repl">답글</button>
+										<button class="amend" onclick="amendComment(this,'${cmtt.commentNo}','${rec.recNo }');">수정</button>
+									</c:if>
+										<button class="delete" onclick="deleteComment('${cmtt.commentNo}', '${rec.recNo }');">삭제</button>
+									</div>
+								</div>
+						</li>
+					</ul>
+					</c:when>
+					<c:otherwise>
+						<ul>
+						<li>
+						<div class="comment reple">
+							<input type="hidden" value="${cmtt.commentNo }">
+							<input type="hidden" value="${cmtt.commentLevel }">
+							<div>${cmtt.commentWriter }</div>
+							<div>${cmtt.commentContent }</div>
+							<div>${cmtt.commentDate }</div>
+							<div>
+								<button class="repl">답글</button>
+							</div>
+						</div>
+						</li>
+						</ul>
+					</c:otherwise>
+					</c:choose>
+					</c:if>
+				</c:forEach> --%>
+				
 			</c:forEach>
-			<div id="page"></div>
+			<div id="page" style="width:80%; margin:20px auto; text-align: center;">${pageNavi }</div>
 		</div>
+		<c:if test="${not empty sessionScope.member}">
 		<div>
-			<form action="/insertComment.do" method="post">
-				<input type="hidden" name="commentLevel" value="1">
+			<form action="/insertComment.do?commentLevel=1" method="post" id="first">
+				<!-- <input type="hidden" name="commentLevel" value="1"> -->
 				<input type="hidden" name="refComment" value="0">
 				<input type="hidden" name="recNo" value="${rec.recNo }">
-				<textarea rows="10" cols="50" name="commentContent" id="editor"></textarea>
-				<button>등록</button>
+				<textarea rows="5" cols="50" name="commentContent" style="resize:none;width:100%;"></textarea>
+				<div style="text-align: right; margin-bottom: 50px;"><button class="btn btn-info">등록</button></div>
+			</form>
+			
+			<form action="/insertComment.do?commentLevel=2" method="post" id="second">
+				<!-- <input type="hidden" name="commentLevel" value="2"> -->
+				<input type="hidden" name="refComment" value="0">
+				<input type="hidden" name="recNo" value="${rec.recNo }">
+				<textarea rows="5" cols="50" name="commentContent" style="resize:none; width:100%;"></textarea>
+				<div style="text-align: right;">
+				<button class="btn btn-info">등록</button>
+				</div>
 			</form>
 		</div>
+		</c:if>
 	</section>
-
+<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
 	<script>
 		$(function(){
 			$("img").removeAttr("style");
 			$("img").css("width","100%");
 		});
+		
+		function deleteRec(recNo){
+			alert("정말 삭제하시겠습니까?");
+			location.href="/deleteRec.do?recNo="+recNo;
+		}
+		
+		$(".repl").click(function(){
+			$("#first").hide();
+			$("#second").show();
+			var cmtWriter = $(this).parent().siblings("div").eq(0).html();
+			console.log(cmtWriter);
+			$("#second textarea").html("@"+cmtWriter+"\n");
+		});
+		
+		function deleteComment(commentNo, recNo){
+			if(confirm("댓글을 삭제하시겠습니까?")){
+				location.href="/deleteComment.do?recNo="+recNo+"&commentNo="+commentNo;
+			}else{
+				
+			}
+		};
+		
+		function amendComment(val, commentNo, recNo){
+			$(val).parent().siblings("textarea").show();
+			$(val).prev().hide();
+			$(val).html("수정완료");
+			$(val).next().html("취소");
+			var content = $(val).parent().siblings("div").eq(1).html();
+			$(val).parent().siblings("textarea").html(content);
+			$(val).parent().siblings("div").eq(1).hide();
+			
+ 			$(val).removeClass("amend");
+			$(val).addClass("amendComplete");
+			$(val).removeAttr("onclick");
+			$(val).attr('onclick','amendComplete(this,"'+commentNo+'","'+recNo+'")');
+			
+ 			$(val).next().removeClass("delete");
+ 			$(val).next().addClass("cancel");
+ 			$(val).next().removeAttr("onclick");
+ 			$(val).next().attr("onclick",'amendCancel(this,"'+commentNo+'","'+recNo+'")');
+		};
+		
+		function amendCancel(val, commentNo, recNo){
+			$(val).parent().siblings("textarea").hide();
+			$(val).prev().prev().show();
+			$(val).prev().html("수정");
+			$(val).html("삭제");
+			//var content = $(val).parent().siblings("div").eq(1).html();
+			$(val).parent().siblings("div").eq(1).show();
+			
+			$(val).prev().removeClass("amendComplete");
+			$(val).prev().addClass("amend");
+			$(val).prev().removeAttr("onclick");
+			$(val).prev().attr('onclick','amendComment(this,"'+commentNo+'","'+recNo+'")');
+			
+ 			$(val).removeClass("cancel");
+ 			$(val).addClass("delete");
+ 			$(val).removeAttr("onclick");
+ 			$(val).attr("onclick",'deleteComment("'+commentNo+'","'+recNo+'")');
+		};
+		
+		function amendComplete(val, commentNo, recNo){
+			var $form=$("<form action='/amendComment.do?commentNo="+commentNo+"&recNo="+recNo+"' method='post'></form>");
+			//	$form.append($("<input type='text' name='commentNo' value='"+commentNo+"'>"));
+			//	$form.append($("<input type='text' name='recNo' value='"+recNo+"'>"));
+				$form.append($(val).parent().siblings("textarea"));
+				
+				$('body').append($form);
+				
+				$form.submit();		
+		}
+		
 	</script>
 	<script>
 	$(function(){
@@ -289,7 +466,7 @@ geocoder.addressSearch('${rec.coords}', function(result, status) {
 }); 
 	});
 </script>
-	<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
+	
 	<!-- Modal -->
 	<div class="modal fade custom_search_pop" id="exampleModalCenter"
 		tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
@@ -342,24 +519,6 @@ geocoder.addressSearch('${rec.coords}', function(result, status) {
         },
       });
     </script>
-    <script>
-    function deleteComment(commentNo, recNo){
-		location.href="/deleteComment.do?recNo="+recNo+"&commentNo="+commentNo;
-	};
-	
-	function ammendComment(commentNo, recNo){
-		
-	}
-    </script>
-    <script>
-            ClassicEditor
-                    .create( document.querySelector( '#editor' ) )
-                    .then( editor => {
-                            console.log( editor );
-                    } )
-                    .catch( error => {
-                            console.error( error );
-                    } );
-    </script>
+    
 </body>
 </html>

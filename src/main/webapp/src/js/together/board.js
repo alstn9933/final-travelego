@@ -1,4 +1,4 @@
-$(".autosize").on("keyup", function (event) {
+$(document).on("keyup", ".autosize", function (event) {
   const key = event.key;
   const lineNum = $(this).val().split("\n").length;
   if (key == "Enter") {
@@ -11,14 +11,13 @@ $(".autosize").on("keyup", function (event) {
   }
 });
 
-$(".content").on("mouseenter mouseleave", toggleStrech);
-$(".show_comment").click(showComment);
+$(document).on("mouseenter mouseleave", ".content", toggleStrech);
+$(document).on("click", ".content", contentClick);
+$(document).on("click", ".show_comment", showComment);
 
 function toggleStrech() {
   $(this).find(".stretch_area").slideToggle();
 }
-
-$(".content").on("click", contentClick);
 
 function contentClick() {
   if (!$(this).hasClass("open_content")) {
@@ -53,7 +52,7 @@ function openContentClick(event) {
   content.on("click", contentClick);
 }
 
-$(".search_tab").children().on("click", selectTab);
+$(".search_tab > div").on("click", selectTab);
 
 function selectTab() {
   $(".search_tab").children().removeClass();
@@ -69,7 +68,7 @@ function selectTab() {
   }
 }
 
-$(".select_region").children().on("click", selectRegion);
+$(document).on("click", ".select_region > li", selectRegion);
 
 function selectRegion() {
   const regionNo = $(this).attr("regionNo");

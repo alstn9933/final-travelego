@@ -20,7 +20,7 @@
 								<nav>
 									<ul id="navigation">
 										<li><a class="active" href="/tripboard/main.do?reqPage=1">일정게시판</a></li>
-										<li><a href="/recommendList.do">추천게시판</a></li>
+                                        <li><a href="/recommendList.do?reqPage=1">추천게시판</a></li>
 										<li><a class="" href="/tourList.do">투어/티켓</a></li>
 										<li><a class="" href="/together/main.do">동행구하기</a></li>
 										<li><a href="/noticeList.do?reqPage=1">공지사항</a></li>
@@ -65,7 +65,7 @@
 															<ul class="submenu">
 																<li><a href="/memberModifiedFrm.do">회원정보수정(일반)</a></li>
 																<li><a href="/companyModifiedFrm.do">회원정보수정(법인)</a></li>
-																<li><a href="/mypage.do">마이페이지</a></li>
+																<li><a href="/myPage.do">마이페이지</a></li>
 																<li><a href="/mytripFrm.do">일정만들기</a></li>
 																<li><a href="javascript:void(0)" id="openInbox">쪽지함</a></li>
 															</ul></li>
@@ -92,7 +92,9 @@
 			</div>
 		</div>
 	</div>
+	
 </header>
+
 <c:if test="${not empty sessionScope.member }">
 	<script>
 		var ws;

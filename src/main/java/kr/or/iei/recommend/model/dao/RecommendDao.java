@@ -30,14 +30,14 @@ public class RecommendDao {
 		return sqlSession.selectList("recommend.selectCities", country);
 	}
 
-	public List selectAllRec() {
+	public List selectAllRec(HashMap<String, Integer> map) {
 		// TODO Auto-generated method stub
-		return sqlSession.selectList("recommend.selectAllRec");
+		return sqlSession.selectList("recommend.selectAllRec", map);
 	}
 	
-	public List selectRecList(SelectItems items) {
+	public List selectRecList(HashMap<String, Object> map) {
 		// TODO Auto-generated method stub
-		return sqlSession.selectList("recommend.selectRecList",items);
+		return sqlSession.selectList("recommend.selectRecList",map);
 	}
 
 	public int insertRec(HashMap<String, Object> map) {
@@ -49,9 +49,9 @@ public class RecommendDao {
 		return sqlSession.selectOne("recommend.selectOneRec",recNo);
 	}
 
-	public List selectComments(int recNo) {
+	public List selectComments(HashMap<String,Object> map) {
 		// TODO Auto-generated method stub
-		return sqlSession.selectList("recommend.selectComments",recNo);
+		return sqlSession.selectList("recommend.selectComments",map);
 	}
 
 	public int insertComment(BoardComment comment) {
@@ -97,6 +97,46 @@ public class RecommendDao {
 	public int selectCommentCount(int recNo) {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("recommend.selectCommentCount",recNo);
+	}
+
+	public int deleteRec(int recNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.delete("recommend.deleteRec",recNo);
+	}
+
+	public List selectAllRecPhoto() {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("recommend.selectAllRecPhoto");
+	}
+
+	public int updateComment(BoardComment c) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("recommend.updateComment",c);
+	}
+
+	public int totalRecCount() {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("recommend.totalRecCount");
+	}
+
+	public int totalSelectedRecCount(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("recommend.totalSelectedRecCount",map);
+	}
+
+	public int updateRec(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("recommend.updateRec",map);
+	}
+
+	public int updatePhoto(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("recommend.updatePhoto",map);
+	}
+
+	public int plusReadCount(int recNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("recommend.plusReadCount",recNo);
 	}
 	
 }

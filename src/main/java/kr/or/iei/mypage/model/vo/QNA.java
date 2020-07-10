@@ -8,6 +8,7 @@ import lombok.Data;
 
 @Data
 public class QNA {
+	private int rownum;
 	private int qnaNo;
 	private String qnaWriter;
 	private String qnaTitle;
