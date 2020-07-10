@@ -92,7 +92,9 @@
 			</div>
 		</div>
 	</div>
+	
 </header>
+
 <c:if test="${not empty sessionScope.member }">
 	<script>
 		var ws;

@@ -48,6 +48,54 @@ public class TripBoardController {
 	@Qualifier("tripBoardService")
 	TripBoardService service;
 	
+	@ResponseBody
+	@RequestMapping(value = "/asyncBookmark.do", produces = "text/html;charset=utf-8")
+	public String insertBookmark(HttpSession session, String boardNum) {
+
+		Member member = (Member) session.getAttribute("member");
+		int result = service.insertBookmark(member, boardNum);	
+		
+		return String.valueOf(result);
+	}
+	
+	
+	@ResponseBody
+	@RequestMapping(value = "/asyncUnBookmark.do", produces = "text/html;charset=utf-8")
+	public String deleteBookmark(HttpSession session, String boardNum) {
+
+		Member member = (Member) session.getAttribute("member");
+		int result = service.deleteBookmark(member, boardNum);	
+		
+		return String.valueOf(result);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/asyncLike.do", produces = "text/html;charset=utf-8")
+	public String insertLike(HttpSession session, String boardNum) {
+		Member member = (Member) session.getAttribute("member");
+		int result = service.insertLike(member, boardNum);
+		return String.valueOf(result);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/asyncUnLike.do", produces = "text/html;charset=utf-8")
+	public String deleteLike(HttpSession session, String boardNum) {
+		Member member = (Member) session.getAttribute("member");
+		int result = service.deleteLike(member, boardNum);
+		return String.valueOf(result);
+	}
+	
+	@RequestMapping(value = "/search.do")
+	public String searchBoard(int reqPage, String searchOption, String keyword, Model model) {
+		
+		TripBoardPageDTO pd = service.searchBoardList(reqPage, searchOption, keyword);
+		
+		model.addAttribute("list", pd.getBoardList());
+		model.addAttribute("pageNavi", pd.getPageNavi());
+		
+		return "tripboard/main";
+	}
+	
 	@RequestMapping(value = "/modComment.do")
 	public String modifyComment(TogetherCommentVO comment, Model model) {
 		
@@ -101,9 +149,16 @@ public class TripBoardController {
 	}
 	
 	@RequestMapping(value = "/view.do")
-	public String selectOneBoard(int tripBoardNo, Model model) {
+	public String selectOneBoard(HttpSession session, int tripBoardNo, Model model) {
+
+		Member member = (Member) session.getAttribute("member");
+		String memberId = null;
 		
-		TripBoardPageDTO pd = service.selectOneBoard(tripBoardNo);
+		if(member != null) {
+			memberId = member.getMemberId();
+		}
+		
+		TripBoardPageDTO pd = service.selectOneBoard(memberId, tripBoardNo);
 		
 		model.addAttribute("board", pd.getBoard());
 		model.addAttribute("commentList", pd.getCommentList());
@@ -297,7 +352,6 @@ public class TripBoardController {
 
 	@RequestMapping("/main.do")
 	public String main(int reqPage, Model model) {
-		System.out.println(reqPage);
 		if(reqPage == 0) {
 			reqPage = 1;			
 		}

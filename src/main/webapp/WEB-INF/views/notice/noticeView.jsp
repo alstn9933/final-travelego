@@ -39,7 +39,7 @@
 				<table class="Viewheader">
 					<tr>
 						<th class="noticetitle">제목</th>
-						<td class="mainnoticetitle"> ${notice.noticeTitle }</td>
+						<td class="mainnoticetitle"><div><div><div  class="noticetitlediv">${notice.noticeTitle }</div></div></div></td>
 						<th class="noticeDate">등록일</th>
 						<td class="mainNoticeDate"> ${notice.noticeDate }</td>
 						<th class="readcount">조회수</th>
