@@ -37,7 +37,12 @@
 
 	<!-- 웹 콘텐츠는 section 태그 안에 작성을 해주세요!-->
 	<section>
+		<div class="mainNoticetitle">
+				<div class="div1"></div>
+				<div class="div2"></div>
+			</div>
 		<div class="addDiv">
+			
 			<div class="container mt-3">
 				<div id="myCarousel" class="carousel slide">
 					<!-- Indicators -->
@@ -88,6 +93,30 @@
 		<br>
 
 </section>
+<!-- 헤더 밑 공지사항 -->
+<script>
+	$(function(){
+		$.ajax({
+			url : "/mainNoticeBox.do",
+			type : "json",
+			success : function(data) {
+				 html1 = "";
+				 html2 ="";
+				if(data !=null){
+				for(i=0;i<data.length;i++){
+				html1 = "<div class='noticetitlebox1'>[최신공지사항] "+data[i].noticeTitle+"</div>";
+				html2 =data[i].strNoticeDate+"<a href='noticeView.do?noticeNo="+data[i].noticeNo+"'>[확인하기]</a>";
+				$(".div1").html(html1);
+				$(".div2").html(html2);
+				}
+				}else{
+				$(".noticeBox").hide();	
+				}
+				
+			}
+		});
+	});
+</script>
 
 	<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
 	<!-- Modal -->
