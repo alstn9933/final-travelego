@@ -34,7 +34,9 @@
 			<div class="mainContent">
 			<div class="tablediv">
 			<div class="btnbox">
+			<c:if test="${sessionScope.member.memberLevel==3 }">
 			<a href="/noticemodify.do?noticeNo=${notice.noticeNo }"><input type="button" class="btn btn-outline-secondary" id="modiBtn" value="공지사항수정"></a>
+			</c:if>
 			</div>
 				<table class="Viewheader">
 					<tr>
