@@ -128,25 +128,29 @@ prefix="c"%>
         	margin-top:10px;
         	text-align:center;
         }
+        .item-top{
+        	position:absolute;
+            background-color:rgba(100,100,100,0.3);
+            width:100%;
+            z-index: 51;
+        }
         .region{
         	text-align:left;
+        	float:left;
         	padding:10px;
         	padding-bottom:0;
-            position:absolute;
-            background-color:rgba(100,100,100,0.3);
             color:white;
-            width:100%;
+            width:50%;
             z-index: 52;
         }
         .score{
             text-align: right;
+            float:right;
             padding:10px;
             padding-bottom:0;
-            position:absolute;
-            background-color:rgba(100,100,100,0.3);
             color:white;
-            width:100%;
-            z-index: 51;
+            width:50%;
+            z-index: 52;
         }
         .morebtn{
         	overflow:hidden;
@@ -181,12 +185,14 @@ prefix="c"%>
     					var html = "";
     					for(var i=0; i<data.length; i++){
     						html += "<div class='item card bg-light mb-3' itemNo="+data[i].itemNo+" onclick='itemView("+data[i].itemNo+");'>";
+    						html+="<div class='item-top'>";
     						html += "<div class='region'>"+data[i].regionCountry+"-"+data[i].regionCity+"</div>";
     						if(data[i].score==0){
     							html += "<div class='score'>후기가 없습니다</div>";
     						}else{
-    							html += "<div class='score'>"+data[i].score.toFixed(1)+"점</div>";
+    							html += "<div class='score'>★"+data[i].score.toFixed(1)+"점</div>";
     						}
+    						html+="</div>";
     						html += "<div><img class='item-main-img' src='../../../upload/images/tour/thumnail/"+data[i].filepath+"'></div>";
     						html += "<div class='itemBtn'>";
     						if(data[i].closeCheck==1){

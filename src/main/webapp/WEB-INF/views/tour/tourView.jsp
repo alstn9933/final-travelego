@@ -76,7 +76,6 @@ prefix="c"%>
         width: 70%;
         float: left;
         overflow: hidden;
-        margin-top: 20px;
       }
       .itemContent {
         width: 100%;
@@ -93,11 +92,12 @@ prefix="c"%>
         width: 100%;
       }
       .content-menu {
-        width: 100%;
+        width: 840px;
         height: 50px;
         overflow: hidden;
         border: 1px solid #25e6b5;
         border-radius: 5px;
+        background:white;
       }
       .content-menu > ul > li {
         float: left;
@@ -125,10 +125,26 @@ prefix="c"%>
         background-color: #25e6b5;
         color: white;
       }
+      .content-menu-fix1{
+      	position: fixed;
+      	top:150px;
+      	z-index: 50;
+      }
+      .content-menu-fix2{
+      	position: fixed;
+      	top:110px;
+      	z-index: 50;
+      }
+      .content-menu-fix3{
+      	position: fixed;
+      	top:140px;
+      	z-index: 50;
+      }
       .review-section {
         margin-top: 20px;
         width: 100%;
         overflow: hidden;
+        margin-bottom:500px;
       }
       .review-section > h2 {
         text-align: center;
@@ -223,6 +239,10 @@ prefix="c"%>
       #itemPrice > td:last-child {
         border-top: 1px solid lightgray;
       }
+      #confirm{
+      	margin:20px;
+      	margin-left:35%;
+      }
     </style>
   </head>
   <body>
@@ -247,7 +267,7 @@ prefix="c"%>
             </tr>
             <tr id="itemPrice">
               <td colspan="1">가격</td>
-              <td colspan="3">1인 ${tv.itemPrice }원</td>
+              <td colspan="3">${tv.itemPrice }원~</td>
               <td>
                 <table>
                   <tr>
@@ -271,13 +291,13 @@ prefix="c"%>
         </div>
       </div>
       <div class="content">
+	      <div class="content-menu con1">
+		      <ul>
+		        <li class="content-menu-click">상세내용</li>
+		        <li>후기</li>
+		      </ul>
+	      </div>
         <div class="item-section">
-          <div class="content-menu">
-            <ul>
-              <li class="content-menu-click">상세내용</li>
-              <li>후기</li>
-            </ul>
-          </div>
           <div class="itemContent item-height">
             ${tv.itemContent }
           </div>
@@ -288,12 +308,7 @@ prefix="c"%>
           </div>
         </div>
         <div class="review-section">
-          <div class="content-menu">
-            <ul>
-              <li>상세내용</li>
-              <li class="content-menu-click">후기</li>
-            </ul>
-          </div>
+          <h3>상품 후기</h3>
           <table class="review-content">
             <tr>
               <td>작성자</td>
@@ -357,9 +372,9 @@ prefix="c"%>
           </div>
           <div class="totalPay">
             <h3>총 결제 금액</h3>
-            <input type="number" name="totalPay" readonly />원
+            <input type="text" name="totalPay" readonly />원
           </div>
-          <button type="button" id="confirm">예약하기</button>
+          <button class="btn btn-primary btn-sm" type="button" id="confirm">예약하기</button>
           <!-- <input type="submit" value="예약하기"> -->
         </form>
       </div>
@@ -445,15 +460,60 @@ prefix="c"%>
         });
 
         $(".content-menu>ul>li").click(function () {
-          var val = $(this).html();
+        	var val = $(this).html();
           if (val == "상세내용") {
-            $("html, body").animate({ scrollTop: $("body").offset().top }, 400);
+        	  var itemContentTop = $(".itemContent").offset().top;
+              itemContentTop-=200;
+            $("html, body").animate({ scrollTop: itemContentTop }, 400);
           } else if (val == "후기") {
-            $("html, body").animate(
-              { scrollTop: $(".review-section").offset().top },
-              400
-            );
+        	  var reviewSectionTop = $(".review-section").offset().top;
+          	  reviewSectionTop-=200;
+          	$("html, body").animate({ scrollTop: reviewSectionTop },400);
           }
+        });
+        
+        $(window).scroll(function () {
+        	if($(document).scrollTop()>250){
+        		if($(window).width() >1500){
+           			$(".con1").removeClass("content-menu-fix1");
+           			$(".con1").removeClass("content-menu-fix2");
+           			if(!$(".con1").hasClass("content-menu-fix3")) {
+               			$(".con1").addClass("content-menu-fix3");
+               		}
+            	}else{
+            		if($(document).scrollTop()>400){
+            			$(".con1").removeClass("content-menu-fix1");
+            			$(".con1").removeClass("content-menu-fix3");
+            			if(!$(".con1").hasClass("content-menu-fix2")) {
+                			$(".con1").addClass("content-menu-fix2");
+                		}
+            		}else{
+            			$(".con1").removeClass("content-menu-fix3");
+            			$(".con1").removeClass("content-menu-fix2");
+            			if(!$(".con1").hasClass("content-menu-fix1")) {
+                			$(".con1").addClass("content-menu-fix1");
+                		}
+            		}
+            	}
+        		var reviewSectionTop = $(".review-section").offset().top;
+        		$(".content").css("margin-top","50px");
+        		if($(document).scrollTop()>=reviewSectionTop-220){
+        			$(".con1").find("li").eq(0).removeClass("content-menu-click");
+        			$(".con1").find("li").eq(1).addClass("content-menu-click");
+        		}else{
+        			$(".con1").find("li").eq(0).addClass("content-menu-click");
+        			$(".con1").find("li").eq(1).removeClass("content-menu-click");
+        		}
+        	}else{
+        		$(".content").css("margin-top","0");
+        		$(".con1").removeClass("content-menu-fix1");
+        		$(".con1").removeClass("content-menu-fix2");
+        		$(".con1").removeClass("content-menu-fix3");
+        	}
+        });
+        
+        $(window).resize(function(){
+        	$(window).scroll();
         });
 
         $("input[name=tourDate]").datepicker({
