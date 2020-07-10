@@ -52,7 +52,6 @@ public class TourController {
 			}
 			t.setMemberId(m.getMemberId());
 			int totalCount = service.selectTotalCount(t);
-			System.out.println(totalCount);
 			ArrayList<Region> rlist = service.selectRegionList();
 			model.addAttribute("totalCount", totalCount);
 			model.addAttribute("rlist",rlist);
@@ -95,7 +94,6 @@ public class TourController {
 			}
 		}
 		ArrayList<TourVO> list = service.moreItemList(start, memberId,t,array1,array2);
-		System.out.println(list.size());
 		return new Gson().toJson(list);
 	}
 	

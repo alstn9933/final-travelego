@@ -315,11 +315,6 @@ prefix="c"%>
     <script src="/src/js/together/write.js"></script>
     <script src="/src/js/together/boardScrollLoad.js"></script>
     <script>
-      $(".delCommentBtn").on("click",);
-
-      function deleteComment(){
-        
-      };
     </script>
     <script>
       $(function () {
