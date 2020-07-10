@@ -66,7 +66,8 @@
 				to_char(trip_board_date,'hh24:mi') as tripBoardTime, 
 				read_count as readCount, 
 				region_no as regionNo,
-				filepath  
+				filepath,
+				(select count(member_id) from liked where board_class = 5 and board_no = trip_board_no) as likeCount  
 			from(
 				select 
 					* 
@@ -89,7 +90,7 @@
 			region_no as regionNo, 
 			filepath,			
 			region_country||'-'||region_city as regionName,
-			(select count(member_id) from liked where board_class = 5 and board_no = 18) as likeCount
+			(select count(member_id) from liked where board_class = 5 and board_no = #{tripBoardNo}) as likeCount
 			<if test="memberId != null">
 				,
 				(select member_id from liked where board_class = 5 and board_no = #{tripBoardNo} and member_id = #{memberId}) as likedId,

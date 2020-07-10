@@ -352,7 +352,6 @@ public class TripBoardController {
 
 	@RequestMapping("/main.do")
 	public String main(int reqPage, Model model) {
-		System.out.println(reqPage);
 		if(reqPage == 0) {
 			reqPage = 1;			
 		}

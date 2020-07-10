@@ -308,7 +308,7 @@ ${board.tripRoute}</textarea
     <!-- JS here -->
     <script src="/src/js/header/vendor/modernizr-3.5.0.min.js"></script>
     <!-- <script src="/src/js/header/vendor/jquery-1.12.4.min.js"></script>
-	<script src="/src/js/header/popper.min.js"></script> -->
+	  <script src="/src/js/header/popper.min.js"></script> -->
     <script src="/src/js/header/owl.carousel.min.js"></script>
     <script src="/src/js/header/isotope.pkgd.min.js"></script>
     <script src="/src/js/header/ajax-form.js"></script>

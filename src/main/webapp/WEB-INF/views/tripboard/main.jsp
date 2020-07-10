@@ -71,7 +71,7 @@ prefix="c"%>
                 <span>대한민국 - 제주도</span>
                 <div>
                   <i class="far fa-thumbs-up"></i>
-                  <span>0</span>
+                  <span>${b.likeCount}</span>
                 </div>
               </div>
             </a>
