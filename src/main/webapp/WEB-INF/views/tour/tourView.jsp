@@ -85,9 +85,6 @@ prefix="c"%>
         width: 100%;
         height: auto;
       }
-      .morebtn > button {
-        width: 100%;
-      }
       #close-btn {
         width: 100%;
       }
@@ -301,11 +298,6 @@ prefix="c"%>
           <div class="itemContent item-height">
             ${tv.itemContent }
           </div>
-          <div class="morebtn">
-            <button type="button" class="btn btn-outline-info openbtn">
-              ▲
-            </button>
-          </div>
         </div>
         <div class="review-section">
           <h3>상품 후기</h3>
@@ -447,17 +439,6 @@ prefix="c"%>
         $('[data-toggle="popover"]').popover();
 
         $(".itemContent>img").removeAttr("style");
-
-        $(".openbtn").click(function () {
-          $(".itemContent").slideToggle();
-          if (btnval == "down") {
-            $(this).html("▲");
-            btnval = "up";
-          } else if (btnval == "up") {
-            $(this).html("▼");
-            btnval = "down";
-          }
-        });
 
         $(".content-menu>ul>li").click(function () {
         	var val = $(this).html();
