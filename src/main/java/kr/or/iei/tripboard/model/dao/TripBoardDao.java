@@ -43,8 +43,8 @@ public class TripBoardDao {
 		return session.selectList("tripboard.selectBoardList", map);
 	}
 
-	public TripBoardVO selectOneBoard(int tripBoardNo) {
-		return session.selectOne("tripboard.selectOneBoard", tripBoardNo);
+	public TripBoardVO selectOneBoard(HashMap<String, String> map) {
+		return session.selectOne("tripboard.selectOneBoard", map);
 	}
 
 	public int deleteBoard(int boardNum) {
@@ -74,4 +74,33 @@ public class TripBoardDao {
 	public int updateComment(TogetherCommentVO comment) {
 		return session.update("tripboard.updateComment", comment);
 	}
+
+	public int countSearch(HashMap<String, String> map) {
+		return session.selectOne("tripboard.countSearch", map);
+	}
+
+	public List searchBoardList(HashMap<String, String> map) {
+		return session.selectList("tripboard.searchBoard", map);
+	}
+
+	public int insertLike(HashMap<String, String> map) {
+		return session.insert("tripboard.insertLike", map);
+	}
+
+	public int countLike(String boardNum) {
+		return session.selectOne("tripboard.countLike", boardNum);
+	}
+
+	public int deleteLike(HashMap<String, String> map) {
+		return session.delete("tripboard.deleteLike",map);
+	}
+
+	public int insertBookmark(HashMap<String, String> map) {
+		return session.insert("tripboard.insertBookmark",map);
+	}
+
+	public int deleteBookmark(HashMap<String, String> map) {
+		return session.delete("tripboard.deleteBookmark", map);
+	}
+
 }

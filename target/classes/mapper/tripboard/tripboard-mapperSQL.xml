@@ -71,12 +71,12 @@
 				select 
 					* 
 				from trip_board 
-				left join (select * from photo where board_class = 3) on(trip_board_no = board_no) 				
+				left join (select * from photo where board_class = 5) on(trip_board_no = board_no) 				
 				order by trip_board_no desc
 			)
 		) where rnum between #{start} and #{end}
 	</select>
-	<select id="selectOneBoard" parameterType="_int" resultType="tripBoardVO">
+	<select id="selectOneBoard" parameterType="map" resultType="tripBoardVO">
 		select 
 			trip_board_no as tripBoardNo, 
 			trip_board_title as tripBoardTitle, 
@@ -88,11 +88,17 @@
 			read_count as readCount, 
 			region_no as regionNo, 
 			filepath,			
-			region_country||'-'||region_city as regionName 
+			region_country||'-'||region_city as regionName,
+			(select count(member_id) from liked where board_class = 5 and board_no = 18) as likeCount
+			<if test="memberId != null">
+				,
+				(select member_id from liked where board_class = 5 and board_no = #{tripBoardNo} and member_id = #{memberId}) as likedId,
+            	(select bookmark_no from bookmark where board_class = 5 and board_no = #{tripBoardNo} and member_id = #{memberId}) as bookmarkNo
+			</if>
 		from trip_board 
-		left join (select * from photo where board_class = 3) on(trip_board_no = board_no)
+		left join (select * from photo where board_class = 5) on(trip_board_no = board_no)
 		join region using(region_no)
-		where trip_board_no = #{_parameter}
+		where trip_board_no = #{tripBoardNo}
 	</select>
 	<delete id="deleteBoard" parameterType="_int">
 		delete from trip_board
@@ -153,4 +159,79 @@
 			comment_date = sysdate
 		where comment_no = #{commentNo}
 	</select>
+	<select id="countSearch" parameterType="map" resultType="_int">
+		select
+    		count(trip_board_no)
+		from trip_board
+		join region using(region_no)
+		<if test="searchOption == 1">
+			where region_country like '%'||#{keyword}||'%' or region_city like '%'||#{keyword}||'%'		
+		</if>
+		<if test="searchOption == 2">
+			where trip_board_title like '%'||#{keyword}||'%'		
+		</if>
+	</select>
+	<select id="searchBoard" parameterType="map" resultType="tripBoardVO">		
+		select 
+			* 
+		from (
+			select 
+				rownum as rnum, 
+				trip_board_no as tripBoardNo, 
+				trip_board_title as tripBoardTitle, 
+				trip_board_content as tripBoardContent, 
+				trip_route as tripRoute, 
+				trip_board_writer as tripBoardWriter, 
+				to_char(trip_board_date,'yyyy. mm. dd.') as tripBoardDate, 
+				to_char(trip_board_date,'hh24:mi') as tripBoardTime, 
+				read_count as readCount, 
+				region_no as regionNo,
+				filepath  
+			from(
+				select 
+					* 
+				from trip_board 
+				left join (select * from photo where board_class = 5) on(trip_board_no = board_no)			
+				<if test="searchOption == 1">
+					join region using(region_no)		
+				</if> 				
+				order by trip_board_no desc
+			)
+			<if test="searchOption == 1">
+				where region_country like '%'||#{keyword}||'%' or region_city like '%'||#{keyword}||'%'		
+			</if>
+			<if test="searchOption == 2">
+				where trip_board_title like '%'||#{keyword}||'%'		
+			</if>
+		) where rnum between #{start} and #{end}
+	</select>
+	<insert id="insertLike" parameterType="map">
+		insert into liked values(
+			5,
+			#{boardNum},
+			#{memberId}
+		)
+	</insert>
+	<select id="countLike" parameterType="string" resultType="_int">
+		select
+			count(board_no)
+		from liked
+		where board_no = #{_parameter} and board_class = 5
+	</select>
+	<delete id="deleteLike" parameterType="map">
+		delete from liked
+		where member_id = #{memberId} and board_no = #{boardNum} and board_class = 5
+	</delete>
+	<insert id="insertBookmark" parameterType="map">
+		insert into bookmark values(
+			bookmark_seq.nextval,
+			5,
+			#{boardNum},
+			#{memberId}
+		)		
+	</insert>
+	<delete id="deleteBookmark" parameterType="map">
+		delete from bookmark
+		where member_id = #{memberId} and board_no = #{boardNum} and board_class = 5
+	</delete>
 </mapper>
