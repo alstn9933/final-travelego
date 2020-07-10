@@ -31,7 +31,7 @@ body{
 }
 #submitBtn,#joinBtn{
 	margin : 0 auto;
-	width: 400px;
+	width: 300px;
 }
 .loginheader{
 	text-align: center;
@@ -109,7 +109,9 @@ h1 {
 	overflow: hidden;
 	padding-bottom: 0.4rem;
 }
-
+#kakaoBtn{
+	margin-bottom: 10px;
+}
 @keyframes up {
 	
 	100% {

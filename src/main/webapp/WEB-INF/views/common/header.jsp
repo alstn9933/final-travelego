@@ -10,7 +10,7 @@
 					<div class="row align-items-center">
 						<div class="col-xl-2 col-lg-2">
 							<div class="logo">
-								<a href="index.jsp"><img
+								<a href="/"><img
 									src="/src/imgs/header/mainlogo2.png"
 									style="width: 100%; height: 90px;" alt="" /> </a>
 							</div>
@@ -19,8 +19,8 @@
 							<div class="main-menu d-none d-lg-block">
 								<nav>
 									<ul id="navigation">
-										<li><a class="active" href="/tripboard/main.do">일정게시판</a></li>
-										<li><a href="/recommendList.do?reqPage=1">추천게시판</a></li>
+										<li><a class="active" href="/tripboard/main.do?reqPage=1">일정게시판</a></li>
+                                        <li><a href="/recommendList.do?reqPage=1">추천게시판</a></li>
 										<li><a class="" href="/tourList.do">투어/티켓</a></li>
 										<li><a class="" href="/together/main.do">동행구하기</a></li>
 										<li><a href="/noticeList.do?reqPage=1">공지사항</a></li>
@@ -119,8 +119,10 @@
 			}
 
 			ws.onmessage = function(e) {
+				console.log("메세지받음");
 				var currentCount = Number($("#alramCount").html());
 				$("#alramCount").html(currentCount + Number(e.data));
+				$("#alramCount").show();
 			};
 
 			ws.onclose = function() {

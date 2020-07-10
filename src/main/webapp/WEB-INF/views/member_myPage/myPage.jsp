@@ -73,7 +73,7 @@ prefix="c"%>
             <th><a href="/boardList.do?board=0&reqPage=1">&nbsp;&nbsp;내가 쓴 게시글</a></th>
         </tr>
         <tr>
-            <th><a href="#">&nbsp;&nbsp;내 예약</a></th>
+            <th><a href="/myReservation.do">&nbsp;&nbsp;내 예약</a></th>
         </tr>
         <tr>
             <th><a href="/bookmark.do?board=0&reqPage=1">&nbsp;&nbsp;북마크</a></th>
@@ -87,10 +87,10 @@ prefix="c"%>
         </c:if>
         <c:if test="${sessionScope.member.memberLevel eq 2 }">
         <tr>
-            <th><a href="#">&nbsp;&nbsp;상품 관리</a></th>
+            <th><a href="/comTourList.do">&nbsp;&nbsp;상품 관리</a></th>
         </tr>
         <tr>
-            <th><a href="#">&nbsp;&nbsp;예약 관리</a></th>
+            <th><a href="/comReserveList.do">&nbsp;&nbsp;예약 관리</a></th>
         </tr>
         </c:if>
         <tr>
