@@ -52,4 +52,9 @@ public class MypageDao {
 		return sqlSession.selectOne("myPage.selectQNACount",qnaWriter);
 	}
 
+	public int leaveAnswer(QNA qna) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("myPage.leaveAnswer",qna);
+	}
+
 }

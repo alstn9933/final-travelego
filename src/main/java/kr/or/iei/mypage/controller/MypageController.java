@@ -84,4 +84,11 @@ public class MypageController {
 		model.addAttribute("pageNavi",pageNavi);
 		return "member_myPage/qnaList";
 	}
+	
+	@RequestMapping(value="/leaveAnswer.do")
+	public String leaveAnswer(QNA qna, HttpSession session) {
+		String qnaWriter = ((Member)session.getAttribute("member")).getMemberId();
+		int result = service.leaveAnswer(qna);
+		return "redirect:/qnaList.do?reqPage=1&qnaWriter="+qnaWriter;
+	}
 }

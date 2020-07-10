@@ -332,10 +332,11 @@
 					style="width: 74%; height: 100%; position: relative; overflow: hidden; float: right;"></div>
 			</div>
 			<hr>
-			<form id="complete" action="/recWrite.do" method="post">
+			<form id="complete" action="/recUpdate.do" method="post">
 			<input type="hidden" id="coords" name="coords">
 			<input type="hidden" id="place" name="place">
 			<input type="hidden" id="photo" name="photo">
+			<input type="hidden" name="recNo" value=${rec.recNo }>
 			<div>
 				여행지역
 				<select id="regionCountry" name="regionCountry" class="custom-select custom-select-sm" style="width:150px;">
@@ -362,7 +363,7 @@
 				<input	type="text" id="recTitle" name="recTitle" placeholder="제목을 입력해주세요" value="${rec.recTitle }" style="width:100%;"><br>
 				<hr>
 				<div id="cont">
-					<textarea rows="10" cols="50" name="recContent" id="editor" value="${rec.recContent }"></textarea>
+					<textarea rows="10" cols="50" name="recContent" id="editor" >${rec.recContent }</textarea>
 				</div>
 				<br>
 				<div style="text-align:center; margin:40px auto;">

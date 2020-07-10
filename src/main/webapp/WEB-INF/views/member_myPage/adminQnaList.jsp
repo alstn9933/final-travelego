@@ -86,11 +86,8 @@ prefix="c"%>
                 <td width="15%">답변여부</td>
             </tr>
             <c:forEach items="${qlist }" var="q">
-            
             	<tr>
-            		<td>${q.rownum }
-            			
-            		</td>
+            		<td>${q.rnum }</td>
             		<td onclick="showQ(this);">
             			${q.qnaTitle }
             		</td>
@@ -98,53 +95,28 @@ prefix="c"%>
             		
             		<c:if test="${not empty q.qnaAnswer }">
             		<td onclick="showA(this);">
-	            		<c:if test="${sessionScope.member.memberId ne 'admin' }">
-	            			답변완료
-	            		</c:if>
-	            		<c:if test="${sessionScope.member.memberId eq 'admin' }">
-	            			처리완료
-	            		</c:if>
+            		답변완료
+            		</td>
+            		</c:if>
+            		<c:if test="${empty q.qnaAnswer }">
+            		<td>
+            		답변대기중
             		</td>
             		</c:if>
             		
-            		<c:if test="${empty q.qnaAnswer }">
-	            		<c:if test="${sessionScope.member.memberId ne 'admin' }">
-		            		<td>
-		            		답변대기중
-		            		</td>
-	            		</c:if>
-	            		<c:if test="${sessionScope.member.memberId eq 'admin' }">
-	            			<td onclick="leaveAnswer(this);">
-	            			처리대기중
-	            			</td>
-		            	</c:if>
-            		</c:if>
             	</tr>
             	<tr class="content">
-            		<td>문의</td>
+            		<td></td>
             		<td>${q.qnaContent }</td>
             		<td></td>
             		<td></td>
             	</tr>
             	<c:if test="${not empty q.qnaAnswer }">
             	<tr class="answer">
-            		<td>답변</td>
+            		<td></td>
 	            	<td>${q.qnaAnswer }</td>
-	            	<td>${q.answerDate }</td>
 	            	<td></td>
-            	</tr>
-            	</c:if>
-            	<c:if test="${empty q.qnaAnswer and sessionScope.member.memberId eq 'admin' }">
-            	<tr style="display:none;">
-            	<td/>
-            	<form action="/leaveAnswer.do" method="post">
-            	<td>
-	            	<input type="hidden" name="qnaNo" value="${q.qnaNo }">
-    	        	<textarea rows="5" cols="50" style="resize: none;" name="qnaAnswer"></textarea>	
-            	</td>    	
-            	<td/>
-            	<td><button>답변 저장</button></td>
-            	</form>
+	            	<td></td>
             	</tr>
             	</c:if>
             </c:forEach>
@@ -164,18 +136,16 @@ prefix="c"%>
 	  }
 	
 	function showA(value){
-		$(value).parent().next().next().show();
+		var i = $(value).parent("tr").index();
+		  $(value).parent().siblings(".answer").eq((i-1)/3).show();
 		  $(value).attr("onclick","hideA(this);") 
 	  }
 	
 	function hideA(value){
-		  $(value).parent().next().next().hide();
+		var i = $(value).parent("tr").index();
+		  $(value).parent().siblings(".answer").eq((i-1)/3).hide();
 		  $(value).attr("onclick","showA(this);")
 	  }
-	
-	function leaveAnswer(value){
-		$(value).parent().next().next().show();
-	}
 	</script>
     <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
     <!-- Modal -->

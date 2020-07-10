@@ -282,7 +282,7 @@
 				<!-- form이 제출되면서 페이지가 바뀌지 않게 하기 위해 return false; -->
 					<form onsubmit="searchPlaces(); return false; showMapList();">
 						<input type="text" id="keyword" size="100" name="place"
-							placeholder="추천하는 장소를 입력하세요" style="width:50%;">
+							placeholder="추천하는 장소를 입력하세요" style="width:50%;" required>
 						<button type="submit">검색하기</button>
 					</form>
 				</div>
@@ -324,10 +324,10 @@
 				</select>
 			</div>
 			<hr>
-				<input	type="text" id="recTitle" name="recTitle" placeholder="제목을 입력해주세요" style="width:100%;"><br>
+				<input	type="text" id="recTitle" name="recTitle" placeholder="제목을 입력해주세요" style="width:100%;" required><br>
 				<hr>
 				<div id="cont">
-					<textarea rows="10" cols="50" name="recContent" id="editor"></textarea>
+					<textarea rows="10" cols="50" name="recContent" id="editor" required></textarea>
 				</div>
 				<br>
 				<div style="text-align:center; margin:40px auto;">

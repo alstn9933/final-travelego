@@ -6,6 +6,7 @@ import lombok.Data;
 
 @Data
 public class BoardComment {
+	private int rnum;
 	private int commentNo;
 	private int commentLevel;
 	private int boardClass;

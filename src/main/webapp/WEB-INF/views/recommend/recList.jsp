@@ -71,7 +71,7 @@ prefix="c"%>
   				dataType:"json",
   				success : function(data){
   					for(var i=0;i<data.length;i++){
-  						$("#regionCity").append("<option value='"+data[i].regionNo+"'>"+data[i].regionCity+"</option>");
+  						$("#regionCity").append("<option value='"+data[i].regionCity+"'>"+data[i].regionCity+"</option>");
   					}
   				},
   				error:function(){
@@ -91,6 +91,7 @@ prefix="c"%>
     <section>
       <div>
             <form action="/sort.do" type="post">
+            <input type="hidden" name="reqPage" value="1">
                 여행지역
                 <select id="regionCountry" name="regionCountry" class="custom-select custom-select-sm" style="width:150px;">
                     <option value="전체">전체</option>
@@ -119,9 +120,12 @@ prefix="c"%>
         </div>
         <div>
             <div style="text-align:right;">
-             	<span><a href="#">최신순</a></span>
-                <span><a href="#">조회순</a></span>
-                <span><a href="#">좋아요순</a></span>
+            	<input type="radio" name="order" value="date" id="date">
+            	<label for="date">최신순</label>
+             	<input type="radio" name="order" value="readCount" id="readCount">
+                <label for="readCount">조회순</label>
+                <input type="radio" name="order" value="liked" id="liked">
+                <label for="liked">좋아요순</label>
             </div>
            
            <!-- 추천글 리스트를 이중 foreach를 이용해 3X3으로 정렬 -->
@@ -129,16 +133,39 @@ prefix="c"%>
             	<div>
             		<c:forEach items="${recList }" var="rec">
             		<div style="float:left; margin: 20px 50px;">
-            			<a href="/recDetail.do?recNo=${rec.recNo }"><img src="${rec.filepath }" style="width:300px; height:200px; overflow: hidden"></a>
-            			<div class="info"><span>${rec.regionCity }</span><span>/</span><span>${rec.recCategory }</span></div>
-            			<div><a href="/recDetail.do?recNo=${rec.recNo }">${rec.recTitle }</a></div>
+            			<a href="/recDetail.do?reqPage=1&recNo=${rec.recNo }"><img src="${rec.filepath }" style="width:300px; height:200px; overflow: hidden"></a>
+            			<div class="info"><span>${rec.regionCity }</span><span>/</span>
+            			<span>
+            			<c:choose>
+            				<c:when test="${rec.recCategory eq 1}">
+            					맛집
+            				</c:when>
+            				<c:when test="${rec.recCategory eq 2}">
+            					카페
+            				</c:when>
+            				<c:when test="${rec.recCategory eq 3}">
+            					숙소
+            				</c:when>
+            				<c:when test="${rec.recCategory eq 4}">
+            					관광지
+            				</c:when>
+            				<c:when test="${rec.recCategory eq 5}">
+            					액티비티
+            				</c:when>
+            				<c:otherwise>
+            					기타
+            				</c:otherwise>
+            			</c:choose>
+            			</span>
+            			</div>
+            			<div><a href="/recDetail.do?reqPage=1&recNo=${rec.recNo }">${rec.recTitle }</a></div>
             			<div class="info"><span>${rec.recWriter}</span><span>${rec.recDate }</span><span style="margin-right:3px;"><i class="fas fa-heart"></i></span><span>${rec.cnt }</span><span style="margin-right:3px;">조회수</span><span>${rec.readCount }</span></div>
             		</div>
             		</c:forEach>
             	</div>
             </div>
         </div>
-        <div id="page"></div>
+        <div id="page" style="width:80%; margin:50px auto; text-align: center;">${pageNavi }</div>
       <%-- <c:if test="${not empty sessionScope.member }"> --%>
         <div><button id="writeFrm">글쓰기</button></div>
         <%-- </c:if> --%>

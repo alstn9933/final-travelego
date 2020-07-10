@@ -20,7 +20,7 @@
 								<nav>
 									<ul id="navigation">
 										<li><a class="active" href="/tripboard/main.do">일정게시판</a></li>
-										<li><a href="/recommendList.do">추천게시판</a></li>
+										<li><a href="/recommendList.do?reqPage=1">추천게시판</a></li>
 										<li><a class="" href="/tourList.do">투어/티켓</a></li>
 										<li><a class="" href="/together/main.do">동행구하기</a></li>
 										<li><a href="/noticeList.do?reqPage=1">공지사항</a></li>

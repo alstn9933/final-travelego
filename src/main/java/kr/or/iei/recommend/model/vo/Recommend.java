@@ -6,6 +6,7 @@ import lombok.Data;
 
 @Data
 public class Recommend {
+	private int rnum;
 	private int recNo;
 	private String recTitle;
 	private String recContent;

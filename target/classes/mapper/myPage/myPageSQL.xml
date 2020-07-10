@@ -70,9 +70,8 @@
   </insert>
   
   <select id="selectQnaList" parameterType="map" resultType="qna">
-  	select * from(
   	select
-  		rownum as rnum,
+  		rownum,
   		qna_no as qnaNo,
   		qna_writer as qnaWriter,
   		qna_title as qnaTitle,
@@ -80,7 +79,11 @@
   		ask_date as askDate,
   		qna_answer as qnaAnswer,
   		answer_date as answerDate
-  	from qna where qna_writer = #{qnaWriter}) where rnum between #{start} and #{end} order by qnaNo
+  	from qna where 
+  	<if test="!qnaWriter.equals('admin')">
+  		qna_writer = #{qnaWriter} and 
+  	</if>
+  	rownum between #{start} and #{end} order by rownum desc
   </select>
   
   <select id="selectBoardCount" parameterType="map" resultType="_int">
@@ -142,4 +145,8 @@
   <select id="selectQNACount" parameterType="string" resultType="_int">
   	select count(*) from qna where qna_writer = #{_param}
   </select>
+  
+  <update id="leaveAnswer" parameterType="qna">
+  	update qna set qna_answer = #{qnaAnswer}, answer_date = sysdate where qna_no = #{qnaNo}
+  </update>
 </mapper>

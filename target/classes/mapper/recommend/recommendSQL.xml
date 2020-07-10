@@ -18,8 +18,9 @@
   </select>
   
   <select id="selectAllRec" resultType="recommend">
-	  select * from(
-	  	select
+	  select rownum, fin.* from(
+        select * from
+         (select
 	  		rec_no as recNo,
 	  		rec_title as recTitle,
 	  		rec_content as recContent,
@@ -36,7 +37,9 @@
 	  	 left join (select count(*) as cnt , board_no
 	  	 			from liked where board_class = 2 group by board_no)rlist
 	  	 			on (rec_no = board_no))
-	  	 join photo on (recNo = board_no) order by recNo desc
+	  	 join photo on (recNo = board_no) order by recNo desc)fin
+         where rownum between #{start} and #{end}
+
   </select>
   
   <select id="selectAllRecPhoto">
@@ -48,7 +51,47 @@
 	<!-- where board_class=2 -->
   </select>
   
-  <select id="selectRecList" parameterType="items" resultType="recommend">
+  <select id="selectRecList" parameterType="map" resultType="recommend">
+  	select rownum, fin.* from(
+  	select * from(
+	  	select
+	  		region_country as regionCountry,
+	  		rec_no as recNo,
+	  		rec_title as recTitle,
+	  		rec_content as recContent,
+	  		rec_writer as recWriter,
+	  		read_count as readCount,
+	  		rec_date as recDate,
+	  		rec_category as recCategory,
+	  		region_city as regionCity,
+	  		place,
+	  		coords,
+	  		cnt
+	  	 from recommend_board
+	  	 left join region using(region_no) 
+	  	 left join (select count(*) as cnt , board_no
+	  	 			from liked where board_class = 2 group by board_no)rlist
+	  	 			on (rec_no = board_no))
+	  	 join photo on (recNo = board_no) 
+	  	 <trim prefix="where" prefixOverrides="and|or">
+	  	 	<if test="!country.equals('전체')">
+	  	 		regionCountry = #{country}
+	  	 	</if>
+	  	 	<if test="!city.equals('전체')">
+	  	 			and regionCity = #{city}
+	  	 		</if>
+	  	 	<if test="category != 0">
+	  	 		and recCategory = #{category}
+	  	 	</if>
+	  	 	<if test="search != null">
+	  	 		and recTitle like '%'||#{search}||'%'
+	  	 	</if>
+	  	 </trim>
+	  	 order by recNo desc)fin
+		where rownum between #{start} and #{end}
+  </select>
+  
+  <!-- <select id="selectRecList2" parameterType="map" resultType="recommend">
   	select
   		rec_no as recNo,
   		rec_title as recTitle,
@@ -64,7 +107,7 @@
   	 <trim prefix="where" prefixOverrides="and|or">
   	 	<if test="!regionCountry.equals('전체')">
   	 		region_country = #{regionCountry}
-  	 		<!-- <if test="!regionCity.equals('전체')">
+  	 		 <if test="!regionCity.equals('전체')">
   	 			and region_city = #{regionCity}
   	 		</if>
   	 	</if>
@@ -72,10 +115,10 @@
   	 		and rec_category = #{recCategory}
   	 	</if>
   	 	<if test="search != null">
-  	 		and rec_title like '%'||#{search}||'%' or rec_content like '%'||#{search}||'%' -->
+  	 		and rec_title like '%'||#{search}||'%' or rec_content like '%'||#{search}||'%' 
   	 	</if>
   	 </trim>
-  </select>
+  </select> -->
   
   <select id="selectOneRec" parameterType="_int" resultType="recommend">
   	select
@@ -99,8 +142,10 @@
   	where rec_no = #{_param}
   </select>
   
-  <select id="selectComments" parameterType="_int" resultType="comment">
+  <select id="selectComments" parameterType="map" resultType="comment">
+  	select * from(
   	select
+  		rownum as rnum,
   		comment_no as commentNo,
   		comment_level as commentLevel,
   		comment_writer as commentWriter,
@@ -108,7 +153,8 @@
   		ref_comment as refComment,
   		comment_date as commentDate
   	from board_comment
-  	where board_class=2 and board_no=#{_param} order by commentNo desc
+  	where board_class=2 and board_no=#{recNo} order by commentNo desc)
+  	where rnum between #{start} and #{end} order by rnum
   </select>
   
   <insert id="insertComment" parameterType="comment">
@@ -171,4 +217,68 @@
   <delete id="deleteRec" parameterType="_int">
   	delete from recommend_board where rec_no = #{_param}
   </delete>
+  
+  <update id="updateComment" parameterType="comment">
+  	update board_comment
+  		set comment_content=#{commentContent}
+  		where board_class=2 and board_no=${boardNo} and comment_no=${commentNo}
+  </update>
+  
+  <select id="totalRecCount" resultType="_int">
+  	select count(*) as cnt from recommend_board
+  </select>
+  
+  <select id="totalSelectedRecCount" resultType="_int">
+  select count(*) from(
+	  	select
+	  		region_country as regionCountry,
+	  		rec_no as recNo,
+	  		rec_title as recTitle,
+	  		rec_content as recContent,
+	  		rec_writer as recWriter,
+	  		read_count as readCount,
+	  		rec_date as recDate,
+	  		rec_category as recCategory,
+	  		region_city as regionCity,
+	  		place,
+	  		coords,
+	  		cnt
+	  	 from recommend_board
+	  	 left join region using(region_no) 
+	  	 left join (select count(*) as cnt , board_no
+	  	 			from liked where board_class = 2 group by board_no)rlist
+	  	 			on (rec_no = board_no))
+	  	 join photo on (recNo = board_no) 
+	  	 <trim prefix="where" prefixOverrides="and|or">
+	  	 	<if test="!country.equals('전체')">
+	  	 		regionCountry = #{country}
+	  	 		 <if test="!city.equals('전체')">
+	  	 			and regionCity = #{city}
+	  	 		</if>
+	  	 	</if>
+	  	 	<if test="category != 0">
+	  	 		and recCategory = #{category}
+	  	 	</if>
+	  	 	<if test="search != null">
+	  	 		and recTitle like '%'||#{search}||'%'
+	  	 	</if>
+	  	 </trim>
+	  	 order by recNo desc
+  </select>
+  
+  <update id="updateRec" parameterType="map">
+  	update recommend_board set
+  		rec_title = #{recTitle}, rec_content = #{recContent},
+  		rec_category = #{recCategory}, region_no = #{regionNo},
+  		coords = #{coords}, place = #{place}
+  		where rec_no = #{recNo}
+  </update>
+  
+  <update id="updatePhoto" parameterType="map">
+  	update photo set filename = #{p}, filepath=#{p} where board_class=2 and board_no = #{recNo}
+  </update>
+  
+  <update id="plusReadCount" parameterType="_int">
+  	update RECOMMEND_BOARD set read_count = read_count+1 where rec_no = #{_param}
+  </update>
 </mapper>

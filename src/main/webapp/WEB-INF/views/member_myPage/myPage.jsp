@@ -82,7 +82,7 @@ prefix="c"%>
             <th><a href="/qna.do">&nbsp;&nbsp;1:1 문의</a></th>
         </tr>
         <tr>
-            <th><a href="/qnaList.do?reqPage=1">&nbsp;&nbsp;1:1 문의 내역</a></th>
+            <th><a href="/qnaList.do?reqPage=1&qnaWriter=${sessionScope.member.memberId }">&nbsp;&nbsp;1:1 문의 내역</a></th>
         </tr>
         </c:if>
         <c:if test="${sessionScope.member.memberLevel eq 2 }">
@@ -99,7 +99,6 @@ prefix="c"%>
         <tr>
             <th><a href="#">&nbsp;&nbsp;비밀번호 변경</a></th>
         </tr>
-        
     </table>
     </section>
 

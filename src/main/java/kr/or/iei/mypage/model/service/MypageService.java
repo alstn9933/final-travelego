@@ -191,4 +191,9 @@ public class MypageService {
 		
 		return map2;
 	}
+
+	public int leaveAnswer(QNA qna) {
+		// TODO Auto-generated method stub
+		return dao.leaveAnswer(qna);
+	}
 }
