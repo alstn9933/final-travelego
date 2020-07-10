@@ -23,7 +23,6 @@ import org.springframework.web.multipart.MultipartFile;
 import com.google.gson.Gson;
 
 import kr.or.iei.admin.model.service.AdminService;
-import kr.or.iei.admin.model.vo.AdminPage;
 import kr.or.iei.admin.model.vo.PageMarker;
 import kr.or.iei.admin.model.vo.SearchAdmin;
 import kr.or.iei.common.model.vo.Photo;
@@ -44,9 +43,40 @@ public class AdminController {
 		super();
 		System.out.println("AdminController생성완료");
 	}
+	
+	
 
 
+	@RequestMapping(value="/reportFrm.do")
+	public String reportFrm(Report rp,Model model) {
+		if(rp.getBoardClass()!=0) {
+			
+			Report rpinfo=service.reportFrm(rp);
+			rpinfo.setBoardClass(rp.getBoardClass());
+			rpinfo.setBoardNo(rp.getReportNo());
+			model.addAttribute("rp",rpinfo);
+			return "admin/reportFrm";
+		}else {
+			return "redirect:/";
+		}
+		
+		
+	}
+	
+	@RequestMapping(value="/insertReport.do")
+	public String insertReport(Report rp,Model model) {
+		int result = service.insertReport(rp);
+		if (result > 0) {
+			model.addAttribute("msg", "정상적으로 신고 되셨습니다.");
+			model.addAttribute("loc","/loginFrm.do");
+		} else {
+			model.addAttribute("msg", "회원가입 오류. 관리자와 상의하세요.");
+			model.addAttribute("loc","/");
+		}
+		return "common/msg";	// /WEB-INF/views/common/msg.jsp
+	}
 
+	
 	@RequestMapping(value = "/spot_managenet.do")
 	public String spot_managenet(Model model) {
 		ArrayList<Region> rList = service.regionList();
@@ -210,8 +240,11 @@ public class AdminController {
 	@ResponseBody
 	@RequestMapping(value = "/middleList.do", produces = "agpplication/json; charset=utf-8")
 	public String middleList(Region rg) {
+		System.out.println(rg.getRegionCountry());
 		List list = null;
 		list = service.middleList(rg);
+		System.out.println(list);
+		
 		return new Gson().toJson(list);
 	}
 
@@ -241,34 +274,39 @@ public class AdminController {
 	}
 
 	@RequestMapping(value = "/insertCity.do")
-	public String insertCity(Region rg, Photo pt, HttpServletRequest request, MultipartFile file) throws IOException {
+	public String insertCity(Region rg, HttpServletRequest request, MultipartFile file) throws IOException {
 		try {
 
 			if (!file.isEmpty()) {
 				String savePath = request.getSession().getServletContext().getRealPath("/upload/images/region/");
 				// 업로드 파일의 실제 파일명 ex) test.txt
-				UUID uuid = UUID.randomUUID();
-				String originalFileName = uuid.toString() + file.getOriginalFilename();
+				String originalFileName = file.getOriginalFilename();
 				// 확장자를 제외한 파일명 ex) test
 				String onlyFilename = originalFileName;
 				// 확장자 -> .txt
-
 				String extension = originalFileName.substring(originalFileName.lastIndexOf("."));
+				
 				String filepath = onlyFilename;
+				
 				String fullpath = savePath + filepath;
+				
 				byte[] bytes = file.getBytes();
-
+				
 				BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(new File(fullpath)));
 				bos.write(bytes);
 				bos.close();
 				System.out.println("파일 업로드 완료");
-
-				pt.setFilename(originalFileName);
-				pt.setFilepath("/upload/images/region/");
-				rg.setFilename(originalFileName);
+				
+//				pt.setFilename(originalFileName);
+//				rg.setFilepath("/upload/images/region/");
+				rg.setFilename(filepath);
+				System.out.println(filepath);
+				//플경로 넣어야 하고
+				//가져올때도 풀경로 불러와야함
 				int regionResult = service.insertRegion(rg);
-				int photoResult = service.insertPhoto(pt);
-				System.out.println("포토삽입" + photoResult);
+				//region_no 파일명이랑 맞추면 테이블 안쓰고 이미지 region_no=파일명이랑 맞추면
+				//파일
+//				int photoResult = service.insertPhoto(pt);
 				System.out.println("지역삽입" + regionResult);
 
 			} else {

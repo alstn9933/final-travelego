@@ -32,7 +32,6 @@ public class AdminDao {
 
 
 	public int confirmUpdateMember(Company cm) {
-		// TODO Auto-generated method stub
 		return sqlSession.update("admin.confirmUpdateMember",cm);
 	}
 
@@ -95,10 +94,10 @@ public class AdminDao {
 	}
 
 
-	public int insertPhoto(Photo pt) {
-		// TODO Auto-generated method stub
-		return  sqlSession.insert("admin.insertPhoto",pt);
-	}
+//	public int insertPhoto(Photo pt) {
+//		// TODO Auto-generated method stub
+//		return  sqlSession.insert("admin.insertPhoto",pt);
+//	}
 
 	public int deleteReg(Region rg) {
 		
@@ -135,6 +134,15 @@ public int mListCount(SearchAdmin searchM) {
 public int ReListCount(SearchAdmin searchRe) {
 	
 	return sqlSession.selectOne("admin.reListCount",searchRe);
+}
+
+public Report reportFrm(Report rp) {
+	return sqlSession.selectOne("admin.reportFrm", rp);
+}
+
+public int insertReport(Report rp) {
+	
+	return sqlSession.insert("admin.insertReport",rp);
 }
 
 

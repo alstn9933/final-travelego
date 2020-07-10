@@ -100,9 +100,9 @@ public class AdminService {
 		return dao.insertRegion(rg);
 	}
 
-	public int insertPhoto(Photo pt) {
-		return dao.insertPhoto(pt);
-	}
+//	public int insertPhoto(Photo pt) {
+//		return dao.insertPhoto(pt);
+//	}
 
 	public int deleteReg(Region rg) {
 		
@@ -132,6 +132,17 @@ public class AdminService {
 		return dao.mListCount(searchM);
 	}
 
+	public Report reportFrm(Report rp) {
+		
+		return dao.reportFrm(rp);
+	}
+
+	public int insertReport(Report rp) {
+		
+		return dao.insertReport(rp);
+	}
+
+	
 
 
 	

@@ -1,4 +1,4 @@
-package kr.or.iei.tripboard.model.service;
+package kr.or.iei.tripBoard.model.service;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -20,10 +20,10 @@ import org.springframework.web.multipart.MultipartFile;
 import kr.or.iei.common.model.vo.Photo;
 import kr.or.iei.member.model.vo.Member;
 import kr.or.iei.mytrip.model.vo.TripDetail;
-import kr.or.iei.tripboard.model.dao.TripBoardDao;
-import kr.or.iei.tripboard.model.vo.TripBoardMyTripVO;
-import kr.or.iei.tripboard.model.vo.TripBoardPageDTO;
-import kr.or.iei.tripboard.model.vo.TripBoardVO;
+import kr.or.iei.tripBoard.model.dao.TripBoardDao;
+import kr.or.iei.tripBoard.model.vo.TripBoardMyTripVO;
+import kr.or.iei.tripBoard.model.vo.TripBoardPageDTO;
+import kr.or.iei.tripBoard.model.vo.TripBoardVO;
 
 @Service("tripBoardService")
 public class TripBoardService {

@@ -77,7 +77,7 @@
 	<select id="reportList" parameterType="adminPage"
 		resultType="report">
 		select
-        report_no as reportNo,
+		report_no as reportNo,
 		report_category as
 		reportCategory,
 		report_content as
@@ -87,34 +87,35 @@
 		board_class as boardClass,
 		board_no as boardNo,
 		reported_member as reportedMember,
-		report_writer as reportWriter
+		report_writer as
+		reportWriter
 		from
-        (
-        select 
-        report_no,
+		(
+		select
+		report_no,
 		report_category,
-		report_content, 
+		report_content,
 		report_date,
 		board_class ,
 		board_no ,
 		reported_member ,
 		report_writer,
-        row_number() over (order by report_no desc) as rnum
+		row_number() over (order by report_no desc) as rnum
 		from report
-		where 1=1 
+		where 1=1
 		<include refid="searchRe"></include>
-        )report
-        where rnum between #{rowStart} and #{rowEnd}
-        order by report_no desc
+		)report
+		where rnum between #{rowStart} and #{rowEnd}
+		order by report_no desc
 	</select>
-	
+
 	<select id="reListCount" resultType="int">
-		select count (report_no) 
-		from report where  1=1
+		select count (report_no)
+		from report where 1=1
 		<include refid="searchRe"></include>
 	</select>
 
-<sql id="searchRe">
+	<sql id="searchRe">
 		<if test="searchType != null">
 			<if test="searchType == 'reportedMember'.toString()">AND reported_member LIKE '%' || #{keyword} || '%'</if>
 			<if test="searchType == 'boardClass'.toString()">AND BOARD_CLASS LIKE '%' || #{keyword} || '%'</if>
@@ -167,22 +168,16 @@
 	<select id="middleList" parameterType="region"
 		resultType="region">
 		select
-		rg.REGION_NO as regionNo,
-		rg.REGION_COUNTRY as
-		regionCountry,
-		rg.REGION_CITY as
-		regionCity,
-		ph.FILEPATH as filepath,
-		rg.FILENAME from REGION rg, photo
-		ph
-		where REGION_COUNTRY
-		=#{regionCountry}
-		and ph.FILENAME = rg.FILENAME
-
+		REGION_NO as regionNo,
+		region_country as regionCountry,
+		region_city as regionCity,
+		filename as filename
+		from region
+		where REGION_COUNTRY = #{regionCountry}
 	</select>
 
 	<select id="qnaList" parameterType="adminPage" resultType="qna">
-	select
+		select
 		qna_no as qnaNo,
 		qna_writer as qnaWriter,
 		qna_title as qnaTitle,
@@ -190,26 +185,27 @@
 		ask_date as askDate,
 		qna_answer as qnaAnswer,
 		answer_date as answerDate
-		from 
-       (
-        select 
-        qna_no ,
+		from
+		(
+		select
+		qna_no ,
 		qna_writer,
 		qna_title ,
 		qna_content,
 		ask_date ,
 		qna_answer ,
-		answer_date ,
+		answer_date
+		,
 		row_number() over (order by qna_no desc) as rnum
-        from qna
-        where 1=1
-        <include refid="searchQna"></include>
-        )qa
-        where rnum between #{rowStart} and #{rowEnd}
-        order by qna_answer desc
+		from qna
+		where 1=1
+		<include refid="searchQna"></include>
+		)qa
+		where rnum between #{rowStart} and #{rowEnd}
+		order by qna_answer desc
 	</select>
 	<select id="qnaListCount" resultType="int">
-		select count(qna_no) from qna where  1=1
+		select count(qna_no) from qna where 1=1
 		<include refid="searchQna"></include>
 	</select>
 
@@ -266,6 +262,35 @@
 			trip_board where trip_board_no=#{boardNo}
 		</if>
 	</delete>
+
+	<select id="reportFrm" parameterType="report"
+		resultType="report">
+		select
+		<choose>
+		<when test="boardClass==3">
+			trip_board_writer as reportedMember
+			from trip_board
+			where trip_board_no=#{boardNo}
+		</when>
+		<when test="boardClass==2">
+			rec_writer as reportedMember
+			from recommend_board	
+			where rec_no=#{boardNo}
+		</when>
+		<when test="boardClass==5">
+			together_writer as reportedMember
+			from together_board
+			where together_no=#{boardNo}
+		</when>
+		<otherwise>
+			board_class from report
+		</otherwise>
+		</choose>
+	</select>
+
+
+
+
 	<delete id="deleteReport" parameterType="report">
 		delete from report where
 		board_no=#{boardNo}
@@ -278,12 +303,7 @@
 
 	</insert>
 
-	<insert id="insertPhoto" parameterType="photo">
-		insert into photo
-		(PHOTO_NO,BOARD_CLASS,BOARD_NO,FILENAME,FILEPATH) values
-		(PHOTO_SEQ.nextval,0,0,#{filename},#{filepath})
 
-	</insert>
 	<delete id="deleteReg" parameterType="region">
 		delete from REGION where
 		REGION_NO = #{regionNo}
@@ -298,6 +318,11 @@
 		update qna set
 		qna_answer=#{qnaAnswer} where qna_no=#{qnaNo}
 	</update>
-
+	<insert id="insertReport" parameterType="report">
+		insert into report values
+		(report_seq.nextval,#{reportCategory},#{reportContent},sysdate,#{boardClass},#{boardNo},#{reportedMember},#{reportMember})
+		
+		
+	</insert>
 
 </mapper>

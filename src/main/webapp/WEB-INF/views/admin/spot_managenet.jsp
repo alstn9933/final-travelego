@@ -159,9 +159,9 @@ main .admin_sidebar {
 	})
    	 
    	 $("#countrySelect").change(function(){ // 대분류가 변경되면
-   
-   	  var regionCountry = $(this).val();
-   	 
+  		
+   	  var regionCountry = $("#countrySelect>option:selected").val();
+   	 console.log(regionCountry);
          $.ajax({
              type : "POST",
          url: "/middleList.do",
@@ -171,7 +171,7 @@ main .admin_sidebar {
              
           success : function(result){
                   var resultMap  = result; 
-                  
+                  console.log(result);
                   $("#citySel").empty();
                   var citySelect = $("<select name='citySelect' id='citySelect' class='citySelect' style='width: 300px;'>");
                       var List = result;
@@ -184,20 +184,20 @@ main .admin_sidebar {
                          citySelect.append("<option value=''>----국가를 선택해주세요---</option>");
                          for ( var cd = 0 ; cd < List.length; cd++) {
                         		addOption = "";
-                                addOption += "<option data-id='"+List[cd].filename+"' data-image='"+List[cd].filepath+"\\"+List[cd].filename+"' value = '"
+                                addOption += "<option data-id='"+List[cd].filename+"' data-image='/upload/images/region/"+List[cd].filename+"' value = '"
                                 +List[cd].regionNo +"'>"+List[cd].regionCity+"</option>"; 
                                 // 값과 강원도는 알아서 해당 db 변수값으로 넣고
                                 console.log(addOption);
-                                
                                 citySelect.append(addOption);
+                                
                           }
                          citySelect.append("<option value='' id='insertCity'>----도시 직접 입력---</option>");
                        
                       } else {
-                         addOption = "<option value='' title='선택'>--3.도시를 선택해주세요--</option>";
+                         addOption = "<option value='' title='선택'>--도시를 선택해주세요--</option>";
                     
                          citySelect.append("<option value='insert'>--도시직접입력--</option>");
-                        
+                         $("#delRegion").show();
                       }
                       $("#citySel").append(citySelect);
                       $('.citySelect').msDropDown();
@@ -254,7 +254,7 @@ main .admin_sidebar {
 					이미지 점부 : <input type="file" name="file" id="addFile"><br>
 					<input type="submit" value="등록">
 				</form>
-				<button id="delRegion" style="display: none;">삭제</button>
+				<button id="delRegion" >삭제</button>
 				<br> <br>
 	</section>
 
@@ -299,6 +299,9 @@ main .admin_sidebar {
 	<script src="/src/js/header/jquery.validate.min.js"></script>
 	<script src="/src/js/header/mail-script.js"></script>
 	<script src="/src/js/header/main.js"></script>
+	<script>
+		$("#addRegion")
+	</script>
 	<script>
       $(function () {
     	

@@ -210,7 +210,7 @@ main .admin_sidebar {
 				
 								
 			})
-			
+			<!-- -->
 			function reportContent(obj) {
 				var content = $(obj).prev(".reportContent").val();
 				$(".modalcontent").html(content);
@@ -218,6 +218,25 @@ main .admin_sidebar {
 				console.log(reportedMem);
 				$(".modalReported").text(reportedMem);
 			
+			}
+			 <!-- if 안에 버튼이 있고, c:if 보드클레스,  
+				TRIP_BOARD
+					일정-TRIP_BOARD-3
+					추천-RECOMMEND_BOARD-2
+					동행-TOGETHER_BOARD-5
+				
+				--> 
+			
+			function movePage(boardNo,boardClass){
+				console.log(boardNo,boardClass)
+				if(boardClass==2){
+					location.href="/recDetail.do?recNo="+boardNo
+				}if(boardClass==3){
+					location.href="/tripboard/view.do?tripBoardNo="+boardNo
+				}if(boardClass==5){
+					location.href=""
+				}
+				
 			}
 </script>
 <body>
@@ -263,7 +282,6 @@ main .admin_sidebar {
 								<th>신고자</th>
 								<!-- 신고자 -->
 								<th>피신고자</th>
-								<!-- 신고글 작성자(가해자) -->
 								<th>신고날짜</th>
 								<th>게시글 삭제</th>
 							</tr>
@@ -273,13 +291,17 @@ main .admin_sidebar {
 						<c:forEach items="${reList}" var="r">
 							<tr>
 								<td>${r.reportNo}</td>
-								<td>${r.reportCategory}<br> <input type="button"
-									value="상세페이지 이동" data-id="${r.reportNo }" id="reportlPage">
+								<td>${r.reportCategory}<br>
+								
+								<input type="button" value="상세페이지 이동"
+									data-id="${r.reportNo }" id="reportlPage" onclick="movePage(${r.boardNo},${r.boardClass });">
 								</td>
-								<td>
-								<input class="reportContent" type="hidden" value="${r.reportContent }">
-								<button type="button" onclick="reportContent(this);"
-										id="${r.reportNo}" data-toggle="modal" data-target="#exampleModal" style="background-color:white;border:0.2em;outline:0.1;">상세보기</button></td>
+								<td><input class="reportContent" type="hidden"
+									value="${r.reportContent }">
+									<button type="button" onclick="reportContent(this);"
+										id="${r.reportNo}" data-toggle="modal"
+										data-target="#exampleModal"
+										style="background-color: white; border: 0.2em; outline: 0.1;">상세보기</button></td>
 								<!--  *BOARD_CLASS 1:MY_TRIP 2:RECOMMEND_BOARD 3:TOGETHER_BOARD 4:TOUR 5:TRIP_BOARD*/ 상세 주소 찾고, 넣기-->
 								<c:if test="${r.boardClass eq 1 }">
 									<td>내 여행</td>
@@ -301,12 +323,13 @@ main .admin_sidebar {
 								<c:forEach items="${mList }" var="m">
 									<c:if test="${m.memberId eq r.reportedMember}">
 										<c:if test="${m.memberLevel gt 0 }">
-											<td class="reportedMem">${r.reportedMember}<br> <input type="button"
-												name="memberStop" id="activeStop" value="정지"
+											<td class="reportedMem">${r.reportedMember}<br> <input
+												type="button" name="memberStop" id="activeStop" value="정지"
 												data-id="${r.reportedMember}"></td>
 										</c:if>
 										<c:if test="${ m.memberLevel lt 0 }">
-											<td class="reportedMem"> ${r.reportedMember } <br> 정지 회원
+											<td class="reportedMem">${r.reportedMember } <br>
+												정지 회원
 											</td>
 										</c:if>
 									</c:if>
@@ -341,27 +364,30 @@ main .admin_sidebar {
 		</div>
 	</div>
 
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-      	<div class="modalcontent"></div>
-      	<div class="modalReported"></div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
-    </div>
-  </div>
-</div>
+	<!-- Modal -->
+	<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="modalcontent"></div>
+					<div class="modalReported"></div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary"
+						data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-primary">Save changes</button>
+				</div>
+			</div>
+		</div>
+	</div>
 
 </body>
 
@@ -376,7 +402,7 @@ main .admin_sidebar {
 		aria-hidden="true">
 		<div class="modal-dialog modal-dialog-centered" role="document">
 			<div class="modal-content">
-			<div class="modal-reported"></div>
+				<div class="modal-reported"></div>
 				<div class="serch_form">
 					<input type="text" placeholder="Search" />
 					<button type="submit">search</button>

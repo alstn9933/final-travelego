@@ -1,4 +1,4 @@
-package kr.or.iei.tripboard.model.dao;
+package kr.or.iei.tripBoard.model.dao;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import kr.or.iei.common.model.vo.Photo;
 import kr.or.iei.mytrip.model.vo.TripDetail;
-import kr.or.iei.tripboard.model.vo.TripBoardVO;
+import kr.or.iei.tripBoard.model.vo.TripBoardVO;
 
 @Repository("tripBoardDao")
 public class TripBoardDao {

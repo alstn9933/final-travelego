@@ -95,7 +95,11 @@ main .admin_sidebar {
 		font-size: 18px;
 	}
 }
-
+#bot{
+	margin-top:100px;
+	margin-bottom:50px;
+	margin-left:150px;
+}
 
 
 </style>
@@ -146,37 +150,40 @@ main .admin_sidebar {
 				<form action="/question_answer.do" method="post">
 					<div>
 						글 번호     <input type="text" value="${q.qnaNo }" name="qnaNo" readonly
-							id="qnaNo" data-id="${q.qnaNo}" style="margin-left:100px;">
+							id="qnaNo" data-id="${q.qnaNo}" style="margin-left:140px;">
 					</div>
+					<br>
 					<div>
 						문의 아이디  <input type="text" value="${q.qnaWriter }"
-							name="qnaWriter" readonly style="margin-left:100px;">
+							name="qnaWriter" readonly style="margin-left:108px;">
 					</div>
+					<br>
 					<div>
 						문의 제목     <input type="text" value="${q.qnaTitle }" name="qnaTitle"
-							readonly style="margin-left:100px;">
+							readonly style="margin-left:125px;">
 					</div>
+					<br>
 					<div>
 						질문 날짜  <input type="text" value="${q.askDate }" name="askDate"
-							readonly style="margin-left:92px;" >
-					</div></span>
-
+							readonly style="margin-left:125px;" >
+					</div>
+					<br>
 					<div>
 						질문내용 
-						<textarea rows="5" cols="50" " style="resize:none;margin-left:100px;" readonly
+						<textarea rows="5" cols="50" " style="resize:none;margin-left:130.4px;" readonly
 							name="qnaContent" >${q.qnaContent }</textarea>
 					</div>
-
+					<br>
 
 					<c:if test="${!empty q.qnaAnswer }">
 						<div>
 							답변 :
-							<textarea rows="5" cols="50" style="resize: none;margin-left:130px;"
+							<textarea rows="5" cols="50" style="resize: none;margin-left:154px;"
 								name="qnaAnswer" value="${q.qnaAnswer}" id="answer"
 								data-id="${q.qnaAnswer}" placeholder="${q.qnaAnswer}">${q.qnaAnswer} </textarea>
 						</div>
 						<br>
-						<div id="submit">
+						<div id="bot">
 						<input type="button" onclick="location.href='/adminQnaList.do'"
 							value="이전">
 						<input type="reset" vlaue="초기화" >
@@ -192,7 +199,7 @@ main .admin_sidebar {
 								name="qnaAnswer"> </textarea>
 						</div>
 						<br>
-						<div id="submit">
+						<div id="bot" >
 						<input type="button" onclick="location.href='/adminQnaList.do'"
 							value="이전">
 						<input type="reset" vlaue="초기화">

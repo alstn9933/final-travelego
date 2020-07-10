@@ -1,4 +1,4 @@
-package kr.or.iei.tripboard.controller;
+package kr.or.iei.tripBoard.controller;
 
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
@@ -34,10 +34,11 @@ import com.google.gson.Gson;
 
 import kr.or.iei.member.model.vo.Member;
 import kr.or.iei.mytrip.model.vo.TripDetail;
-import kr.or.iei.tripboard.model.service.TripBoardService;
-import kr.or.iei.tripboard.model.vo.TripBoardMyTripVO;
-import kr.or.iei.tripboard.model.vo.TripBoardPageDTO;
-import kr.or.iei.tripboard.model.vo.TripBoardVO;
+import kr.or.iei.tripBoard.model.service.TripBoardService;
+import kr.or.iei.tripBoard.model.vo.TripBoardMyTripVO;
+import kr.or.iei.tripBoard.model.vo.TripBoardPageDTO;
+import kr.or.iei.tripBoard.model.vo.TripBoardVO;
+
 
 @Controller
 @RequestMapping("/tripboard")

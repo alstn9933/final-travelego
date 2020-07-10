@@ -1,4 +1,4 @@
-package kr.or.iei.tripboard.model.vo;
+package kr.or.iei.tripBoard.model.vo;
 
 import java.util.ArrayList;
 
