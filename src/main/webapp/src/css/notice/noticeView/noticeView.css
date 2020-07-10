@@ -25,6 +25,7 @@
 
 .noticetitle{
 	width: 80px;
+	
 }
 .mainnoticetitle{
 	width: 480px;
@@ -56,4 +57,10 @@
 }
 #nlBtn{
 	margin: 10px;
+}
+.noticetitlediv{
+	width:400px;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
 }

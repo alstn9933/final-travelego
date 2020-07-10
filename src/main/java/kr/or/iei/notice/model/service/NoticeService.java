@@ -80,5 +80,9 @@ public class NoticeService {
 		return dao.noticedelete(str);
 	}
 
+	public List<Notice> mainNoticeBox() {
+		return dao.mainNoticeBox();
+	}
+
 
 }

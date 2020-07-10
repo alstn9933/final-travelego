@@ -114,9 +114,7 @@
 	margin-right : 20px;
 	float: right;
 }
-.midDiv{
-	
-}
+
 .itrmp3,.Stringdelete{
 	width:200px;
 	overflow: hidden;
@@ -124,3 +122,22 @@
 	white-space: nowrap;
 }
 
+.mainNoticetitle{
+	margin-left : 100px;
+	width: 1000px;
+}
+.div1{
+	display : inline-block;
+	width: 600px;
+}
+.noticetitlebox1{
+	width: 600px;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+}
+.div2{
+	display : inline-block;
+	width: 200px;
+	float: right;
+}
