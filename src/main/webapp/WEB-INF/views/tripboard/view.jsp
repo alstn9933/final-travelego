@@ -78,6 +78,84 @@ ${board.tripRoute}</textarea
           </div>
         </div>
         <div class="content_wrapper">${board.tripBoardContent}</div>
+        <div class="button_wrapper">
+          <div>
+            <c:if test="${empty sessionScope.member.memberId}">
+              <button
+                type="button"
+                class="btn btn-outline-primary"
+                id="likeBtn"
+                boardNum="${board.tripBoardNo}"
+              >
+                <i class="far fa-heart"></i>
+                <span>${board.likeCount}</span>
+                <span>좋아요</span>
+              </button>
+              <button
+                type="button"
+                class="btn btn-outline-warning"
+                id="bookmarkBtn"
+                boardNum="${board.tripBoardNo}"
+              >
+                <i class="far fa-bookmark"></i><span>북마크</span>
+              </button>
+            </c:if>
+            <c:if test="${not empty sessionScope.member.memberId}">
+              <c:if test="${not empty board.likedId}">
+                <button
+                  type="button"
+                  class="btn btn-outline-primary"
+                  id="unLikeBtn"
+                  boardNum="${board.tripBoardNo}"
+                >
+                  <i class="fas fa-heart"></i>
+                  <span>좋아요</span>
+                  <span>${board.likeCount}</span>
+                </button>
+              </c:if>
+              <c:if test="${empty board.likedId}">
+                <button
+                  type="button"
+                  class="btn btn-outline-primary"
+                  id="likeBtn"
+                  boardNum="${board.tripBoardNo}"
+                >
+                  <i class="far fa-heart"></i>
+                  <span>좋아요</span>
+                  <span>${board.likeCount}</span>
+                </button>
+              </c:if>
+              <c:if test="${not empty board.bookmarkNo}">
+                <button
+                  type="button"
+                  class="btn btn-outline-warning"
+                  id="unBookmarkBtn"
+                  boardNum="${board.tripBoardNo}"
+                >
+                  <i class="fas fa-bookmark"></i><span>북마크</span>
+                </button>
+              </c:if>
+              <c:if test="${empty board.bookmarkNo}">
+                <button
+                  type="button"
+                  class="btn btn-outline-warning"
+                  id="bookmarkBtn"
+                  boardNum="${board.tripBoardNo}"
+                >
+                  <i class="far fa-bookmark"></i><span>북마크</span>
+                </button>
+              </c:if>
+            </c:if>
+            <button
+              type="button"
+              class="btn btn-outline-danger"
+              id="reportBtn"
+              boardNum="${board.tripBoardNo}"
+            >
+              <i class="fas fa-exclamation-circle"></i>
+            </button>
+          </div>
+        </div>
         <div class="comment_wrapper">
           <div class="show_comment">
             <div>
@@ -227,23 +305,6 @@ ${board.tripRoute}</textarea
     </section>
     <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
     <!-- Modal -->
-    <div
-      class="modal fade custom_search_pop"
-      id="exampleModalCenter"
-      tabindex="-1"
-      role="dialog"
-      aria-labelledby="exampleModalCenterTitle"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-          <div class="serch_form">
-            <input type="text" placeholder="Search" />
-            <button type="submit">search</button>
-          </div>
-        </div>
-      </div>
-    </div>
     <!-- JS here -->
     <script src="/src/js/header/vendor/modernizr-3.5.0.min.js"></script>
     <!-- <script src="/src/js/header/vendor/jquery-1.12.4.min.js"></script>
@@ -273,9 +334,12 @@ ${board.tripRoute}</textarea
     <script src="/src/js/header/main.js"></script>
     <script src="/src/ckeditor/ckeditor.js"></script>
     <script src="/src/js/tripboard/comment.js"></script>
+    <c:if test="${not empty sessionScope.member.memberId}">
+      <script src="/src/js/tripboard/like.js"></script>
+    </c:if>
     <script>
-      $(document).on("click", "#modCommentBtn", function () {
-        $(this).parents("tr").find("form").submit();
+      $("#goListBtn").click(function () {
+        location.href = "/tripboard/main.do?reqPage=1";
       });
     </script>
     <c:if test="${empty sessionScope.member.memberId}">
@@ -287,6 +351,18 @@ ${board.tripRoute}</textarea
         $(".autosize").on("click", function () {
           alert("로그인이 필요한 기능입니다.");
           $(this).focusout();
+        });
+
+        $("#bookmarkBtn").click(function () {
+          alert("로그인이 필요한 기능입니다.");
+        });
+
+        $("#likeBtn").click(function () {
+          alert("로그인이 필요한 기능입니다.");
+        });
+
+        $("#reportBtn").click(function () {
+          alert("로그인이 필요한 기능입니다.");
         });
       </script>
     </c:if>
