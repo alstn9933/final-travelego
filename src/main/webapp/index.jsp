@@ -191,7 +191,7 @@
 				html = "";	
 				for(var i=0;i<data.length;i++){
 					html += "<div class="+"hotItem"+"><div class="+"itemimgsDiv"+">";
-					html += "<img class="+"tourimg"+" src="+"/upload/images/tour/thumnail/"+data[i].filename+"></img></div>";
+					html += "<img class="+"tourimg"+" src="+"/upload/images/tour/thumnail/"+data[i].filepath+"></img></div>";
 					html += "<div class='itemDate'><a href="+"/tourView.do?itemNo="+data[i].itemNo+"><div class='itrmp3'>"+data[i].itemTitle+"</div></a></div>";
 					html += "<div class='itemDate2'><span id='sitem'><i class='fas fa-won-sign'></i>"+data[i].itemPrice+"</span><br>";
 					html += "<span id="+"itemscore"+"><i class='far fa-star'></i>"+data[i].score+"</span></div></div>";
