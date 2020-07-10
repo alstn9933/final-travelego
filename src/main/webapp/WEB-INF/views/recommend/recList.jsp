@@ -191,9 +191,9 @@ prefix="c"%>
             </div>
         </div>
         <div id="page" style="width:80%; margin:50px auto; text-align: center;">${pageNavi }</div>
-      <%-- <c:if test="${not empty sessionScope.member }"> --%>
+      <c:if test="${not empty sessionScope.member }">
         <div style="margin:20px 50px; text-align:right;"><button id="writeFrm" class="board btn btn-info" style="padding:none;">글쓰기</button></div>
-        <%-- </c:if> --%>
+        </c:if> 
     </section>
 
     <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
