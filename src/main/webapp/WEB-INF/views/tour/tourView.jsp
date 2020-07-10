@@ -80,6 +80,7 @@ prefix="c"%>
       .itemContent {
         width: 100%;
         overflow: hidden;
+        border-bottom:2px solid lightgray;
       }
       .itemContent > img {
         width: 100%;
@@ -154,7 +155,7 @@ prefix="c"%>
         width: 100%;
       }
       .review-content tr > td:first-child {
-        width: 10%;
+        width: 13%;
         text-align: center;
       }
       .review-content tr > td:nth-child(2) {
@@ -162,7 +163,7 @@ prefix="c"%>
         text-align: center;
       }
       .review-content tr > td:nth-child(3) {
-        width: 60%;
+        width: 57%;
       }
       .review-content tr > td:nth-child(4) {
         width: 10%;
@@ -240,6 +241,24 @@ prefix="c"%>
       	margin:20px;
       	margin-left:35%;
       }
+      .starR1{
+	    background: url('http://miuu227.godohosting.com/images/icon/ico_review.png') no-repeat -42px 0;
+	    background-size: auto 100%;
+	    width: 12px;
+	    height: 24px;
+	    float:left;
+	    text-indent: -9999px;
+		}
+		.starR2{
+		    background: url('http://miuu227.godohosting.com/images/icon/ico_review.png') no-repeat right 0;
+		    background-size: auto 100%;
+			width: 12px;
+		    height: 24px;
+		    float:left;
+		    text-indent: -9999px;
+		}
+		.starR1.on{background-position:0 0;}
+		.starR2.on{background-position:-12px 0;}
     </style>
   </head>
   <body>
@@ -270,7 +289,12 @@ prefix="c"%>
                   <tr>
                     <td>담당</td>
                     <td>
-                      <a id="askmsg" href="javascript:sendMessageById('${tv.memberId }')">${tv.memberName }</a>
+                    	<c:if test="${not empty sessionScope.member and sessionScope.member.memberLevel==1}">
+                    	<a id="askmsg" href="javascript:sendMessageById('${tv.memberId }')">${tv.memberName }</a>
+                    	</c:if>
+                    	<c:if test="${empty sessionScope.member or sessionScope.member.memberLevel!=1}">
+                    	<a id="askmsg">${tv.memberName }</a>
+                    	</c:if>
                     </td>
                   </tr>
                   <tr>
@@ -454,7 +478,7 @@ prefix="c"%>
         });
         
         $(window).scroll(function () {
-        	if($(document).scrollTop()>250){
+        	if($(document).scrollTop()>220){
         		if($(window).width() >1500){
            			$(".con1").removeClass("content-menu-fix1");
            			$(".con1").removeClass("content-menu-fix2");
@@ -754,8 +778,28 @@ prefix="c"%>
             html +=
               "<tr><td>작성자</td><td>점수</td><td>내용</td><td>작성날짜</td></tr>";
             for (var i = 0; i < reviewList.length; i++) {
-              html += "<tr><td>" + reviewList[i].memberNickname + "</td>";
-              html += "<td>" + reviewList[i].reviewRate + "</td>";
+            	if(reviewList[i].memberNickname==null){
+            		html += "<tr><td>탈퇴회원</td>";
+            	}else{
+            		html += "<tr><td>" + reviewList[i].memberNickname + "</td>";
+            	}
+            	html+="<td><div class='starRev'>";
+				for(var s=1; s<=10; s++){
+					if(s<=reviewList[i].reviewRate){
+						if(s%2!=0){
+							html+="<span class='starR1 on'>별1_왼쪽</span>";
+						}else{
+							html+="<span class='starR2 on'>별1_오른쪽</span>";
+						}
+					}else{
+						if(s%2!=0){
+							html+="<span class='starR1'>별1_왼쪽</span>";
+						}else{
+							html+="<span class='starR2'>별1_오른쪽</span>";
+						}
+					}
+				}
+				html+="</div></td>";
               html += "<td>" + reviewList[i].reviewContent + "</td>";
               html += "<td>" + reviewList[i].reviewDate + "</td></tr>";
             }
