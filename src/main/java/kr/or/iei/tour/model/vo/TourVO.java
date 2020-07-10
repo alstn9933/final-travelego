@@ -21,7 +21,7 @@ public class TourVO {
 	private String beginDate;
 	private String endDate;
 	private String itemContent;
-	private String filename;
+	private String filepath;
 	private int closeCheck;
 	private int itemPrice;
 	private String tourTimes;

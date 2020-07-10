@@ -22,6 +22,8 @@
 	href="/src/imgs/header/favicon.png" />
 <!-- Place favicon.ico in the root directory -->
 <script src="/src/js/fontawesome/8bd2671777.js" crossorigin="anonymous"></script>
+<!-- font style -->
+<link href="https://fonts.googleapis.com/css2?family=Yellowtail&display=swap" rel="stylesheet">
 <!-- CSS here -->
 <link rel="stylesheet" href="/src/css/header/header.css" />
 <link rel="stylesheet" href="/src/css/footer/footer.css" />
@@ -114,7 +116,6 @@
 	<script src="/src/js/header/scrollIt.js"></script>
 	<script src="/src/js/header/jquery.scrollUp.min.js"></script>
 	<script src="/src/js/header/wow.min.js"></script>
-	3
 	<script src="/src/js/header/nice-select.min.js"></script>
 	<script src="/src/js/header/jquery.slicknav.min.js"></script>
 	<script src="/src/js/header/jquery.magnific-popup.min.js"></script>
@@ -164,13 +165,14 @@
 				console.log(data);
 				html = "";
 				for(var i=0;i<data.length;i++){
-					html += "<div class="+"hotpickcher"+"><div class="+"imgsDiv"+">";
+					html += "<div class="+"hotpickcher"+">";
 					if(data[i].filename == null){
-						html += "<img class="+"recommendimg"+" src="+"src/imgs/header/"+"rogo2.png"+"></img></div>";
+						html += "<div class="+"imgsDiv"+"><img class="+"recommendimg"+" src="+"src/imgs/header/"+"rogo2.png"+"></img></div>";
+					}else{
+					html += "<div class="+"imgsDiv"+"><img class="+"recommendimg"+" src="+"upload/images/recommend/"+data[i].filename+"></img></div>";						
 					}
-					html += "<img class="+"recommendimg"+" src="+"upload/images/recommend/"+data[i].filename+"></img></div>";
-					html += "<a href="+"/recDetail.do?recNo="+data[i].recNo+"><p class='p3'>"+data[i].recTitle+"</p></a>";
-					html += "<div>"+data[i].recWriter+"<div class='readDiv'><i class='fas fa-book-reader'></i>"+data[i].readCount+"</div></div></div>";
+					html += "<a href="+"/recDetail.do?recNo="+data[i].recNo+"><div><div class='Stringdelete'>"+data[i].recTitle+"</div></div></a>";
+					html += "<div class='writerDiv'><span id='sid'>"+data[i].recWriter+"</span><br><div class='readDiv'><i class='fas fa-book-reader'></i>"+data[i].readCount+"</div></div></div>";
 				}
 				$("#sub-content1").append(html);
 			},
@@ -186,14 +188,13 @@
 			url : "/maintourList.do",
 			dataType:"json",
 			success : function(data) {
-				html = "";
-				
+				html = "";	
 				for(var i=0;i<data.length;i++){
 					html += "<div class="+"hotItem"+"><div class="+"itemimgsDiv"+">";
-					html += "<img class="+"tourimg"+" src="+"/upload/images/tour/thumnail/"+data[i].filename+"></img></div>";
-					html += "<a href="+"#"+"><p class='itrmp3'>"+data[i].itemTitle+"</p></a>";
-					html += "<div><span id='sitem'><i class='fas fa-won-sign'></i>"+data[i].itemPrice+"</div>";
-					html += "<span id="+"itemscore"+"><i class='far fa-star'></i>"+data[i].score+"</span></div>";
+					html += "<img class="+"tourimg"+" src="+"/upload/images/tour/thumnail/"+data[i].filepath+"></img></div>";
+					html += "<div class='itemDate'><a href="+"/tourView.do?itemNo="+data[i].itemNo+"><div class='itrmp3'>"+data[i].itemTitle+"</div></a></div>";
+					html += "<div class='itemDate2'><span id='sitem'><i class='fas fa-won-sign'></i>"+data[i].itemPrice+"</span><br>";
+					html += "<span id="+"itemscore"+"><i class='far fa-star'></i>"+data[i].score+"</span></div></div>";
 			
 				//"+data[i].beginDate+"~"+data[i].endDate+"
 				}

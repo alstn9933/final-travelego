@@ -1,11 +1,7 @@
 package kr.or.iei.common.model.vo;
 
-import kr.or.iei.mytrip.model.vo.Mytrip;
-import kr.or.iei.mytrip.model.vo.TripMember;
 import kr.or.iei.recommend.model.vo.Recommend;
-import kr.or.iei.together.model.vo.TogetherBoardVO;
 import kr.or.iei.tour.model.vo.TourVO;
-import kr.or.iei.tripboard.model.vo.TripBoardVO;
 import lombok.Data;
 
 @Data

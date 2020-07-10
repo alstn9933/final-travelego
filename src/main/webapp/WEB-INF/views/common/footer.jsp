@@ -23,5 +23,4 @@
 		</div>
 
 	</div>
-	<div class="sub-footer">Company@Travelego</div>
 </footer>

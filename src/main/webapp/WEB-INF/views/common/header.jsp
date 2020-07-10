@@ -119,8 +119,10 @@
 			}
 
 			ws.onmessage = function(e) {
+				console.log("메세지받음");
 				var currentCount = Number($("#alramCount").html());
 				$("#alramCount").html(currentCount + Number(e.data));
+				$("#alramCount").show();
 			};
 
 			ws.onclose = function() {

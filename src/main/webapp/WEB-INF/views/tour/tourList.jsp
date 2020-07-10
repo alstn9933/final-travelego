@@ -161,7 +161,7 @@ prefix="c"%>
 	    						}else{
 	    							html += "<div class='score'>"+data[i].score.toFixed(1)+"점</div>";
 	    						}
-	    						html += "<div><img class='item-main-img' src='../../../upload/images/tour/thumnail/"+data[i].filename+"'></div>";
+	    						html += "<div><img class='item-main-img' src='../../../upload/images/tour/thumnail/"+data[i].filepath+"'></div>";
 	    						html += "<div class='itemTitle'>"+data[i].itemTitle+"</div>";
 	    						
 	    						html += "<div class='term'>"+data[i].beginDate+" ~ "+data[i].endDate+"</div>";
