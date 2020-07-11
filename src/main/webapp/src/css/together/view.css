@@ -1,0 +1,8 @@
+body > section,
+.board {
+  min-height: calc(100vh - 250px);
+}
+
+.board {
+  justify-content: center;
+}

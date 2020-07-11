@@ -47,7 +47,7 @@ prefix="c"%>
               name="messageReceiver"
               id="inputReceiver"
               class="form-control"
-              placeholder="쪽지를 보낼 상대방의 회원 ID를 입력하세요."
+              placeholder="쪽지를 보낼 상대방의 닉네임을 입력하세요."
             />
           </c:if>
         </div>
@@ -87,6 +87,13 @@ prefix="c"%>
         $("#inputContent").focus();
       }
     }
+
+    $("#inputReceiver").on("keydown", function (e) {
+      const key = e.key;
+      if (key == "Enter") {
+        e.preventDefault();
+      }
+    });
 
     $("#inputReceiver").focusout(function () {
       const receiver = $(this).val();

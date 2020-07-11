@@ -6,6 +6,8 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import kr.or.iei.admin.model.vo.AdminPage;
+import kr.or.iei.admin.model.vo.SearchAdmin;
 import kr.or.iei.common.model.vo.Photo;
 import kr.or.iei.common.model.vo.Region;
 import kr.or.iei.common.model.vo.Report;
@@ -18,9 +20,7 @@ public class AdminDao {
 	@Autowired
 	SqlSession sqlSession;
 
-	 public List<Member> selectMemberList(HashMap<String, Integer> map) {
-	     return sqlSession.selectList("admin.selectMemberList",map);
-	   }
+
 	 public List<Member> selectCustomerMember() {
 		 return sqlSession.selectList("admin.selectCustomerMember");
 	 }
@@ -32,7 +32,6 @@ public class AdminDao {
 
 
 	public int confirmUpdateMember(Company cm) {
-		// TODO Auto-generated method stub
 		return sqlSession.update("admin.confirmUpdateMember",cm);
 	}
 
@@ -52,10 +51,16 @@ public class AdminDao {
 	}
 
 
-	public List selectQnaList() {
-		return sqlSession.selectList("admin.selectQnA");
+	public List qnaList(SearchAdmin searchQna) {
+		return sqlSession.selectList("admin.qnaList",searchQna);
 		
 	}
+	public int qnaListCount(SearchAdmin searchQna) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("admin.qnaListCount",searchQna);
+	}
+	
+	
 
 	public QNA qnaView(QNA q) {
 		// TODO Auto-generated method stub
@@ -68,14 +73,15 @@ public class AdminDao {
 	}
 
 	
+	
 
 	public List middleList(Region rg) {
 		// TODO Auto-generated method stub
 		return sqlSession.selectList("admin.middleList",rg);
 	}
 
-	public List<Report> reportList() {
-		return sqlSession.selectList("admin.reportList");
+	public List<Report> reportList(AdminPage apg) {
+		return sqlSession.selectList("admin.reportList",apg);
 	}
 
 	public int deletePage(Report rt) {
@@ -88,10 +94,10 @@ public class AdminDao {
 	}
 
 
-	public int insertPhoto(Photo pt) {
-		// TODO Auto-generated method stub
-		return  sqlSession.insert("admin.insertPhoto",pt);
-	}
+//	public int insertPhoto(Photo pt) {
+//		// TODO Auto-generated method stub
+//		return  sqlSession.insert("admin.insertPhoto",pt);
+//	}
 
 	public int deleteReg(Region rg) {
 		
@@ -109,6 +115,34 @@ public int deleteReport(Report rt) {
 
 public int totalcount() {
 	return sqlSession.selectOne("admin.totalCount");
+}
+public int updateAnswer(QNA q) {
+	
+	return sqlSession.update("admin.updateAnswer",q);
+}
+
+
+public List<Member> selecMemberList(AdminPage apg) {
+	
+	return sqlSession.selectList("admin.memberPage", apg);
+}
+public int mListCount(SearchAdmin searchM) {
+		
+	return sqlSession.selectOne("admin.mListCount",searchM);
+}
+
+public int ReListCount(SearchAdmin searchRe) {
+	
+	return sqlSession.selectOne("admin.reListCount",searchRe);
+}
+
+public Report reportFrm(Report rp) {
+	return sqlSession.selectOne("admin.reportFrm", rp);
+}
+
+public int insertReport(Report rp) {
+	
+	return sqlSession.insert("admin.insertReport",rp);
 }
 
 
