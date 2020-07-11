@@ -123,6 +123,11 @@ main .admin_sidebar {
 	padding: 16px;
 	margin-left: 250px;
 }
+#reportlPage{
+	background-color: white;
+	border:0.5px;
+	cursor: pointer;
+}
 
 @media screen and (max-height: 450px) {
 	.admin_sidebar {
@@ -139,7 +144,6 @@ main .admin_sidebar {
 					var activeStop = $(this).attr("data-id");
 					var confirmOk = confirm("회원 활동이 정지 됩니다.진행하시겠습니까?");
 					if (confirmOk == true) {
-
 						$.ajax({
 							url : "/modifyMemberLevel.do", // 콤마 없었음
 							type : "get",
@@ -183,6 +187,7 @@ main .admin_sidebar {
 
 												} else {
 													alert("다중삭제 되었습니다.");
+													location.reload();
 												}
 											},
 											error : function() {
@@ -209,7 +214,7 @@ main .admin_sidebar {
 			
 				
 								
-			})
+			});
 			<!-- -->
 			function reportContent(obj) {
 				var content = $(obj).prev(".reportContent").val();
@@ -219,22 +224,16 @@ main .admin_sidebar {
 				$(".modalReported").text(reportedMem);
 			
 			}
-			 <!-- if 안에 버튼이 있고, c:if 보드클레스,  
-				TRIP_BOARD
-					일정-TRIP_BOARD-3
-					추천-RECOMMEND_BOARD-2
-					동행-TOGETHER_BOARD-5
-				
-				--> 
+		
 			
 			function movePage(boardNo,boardClass){
 				console.log(boardNo,boardClass)
 				if(boardClass==2){
 					location.href="/recDetail.do?recNo="+boardNo
 				}if(boardClass==3){
-					location.href="/tripboard/view.do?tripBoardNo="+boardNo
+					location.href="'/together/singleView.do?boardNo="+boardNo
 				}if(boardClass==5){
-					location.href=""
+					location.href="/tripboard/view.do?tripBoardNo="+boardNo
 				}
 				
 			}
@@ -291,17 +290,16 @@ main .admin_sidebar {
 						<c:forEach items="${reList}" var="r">
 							<tr>
 								<td>${r.reportNo}</td>
-								<td>${r.reportCategory}<br>
-								
-								<input type="button" value="상세페이지 이동"
-									data-id="${r.reportNo }" id="reportlPage" onclick="movePage(${r.boardNo},${r.boardClass });">
+								<td>${r.reportCategory}<br> <input type="button"
+									value="상세페이지 이동" data-id="${r.reportNo }" id="reportlPage"
+									onclick="movePage(${r.boardNo},${r.boardClass });">
 								</td>
 								<td><input class="reportContent" type="hidden"
 									value="${r.reportContent }">
 									<button type="button" onclick="reportContent(this);"
 										id="${r.reportNo}" data-toggle="modal"
 										data-target="#exampleModal"
-										style="background-color: white; border: 0.2em; outline: 0.1;">상세보기</button></td>
+										style="background-color: white; cursor:pointer; border: 0.2em; outline: 0.1;">상세보기</button></td>
 								<!--  *BOARD_CLASS 1:MY_TRIP 2:RECOMMEND_BOARD 3:TOGETHER_BOARD 4:TOUR 5:TRIP_BOARD*/ 상세 주소 찾고, 넣기-->
 								<c:if test="${r.boardClass eq 1 }">
 									<td>내 여행</td>
@@ -328,15 +326,21 @@ main .admin_sidebar {
 												data-id="${r.reportedMember}"></td>
 										</c:if>
 										<c:if test="${ m.memberLevel lt 0 }">
-											<td class="reportedMem">${r.reportedMember } <br>
-												정지 회원
+											<td class="reportedMem">${r.reportedMember }<br> 정지
+												회원
 											</td>
 										</c:if>
 									</c:if>
 								</c:forEach>
 								<td>${r.reportDate }</td>
+								<c:if test="${r.boardClass eq r.boardNo }">
 								<td><input type="button" name="delete" value="게시글 삭제"
 									class="deletePage" data-id="${r.boardClass}"></td>
+								</c:if>
+								<c:if test="${r.boardClass ne r.boardNo }">
+								<td><input type="button" name="delete" value="게시글 삭제"
+									class="deletePage" data-id="${r.boardClass}"></td>
+								</c:if>
 							</tr>
 
 
@@ -383,7 +387,6 @@ main .admin_sidebar {
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary"
 						data-dismiss="modal">Close</button>
-					<button type="button" class="btn btn-primary">Save changes</button>
 				</div>
 			</div>
 		</div>

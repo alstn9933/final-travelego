@@ -258,7 +258,6 @@
 			tour where item_no=#{boardNo}
 		</if>
 		<if test="boardClass==5">
-			trip_board where trip_board_no=#{boardNo}
 		</if>
 	</delete>
 

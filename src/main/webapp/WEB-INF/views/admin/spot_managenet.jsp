@@ -101,6 +101,19 @@ main .admin_sidebar {
 </style>
 		<script>
     $(function () {
+    	
+    	$("#citySel").on("change","#citySelect",function(){
+    		var countrySelect = $("#countrySelect").val();
+    		$("#regionCountry").val(countrySelect).attr("readOnly",true);
+    		var city = $(this).val();
+    		if(countrySelect !="insertCountry" && city != "insertCity" ){
+    			$("#delRegion").show();
+    		}else{
+    			$("#delRegion").hide();
+    		}
+    	
+    	});
+    	$("#addRegion").hide();
 //     	$("#countrySelect").change(function(){
 //     	 var val = $(this).val();
 //     	 var val2 =   $("#countrySelect").val();
@@ -129,7 +142,7 @@ main .admin_sidebar {
 // 	})   
    	 
 //    	 $("#addRegion").hide();
-     
+     $("#delRegion").hide();
      $("#delRegion").click(function () {
 		var val = $(".citySelect").val();
 		var val2= $(".citySelect option:selected").attr("data-id");
@@ -159,7 +172,7 @@ main .admin_sidebar {
 	})
    	 
    	 $("#countrySelect").change(function(){ // 대분류가 변경되면
-  		
+   		$("#addRegion").hide();
    	  var regionCountry = $("#countrySelect>option:selected").val();
    	 console.log(regionCountry);
          $.ajax({
@@ -191,16 +204,26 @@ main .admin_sidebar {
                                 citySelect.append(addOption);
                                 
                           }
-                         citySelect.append("<option value='' id='insertCity'>----도시 직접 입력---</option>");
-                       
+                         citySelect.append("<option value='insertCity' id='insertCity' >----도시 직접 입력---</option>");
+                         $("#delRegion").hide();
                       } else {
                          addOption = "<option value='' title='선택'>--도시를 선택해주세요--</option>";
-                    
-                         citySelect.append("<option value='insert'>--도시직접입력--</option>");
+                    		
+                         citySelect.append("<option value='insert' >----도시 직접 입력---</option>");
+//                          regText.replace(/\s/gi, "");  
                          $("#delRegion").show();
+                         
                       }
                       $("#citySel").append(citySelect);
                       $('.citySelect').msDropDown();
+                      citySelect.parent().next().find("li").click(function(){
+                    	  if($(this).children().eq(0).html() == "----도시 직접 입력---"){
+                    		  $("#addRegion").show();
+                    	  }else{
+                    		  $("#addRegion").hide();
+                    	  }
+                    	
+                      });
                       
            },
            error  : function(data) { 
@@ -210,7 +233,9 @@ main .admin_sidebar {
     });
          
    });
-    
+    $("#insertCountry").click(function(){
+    	$("#addRegion").show();
+    })
     
     </script>
 
@@ -245,22 +270,45 @@ main .admin_sidebar {
 
 				</form>
 				<br>
-
-				<form method="post" enctype="multipart/form-data" id="addRegion"
-					name="addRegion"   action="/insertCity.do">
+				<script>
+				$(function () {
+					$("#regionCountry").keyup(function () {
+						var str = $(this).val();
+						str = str.replace(/ /gi, "");
+						$(this).val(str);
+					});
+					$("#regionCity").keyup(function () {
+						var str = $(this).val();
+						str = str.replace(/ /gi, "");
+						$(this).val(str);
+					});
+				});
+function frmsubmit() {
+	var file = $("#addFile").val();
+	if(file == null || file ==""){
+		alert("파일을 등록해주세요");
+		return false;
+	}else{
+		return true;
+	}
+	
+}
+</script>
+				<form method="post" enctype="multipart/form-data" id="addRegion" style="display:none;"
+					name="addRegion"   action="/insertCity.do" onsubmit='return frmsubmit();'>
 					<span class="hid"> 국가 : <input type="text" 
-						name="regionCountry" id="regionCountry" value=""><br>
+						name="regionCountry" id="regionCountry" value="" onkeyup><br>
 					</span> 도시 : <input type="text" name="regionCity" id="regionCity"><br>
 					이미지 점부 : <input type="file" name="file" id="addFile"><br>
 					<input type="submit" value="등록">
 				</form>
-				<button id="delRegion" >삭제</button>
+				<button id="delRegion" style="display:none;">삭제</button>
 				<br> <br>
 	</section>
 
 	<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
 	<!-- Modal -->
-	<div class="modal fade custom_search_pop" id="exampleModalCenter"
+	<div class="modal fade custom_search_pop" id="exampleModalCenter" 
 		tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
 		aria-hidden="true">
 		<div class="modal-dialog modal-dialog-centered" role="document">
@@ -299,9 +347,7 @@ main .admin_sidebar {
 	<script src="/src/js/header/jquery.validate.min.js"></script>
 	<script src="/src/js/header/mail-script.js"></script>
 	<script src="/src/js/header/main.js"></script>
-	<script>
-		$("#addRegion")
-	</script>
+	
 	<script>
       $(function () {
     	

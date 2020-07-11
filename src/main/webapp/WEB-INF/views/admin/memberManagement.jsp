@@ -298,6 +298,9 @@ main .admin_sidebar {
 #pageNavi>* {
 	margin: 10px;
 }
+#mButton{
+cursor: pointer;
+}
 
 @media screen and (max-height: 450px) {
 	.admin_sidebar {
@@ -311,7 +314,6 @@ main .admin_sidebar {
 <!-- 게시글 스타일 -->
 
 <body>
-
 	<div class="admin_page">
 		<link rel="stylesheet"
 			href="https://fonts.googleapis.com/icon?family=Material+Icons" />
@@ -367,7 +369,7 @@ main .admin_sidebar {
 								<td>${m.email }</td>
 
 								<c:if test="${m.memberLevel eq 1}">
-									<td id="modifyMember">일반 회원 <br> <input type="button"
+									<td id="modifyMember">일반 회원 <br> <input type="button" id="mButton"
 										name="memberStop" class="memberStop" value="정지"
 										data-id="${m.memberId}">
 									</td>
@@ -375,7 +377,7 @@ main .admin_sidebar {
 								</c:if>
 
 								<c:if test="${m.memberLevel eq -1}">
-									<td id="modifyMember">정지 회원 <br> <input type="button"
+									<td id="modifyMember">정지 회원 <br> <input type="button"  id="mButton"
 										name="memberRecycle" class="memberRestore" value="복구"
 										data-id="${m.memberId}"> <input type="button"
 										name="memberDelete" class="memberDelete" value="탈퇴"
@@ -391,7 +393,7 @@ main .admin_sidebar {
 
 
 								<c:if test="${m.memberLevel eq 2}">
-									<td id="modifyMember">법인 회원 <br> <input type="button"
+									<td id="modifyMember">법인 회원 <br> <input type="button"  id="mButton"
 										name="companyStop" class="companyStop" value="정지"
 										data-id="${m.memberId}"></td>
 
@@ -402,7 +404,7 @@ main .admin_sidebar {
 											승인 완료 
 										</c:if>
 												<c:if test="${c.joinConfirm eq 0}">
-													<input type="button" name="allow" class="memberConfirm"
+													<input type="button" name="allow" class="memberConfirm"  id="mButton"
 														value="미승인 회원" data-id="${c.companyId}"
 														style="color: red;">
 
@@ -412,9 +414,9 @@ main .admin_sidebar {
 								</c:if>
 								<c:if test="${m.memberLevel eq -2}">
 									<td>법인회원<br> <input type="button"
-										name="memberRecycle" class="memberRestore" value="복구"
+										name="memberRecycle" class="memberRestore" value="복구"  id="mButton"
 										data-id="${m.memberId}"> <input type="button"
-										name="memberDelete" class="memberDelete" value="탈퇴"
+										name="memberDelete" class="memberDelete" value="탈퇴"  id="mButton"
 										data-id="${m.memberId}"></td>
 									<td><c:forEach items="${cList }" var="c">
 											<c:if test="${m.memberId eq c.companyId }">
@@ -423,7 +425,7 @@ main .admin_sidebar {
 										</c:if>
 												<c:if test="${c.joinConfirm eq 0}">
 													<input type="button" name="allow" class="memberConfirm"
-														value="미승인 회원" data-id="${c.companyId}"
+														value="미승인 회원" data-id="${c.companyId}"  id="mButton"
 														style="color: red;">
 												</c:if>
 											</c:if>
@@ -462,7 +464,6 @@ main .admin_sidebar {
 		</div>
 
 	</div>
-
 
 	<script>
 		$(function() {
