@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<class-diagram version="1.2.4" icons="true" always-add-relationships="false" generalizations="true" realizations="true" 
+  associations="true" dependencies="false" nesting-relationships="true" router="FAN">  
+  <class id="1" language="java" name="kr.or.iei.mypage.controller.MypageController" project="projectTravelego" 
+    file="/projectTravelego/src/main/java/kr/or/iei/mypage/controller/MypageController.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="236" width="440" x="41" y="37"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="2" language="java" name="kr.or.iei.mypage.model.service.MypageService" project="projectTravelego" 
+    file="/projectTravelego/src/main/java/kr/or/iei/mypage/model/service/MypageService.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="196" width="434" x="41" y="353"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="3" language="java" name="kr.or.iei.mypage.model.dao.MypageDao" project="projectTravelego" 
+    file="/projectTravelego/src/main/java/kr/or/iei/mypage/model/dao/MypageDao.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="250" y="817"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="4" language="java" name="kr.or.iei.mypage.model.vo.BoardList" project="projectTravelego" 
+    file="/projectTravelego/src/main/java/kr/or/iei/mypage/model/vo/BoardList.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="476" width="206" x="796" y="353"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="5" language="java" name="kr.or.iei.mypage.model.vo.BoardPagaData" project="projectTravelego" 
+    file="/projectTravelego/src/main/java/kr/or/iei/mypage/model/vo/BoardPagaData.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="276" width="268" x="796" y="37"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="6" language="java" name="kr.or.iei.mypage.model.vo.Bookmark" project="projectTravelego" 
+    file="/projectTravelego/src/main/java/kr/or/iei/mypage/model/vo/Bookmark.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="596" width="216" x="1104" y="353"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="7" language="java" name="kr.or.iei.mypage.model.vo.BookmarkPageData" project="projectTravelego" 
+    file="/projectTravelego/src/main/java/kr/or/iei/mypage/model/vo/BookmarkPageData.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="276" width="274" x="1104" y="37"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="8" language="java" name="kr.or.iei.mypage.model.vo.QNA" project="projectTravelego" 
+    file="/projectTravelego/src/main/java/kr/or/iei/mypage/model/vo/QNA.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="656" width="214" x="521" y="353"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="9" language="java" name="kr.or.iei.mypage.model.vo.QNAPageData" project="projectTravelego" 
+    file="/projectTravelego/src/main/java/kr/or/iei/mypage/model/vo/QNAPageData.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="276" width="235" x="521" y="37"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <association id="10">    
+    <end type="SOURCE" refId="1" navigable="false">      
+      <attribute id="11" name="service"/>      
+      <multiplicity id="12" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="2" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="13">    
+    <end type="SOURCE" refId="7" navigable="false">      
+      <attribute id="14" name="mlist"/>      
+      <multiplicity id="15" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="6" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="16">    
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="17" name="dao"/>      
+      <multiplicity id="18" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="3" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="19">    
+    <end type="SOURCE" refId="5" navigable="false">      
+      <attribute id="20" name="blist"/>      
+      <multiplicity id="21" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="4" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="22">    
+    <end type="SOURCE" refId="9" navigable="false">      
+      <attribute id="23" name="qlist"/>      
+      <multiplicity id="24" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="8" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+    sort-features="false" accessors="true" visibility="true">    
+    <attributes public="true" package="true" protected="true" private="true" static="true"/>    
+    <operations public="true" package="true" protected="true" private="true" static="true"/>  
+  </classifier-display>  
+  <association-display labels="true" multiplicity="true"/>
+</class-diagram>

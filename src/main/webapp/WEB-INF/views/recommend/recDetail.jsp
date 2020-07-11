@@ -228,6 +228,7 @@
 			<span><i class="far fa-heart like" style="display:none; float:right; font-size: 40px;"></i></span>
 			<span><i class="fas fa-heart dislike" style="float:right; font-size: 40px;"></i></span>
 			</c:if>
+			<span><i class="fas fa-exclamation-circle report" style="float:right; font-size: 40px; margin-right:20px;"></i></span>
 		</div>
 		<hr>
 		
@@ -423,6 +424,10 @@
 				$form.submit();		
 		}
 		
+		$(".report").click(function(){
+			var recNo = ${rec.recNo};
+			location.href="/";
+		});
 	</script>
 	<script>
 	$(function(){
