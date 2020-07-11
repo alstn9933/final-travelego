@@ -78,4 +78,8 @@ public class TogetherDao {
 		return session.selectOne("togetherBoard.selectCommentCount", boardNo);
 	}
 
+	public int updateComment(TogetherCommentVO comment) {
+		return session.update("togetherBoard.updateComment",comment);
+	}
+
 }

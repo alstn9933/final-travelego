@@ -69,16 +69,15 @@
          <bean class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor"/>
       </websocket:handshake-interceptors>
    </websocket:handlers>
-	<!-- 웹소켓 설정 
+	<!-- 동행게시판 알림 -->
 	<websocket:handlers>
-		<websocket:mapping handler="myHandler"
-			path="/chat.do" />
+		<websocket:mapping handler="togetherWSHandler"
+			path="/together/tws.do" />
 		<websocket:handshake-interceptors>
 			<bean
 				class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor"></bean>
 		</websocket:handshake-interceptors>
 	</websocket:handlers>
-	-->
 
 
 	<context:component-scan	base-package="kr.or.iei.admin"/>

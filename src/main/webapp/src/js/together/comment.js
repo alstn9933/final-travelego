@@ -1,6 +1,32 @@
 $(document).on("click", ".writeCommentBtn", submitComment);
 $(document).on("click", ".show_comment", showComment);
 $(document).on("click", ".modCommentBtn", modifyComment);
+$(document).on("click", ".sendModBtn", function () {
+  $(this).parents("tr").find("form").submit();
+});
+$(document).on("submit", ".mod_form", function (e) {
+  const postData = $(this).serializeArray();
+  const formURL = $(this).attr("action");
+  const table = $(this).parents("table").eq(0);
+  const boardNo = postData[2].value;
+  $.ajax({
+    url: formURL,
+    type: "POST",
+    data: postData,
+    success: function (data) {
+      if (data == "1") {
+        alert("댓글이 수정되었습니다.");
+        loadComment(boardNo, table);
+      } else {
+        alert("댓글 작성에 실패하였습니다.");
+      }
+    },
+    error: function () {
+      console.log("서버접속에 실패 하였습니다.");
+    },
+  });
+  e.preventDefault();
+});
 
 function modifyComment() {
   const commentContent = $(this).parents("td").prev().html();
@@ -14,8 +40,8 @@ function modifyComment() {
   tr.append(td1);
 
   const form = document.createElement("form");
-  form.action = "/tripboard/modComment.do";
-  form.className = "comment_form";
+  form.action = "/together/modComment.do";
+  form.className = "comment_form mod_form";
   form.method = "POST";
   td1.append(form);
 
@@ -39,6 +65,12 @@ function modifyComment() {
   boardNo.value = $(this).attr("boardNum");
   form.append(boardNo);
 
+  const commentWriter = document.createElement("input");
+  commentWriter.type = "hidden";
+  commentWriter.name = "commentWriter";
+  commentWriter.value = $("input[name=togetherWriter]").val();
+  form.append(commentWriter);
+
   const td2 = document.createElement("td");
   tr.append(td2);
 
@@ -46,15 +78,14 @@ function modifyComment() {
   td2.append(div1);
 
   const writeBtn = document.createElement("button");
-  writeBtn.className = "btn btn-primary writeCommentBtn";
+  writeBtn.type = "button";
+  writeBtn.className = "btn btn-primary sendModBtn";
   writeBtn.innerHTML = "완료";
-  writeBtn.id = "modCommentBtn";
   div1.append(writeBtn);
 
   const cancelBtn = document.createElement("button");
   cancelBtn.type = "button";
-  cancelBtn.className = "btn btn-danger writeCommentBtn";
-  cancelBtn.id = "cancelmodBtn";
+  cancelBtn.className = "btn btn-danger cancelModBtn";
   cancelBtn.innerHTML = "취소";
   div1.append(cancelBtn);
   tbody.after(tr);
@@ -63,7 +94,7 @@ function modifyComment() {
 }
 
 function submitComment() {
-  const commentContent = $(this).prev().val();
+  const commentContent = $(this).prev();
   const commentWriter = $("input[name=togetherWriter]").val();
   const boardNo = $(this).attr("boardNo");
   const table = $(this).parent().next();
@@ -79,11 +110,13 @@ function submitComment() {
       data: {
         boardNo: boardNo,
         commentWriter: commentWriter,
-        commentContent: commentContent,
+        commentContent: commentContent.val(),
       },
       success: function (data) {
         if (data == "1") {
           loadComment(boardNo, table);
+          commentContent.val("");
+          commentContent.height(38);
           alert("댓글이 작성되었습니다.");
         } else {
           alert("댓글 작성에 실패하였습니다.");
@@ -122,7 +155,7 @@ function showComment() {
 function loadComment(boardNo, table) {
   const memberId = $("input[name=togetherWriter]").val();
   const memberNickname = $("#inputMemberNick").val();
-  console.log(memberNickname);
+
   $.ajax({
     url: "/together/asyncCommentLoad.do",
     type: "POST",
@@ -172,6 +205,8 @@ function loadComment(boardNo, table) {
           modCommentBtn.className =
             "btn btn-sm btn-outline-primary modCommentBtn";
           modCommentBtn.innerHTML = "수정";
+          modCommentBtn.setAttribute("boardNum", boardNo);
+          modCommentBtn.setAttribute("commentNo", list[i].commentNo);
           commentBtnTd.append(modCommentBtn);
 
           const delCommentBtn = document.createElement("button");
@@ -179,6 +214,8 @@ function loadComment(boardNo, table) {
           delCommentBtn.className =
             "btn btn-sm btn-outline-danger delCommentBtn";
           delCommentBtn.innerHTML = "삭제";
+          delCommentBtn.setAttribute("boardNum", boardNo);
+          delCommentBtn.setAttribute("commentNo", list[i].commentNo);
           commentBtnTd.append(delCommentBtn);
         }
       }

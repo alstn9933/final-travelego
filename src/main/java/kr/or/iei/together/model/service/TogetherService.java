@@ -84,7 +84,7 @@ public class TogetherService {
 	}
 
 	public TogetherCommentListVO selectCommentList(int boardNo) {
-		
+		System.out.println(boardNo);
 		TogetherCommentListVO listVo = new TogetherCommentListVO();
 		
 		ArrayList<TogetherCommentVO> list =(ArrayList<TogetherCommentVO>)dao.selectCommentList(boardNo);
@@ -96,7 +96,7 @@ public class TogetherService {
 		}
 		
 		listVo.setCommentList(list);
-		listVo.setCommentCount(dao.selectCommentCount(boardNo));
+		listVo.setCommentCount(list.size());
 		return listVo;
 	}
 
@@ -194,6 +194,10 @@ public class TogetherService {
 		}
 		
 		return list;
+	}
+
+	public int updateComment(TogetherCommentVO comment) {
+		return dao.updateComment(comment);
 	}
 	
 }

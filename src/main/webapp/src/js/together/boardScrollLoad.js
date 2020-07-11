@@ -154,55 +154,60 @@ function loadContent(data) {
 }
 
 window.addEventListener("wheel", function (e) {
-  if ($(".loading_area").css("display") == "none") {
+  if (
+    $(".loading_area").css("display") == "none" &&
+    $("#lastContent") != undefined
+  ) {
     const pageY = window.scrollY;
-    if (document.body.scrollHeight - (pageY + window.screen.height) < 200) {
+    if (document.body.scrollHeight - (pageY + window.screen.height) < 100) {
       const lastNum = $("#lastContent").attr("rnum");
       const regionNo = $("#lastContent").attr("regionNo");
       const keyword = $("#lastContent").attr("keyword");
       $(".loading_area").show();
-      if (regionNo != undefined) {
-        $.ajax({
-          url: "/together/asyncLoadByRegion.do",
-          type: "POST",
-          data: { lastNum: lastNum, regionNo: regionNo },
-          success: function (data) {
-            loadContent(data);
-          },
-          error: function () {
-            console.log("서버 연결 실패");
-            $(".loading_area").hide();
-          },
-        });
-      } else if (keyword != undefined) {
-        $.ajax({
-          url: "/together/asyncLoadByKeyword.do",
-          type: "POST",
-          data: { lastNum: lastNum, keyword: keyword },
-          success: function (data) {
-            loadContent(data);
-          },
-          error: function () {
-            console.log("서버 연결 실패");
-            $(".loading_area").hide();
-          },
-        });
-      } else if (lastNum != 1) {
-        $.ajax({
-          url: "/together/asyncLoad.do",
-          type: "POST",
-          data: { lastNum: lastNum },
-          success: function (data) {
-            loadContent(data);
-          },
-          error: function () {
-            console.log("서버 연결 실패");
-            $(".loading_area").hide();
-          },
-        });
-      } else {
-        $(".loading_area").hide();
-      }
+      setTimeout(function () {
+        if (regionNo != undefined) {
+          $.ajax({
+            url: "/together/asyncLoadByRegion.do",
+            type: "POST",
+            data: { lastNum: lastNum, regionNo: regionNo },
+            success: function (data) {
+              loadContent(data);
+            },
+            error: function () {
+              console.log("서버 연결 실패");
+              $(".loading_area").hide();
+            },
+          });
+        } else if (keyword != undefined) {
+          $.ajax({
+            url: "/together/asyncLoadByKeyword.do",
+            type: "POST",
+            data: { lastNum: lastNum, keyword: keyword },
+            success: function (data) {
+              loadContent(data);
+            },
+            error: function () {
+              console.log("서버 연결 실패");
+              $(".loading_area").hide();
+            },
+          });
+        } else if (lastNum != 1) {
+          $.ajax({
+            url: "/together/asyncLoad.do",
+            type: "POST",
+            data: { lastNum: lastNum },
+            success: function (data) {
+              loadContent(data);
+            },
+            error: function () {
+              console.log("서버 연결 실패");
+              $(".loading_area").hide();
+            },
+          });
+        } else {
+          $(".loading_area").hide();
+        }
+      }, 800);
     }
   }
 });

@@ -10,9 +10,12 @@
 		from region
 		where region_country like '%'||#{_parameter}||'%' or region_city like '%'||#{_parameter}||'%'
 	</select>
-	<insert id="insertBoard" parameterType="together">
+	<insert id="insertBoard" parameterType="together">	
+		<selectKey keyProperty="togetherNo" resultType="int" order="BEFORE">
+			select together_board_seq.nextval from dual
+		</selectKey>
 		insert into together_board values(
-			together_board_seq.nextval,
+			#{togetherNo},
 			#{togetherTitle},
 			#{togetherContent},
 			#{togetherWriter},
@@ -150,4 +153,10 @@
 		from board_comment
 		where board_class = 3 and board_no = #{_parameter}
 	</select>
+	<update id="updateComment" parameterType="togetherComment">
+		update board_comment set
+			comment_content = #{commentContent},
+			comment_date = sysdate
+		where comment_no = #{commentNo}		
+	</update>
 </mapper>

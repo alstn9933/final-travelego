@@ -106,3 +106,7 @@ $("#mainSearch").on("submit", function (e) {
   });
   e.preventDefault();
 });
+
+$("#rollBackBtn").click(function () {
+  location.href = "/together/main.do";
+});

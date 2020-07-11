@@ -238,7 +238,6 @@ public class TripBoardService {
 	public int insertComment(HttpSession session, TogetherCommentVO comment) {
 		Member member = (Member) session.getAttribute("member");
 		comment.setCommentWriter(member.getMemberId());
-		System.out.println(comment.getRefComment());
 		return dao.insertComment(comment);
 	}
 

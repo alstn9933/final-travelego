@@ -22,7 +22,6 @@
   box-shadow: 0 0 0 1px rgba(20, 20, 31, 0.05),
     0 1px 3px 0 rgba(20, 20, 31, 0.15);
   position: fixed;
-  display: none;
 }
 
 .notify_area span {
@@ -260,7 +259,9 @@
   display: flex;
 }
 
-.writeCommentBtn {
+.writeCommentBtn,
+.cancelModBtn,
+.sendModBtn {
   margin-left: 20px;
   width: 90px;
   height: 38px;
@@ -317,4 +318,23 @@ tr:nth-child(2n) > td {
 .comment_btn {
   display: flex;
   justify-content: space-between;
+}
+
+.comment_date div {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+form button {
+  cursor: pointer;
+}
+
+.mod_comment_area > td:last-of-type > div > button:first-of-type {
+  margin-bottom: 10px;
+}
+
+.comment_writer {
+  font-size: 14px;
+  color: #575757;
 }

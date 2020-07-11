@@ -32,9 +32,9 @@ prefix="c"%>
     <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
     <section>
       <div class="board">
-        <div class="notify_area">
-          <span>새 글이 있습니다.</span>
-          <span id="newCount">+2</span>
+        <div class="notify_area" style="display: none;">
+          <span>새 글이 있습니다. </span>
+          <span id="newCount">+0</span>
         </div>
         <div class="content_area">
           <c:forEach items="${list}" var="board" varStatus="status" >
@@ -272,6 +272,7 @@ prefix="c"%>
                 type="button"
                 class="btn btn-secondary"
                 data-dismiss="modal"
+                id="modalCancel"
               >
                 취소
               </button>
@@ -315,6 +316,7 @@ prefix="c"%>
     <script src="/src/js/together/aside.js"></script>
     <script src="/src/js/together/write.js"></script>
     <script src="/src/js/together/boardScrollLoad.js"></script>
+    <script src="/src/js/together/websocket.js"></script>
     <script>
     </script>
     <script>
