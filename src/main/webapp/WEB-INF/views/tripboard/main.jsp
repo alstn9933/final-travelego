@@ -82,6 +82,7 @@ prefix="c"%>
         ${pageNavi}
       </nav>
       <div class="form-group">
+        <div></div>
         <form action="/tripboard/search.do" id="searchForm">
           <select class="form-control" name="searchOption" id="selectOption">
             <option value="1">지역</option>
@@ -100,9 +101,21 @@ prefix="c"%>
             <i class="fas fa-search"></i>
           </button>
         </form>
-        <button class="btn btn-primary" id="writeBtn" type="button">
-          글쓰기
-        </button>
+        <c:if test="${sessionScope.member.memberLevel == 1}">
+          <button class="btn btn-primary" id="writeBtn" type="button">
+            글쓰기
+          </button>
+        </c:if>
+        <c:if test="${sessionScope.member.memberLevel != 1}">
+          <button
+            class="btn btn-primary"
+            id="writeBtn"
+            type="button"
+            style="visibility: hidden;"
+          >
+            글쓰기
+          </button>
+        </c:if>
       </div>
     </section>
 
@@ -143,17 +156,10 @@ prefix="c"%>
       //     "/tripboard/view.do?tripBoardNo=" + $(this).attr("boardNum");
       // }
     </script>
-    <c:if test="${not empty sessionScope.member.memberId }">
+    <c:if test="${sessionScope.member.memberLevel == 1}">
       <script>
         $("#writeBtn").click(function () {
           location.href = "/tripboard/writeFrm.do";
-        });
-      </script>
-    </c:if>
-    <c:if test="${empty sessionScope.member.memberId }">
-      <script>
-        $("#writeBtn").click(function () {
-          alert("로그인이 필요한 기능입니다.");
         });
       </script>
     </c:if>

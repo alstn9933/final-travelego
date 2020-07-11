@@ -31,6 +31,15 @@ public class TogetherController {
 	@Autowired
 	MemberService memberService;
 	
+	@RequestMapping(value = "/singleView.do")
+	public String singleView(int boardNo, Model model) {
+		
+		TogetherBoardVO vo = service.selectOneBoard(boardNo);
+		
+		model.addAttribute("board",vo);
+		return "together/view";
+	}
+	
 	@ResponseBody
 	@RequestMapping(value = "/asyncLoadByKeyword.do", produces = "application/json;charset=utf-8")
 	public String asyncLoadByKeyword(int lastNum, String keyword) {
