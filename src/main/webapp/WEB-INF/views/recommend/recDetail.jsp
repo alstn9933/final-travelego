@@ -218,6 +218,10 @@
 
 		
 		<div style="width:80%; margin:50px auto;">${rec.recContent}</div>
+		<div style="width:80%; margin:50px auto; text-align: center;">
+			<div><span><i class="fas fa-check"></i></span><span> 장소 </span><span>${rec.place }</span></div>
+			<div><span><i class="fas fa-check"></i></span><span> 주소 </span><span>${rec.coords }</span></div>
+		</div>
 		<div id="map" style="width:60%;height:400px;margin:80px auto;"></div>
 		<div style="height:40px;">
 			<c:if test="${empty liked }">
@@ -228,6 +232,7 @@
 			<span><i class="far fa-heart like" style="display:none; float:right; font-size: 40px;"></i></span>
 			<span><i class="fas fa-heart dislike" style="float:right; font-size: 40px;"></i></span>
 			</c:if>
+			<span><i class="fas fa-exclamation-circle report" style="float:right; font-size: 40px; margin-right:20px;"></i></span>
 		</div>
 		<hr>
 		
@@ -376,7 +381,7 @@
 		function amendComment(val, commentNo, recNo){
 			$(val).parent().siblings("textarea").show();
 			$(val).prev().hide();
-			$(val).html("수정완료");
+			$(val).html("수정");
 			$(val).next().html("취소");
 			var content = $(val).parent().siblings("div").eq(1).html();
 			$(val).parent().siblings("textarea").html(content);
@@ -395,7 +400,7 @@
 		
 		function amendCancel(val, commentNo, recNo){
 			$(val).parent().siblings("textarea").hide();
-			$(val).prev().prev().show();
+			//$(val).prev().prev().show();
 			$(val).prev().html("수정");
 			$(val).html("삭제");
 			//var content = $(val).parent().siblings("div").eq(1).html();
@@ -423,6 +428,10 @@
 				$form.submit();		
 		}
 		
+		$(".report").click(function(){
+			var recNo = ${rec.recNo};
+			location.href="/";
+		});
 	</script>
 	<script>
 	$(function(){

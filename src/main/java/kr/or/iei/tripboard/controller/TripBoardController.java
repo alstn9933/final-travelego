@@ -40,6 +40,7 @@ import kr.or.iei.tripboard.model.vo.TripBoardMyTripVO;
 import kr.or.iei.tripboard.model.vo.TripBoardPageDTO;
 import kr.or.iei.tripboard.model.vo.TripBoardVO;
 
+
 @Controller
 @RequestMapping("/tripboard")
 public class TripBoardController {

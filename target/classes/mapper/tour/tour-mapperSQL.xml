@@ -104,7 +104,7 @@
 		select * from
 		(select ROWNUM as rnum, r.* from
 		(select review_no as reviewNo, item_no as itemNo, member_id as memberId, member_nickname as memberNickname, review_rate as reviewRate, review_content as reviewContent, review_date as reviewDate
-		from tour_review join member using(member_id) where item_no=#{itemNo} order by review_no desc)r)
+		from tour_review left join member using(member_id) where item_no=#{itemNo} order by review_no desc)r)
 		where rnum between #{start} and #{end}
 	</select>
 	<select id="selectTotalReview" parameterType="_int" resultType="_int">
