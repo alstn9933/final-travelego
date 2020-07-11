@@ -63,6 +63,7 @@
 														<li><a href="/myPage.do"><i
 																class="far fa-user userIcon"></i></a>
 															<ul class="submenu">
+																<li><a href="/membercheckFrm.do">회원정보 인증</a></li>
 																<li><a href="/memberModifiedFrm.do">회원정보수정(일반)</a></li>
 																<li><a href="/companyModifiedFrm.do">회원정보수정(법인)</a></li>
 																<li><a href="/mypage.do">마이페이지</a></li>
@@ -79,10 +80,6 @@
 								</c:if>
 
 								<c:if test="${empty sessionScope.member }">
-									<div class="emptyuser">
-										<a href="#" title="회원정보가 없습니다!" data-toggle="popover"
-											data-placement="bottom"><i class="far fa-user userIcon"></i></a>
-									</div>
 									<a href="/loginFrm.do"><i class="fas fa-power-off"></i></a>
 								</c:if>
 							</div>

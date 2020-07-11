@@ -1,0 +1,19 @@
+@charset "UTF-8";
+.mainContent-check{
+	width: 600px;
+	height: 300px;
+	margin: 0 auto;
+	margin-top: 200px;
+}
+#memberPw{
+	display: inline-block;
+}
+#okBtn{
+	margin: 0 auto;
+	width: 300px;
+}
+.btnBox{
+	width:100%;
+	margin-left: 120px;
+	margin-top: 50px;
+}
