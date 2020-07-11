@@ -8,7 +8,8 @@
  	select
  	company_id as companyId,
  	license,
- 	company_url as companyUrl
+ 	company_url as companyUrl,
+ 	join_confirm as joinConfirm
  	from Company where company_id=#{memberId}
  </select>
  <update id="companyModified" parameterType="company">
@@ -17,4 +18,11 @@
  	company_url = #{companyUrl}
  	where company_id=#{companyId}
  </update>
+ <select id="sessionCp" parameterType="company" resultType="company">
+ 	select
+ 	company_id as companyId,
+ 	license,
+ 	company_url as companyUrl
+ 	from Company where company_id=#{companyId}
+ </select>
  </mapper>

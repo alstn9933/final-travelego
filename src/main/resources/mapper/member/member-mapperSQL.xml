@@ -63,7 +63,6 @@
  </update>
  <update id="memberModified" parameterType="member">
  update member set 
- member_pw = #{memberPw},
  member_name = #{memberName},
  member_nickname = #{memberNickname},
  age = #{age},
@@ -105,5 +104,55 @@
 	order by tour_avg desc)n)
 	where rnum between #{start} and #{end}
  </select>
-
+ <select id="membercheck" parameterType="String" resultType="member">
+ 	 	select 
+ 	member_id as memberId,
+ 	member_pw as memberPw,
+ 	member_nickname as memberNickname,
+ 	member_name as memberName,
+ 	age,
+ 	gender,
+ 	phone,
+ 	email,
+ 	member_level as memberLevel,
+ 	reg_Date as regDate
+ 	from member where member_id=#{memberId} 
+ </select>
+ <select id="modifyMembercheck" parameterType="member" resultType="member">
+	select 
+ 	member_id as memberId,
+ 	member_pw as memberPw,
+ 	member_nickname as memberNickname,
+ 	member_name as memberName,
+ 	age,
+ 	gender,
+ 	phone,
+ 	email,
+ 	member_level as memberLevel,
+ 	reg_Date as regDate
+ 	from member where member_id=#{memberId} and member_pw=#{memberPw}
+ </select>
+ <select id="selectOneMember" parameterType="String" resultType="member">
+ 	select 
+ 	member_id as memberId,
+ 	member_pw as memberPw,
+ 	member_nickname as memberNickname,
+ 	member_name as memberName,
+ 	age,
+ 	gender,
+ 	phone,
+ 	email,
+ 	member_level as memberLevel,
+ 	reg_Date as regDate
+ 	from member where member_id=#{memberId} and member_pw=#{memberPw}
+ </select>
+ <update id="memberModifiedMember" parameterType="member">
+  update member set 
+  member_pw = #{memberPw},
+ member_name = #{memberName},
+ member_nickname = #{memberNickname},
+ age = #{age},
+ phone = #{phone}
+ where member_id=#{memberId}
+ </update>
 </mapper>

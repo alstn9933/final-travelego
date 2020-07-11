@@ -27,24 +27,23 @@
 			<hr>
 			<div class="textdiv">
 				<form action="/memberModified.do" method="post">
-				<input type="hidden" id="memberId" name="memberId" value="${m.memberId }">
 					<label id="lId" for="memberId" class="col-lg-2 control-label">아이디</label>
 					<div class="col-lg-6">
 						<input type="text" class="form-control" name="memberId"
 							id="memberId" data-rule-required="true" value="${m.memberId }"
-							disabled> <br> <span id="sId"></span>
+							readonly> <br> <span id="sId"></span>
 					</div>
 					<br> <label for="memberPw" class="col-lg-2 control-label">패스워드</label>
 					<div class="col-lg-6">
 						<input type="password" class="form-control" id="memberPw"
-							name="memberPw" data-rule-required="true" value="${m.memberPw }"><br>
+							name="memberPw" data-rule-required="true"><br>
 						<span id="sPw"></span>
 					</div>
 					<br> <label id="lPwRe" for="memberPwRe"
 						class="col-lg-2 control-label">패스워드 확인</label>
 					<div class="col-lg-6">
 						<input type="password" class="form-control" id="memberPwRe"
-							placeholder="패스워드 확인" value="${m.memberPw }"><br> <span
+							placeholder="패스워드 확인" ><br> <span
 							id="sPwRe"></span>
 					</div>
 					<br> <label id="lName" for="memberName"
@@ -70,7 +69,7 @@
 						class="col-lg-2 control-label">이메일</label>
 					<div class="col-lg-5">
 						<input type="text" class="form-control" id="email" name="email"
-							value="${m.email }" disabled> <br> <span id="sEmail"></span>
+							value="${m.email }" readonly> <br> <span id="sEmail"></span>
 					</div>
 					<br> <br> <br> <label id="lPhone" for="phone"
 						class="col-lg-2 control-label">휴대폰 번호</label>
@@ -81,7 +80,7 @@
 					</div>
 					<br> <label for="gender" class="col-lg-2 control-label">성별</label>
 					<div class="col-lg-6">
-						<select class="form-control" id="gender" name="gender" disabled>
+						<select class="form-control" id="gender" name="gender" readonly>
 							<option value="M">남</option>
 							<option value="F">여</option>
 						</select>
@@ -96,27 +95,38 @@
 		</div>
 	</section>
 	<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
+	<input type="hidden" name="memberLevel" id="memberLevel" value="${m.memberLevel }" >
 </body>
 <script>
 	var mailCode = "";
 	var regExp = "";
 	var checkArr = [ true, true, true, true, true, true ];
-	$("#memberPw").change(function(event) {
-						regExp = /^[a-zA-Z0-9]{4,15}$/;
+	$("#memberPw").keyup(function(event) {
+		regExp = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$/;
+		pwrecheck();
 							if (regExp.test($("#memberPw").val())) {
 								$("#lPW").css("color", "green");
 								$("#sPw").html("생성 가능한 비밀번호 입니다.");
 								$("#sPw").css("color", "green");
 								checkArr[0] = true;
 							} else {
-								$("#sPw").html("비밀번호 규격을 맞춰주세요<br>(대문자,소문자를 시작으로  숫자포함  15글자 이내)");
+								$("#sPw").html("비밀번호 규격을 맞춰주세요<br>(8~15글자 특수문자,대/소문자,숫자 15글자 이내)");
 								$("#sPw").css("color", "red");
 								$("#lPW").css("color", "red");
 								$("#memberPw").focus();
 								checkArr[0] = false;
 							}
 	});	
-	$("#memberPwRe").change(function() {
+	$("#memberPwRe").keyup(function() {
+		pwrecheck();
+		
+	});
+	function pwrecheck(){
+		if ($("#memberPwRe").val() == "") {
+			$("#sPwRe").html("비밀번호를 입력해주세요.");
+			$("#sPwRe").css("color", "red");
+			checkArr[1] = false;
+		} else {
 			if ($("#memberPw").val() == $("#memberPwRe").val()) {
 				$("#sPwRe").html("비밀번호가 일치합니다.");
 				$("#sPwRe").css("color", "green");
@@ -128,8 +138,8 @@
 				$("#sPwRe").css("color", "red");
 				checkArr[1] = false;
 			}
-		
-	});
+		}
+	}
 	$("#memberName").change(function() {
 		regExp = /^[가-힣]{2,5}$/;
 		
@@ -225,5 +235,6 @@
 		}
 
 	});
+	$("#gender").val("${m.gender}").prop("selected",true);
 </script>
 </html>
