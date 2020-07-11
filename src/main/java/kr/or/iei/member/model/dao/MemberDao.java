@@ -62,7 +62,6 @@ public class MemberDao {
 	}
 
 	public int memberModifiedMember(Member m) {
-		System.out.println("3");
 		return sqlsession.update("member.memberModified",m);
 	}
 
@@ -80,6 +79,26 @@ public class MemberDao {
 
 	public List<mainPhotoRecommed> maintourList(HashMap<String, Integer> map) {
 		return sqlsession.selectList("member.mainTourList",map);
+	}
+
+	public Member sessioncheck(String memberId) {
+		return sqlsession.selectOne("member.membercheck",memberId);
+	}
+
+	public Company sessionCp(Company cp) {
+		return sqlsession.selectOne("company.sessionCp",cp);
+	}
+
+	public Member modifyMembercheck(Member m) {
+		return sqlsession.selectOne("member.modifyMembercheck",m);
+	}
+
+	public Member selectOneMember(Member m) {
+		return sqlsession.selectOne("member.selectOneMember",m);
+	}
+
+	public int memberPwModifiedMember(Member m) {
+		return sqlsession.update("member.memberModifiedMember",m);
 	}
 
 

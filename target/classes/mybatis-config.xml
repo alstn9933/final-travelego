@@ -32,6 +32,9 @@
 		<typeAlias type="kr.or.iei.together.model.vo.TogetherBoardVO" alias="together"/>
 		<typeAlias type="kr.or.iei.notification.model.vo.Notification" alias="notification"/>
 		<typeAlias type="kr.or.iei.common.model.vo.Liked" alias="liked"/>
+		<typeAlias type="kr.or.iei.common.model.vo.Report" alias="report"/>
+		<typeAlias type="kr.or.iei.common.model.vo.Region" alias="region"/>
+		<typeAlias type="kr.or.iei.admin.model.vo.AdminPage" alias="adminPage"/>
 		<typeAlias type="kr.or.iei.together.model.vo.TogetherCommentVO" alias="togetherComment"/>
 		<typeAlias type="kr.or.iei.admin.model.vo.AdminPage" alias="admin"/>
 		<typeAlias type="kr.or.iei.common.model.vo.Report" alias="report"/>
