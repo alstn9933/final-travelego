@@ -38,6 +38,13 @@ public class TogetherController {
 	@Qualifier("togetherWSHandler")
 	TogetherWSHandler wsHandler;
 	
+	@ResponseBody
+	@RequestMapping(value = "/asyncLoadNew.do", produces = "application/json;charset=utf-8")
+	public String asyncLoadNew(int boardNo[]) {
+		ArrayList<TogetherBoardVO> list = service.selectBoardList(boardNo);
+
+		return new Gson().toJson(list);
+	}
 	
 	@RequestMapping(value = "/singleView.do")
 	public String singleView(int boardNo, Model model) {
@@ -52,6 +59,14 @@ public class TogetherController {
 	@RequestMapping(value = "/modComment.do", produces = "text/html;charset=utf-8")
 	public String asyncModifyComment(TogetherCommentVO comment) {
 		int result = service.updateComment(comment);
+		
+		return String.valueOf(result);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/deleteComment.do", produces = "text/html;charset=utf-8")
+	public String asyncDeleteComment(int commentNo) {
+		int result = service.deleteComment(commentNo);
 		
 		return String.valueOf(result);
 	}

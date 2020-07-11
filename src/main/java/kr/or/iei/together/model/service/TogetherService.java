@@ -199,5 +199,13 @@ public class TogetherService {
 	public int updateComment(TogetherCommentVO comment) {
 		return dao.updateComment(comment);
 	}
+
+	public int deleteComment(int commentNo) {
+		return dao.deleteComment(commentNo);
+	}
+
+	public ArrayList<TogetherBoardVO> selectBoardList(int[] boardNo) {
+		return (ArrayList<TogetherBoardVO>) dao.selectBoardList(boardNo);
+	}
 	
 }

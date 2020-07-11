@@ -167,6 +167,10 @@ public class TripBoardService {
 				comment.setCommentDate(comment.getCommentTime());
 			}
 		}
+		
+		vo.setTripDays(vo.getTripBoardTitle().substring(vo.getTripBoardTitle().indexOf("[")+1, vo.getTripBoardTitle().indexOf("]")));
+		vo.setTripBoardTitle(vo.getTripBoardTitle().substring(vo.getTripBoardTitle().indexOf("]")+1));
+		
 		vo.setCommentCount(commentList.size());
 		pd.setBoard(vo);
 		pd.setCommentList(commentList);

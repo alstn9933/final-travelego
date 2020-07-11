@@ -159,4 +159,26 @@
 			comment_date = sysdate
 		where comment_no = #{commentNo}		
 	</update>
+	<delete id="deleteComment" parameterType="_int">
+		delete from board_comment
+		where comment_no = #{_parameter}
+	</delete>
+	<select id="selectBoardListByBoardNo" parameterType="map" resultType="together">
+       select 
+			together_no as togetherNo,
+			together_title as togetherTitle,
+			together_content as togetherContent,
+			together_writer as togetherWriter,
+			region_country as regionCountry,
+			region_city as regionCity,
+			to_char(together_date,'hh24:mi') as writeTime,
+            to_char(together_date,'yyyy. mm. dd.') as togetherDate
+		from together_board
+		join region using(region_no)
+		where together_no in
+		<foreach collection="array" item="item" open="(" separator="," close=")">
+			#{item}
+		</foreach> 
+		order by together_no
+	</select>
 </mapper>

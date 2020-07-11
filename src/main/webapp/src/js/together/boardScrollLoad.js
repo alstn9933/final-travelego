@@ -133,11 +133,13 @@ function loadContent(data) {
         const modButton = document.createElement("button");
         modButton.type = "button";
         modButton.className = "btn btn-sm btn-outline-primary modBoard";
+        modButton.innerHTML = "수정";
         modButton.setAttribute("togetherNo", data[i].togetherNo);
 
         const delButton = document.createElement("button");
         delButton.type = "button";
         delButton.className = "btn btn-sm btn-outline-danger delBoard";
+        delButton.innerHTML = "삭제";
         delButton.setAttribute("togetherNo", data[i].togetherNo);
 
         boardBtnDiv.append(modButton);

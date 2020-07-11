@@ -24,6 +24,11 @@
   position: fixed;
 }
 
+.notify_area:hover {
+  cursor: pointer;
+  background-color: #ebebeb;
+}
+
 .notify_area span {
   margin: 5px;
   font-size: 17px;

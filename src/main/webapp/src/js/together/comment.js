@@ -27,6 +27,29 @@ $(document).on("submit", ".mod_form", function (e) {
   });
   e.preventDefault();
 });
+$(document).on("click", ".delCommentBtn", function () {
+  const commentNo = $(this).attr("commentNo");
+  const tr1 = $(this).parent().parent();
+  const tr2 = tr1.prev();
+  if (confirm("댓글을 삭제하시겠습니까?")) {
+    $.ajax({
+      url: "/together/deleteComment.do",
+      type: "POST",
+      data: { commentNo: commentNo },
+      success: function (data) {
+        if (data == "1") {
+          tr2.remove();
+          tr1.remove();
+        } else {
+          alert("댓글 삭제에 실패했습니다.");
+        }
+      },
+      error: function () {
+        console.log("서버 접속에 실패 하였습니다.");
+      },
+    });
+  }
+});
 
 function modifyComment() {
   const commentContent = $(this).parents("td").prev().html();

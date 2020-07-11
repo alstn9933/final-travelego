@@ -82,4 +82,12 @@ public class TogetherDao {
 		return session.update("togetherBoard.updateComment",comment);
 	}
 
+	public int deleteComment(int commentNo) {
+		return session.delete("togetherBoard.deleteComment", commentNo);
+	}
+
+	public List selectBoardList(int[] boardNo) {
+		return session.selectList("togetherBoard.selectBoardListByBoardNo", boardNo);
+	}
+
 }
