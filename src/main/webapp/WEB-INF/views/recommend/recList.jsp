@@ -119,12 +119,12 @@ prefix="c"%>
                 여행지역
                 <select id="regionCountry" name="regionCountry" class="custom-select custom-select-sm" style="width:150px; margin-right:20px;">
                     <option value="전체">전체</option>
-                    <option value="국내" style="font-weight:bold">국내</option>
-                    <optgroup label="해외">
+<!--                     <option value="국내" style="font-weight:bold">국내</option> -->
+<!--                     <optgroup label="해외"> -->
                     	<c:forEach items="${country}" var="r">
                     		<option value="${r.regionCountry }">${r.regionCountry }</option>
                     	</c:forEach>
-                    </optgroup>
+<!--                     </optgroup> -->
                 </select>
                 <select id="regionCity" name="regionCity" class="custom-select custom-select-sm" style="width:150px; margin-right:20px;">
                     <option id="cityAll" value="전체">전체</option>
