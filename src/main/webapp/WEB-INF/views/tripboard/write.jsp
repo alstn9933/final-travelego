@@ -91,6 +91,7 @@ prefix="c"%>
                 name="tripBoardTitle"
                 id=""
                 class="form-control"
+                maxlength="65"
               />
             </div>
           </div>
@@ -220,6 +221,20 @@ prefix="c"%>
     <script>
       $("#submitBtn").click(function () {
         $("section").find("form").submit();
+      });
+
+      $("form").submit(function () {
+        if ($("#inputRegionNo").val() == "") {
+          alert("여행 지역을 입력하거나 \r\n여행 일정을 불러와주세요.");
+          return false;
+        } else if ($("#inputTripDay").val() == "") {
+          alert("여행 기간을 입력하거나 \r\n여행 일정을 불러와주세요.");
+          return false;
+        } else if ($("#textRoute").val() == "") {
+          alert("여행 루트가 비어있습니다.\r\n여행 일정을 불러와주세요.");
+          return false;
+        }
+        return true;
       });
     </script>
     <script>
