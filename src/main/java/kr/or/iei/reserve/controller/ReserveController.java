@@ -58,8 +58,8 @@ public class ReserveController {
 	
 	@ResponseBody
 	@RequestMapping(value="/cancelReserve.do", produces = "application/json; charset=utf-8")
-	public int cancelResereve(int reserveNo) {
-		return service.cancelReserve(reserveNo);
+	public int cancelResereve(int reserveNo,String memberId, HttpSession session) {
+		return service.cancelReserve(reserveNo,memberId,session);
 	}
 	
 	@ResponseBody
@@ -151,5 +151,12 @@ public class ReserveController {
 		Member m = (Member)session.getAttribute("member");
 		ArrayList<ReserveVO> rList = service.selectReserveList(m,r);
 		return new Gson().toJson(rList);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/modifyCheckReserve.do", produces = "application/json; charset=utf-8")
+	public String modifyCheckReserve(int itemNo) {
+		int result = service.modifyCheckReserve(itemNo);
+		return new Gson().toJson(result);
 	}
 }

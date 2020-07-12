@@ -10,9 +10,12 @@
 		from region
 		where region_country like '%'||#{_parameter}||'%' or region_city like '%'||#{_parameter}||'%'
 	</select>
-	<insert id="insertBoard" parameterType="together">
+	<insert id="insertBoard" parameterType="together">	
+		<selectKey keyProperty="togetherNo" resultType="int" order="BEFORE">
+			select together_board_seq.nextval from dual
+		</selectKey>
 		insert into together_board values(
-			together_board_seq.nextval,
+			#{togetherNo},
 			#{togetherTitle},
 			#{togetherContent},
 			#{togetherWriter},
@@ -77,7 +80,7 @@
 			comment_content as commentContent,
 			to_char(comment_date,'hh24:mi') as commentTime,
             to_char(comment_date,'yyyy. mm. dd.') as commentDate
-        from board_comment join member on(comment_writer = member_nickname)
+        from board_comment join member on(comment_writer = member_id)
         where board_class = 3 and board_no = #{_parameter}
 	</select>
 	<update id="updateBoard" parameterType="together">
@@ -143,5 +146,39 @@
 				join region using(region_no) 
 				where together_title like '%'||#{keyword}||'%' or together_content like '%'||#{keyword}||'%' order by together_no) t
         ) where rnum between #{start} and #{end} order by rnum desc	
+	</select>
+	<select id="selectCommentCount" parameterType="_int" resultType="_int">
+		select
+			count(*)
+		from board_comment
+		where board_class = 3 and board_no = #{_parameter}
+	</select>
+	<update id="updateComment" parameterType="togetherComment">
+		update board_comment set
+			comment_content = #{commentContent},
+			comment_date = sysdate
+		where comment_no = #{commentNo}		
+	</update>
+	<delete id="deleteComment" parameterType="_int">
+		delete from board_comment
+		where comment_no = #{_parameter}
+	</delete>
+	<select id="selectBoardListByBoardNo" parameterType="map" resultType="together">
+       select 
+			together_no as togetherNo,
+			together_title as togetherTitle,
+			together_content as togetherContent,
+			together_writer as togetherWriter,
+			region_country as regionCountry,
+			region_city as regionCity,
+			to_char(together_date,'hh24:mi') as writeTime,
+            to_char(together_date,'yyyy. mm. dd.') as togetherDate
+		from together_board
+		join region using(region_no)
+		where together_no in
+		<foreach collection="array" item="item" open="(" separator="," close=")">
+			#{item}
+		</foreach> 
+		order by together_no
 	</select>
 </mapper>

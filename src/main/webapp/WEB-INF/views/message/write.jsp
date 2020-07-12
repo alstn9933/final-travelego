@@ -30,25 +30,25 @@ prefix="c"%>
           <label for="inputReceiver">받는 사람</label>
           <span id="receiverAlert" style="display: none;"
             >회원이 존재하지 않습니다.</span
-          > 
+          >
           <c:if test="${not empty receiver }">
-          <input
-            type="text"
-            name="messageReceiver"
-            id="inputReceiver"
-            class="form-control"
-            value="${receiver}"
-            readonly
-          />
+            <input
+              type="text"
+              name="messageReceiver"
+              id="inputReceiver"
+              class="form-control"
+              value="${receiver}"
+              readonly
+            />
           </c:if>
           <c:if test="${empty receiver }">
-          <input
-            type="text"
-            name="messageReceiver"
-            id="inputReceiver"
-            class="form-control"
-            placeholder="쪽지를 보낼 상대방의 회원 ID를 입력하세요."
-          />
+            <input
+              type="text"
+              name="messageReceiver"
+              id="inputReceiver"
+              class="form-control"
+              placeholder="쪽지를 보낼 상대방의 닉네임을 입력하세요."
+            />
           </c:if>
         </div>
         <div class="content_area form-group">
@@ -88,8 +88,16 @@ prefix="c"%>
       }
     }
 
+    $("#inputReceiver").on("keydown", function (e) {
+      const key = e.key;
+      if (key == "Enter") {
+        e.preventDefault();
+      }
+    });
+
     $("#inputReceiver").focusout(function () {
       const receiver = $(this).val();
+
       if (receiver != "") {
         $.ajax({
           url: "/message/checkId.do",
@@ -116,8 +124,10 @@ prefix="c"%>
       }
     });
 
-    $("button").eq(0).click(function(){
-      $("#inputContent").attr("disabled",true);
-    });
+    $("button")
+      .eq(0)
+      .click(function () {
+        $("#inputContent").attr("disabled", true);
+      });
   </script>
 </html>

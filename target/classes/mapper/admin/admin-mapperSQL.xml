@@ -3,46 +3,132 @@
 <mapper namespace="admin">
 	<!-- d여기다 쿼리문 작성 -->
 
-	<select id="totalCount"	parameterType="member" resultType="_int">
-	select count(*) from member
+	<select id="totalCount" parameterType="member" resultType="_int">
+		select count(*) from member
 	</select>
 	<select id="selectCustomerMember" resultType="member">
-	select
-		member_id as memberId,
+		select
+		member_id as
+		memberId,
 		member_pw as memberPw,
-		member_nickname as memberNickname,
+		member_nickname as
+		memberNickname,
 		member_name as memberName,
 		age,
 		gender,
 		phone,
 		email,
-		member_level as memberLevel
+		member_level as
+		memberLevel
 		from member
 	</select>
-	<select id="selectMemberList" parameterType="map"
+
+	<select id="memberPage" parameterType="adminPage"
 		resultType="member">
-		select * from
-		(select rownum as rnum,m.*from
-		(select
-		member_id as memberId,
-		member_pw as memberPw,
-		member_nickname as memberNickname,
+		select
+		member_id as memberId ,
+		member_pw as member_pw,
+		member_nickname as
+		memberNickname,
 		member_name as memberName,
+		age,
+		gender as gender,
+		phone,
+		email,
+		member_level as memberLevel
+		from
+		(
+		select
+		member_id ,
+		member_pw ,
+		member_nickname ,
+		member_name ,
 		age,
 		gender,
 		phone,
 		email,
-		member_level as memberLevel
+		member_level ,
+		row_number() over (order by member_level desc) as rnum
 		from member
-		order by member_id desc)m)
-		where rnum between #{start} and #{end}
+		where 1=1
+		<include refid="searchMem"></include>
+		)mb
+		where rnum between #{rowStart} and #{rowEnd}
+		order by
+		member_level desc
 	</select>
+
+	<select id="mListCount" resultType="int">
+		select count(member_id)
+		from member where 1=1
+		<include refid="searchMem"></include>
+	</select>
+
+	<sql id="searchMem">
+		<if test="searchType != null">
+			<if test="searchType == 'id'.toString()">AND member_id LIKE '%' || #{keyword} || '%'</if>
+			<if test="searchType == 'nickname'.toString()">AND member_nickname LIKE '%' || #{keyword} || '%'</if>
+			<if test="searchType == 'name'.toString()">AND member_name Like '%' || #{keyword} || '%'</if>
+		</if>
+
+	</sql>
+
+	<select id="reportList" parameterType="adminPage"
+		resultType="report">
+		select
+		report_no as reportNo,
+		report_category as
+		reportCategory,
+		report_content as
+		reportContent,
+		report_date as
+		reportDate,
+		board_class as boardClass,
+		board_no as boardNo,
+		reported_member as reportedMember,
+		report_writer as
+		reportWriter
+		from
+		(
+		select
+		report_no,
+		report_category,
+		report_content,
+		report_date,
+		board_class ,
+		board_no ,
+		reported_member ,
+		report_writer,
+		row_number() over (order by report_no desc) as rnum
+		from report
+		where 1=1
+		<include refid="searchRe"></include>
+		)report
+		where rnum between #{rowStart} and #{rowEnd}
+		order by report_no desc
+	</select>
+
+	<select id="reListCount" resultType="int">
+		select count (report_no)
+		from report where 1=1
+		<include refid="searchRe"></include>
+	</select>
+
+	<sql id="searchRe">
+		<if test="searchType != null">
+			<if test="searchType == 'reportedMember'.toString()">AND reported_member LIKE '%' || #{keyword} || '%'</if>
+			<if test="searchType == 'boardClass'.toString()">AND BOARD_CLASS LIKE '%' || #{keyword} || '%'</if>
+		</if>
+
+	</sql>
+
 	<select id="selectCompanyMember" parameterType="company"
 		resultType="company">
 		select
 		company_id as companyId,
 		license,
-		company_url as companyUrl,
+		company_url as
+		companyUrl,
 		join_confirm as joinConfirm
 		from company
 	</select>
@@ -51,11 +137,13 @@
 		set join_confirm =1 where company_id=#{companyId}
 	</update>
 	<update id="modifyMemberLevel" parameterType="member">
-		update member set member_level = (select member_level from member where
+		update member set
+		member_level = (select member_level from member where
 		member_id=#{memberId})*-1 where member_id=#{memberId}
 	</update>
 	<delete id="memberDelete" parameterType="member">
-		delete from member where member_id=#{memberId}
+		delete from member where
+		member_id=#{memberId}
 	</delete>
 	<select id="regionList" resultType="region">
 		select
@@ -68,28 +156,26 @@
 		resultType="region">
 		select
 		region_no as regionNo,
-		region_country as regionCountry,
+		region_country as
+		regionCountry,
 		region_city as
 		regionCity,
 		filename
-		from region where region_country=#{regionCountry}
+		from region where
+		region_country=#{regionCountry}
 	</select>
 	<select id="middleList" parameterType="region"
 		resultType="region">
 		select
-		rg.REGION_NO as regionNo,
-		rg.REGION_COUNTRY as regionCountry,
-		rg.REGION_CITY as
-		regionCity,
-		ph.FILEPATH as filepath,
-		rg.FILENAME from REGION rg, photo
-		ph
-		where REGION_COUNTRY =#{regionCountry}
-		and ph.FILENAME = rg.FILENAME
-
+		REGION_NO as regionNo,
+		region_country as regionCountry,
+		region_city as regionCity,
+		filename as filename
+		from region
+		where REGION_COUNTRY = #{regionCountry}
 	</select>
 
-	<select id="selectQnA" parameterType="qna" resultType="qna">
+	<select id="qnaList" parameterType="adminPage" resultType="qna">
 		select
 		qna_no as qnaNo,
 		qna_writer as qnaWriter,
@@ -98,10 +184,39 @@
 		ask_date as askDate,
 		qna_answer as qnaAnswer,
 		answer_date as answerDate
+		from
+		(
+		select
+		qna_no ,
+		qna_writer,
+		qna_title ,
+		qna_content,
+		ask_date ,
+		qna_answer ,
+		answer_date
+		,
+		row_number() over (order by qna_no desc) as rnum
 		from qna
-		join member on
-		member_id=qna_writer
+		where 1=1
+		<include refid="searchQna"></include>
+		)qa
+		where rnum between #{rowStart} and #{rowEnd}
+		order by qna_answer desc
 	</select>
+	<select id="qnaListCount" resultType="int">
+		select count(qna_no) from qna where 1=1
+		<include refid="searchQna"></include>
+	</select>
+
+	<sql id="searchQna">
+		<if test="searchType != null">
+			<if test="searchType == 'qnaTitle'.toString()">AND qna_title LIKE '%' || #{keyword} || '%'</if>
+			<if test="searchType == 'qnaWriter'.toString()">AND qna_writer LIKE '%' || #{keyword} || '%'</if>
+		</if>
+
+	</sql>
+
+
 
 	<select id="qnaView" parameterType="qna" resultType="qna">
 		select
@@ -110,7 +225,8 @@
 		qna_title as qnaTitle,
 		qna_content as qnaContent,
 		ask_date as askDate ,
-		qna_answer as qnaAnswer,
+		qna_answer as
+		qnaAnswer,
 		answer_date as answerDate
 		from qna
 		where qna_no = #{qnaNo}
@@ -123,21 +239,10 @@
 		where qna_No=#{qnaNo}
 	</update>
 
-	<select id="reportList" parameterType="report"
-		resultType="report">
-		select
-		report_no as reportNo,
-		report_category as reportCategory,
-		report_content as
-		reportContent,
-		report_date as reportDate,
-		board_class as boardClass,
-		board_no as boardNo,
-		reported_member as reportedMember,
-		report_writer as reportWriter
-		from
-		report
-	</select>
+
+
+
+
 	<delete id="deletePage" parameterType="report">
 		delete from
 		<if test="boardClass==1">
@@ -153,13 +258,42 @@
 			tour where item_no=#{boardNo}
 		</if>
 		<if test="boardClass==5">
-			trip_board where trip_board_no=#{boardNo}
 		</if>
 	</delete>
+
+	<select id="reportFrm" parameterType="report"
+		resultType="report">
+		select
+		<choose>
+		<when test="boardClass==3">
+			trip_board_writer as reportedMember
+			from trip_board
+			where trip_board_no=#{boardNo}
+		</when>
+		<when test="boardClass==2">
+			rec_writer as reportedMember
+			from recommend_board	
+			where rec_no=#{boardNo}
+		</when>
+		<when test="boardClass==5">
+			together_writer as reportedMember
+			from together_board
+			where together_no=#{boardNo}
+		</when>
+		<otherwise>
+			board_class from report
+		</otherwise>
+		</choose>
+	</select>
+
+
+
+
 	<delete id="deleteReport" parameterType="report">
-			delete from report where board_no=#{boardNo}
+		delete from report where
+		board_no=#{boardNo}
 	</delete>
-	
+
 	<insert id="insertRegion" parameterType="region">
 		insert into REGION
 		(REGION_NO,REGION_COUNTRY,REGION_CITY,FILENAME) values
@@ -167,14 +301,10 @@
 
 	</insert>
 
-	<insert id="insertPhoto" parameterType="photo">
-		insert into photo
-		(PHOTO_NO,BOARD_CLASS,BOARD_NO,FILENAME,FILEPATH) values
-		(PHOTO_SEQ.nextval,0,0,#{filename},#{filepath})
 
-	</insert>
 	<delete id="deleteReg" parameterType="region">
-		delete from REGION where REGION_NO = #{regionNo}
+		delete from REGION where
+		REGION_NO = #{regionNo}
 
 	</delete>
 
@@ -182,6 +312,15 @@
 		delete from photo where
 		FILENAME = #{filename}
 	</delete>
-	
-	
+	<update id="updateAnswer" parameterType="qna">
+		update qna set
+		qna_answer=#{qnaAnswer} where qna_no=#{qnaNo}
+	</update>
+	<insert id="insertReport" parameterType="report">
+		insert into report values
+		(report_seq.nextval,#{reportCategory},#{reportContent},sysdate,#{boardClass},#{boardNo},#{reportedMember},#{reportMember})
+		
+		
+	</insert>
+
 </mapper>

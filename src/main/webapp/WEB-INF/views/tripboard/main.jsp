@@ -35,17 +35,26 @@ prefix="c"%>
     <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
     <section>
       <div class="board">
-        <div class="board_row">
+        <c:forEach items="${list }" var="b">
           <div
             class="content"
             data-container="body"
             data-toggle="popover"
             data-placement="bottom"
-            data-content="글 제목이 여기에 들어올것입니다."
+            data-content="${b.tripBoardTitle}"
+            boardNum="${b.tripBoardNo}"
           >
-            <img src="/src/imgs/member/snatiago.jpg" alt="" />
+            <a href="/tripboard/view.do?tripBoardNo=${b.tripBoardNo}">
+              <c:if test="${not empty b.filepath}">
+                <img src="${b.filepath}" alt="" />
+              </c:if>
+              <c:if test="${empty b.filepath}">
+                <img src="/src/imgs/header/rogo2.png" alt="" />
+              </c:if>
+            </a>
+
             <i
-              class="fas fa-ellipsis-v"
+              class="fas fa-ellipsis-v moreIcon"
               data-toggle="dropdown"
               aria-haspopup="true"
               aria-expanded="false"
@@ -57,98 +66,60 @@ prefix="c"%>
                 >
               </div>
             </i>
-            <div>
-              <span>대한민국 - 제주도</span>
+            <a href="/tripboard/view.do?tripBoardNo=${b.tripBoardNo}">
               <div>
-                <i class="far fa-thumbs-up"></i>
-                <span>0</span>
+                <span>대한민국 - 제주도</span>
+                <div>
+                  <i class="far fa-thumbs-up"></i>
+                  <span>${b.likeCount}</span>
+                </div>
               </div>
-            </div>
+            </a>
           </div>
-          <div></div>
-          <div></div>
-        </div>
-        <div class="board_row">
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-        </div>
-        <div class="board_row">
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-        </div>
-        <div class="board_row">
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-        </div>
-        <nav aria-label="Page navigation">
-          <ul class="pagination">
-            <li class="page-item">
-              <a class="page-link" href="#" aria-label="Previous">
-                <span aria-hidden="true">&laquo;</span>
-              </a>
-            </li>
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item">
-              <a class="page-link" href="#" aria-label="Next">
-                <span aria-hidden="true">&raquo;</span>
-              </a>
-            </li>
-          </ul>
-        </nav>
-        <div class="form-group">
-          <form id="searchForm">
-            <select class="form-control" name="searchOption" id="selectOption">
-              <option value="1">지역</option>
-              <option value="2">제목</option>
-              <option value="3">내용</option>
-              <option value="4">제목+내용</option>
-            </select>
-            <input
-              type="search"
-              class="form-control"
-              name="keyword"
-              id="inputSearch"
-              placeholder="검색어를 입력하세요"
-              autocomplete="off"
-            />
-            <button class="btn btn-outline-primary" id="searchBtn">
-              <i class="fas fa-search"></i>
-            </button>
-          </form>
+        </c:forEach>
+      </div>
+      <nav class="page_nav" aria-label="Page navigation">
+        ${pageNavi}
+      </nav>
+      <div class="form-group">
+        <div></div>
+        <form action="/tripboard/search.do" id="searchForm">
+          <select class="form-control" name="searchOption" id="selectOption">
+            <option value="1">지역</option>
+            <option value="2">제목</option>
+          </select>
+          <input
+            type="search"
+            class="form-control"
+            name="keyword"
+            id="inputSearch"
+            placeholder="검색어를 입력하세요"
+            autocomplete="off"
+          />
+          <input type="hidden" name="reqPage" value="1" />
+          <button class="btn btn-outline-primary" id="searchBtn">
+            <i class="fas fa-search"></i>
+          </button>
+        </form>
+        <c:if test="${sessionScope.member.memberLevel == 1}">
           <button class="btn btn-primary" id="writeBtn" type="button">
             글쓰기
           </button>
-        </div>
+        </c:if>
+        <c:if test="${sessionScope.member.memberLevel != 1}">
+          <button
+            class="btn btn-primary"
+            id="writeBtn"
+            type="button"
+            style="visibility: hidden;"
+          >
+            글쓰기
+          </button>
+        </c:if>
       </div>
     </section>
 
     <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
-    <!-- Modal -->
-    <div
-      class="modal fade custom_search_pop"
-      id="exampleModalCenter"
-      tabindex="-1"
-      role="dialog"
-      aria-labelledby="exampleModalCenterTitle"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-          <div class="serch_form">
-            <input type="text" placeholder="Search" />
-            <button type="submit">search</button>
-          </div>
-        </div>
-      </div>
-    </div>
     <!-- JS here -->
     <script src="/src/js/header/vendor/modernizr-3.5.0.min.js"></script>
     <!-- <script src="/src/js/header/vendor/jquery-1.12.4.min.js"></script>
@@ -176,17 +147,19 @@ prefix="c"%>
     <script src="/src/js/header/jquery.validate.min.js"></script>
     <script src="/src/js/header/mail-script.js"></script>
     <script src="/src/js/header/main.js"></script>
-    <c:if test="${not empty sessionScope.member.memberId }">
+    <script src="/src/js/message/messageSend.js"></script>
+    <script>
+      // $(".content").on("click", viewContent);
+
+      // function viewContent() {
+      //   location.href =
+      //     "/tripboard/view.do?tripBoardNo=" + $(this).attr("boardNum");
+      // }
+    </script>
+    <c:if test="${sessionScope.member.memberLevel == 1}">
       <script>
         $("#writeBtn").click(function () {
           location.href = "/tripboard/writeFrm.do";
-        });
-      </script>
-    </c:if>
-    <c:if test="${empty sessionScope.member.memberId }">
-      <script>
-        $("#writeBtn").click(function () {
-          alert("로그인이 필요한 기능입니다.");
         });
       </script>
     </c:if>

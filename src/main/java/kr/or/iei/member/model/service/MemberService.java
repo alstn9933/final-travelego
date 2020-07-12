@@ -1,20 +1,21 @@
 package kr.or.iei.member.model.service;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.StringTokenizer;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import kr.or.iei.common.model.vo.Photo;
+import kr.or.iei.common.model.vo.mainPhotoRecommed;
 import kr.or.iei.member.model.dao.MemberDao;
 import kr.or.iei.member.model.vo.Company;
-import kr.or.iei.member.model.vo.CompanyMember;
 import kr.or.iei.member.model.vo.Member;
-import kr.or.iei.notice.model.vo.Notice;
 import kr.or.iei.recommend.model.vo.Recommend;
+import kr.or.iei.tour.model.vo.TourVO;
 
 @Service("memberService")
 public class MemberService {
@@ -93,10 +94,47 @@ public class MemberService {
 		// TODO Auto-generated method stub
 		HashMap<String, Integer> map = new HashMap<String, Integer>();
 		int start = 0;
-		int end = 10;
+		int end = 4;
 		map.put("start", start);
 		map.put("end", end);
-		return (ArrayList<Recommend>)dao.mainrecommendList(map);
+		return dao.mainrecommendList(map);
+	}
+	public List<mainPhotoRecommed> mainTourList() {
+		HashMap<String, Integer> map = new HashMap<String, Integer>();
+		int start = 0;
+		int end = 4;
+		map.put("start", start);
+		map.put("end", end);
+		return (List<mainPhotoRecommed>) dao.maintourList(map);
+		
+	}
+	public Member sessioncheck(String memberId) {
+		return dao.sessioncheck(memberId);
+	}
+	public Member modifycheckMember(Member m) {
+		return dao.modifyMembercheck(m);
+	}
+	public Company sessionCpMember(Company cp, String memberId) {
+		cp.setCompanyId(memberId);
+		return dao.sessionCp(cp);
+	}
+
+	public Member selectOneMember(Member m) {
+		return dao.selectOneMember(m);
+	}
+	public int memberPwModifiedMember(Member m) {
+		return dao.memberPwModifiedMember(m);
+	}
+	public int companyPwModifiedMember(Member m, Company cp) {
+		int result = dao.memberPwModifiedMember(m);
+		cp.setCompanyId(m.getMemberId());
+		if(result>0) {
+			result = dao.companyModifiedMember(cp);
+			if(result>0) {
+				return result;
+			}
+		}
+		return 0;
 	}
 
 

@@ -1,23 +1,75 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="tour">
-	<select id="selectTotalCount" parameterType="string" resultType="_int"> 
-		select count(*) as cnt from tour where close_check != -1
-		<if test="_parameter!=null">
-			and member_id = #{_parameter}
+	<select id="selectTotalCount" parameterType="tour" resultType="_int"> 
+		select count(*) as cnt from tour join region using(region_no) where close_check != -1
+		<if test="memberId!=null">
+			and member_id = #{memberId}
+		</if>
+		<if test="memberId==null">
+			and close_check!=1
+		</if>
+		<if test="regionCountry!=null and regionCountry!='default'">
+			<if test="regionNo!=0">
+				and region_no=#{regionNo}
+			</if>
+			<if test="regionNo==0">
+				and region_country=#{regionCountry}
+			</if>
+		</if>
+		<if test="tourDate!=null and tourDate!=''">
+			and begin_date &lt; #{tourDate} and #{tourDate} &lt; end_date
+		</if>
+		<if test="searchValue!=null and searchValue!=''">
+			and (item_title like #{searchValue} or region_country like #{searchValue} or region_city like #{searchValue})
 		</if>
 	</select>
 	<select id="selectMoreItem" parameterType="map" resultType="tour">
 		select * from(
 		select ROWNUM as rnum, p.* from(
-		select item_no as itemNo, member_name as memberName, item_title as itemTitle, region_no as regionNo, begin_date as beginDate, end_date as endDate, filename, close_check as closeCheck
-		from tour join member using(member_id) join photo on(board_no=item_no and board_class=4) where close_check != -1
-		<if test="val.equals('ctl')">
-			<if test="memberLevel==2">
-				and member_id=#{memberId} 
+		select t.item_no as itemNo, m.member_name as memberName, t.item_title as itemTitle, t.region_no as regionNo, r.region_country as regionCountry, r.region_city as regionCity,
+		t.begin_date as beginDate, t.end_date as endDate, p.filepath, t.close_check as closeCheck,
+		NVl((select avg(s.review_rate) from tour_review s where (s.item_no = t.item_no)), 0) as score,
+		NVL((select Count(*) from tour_reserve c where (c.item_no=t.item_no)),0) as reserveCnt
+		from tour t join member m on(m.member_id=t.member_id) join photo p on(p.board_no=t.item_no and p.board_class=4) join region r on(r.region_no=t.region_no) 
+		where close_check != -1
+		<if test="memberId!=null">
+				and t.member_id=#{memberId} 
+		</if>
+		<if test="memberId==null">
+			and t.close_check != 1
+		</if>
+		<if test="regionCountry!=null and regionCountry!='default'">
+			<if test="regionNo!=0">
+				and t.region_no=#{regionNo}
+			</if>
+			<if test="regionNo==0">
+				and r.region_country=#{regionCountry}
 			</if>
 		</if>
-		order by item_no desc)p)
+		<if test="tourDate!=null and tourDate!=''">
+			and t.begin_date &lt;= #{tourDate} and #{tourDate} &lt;= t.end_date
+		</if>
+		<if test="searchValue!=null and searchValue!=''">
+			and (t.item_title like #{searchValue} or r.region_country like #{searchValue} or r.region_city like #{searchValue})
+		</if>
+		order by
+		<if test="array1=='regDate'">
+			item_no
+		</if>
+		<if test="array1=='score'">
+			score
+		</if>
+		<if test="array1=='reserveCnt'">
+			reserveCnt
+		</if>
+		<if test="array2=='up'">
+			desc
+		</if>
+		<if test="array2=='down'">
+			asc
+		</if>
+		)p)
 		where rnum between #{start} and #{end}
 	</select>
 	<select id="selectReviewList" parameterType="_int" resultType="review">
@@ -37,12 +89,12 @@
 		select item_no as itemNo from tour where member_id=#{_parameter} order by 1 desc
 	</select>
 	<insert id="insertPhoto" parameterType="photo">
-		insert into photo values(photo_seq.nextval,#{boardClass},#{boardNo},#{filepath},#{filename})
+		insert into photo values(photo_seq.nextval,#{boardClass},#{boardNo},#{filename},#{filepath})
 	</insert>
 	<select id="selectOneTour" parameterType="_int" resultType="tour">
 		select item_no as itemNo, member_id as memberId, member_name as memberName, phone, email, item_title as itemTitle, region_country as regionCountry, 
 		region_city as regionCity, max_person as maxPerson, begin_date as beginDate, end_date as endDate, item_content as itemContent,
-		item_price as itemPrice, tour_times as tourTimes, p.filename, close_check as closeCheck
+		item_price as itemPrice, tour_times as tourTimes, p.filepath, close_check as closeCheck
 		from tour join member using(member_id) 
 		join photo p on(board_no=item_no and board_class=4) 
 		join region using(region_no)
@@ -52,7 +104,7 @@
 		select * from
 		(select ROWNUM as rnum, r.* from
 		(select review_no as reviewNo, item_no as itemNo, member_id as memberId, member_nickname as memberNickname, review_rate as reviewRate, review_content as reviewContent, review_date as reviewDate
-		from tour_review join member using(member_id) where item_no=#{itemNo} order by review_no desc)r)
+		from tour_review left join member using(member_id) where item_no=#{itemNo} order by review_no desc)r)
 		where rnum between #{start} and #{end}
 	</select>
 	<select id="selectTotalReview" parameterType="_int" resultType="_int">
@@ -75,5 +127,12 @@
 	</update>
 	<update id="closeTour" parameterType="_int">
 		update tour set close_check=1 where item_no=#{_parameter}
+	</update>
+	<update id="updateTour" parameterType="tour">
+		update tour set item_title=#{itemTitle},max_person=#{maxPerson},begin_date=#{beginDate},end_date=#{endDate},item_content=#{itemContent},item_price=#{itemPrice},tour_times=#{tourTimes},close_check=0
+		where item_no=#{itemNo}
+	</update>
+	<update id="modifyPhoto" parameterType="photo">
+		update photo set filename=#{filename}, filepath=#{filepath} where board_class=#{boardClass} and board_no=#{boardNo}
 	</update>
 </mapper>

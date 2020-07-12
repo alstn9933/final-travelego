@@ -44,13 +44,18 @@ public class TourController {
 	private TourService service;
 
 	@RequestMapping(value = "/comTourList.do")
-	public String comTourList(HttpSession session, Model model) {
+	public String comTourList(HttpSession session, Model model,TourVO t) {
 		Member m = (Member) session.getAttribute("member");
 		if (m != null && m.getMemberLevel() == 2) {
-			String memberId = m.getMemberId();
-			int totalCount = service.selectTotalCount(memberId);
-			System.out.println(totalCount);
+			if(t.getRegionCountry()==null) {
+				t.setRegionCountry("default");
+			}
+			t.setMemberId(m.getMemberId());
+			int totalCount = service.selectTotalCount(t);
+			ArrayList<Region> rlist = service.selectRegionList();
 			model.addAttribute("totalCount", totalCount);
+			model.addAttribute("rlist",rlist);
+			model.addAttribute("t",t);
 			return "tour/comTourList";
 		} else {
 			return "redirect:/";
@@ -58,11 +63,15 @@ public class TourController {
 	}
 	
 	@RequestMapping(value="/tourList.do")
-	public String tourList(HttpSession session, Model model) {
-		String memberId = null;
-		int totalCount = service.selectTotalCount(memberId);
-		System.out.println(totalCount);
+	public String tourList(Model model, TourVO t) {
+		if(t.getRegionCountry()==null) {
+			t.setRegionCountry("default");
+		}
+		int totalCount = service.selectTotalCount(t);
+		ArrayList<Region> rlist = service.selectRegionList();
 		model.addAttribute("totalCount", totalCount);
+		model.addAttribute("rlist",rlist);
+		model.addAttribute("t",t);
 		return "tour/tourList";
 	}
 
@@ -75,16 +84,16 @@ public class TourController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/moreItem.do", produces = "application/json; charset=utf-8")
-	public String selectTourList(int start, HttpSession session, String val) {
+	public String selectTourList(int start, HttpSession session, String val, TourVO t, String array1, String array2) {
 		Member m = (Member) session.getAttribute("member");
 		String memberId = null;
-		int memberLevel = 0;
-		if(m!=null) {
-			memberId = m.getMemberId();
-			memberLevel = m.getMemberLevel();
+		if(val.equals("ctl")) {
+			System.out.println("법인회원입니다");
+			if(m!=null&&m.getMemberLevel()==2) {
+				memberId = m.getMemberId();
+			}
 		}
-		ArrayList<TourVO> list = service.moreItemList(start, memberId,memberLevel,val);
-		System.out.println(list.size());
+		ArrayList<TourVO> list = service.moreItemList(start, memberId,t,array1,array2);
 		return new Gson().toJson(list);
 	}
 	
@@ -262,6 +271,16 @@ public class TourController {
 			length = imgBuf.length;
 			out.write(imgBuf, 0, length);
 			out.flush();
+			
+			if(fileInputStream != null) {
+                fileInputStream.close();
+            }
+			if(outputStream != null) {
+				outputStream.close();
+			}
+			if(out != null) {
+				out.close();
+			}
 		}
 	}
 	
@@ -277,5 +296,69 @@ public class TourController {
 	public String closeTourItem(int itemNo) {
 		int result = service.closeTourItem(itemNo);
 		return new Gson().toJson(result);
+	}
+	
+	@RequestMapping(value="/modifyItemFrm.do")
+	public String modifyFrm(int itemNo, Model model) {
+		TourVO tv = service.selectOneTour(itemNo);
+		model.addAttribute("tv",tv);
+		return "tour/modifyTourFrm";
+	}
+	
+	@RequestMapping(value="/modifyTour.do")
+	public String modifyItem(HttpServletRequest request, MultipartFile file,Model model, TourVO tv,String beginEnd) {
+		Photo p = null;
+		String savePath = request.getSession().getServletContext().getRealPath("/upload/images/tour/thumnail");
+		File folder = new File(savePath);
+
+		// 해당 디렉토리 확인
+		if (!folder.exists()) {
+			try {
+				folder.mkdirs(); // 폴더 생성
+			} catch (Exception e) {
+				e.getStackTrace();
+			}
+		}
+		
+		if(!file.isEmpty()) {
+			File delFile = new File(savePath+"/"+tv.getFilepath());
+			Boolean bool = false;
+			if(delFile.exists()) {
+				bool = delFile.delete();
+			}else {
+				bool = true;
+			}
+			if(bool) {
+				p=new Photo();
+				String originalFilename = file.getOriginalFilename();//업로드한 실제 파일명(ex>test.txt)
+				String onlyFilename = originalFilename.substring(0,originalFilename.lastIndexOf("."));//확장자를 제외한 파일 이름(ex>test)
+				String extension = originalFilename.substring(originalFilename.lastIndexOf("."));//확장자 이름(ex>.txt)
+				String filepath = onlyFilename+"_"+getCurrentTime()+extension;
+				String fullpath = savePath+"/"+filepath;
+				try {
+					byte[] bytes = file.getBytes();
+					BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(new File(fullpath)));
+					bos.write(bytes);
+					bos.close();
+					p.setFilename(originalFilename);
+					p.setFilepath(filepath);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		String beginDate = beginEnd.substring(0,10);
+		String endDate = beginEnd.substring(11);
+		tv.setBeginDate(beginDate);
+		tv.setEndDate(endDate);
+		int result = service.modifyTour(tv,p);
+		if(result>0) {
+			model.addAttribute("msg","수정성공");
+		}else {
+			model.addAttribute("msg","수정실패");
+		}
+		model.addAttribute("loc","/comTourList.do");
+		return "common/msg";
 	}
 }

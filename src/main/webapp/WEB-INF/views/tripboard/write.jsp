@@ -34,7 +34,11 @@ prefix="c"%>
   <body>
     <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
     <section>
-      <form action="">
+      <form
+        action="/tripboard/write.do"
+        method="POST"
+        enctype="multipart/form-data"
+      >
         <div class="input_wrapper">
           <div class="img_upload_wrapper">
             <div class="img_container">
@@ -46,7 +50,7 @@ prefix="c"%>
             </label>
             <input
               type="file"
-              name="mainImg"
+              name="file"
               id="inputMainImg"
               style="display: none;"
             />
@@ -63,53 +67,124 @@ prefix="c"%>
             </div>
             <div class="input_region_area">
               <span>여행 지역</span>
-              <input type="search" name="" id="" class="form-control" />
+              <input
+                type="search"
+                name=""
+                id="inputRegion"
+                class="form-control"
+              />
+              <input type="hidden" name="regionNo" id="inputRegionNo" />
             </div>
             <div class="trip_date_area">
               <span>여행 기간</span>
-              <input type="text" name="" id="" class="form-control" />
+              <input
+                type="text"
+                name="tripDays"
+                id="inputTripDay"
+                class="form-control"
+              />
             </div>
             <div class="input_title_area">
               <span>제목</span>
-              <input type="text" name="" id="" class="form-control" />
+              <input
+                type="text"
+                name="tripBoardTitle"
+                id=""
+                class="form-control"
+                maxlength="65"
+              />
             </div>
           </div>
           <div class="select_trip_wrapper">
             <span>여행 루트</span>
             <div class="route_container">
+              <textarea
+                class="form-control"
+                name="tripRoute"
+                id="textRoute"
+                cols="30"
+                rows="3"
+                readonly
+                style="display: none;"
+              ></textarea>
               <span>먼저 일정을 불러와주세요.</span>
             </div>
             <div class="route_btn_container">
-              <button type="button" class="btn btn-primary" id="selectTripBtn">
+              <button
+                type="button"
+                class="btn btn-primary"
+                id="selectTripBtn"
+                data-toggle="modal"
+                data-target="#selectTripModal"
+              >
                 내 일정 불러오기
+              </button>
+              <button
+                type="button"
+                class="btn btn-danger"
+                id="cancelRoute"
+                style="display: none;"
+              >
+                취소
               </button>
             </div>
           </div>
         </div>
         <div class="editor_wrapper">
-          <textarea id="editor4" name="editor4"></textarea>
+          <textarea id="editor4" name="tripBoardContent"></textarea>
         </div>
         <div class="form_button_wrapper">
           <button type="button" class="btn btn-danger">취소</button>
-          <button type="button" class="btn btn-primary">작성 완료</button>
+          <button type="button" class="btn btn-primary" id="submitBtn">
+            작성 완료
+          </button>
         </div>
       </form>
     </section>
     <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
     <!-- Modal -->
-    <div
-      class="modal fade custom_search_pop"
-      id="exampleModalCenter"
-      tabindex="-1"
-      role="dialog"
-      aria-labelledby="exampleModalCenterTitle"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal" tabindex="-1" role="dialog" id="selectTripModal">
+      <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-          <div class="serch_form">
-            <input type="text" placeholder="Search" />
-            <button type="submit">search</button>
+          <div class="modal-header">
+            <h5 class="modal-title">일정 선택</h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <table class="table">
+              <thead class="thead-light">
+                <tr>
+                  <th scope="col">번호</th>
+                  <th scope="col">여행지역</th>
+                  <th scope="col">일정</th>
+                </tr>
+              </thead>
+              <tbody>
+                <c:forEach items="${list }" var="vo" varStatus="status">
+                  <tr
+                    regionNo="${vo.regionNo}"
+                    tripNo="${vo.tripNo}"
+                    tripDay="${vo.tripDay}"
+                  >
+                    <th scope="row">${status.count}</th>
+                    <td>${vo.regionName}</td>
+                    <td>${vo.tripDate}</td>
+                  </tr>
+                </c:forEach>
+              </tbody>
+            </table>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-dismiss="modal">
+              취소
+            </button>
           </div>
         </div>
       </div>
@@ -143,7 +218,25 @@ prefix="c"%>
     <script src="/src/js/header/main.js"></script>
     <script src="/src/ckeditor/ckeditor.js"></script>
     <script src="/src/js/tripboard/write.js"></script>
-    <script></script>
+    <script>
+      $("#submitBtn").click(function () {
+        $("section").find("form").submit();
+      });
+
+      $("form").submit(function () {
+        if ($("#inputRegionNo").val() == "") {
+          alert("여행 지역을 입력하거나 \r\n여행 일정을 불러와주세요.");
+          return false;
+        } else if ($("#inputTripDay").val() == "") {
+          alert("여행 기간을 입력하거나 \r\n여행 일정을 불러와주세요.");
+          return false;
+        } else if ($("#textRoute").val() == "") {
+          alert("여행 루트가 비어있습니다.\r\n여행 일정을 불러와주세요.");
+          return false;
+        }
+        return true;
+      });
+    </script>
     <script>
       $(function () {
         $('[data-toggle="popover"]').popover();

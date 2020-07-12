@@ -34,11 +34,13 @@
 				</h4>
 			</div>
 			<div class="mainContent">
+			<c:if test="${sessionScope.member.memberLevel==3 }">
 				<a href="/noticeInsertFrm.do">
 				<input class="btn btn-outline-secondary" id="insertBtn"
 					type="button" value="글쓰기"></a>
 				<form action="/noticeDelete.do" method="post">
 				<input class="btn btn-outline-secondary" id="delBtn" type="button" value="체크게시물 삭제">
+				</c:if>
 				<table class="table table-hover">
 					<tr>
 						<th class="noticetitle">내용</th>
@@ -48,12 +50,14 @@
 					</tr>
 					<c:forEach items="${list }" var="n">
 						<tr>
-							<td class="noticetitle"><a
+							<td class="noticetitle"><div><div class="listTitle"><a
 								href="/noticeView.do?noticeNo=${n.noticeNo}"
-								value="${n.noticeNo}">${n.noticeTitle}</a></td>
+								value="${n.noticeNo}">${n.noticeTitle}</a></div></div></td>
 							<td class="regdate">${n.noticeDate}</td>
 							<td class="readcount">${n.readCount }</td>
+							<c:if test="${sessionScope.member.memberLevel==3 }">
 							<td class="delchkbox"><input name="noticeNo" type="checkbox" value="${n.noticeNo }"></td>
+							</c:if>
 						</tr>
 					</c:forEach>
 				</table>

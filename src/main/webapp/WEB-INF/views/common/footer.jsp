@@ -5,7 +5,6 @@
 	<div class="main-footer">
 		<div class="header-footer"></div>
 		<div class="logodiv">
-			<img src="/src/imgs/footer/mainlogo2.png" style="width: 80px; height: 80px;">
 		</div>
 		<div class="footerinfo">
 			<table>
@@ -24,5 +23,4 @@
 		</div>
 
 	</div>
-	<div class="sub-footer">Company@Travelego</div>
 </footer>

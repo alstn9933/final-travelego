@@ -8,10 +8,12 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import kr.or.iei.common.model.vo.mainPhotoRecommed;
 import kr.or.iei.member.model.vo.Company;
 import kr.or.iei.member.model.vo.Member;
 import kr.or.iei.notice.model.vo.Notice;
 import kr.or.iei.recommend.model.vo.Recommend;
+import kr.or.iei.tour.model.vo.TourVO;
 
 @Repository("memberDao")
 public class MemberDao {
@@ -60,7 +62,6 @@ public class MemberDao {
 	}
 
 	public int memberModifiedMember(Member m) {
-		System.out.println("3");
 		return sqlsession.update("member.memberModified",m);
 	}
 
@@ -75,5 +76,32 @@ public class MemberDao {
 	public List<Recommend> mainrecommendList(HashMap<String, Integer>map) {
 		return sqlsession.selectList("member.mainrecommendList",map);
 	}
+
+	public List<mainPhotoRecommed> maintourList(HashMap<String, Integer> map) {
+		return sqlsession.selectList("member.mainTourList",map);
+	}
+
+	public Member sessioncheck(String memberId) {
+		return sqlsession.selectOne("member.membercheck",memberId);
+	}
+
+	public Company sessionCp(Company cp) {
+		return sqlsession.selectOne("company.sessionCp",cp);
+	}
+
+	public Member modifyMembercheck(Member m) {
+		return sqlsession.selectOne("member.modifyMembercheck",m);
+	}
+
+	public Member selectOneMember(Member m) {
+		return sqlsession.selectOne("member.selectOneMember",m);
+	}
+
+	public int memberPwModifiedMember(Member m) {
+		return sqlsession.update("member.memberModifiedMember",m);
+	}
+
+
+
 
 }

@@ -1,0 +1,35 @@
+body > section,
+.board {
+  min-height: calc(100vh - 250px);
+}
+
+.board {
+  justify-content: center;
+}
+
+.comment_date {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.comment_writer {
+  font-size: 14px;
+  color: #575757;
+}
+
+.autosize {
+  resize: none;
+}
+
+.add_comment_area > td:first-of-type {
+  padding-left: 60px;
+}
+
+.add_comment_area > td:last-of-type > div > button:first-of-type,
+.mod_comment_area > td:last-of-type > div > button:first-of-type {
+  margin-bottom: 10px;
+}
+
+button {
+  cursor: pointer;
+}

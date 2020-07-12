@@ -12,6 +12,20 @@ prefix="c"%>
     <script src="/src/js/jquery/jquery-3.5.1.js"></script>
     <script src="/src/js/bootstrap/popper.min.js"></script>
     <script src="/src/js/bootstrap/bootstrap-4.5.0.js"></script>
+    
+    <!-- 수민 버튼 부트스트랩 -->
+     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+  
+  <!-- 테이블 부트스트랩 -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    
+    
     <!-- <link rel="manifest" href="site.webmanifest"> -->
     <link
       rel="shortcut icon"
@@ -29,6 +43,9 @@ prefix="c"%>
     <link rel="stylesheet" href="/src/css/main/web_default.css" />
     <title>Travelego</title>
     <style>
+    	#user{
+            font-size: 40px;
+        }
 	    table{
 	            width: 100%;
 	            border-spacing: 0px;
@@ -36,47 +53,130 @@ prefix="c"%>
 	            border-right: none;
 	            border-top: none;
 	        }
-	        td{
-	            border-left: none;
-	            border-right: none;
-	            text-align: center;
-	        }
+        td{
+            border-left: none;
+            border-right: none;
+            text-align: center;
+        }
+        .tr{
+       	font-weight: bold;
+        }
     </style>
   </head>
+  <script>
+  $(function(){
+	  $(".content").hide();
+	  $(".answer").hide();
+  })
+  	
+  </script>
   <body>
     <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 
     <!-- 웹 콘텐츠는 section 태그 안에 작성을 해주세요!-->
     <section>
-      <div id="user">${sessionScope.member.memberNickname }</div>
+      <div id="user" style="width:80%; margin:0 auto; font-size:30px; font-weight: bold; margin-bottom:20px;">${sessionScope.member.memberNickname }</div>
         <br>
-        <div>문의 내역</div>
+        <div style="width:80%; margin:0 auto; font-size:18px;">문의 내역</div>
         <br>
-        <table border="1px solid black">
-            <tr><td width="10%"></td>
-                <td width="60%">제목</td>
+        <table border="1px solid black" style="width:80%; margin:0 auto;"  class="table table-hover">
+            <tr class="tr"><td width="10%">#</td>
+                <td width="55%" >제목</td>
                 <td width="20%">작성일</td>
-                <td width="10%">답변여부</td>
+                <td width="15%">답변여부</td>
             </tr>
             <c:forEach items="${qlist }" var="q">
-            	<tr>
-            		<td>1</td>
-            		<td>${q.qnaTitle }</td>
-            		<td>${q.askDate }</td>
-            		<td>
-            		<c:if test="${not empty q.qnaAnswer }">
-            		답변완료
-            		</c:if>
-            		<c:if test="${empty q.qnaAnswer }">
-            		답변대기중
-            		</c:if>
-            		</td>
-            	</tr>
-            </c:forEach>
             
+            	<tr>
+            		<td>${q.rownum }
+            			
+            		</td>
+            		<td onclick="showQ(this);">
+            			${q.qnaTitle }
+            		</td>
+            		<td>${q.askDate }</td>
+            		
+            		<c:if test="${not empty q.qnaAnswer }">
+            		<td onclick="showA(this);">
+	            		<c:if test="${sessionScope.member.memberId ne 'admin' }">
+	            			답변완료
+	            		</c:if>
+	            		<c:if test="${sessionScope.member.memberId eq 'admin' }">
+	            			처리완료
+	            		</c:if>
+            		</td>
+            		</c:if>
+            		
+            		<c:if test="${empty q.qnaAnswer }">
+	            		<c:if test="${sessionScope.member.memberId ne 'admin' }">
+		            		<td>
+		            		답변대기중
+		            		</td>
+	            		</c:if>
+	            		<c:if test="${sessionScope.member.memberId eq 'admin' }">
+	            			<td onclick="leaveAnswer(this);">
+	            			처리대기중
+	            			</td>
+		            	</c:if>
+            		</c:if>
+            	</tr>
+            	<tr class="content">
+            		<td>문의</td>
+            		<td>${q.qnaContent }</td>
+            		<td></td>
+            		<td></td>
+            	</tr>
+            	<c:if test="${not empty q.qnaAnswer }">
+            	<tr class="answer">
+            		<td>답변</td>
+	            	<td>${q.qnaAnswer }</td>
+	            	<td>${q.answerDate }</td>
+	            	<td></td>
+            	</tr>
+            	</c:if>
+            	<c:if test="${empty q.qnaAnswer and sessionScope.member.memberId eq 'admin' }">
+            	<tr style="display:none;">
+            	<td/>
+            	<form action="/leaveAnswer.do" method="post">
+            	<td>
+	            	<input type="hidden" name="qnaNo" value="${q.qnaNo }">
+    	        	<textarea rows="5" cols="50" style="resize: none;" name="qnaAnswer"></textarea>	
+            	</td>    	
+            	<td/>
+            	<td><button>답변 저장</button></td>
+            	</form>
+            	</tr>
+            	</c:if>
+            </c:forEach>
         </table>
+        <div style="width:80%; margin:50px auto; text-align: center;">${pageNavi }</div>
     </section>
 
+	<script>
+	function showQ(value){
+		  $(value).parent().next(".content").show();
+		  $(value).attr("onclick","hideQ(this);")
+	  }
+	
+	function hideQ(value){
+		  $(value).parent().next(".content").hide();
+		  $(value).attr("onclick","showQ(this);")
+	  }
+	
+	function showA(value){
+		$(value).parent().next().next().show();
+		  $(value).attr("onclick","hideA(this);") 
+	  }
+	
+	function hideA(value){
+		  $(value).parent().next().next().hide();
+		  $(value).attr("onclick","showA(this);")
+	  }
+	
+	function leaveAnswer(value){
+		$(value).parent().next().next().show();
+	}
+	</script>
     <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
     <!-- Modal -->
     <div

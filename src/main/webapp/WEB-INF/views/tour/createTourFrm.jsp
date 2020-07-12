@@ -143,6 +143,8 @@ section {
 
 .section-bottom {
 	width: 100%;
+	margin-left:40%;
+	margin-top:20px;
 	overflow: hidden;
 }
 
@@ -150,8 +152,7 @@ section {
 	width: 100px;
 	height: 50px;
 	diplay: inline-block;
-	margin-left:45%;
-	margin-top:20px;
+	margin:10px;
 	background-color: #25e6b5;
 	border: 0;
 	border-radius: 5px;
@@ -199,7 +200,7 @@ section {
 						</tr>
 						<tr>
 							<th>상품 이름</th>
-							<td colspan="2"><input type="text" name="itemTitle"></td>
+							<td colspan="2"><textarea cols="45" rows="3" name="itemTitle" placeholder="제목을 입력해주세요(100자이하)"></textarea></td>
 						</tr>
 						<tr>
 							<th>1회 최대인원<h6>(1명이상)</h6></th>
@@ -234,7 +235,8 @@ section {
 				<textarea name="itemContent" id="editor" rows="10" cols="80"></textarea>
 			</div>
 			<div class="section-bottom">
-				<input type="submit" value="상품 등록" id="submit-btn">
+				<input class="btn btn-primary btn-lg" type="submit" value="상품등록">
+				<input id="cancel" class="btn btn-danger btn-lg" type="reset" value="취소">
 			</div>
 		</form>
 	</section>
@@ -360,8 +362,8 @@ section {
 					$('html, body').animate({scrollTop : $("#file").offset().top}, 400);
 					return false;
 				}
-				if($("input[name='itemTitle']").val()==""){
-					alert("상품 이름을 입력해주세요");
+				if($("textarea[name='itemTitle']").val()==""||$("textarea[name='itemTitle']").val().length>100){
+					alert("상품 이름은 1~100글자로 입력해주세요");
 					$('html, body').animate({scrollTop : $("#file").offset().top}, 400);
 					return false;
 				}
@@ -370,10 +372,15 @@ section {
 					$('html, body').animate({scrollTop : $("#file").offset().top}, 400);
 					return false;
 				}
+				if($("input[name='itemPrice']").val()==0){
+					alert("상품의 가격을 설정해주세요(0원이상)");
+					$('html, body').animate({scrollTop : $("#file").offset().top}, 400);
+					return false;
+				}
 				if(!expDate.test($("input[name='beginEnd']").val())){
 					alert("상품판매 기간을 설정해주세요");
-					$('html, body').animate({scrollTop : $("input[name='itemTitle']").offset().top}, 400);
-					return false;
+					$('html, body').animate({scrollTop : $("textarea[name='itemTitle']").offset().top}, 400);
+					return false; 
 				}
 				var cnt=0;
 				$("input[name=tourTimes]").each(function(index,item){
@@ -383,7 +390,7 @@ section {
 				});
 				if(cnt==0){
 					alert("투어 시작 시간들을 정해주세요");
-					$('html, body').animate({scrollTop : $("input[name='itemTitle']").offset().top}, 400);
+					$('html, body').animate({scrollTop : $("textarea[name='itemTitle']").offset().top}, 400);
 					return false;
 				}
 				if(content==""||CKEDITOR.instances['editor'].getData().length==0){
@@ -392,6 +399,10 @@ section {
 					return false;
 				}
 				return true;
+			});
+			
+			$("#cancel").click(function(){
+				window.history.back();
 			});
 		});
 	</script>

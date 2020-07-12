@@ -3,7 +3,6 @@ package kr.or.iei.together.model.service;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +13,7 @@ import kr.or.iei.common.model.vo.Region;
 import kr.or.iei.together.model.dao.TogetherDao;
 import kr.or.iei.together.model.vo.MainPageDTO;
 import kr.or.iei.together.model.vo.TogetherBoardVO;
+import kr.or.iei.together.model.vo.TogetherCommentListVO;
 import kr.or.iei.together.model.vo.TogetherCommentVO;
 
 @Service("togetherService")
@@ -83,7 +83,9 @@ public class TogetherService {
 		return dao.insertComment(comment);
 	}
 
-	public ArrayList<TogetherCommentVO> selectCommentList(int boardNo) {
+	public TogetherCommentListVO selectCommentList(int boardNo) {
+		System.out.println(boardNo);
+		TogetherCommentListVO listVo = new TogetherCommentListVO();
 		
 		ArrayList<TogetherCommentVO> list =(ArrayList<TogetherCommentVO>)dao.selectCommentList(boardNo);
 		String today = dateFormat.format(Calendar.getInstance().getTime());
@@ -92,7 +94,10 @@ public class TogetherService {
 				vo.setCommentDate(vo.getCommentTime());
 			}
 		}
-		return list;
+		
+		listVo.setCommentList(list);
+		listVo.setCommentCount(list.size());
+		return listVo;
 	}
 
 	public int modifyBoard(TogetherBoardVO vo) {		
@@ -189,6 +194,18 @@ public class TogetherService {
 		}
 		
 		return list;
+	}
+
+	public int updateComment(TogetherCommentVO comment) {
+		return dao.updateComment(comment);
+	}
+
+	public int deleteComment(int commentNo) {
+		return dao.deleteComment(commentNo);
+	}
+
+	public ArrayList<TogetherBoardVO> selectBoardList(int[] boardNo) {
+		return (ArrayList<TogetherBoardVO>) dao.selectBoardList(boardNo);
 	}
 	
 }

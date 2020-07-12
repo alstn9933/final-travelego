@@ -1,4 +1,5 @@
 @charset "UTF-8";
+
  .carousel-inner img {
     width: 100%;
     height: 400px;
@@ -6,27 +7,137 @@
 .addDiv{
 	margin: 0 auto;
 	padding-bottom: 50px;
+	border : none;
 }
 .p1{
-	font-weight : bold;
-	font-size: 25px;
+
+	font-size: 35px;
+	margin: 20px;
+	font-family: 'Yellowtail', cursive;
+
 }
-.main-content1,.main-content2{
+.main-content1{
 	/*box-shadow: 5px 5px 3px rgba(0,0,0,.3),0 0 3px rgba(0,0,0,.3);*/
-	margin-bottom: 100px;
+	margin-bottom: 30px;
+
 }
-.sub-content2,.sub-content4,.sub-content6{
+.main-content3{
+	margin-bottom:200px; 
+}
+.main-content1>div,.main-content3>div{
+	overflow: hidden;
+}
+
+.sub-content4,.sub-content6{
 	width: 100%;
 	text-align: right;
 	font-size: 12px;
 }
+.sub-content2{
+	width: 100%;
+	text-align: right;
+	font-size: 12px;
+}
+.sub-content2>*,.sub-content6>*{
+	font-size : 15px;
+	float: right;
+}
 .hotpickcher{
 	float: left;
-	background-color: red;
+	margin-bottom: 30px;
+	margin-right:10px;
 }
+/*
 .imgsDiv{
-	width:150px;
+	width:250px;
 	height: 200px;
 	margin: 0 auto;
+	border-radius: 5px;
+	margin: 10px;
+}
+*/
+.sub-content3{
+	text-align: center;
+}
+.p3{
+	padding-left: 5px;
+}
+
+.title{
+	width: 600px;
+	margin: 0 auto;
+}
+.nickname{
+	width: 80px;
+}
+.tableCount{
+	width: 80px;
+}
+.hotItem{
+	float: left;
+	margin-bottom: 30px;
+    margin-right: 10px;
+
 	
+}
+.itemimgsDiv,.imgsDiv{
+	width:250px;
+	height: 280px;
+	margin: 10px;
+}
+.tourimg{
+	width: 240px;
+	height: 280px;
+	margin-left: 5px;
+}
+.recommendimg{
+	margin : 0 auto;
+	width: 100%;
+	height: 200px;
+}
+.idspan{
+	float: right;
+}
+.readDiv{
+	float: right;
+}
+.itemDate{
+	margin-left: 10px;
+}
+.writerDiv{
+	float: right;
+}
+.hotpickcher>a{
+	margin-left: 10px;
+}
+.itemDate2{
+	margin-right : 20px;
+	float: right;
+}
+
+.itrmp3,.Stringdelete{
+	width:200px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.mainNoticetitle{
+	margin-left : 100px;
+	width: 1000px;
+}
+.div1{
+	display : inline-block;
+	width: 600px;
+}
+.noticetitlebox1{
+	width: 600px;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+}
+.div2{
+	display : inline-block;
+	width: 200px;
+	float: right;
 }

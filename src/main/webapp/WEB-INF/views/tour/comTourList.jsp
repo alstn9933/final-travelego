@@ -46,14 +46,15 @@ prefix="c"%>
             width: 200px;
             height: 30px;
             margin: 10px;
+            margin-left:0;
             box-sizing: border-box;
-            margin-left: 20px;
+        }
+        .search-area input{
+        	margin:10px;
+        	margin-left:0;
         }
         #searchtext{
             width: 430px;
-        }
-        .search{
-            margin: 20px;
         }
         .tourContent{
             margin-top: 20px;
@@ -63,12 +64,12 @@ prefix="c"%>
             float: left;
             width: 280px;
             height: 400px;
-            background-color: aliceblue;
             overflow:hidden;
             border-radius: 20px;
             margin: 10px;
             position: relative;
             z-index:50;
+            box-shadow: 2px 2px 5px 0 lightgray;
         }
         .item>div{
             overflow: hidden;
@@ -83,14 +84,15 @@ prefix="c"%>
         	top:0;
         	text-align: center;
         	background:gray;
-        	z-index:51;
+        	z-index:53;
         	font-size:100px;
         	color:white;
         	opacity:0.7;
         }
         .item:hover{
             cursor: pointer;
-            background-color: #25e6b5;
+            box-shadow: 3px 3px 10px 5px lightgray;
+            transition-duration: 0.3s;
         }
         .item:hover img{
             transform: scale(1.3,1.3);
@@ -113,7 +115,7 @@ prefix="c"%>
         	height:30px;
         	position: absolute;
         	top:240px;
-        	z-index: 52;
+        	z-index: 55;
         }
         .itemBtn>button{
         	float:right;
@@ -126,14 +128,29 @@ prefix="c"%>
         	margin-top:10px;
         	text-align:center;
         }
+        .item-top{
+        	position:absolute;
+            background-color:rgba(100,100,100,0.3);
+            width:100%;
+            z-index: 51;
+        }
+        .region{
+        	text-align:left;
+        	float:left;
+        	padding:10px;
+        	padding-bottom:0;
+            color:white;
+            width:50%;
+            z-index: 52;
+        }
         .score{
             text-align: right;
+            float:right;
             padding:10px;
             padding-bottom:0;
-            position:absolute;
-            background-color:rgba(100,100,100,0.5);
             color:white;
-            width:100%;
+            width:50%;
+            z-index: 52;
         }
         .morebtn{
         	overflow:hidden;
@@ -151,7 +168,13 @@ prefix="c"%>
     <script>
     	$(function(){
     		function fn_more(start,val){
-    			var param = {start:start,val:val};
+    			var regionCountry = "${t.regionCountry}";
+    			var regionNo = "${t.regionNo }";
+    			var tourDate = "${t.tourDate }";
+    			var searchValue = "${t.searchValue }";
+    			var array1 = $("select[name=array1]").val();
+    			var array2 = $("select[name=array2]").val();
+    			var param = {start:start,val:val,regionCountry:regionCountry,regionNo:regionNo,searchValue:searchValue,tourDate:tourDate,array1:array1,array2:array2};
     			$.ajax({
     				url: "/moreItem.do",
     				data : param,
@@ -161,16 +184,20 @@ prefix="c"%>
     					console.log(data.length);
     					var html = "";
     					for(var i=0; i<data.length; i++){
-    						html += "<div class='item' itemNo="+data[i].itemNo+" onclick='itemView("+data[i].itemNo+");'>";
+    						html += "<div class='item card bg-light mb-3' itemNo="+data[i].itemNo+" onclick='itemView("+data[i].itemNo+");'>";
+    						html+="<div class='item-top'>";
+    						html += "<div class='region'>"+data[i].regionCountry+"-"+data[i].regionCity+"</div>";
     						if(data[i].score==0){
     							html += "<div class='score'>후기가 없습니다</div>";
     						}else{
-    							html += "<div class='score'>"+data[i].score.toFixed(1)+"점</div>";
+    							html += "<div class='score'>★"+data[i].score.toFixed(1)+"점</div>";
     						}
-    						html += "<div><img class='item-main-img' src='../../../upload/images/tour/thumnail/"+data[i].filename+"'></div>";
-    						html += "<div class='itemBtn'><button class='btn btn-primary btn-sm' type='button' onclick='modifyItem("+data[i].itemNo+");'>수정</button>";
+    						html+="</div>";
+    						html += "<div><img class='item-main-img' src='../../../upload/images/tour/thumnail/"+data[i].filepath+"'></div>";
+    						html += "<div class='itemBtn'>";
     						if(data[i].closeCheck==1){
-    							html += "<button class='btn btn-danger btn-sm' type='button' onclick='deleteItem("+data[i].itemNo+");'>삭제</button></div>";
+    							html += "<button class='btn btn-danger btn-sm' type='button' onclick='deleteItem("+data[i].itemNo+");'>삭제</button>";
+    							html += "<button class='btn btn-primary btn-sm' type='button' onclick='modifyItem("+data[i].itemNo+");'>수정</button></div>";
     						}else{
     							html += "<button class='btn btn-primary btn-sm' type='button' onclick='closeItem("+data[i].itemNo+");'>마감</button></div>";
     						}
@@ -197,6 +224,54 @@ prefix="c"%>
     			});
     		}
     		
+    		$("#region-country").change(function(){
+				var regionCountry = $(this).val();
+				if(regionCountry=="default"){
+					$("#regionCity").html("<option value=0>도시 선택");
+				}
+				else{
+					$.ajax({
+						url : "/selectCityList.do",
+						data: {regionCountry:regionCountry},
+						type : "post",
+						success : function(data){
+							$("#regionCity").html("");
+							html = "";
+							html += "<option value=0>도시 선택";
+							for(var i=0; i<data.length; i++){
+								html += "<option value="+data[i].regionNo+">"+data[i].regionCity;
+							}
+							$("#regionCity").append(html);
+							if(regionCountry=="${t.regionCountry}"){
+								$("select[name=regionNo]").val("${t.regionNo }").prop("selected", true);
+							}
+						},error : function(){
+							console.log("ajax 통신 실패");
+						}
+					});
+				}
+			});
+   			
+   			$("select[name=array1]").change(function(){
+   				$(".tourContent").html("");
+   				$("#more-btn").attr("currentCount",0);
+   				$("#more-btn").prop("disabled",false);
+				$("#more-btn").css("display","block");
+   				fn_more(1,"ctl");
+   			});
+   			$("select[name=array2]").change(function(){
+   				$(".tourContent").html("");
+   				$("#more-btn").attr("currentCount",0);
+   				$("#more-btn").prop("disabled",false);
+				$("#more-btn").css("display","block");
+   				fn_more(1,"ctl");
+   			});
+   			
+   			$("select[name=regionCountry]").val("${t.regionCountry }").prop("selected", true);
+   			$("select[name=regionCountry]").change();
+   			$("input[name=tourDate]").val("${t.tourDate }");
+   			$("input[name=searchValue]").val("${t.searchValue }");
+    		
     		$("#makeItem").click(function(){
     			location.href="/createTourFrm.do";
     		});
@@ -205,56 +280,74 @@ prefix="c"%>
    			$("#more-btn").click(function(){
    				fn_more($(this).val(),"ctl");
    			});
-    	})
+    	});
+    	
+     	function modifyItem(itemNo){
+    		event.stopPropagation();
+    		$.ajax({
+    			url:"/modifyCheckReserve.do",
+    			data:{itemNo:itemNo},
+    			type:"post",
+    			dataType:"json",
+    			success:function(data){
+    				if(data>0){
+    					alert("해당 상품에 진행중인 예약이 남아있어 수정이 불가능합니다.");
+    				}else{
+    					location.href="/modifyItemFrm.do?itemNo="+itemNo;
+    				}
+    			},error:function(){
+    				console.log("해당아이템의 예약을 불러오는데 에러발생");
+    			}
+    		});
+    	};
     	
     	function itemView(itemNo){
    			location.href="/tourView.do?itemNo="+itemNo;
     	};
     	
-    	function modifyItem(itemNo){
-    		event.stopPropagation();
-    		location.href="/modifyItem.do?itemNo="+itemNo;
-    	};
-    	
     	function closeItem(itemNo){
     		event.stopPropagation();
-    		$.ajax({
-    			url:"/closeItem.do",
-    			data:{itemNo:itemNo},
-    			type:"post",
-    			dataType:"json",
-    			success:function(data){
-    				if(data>0){
-    					console.log("마감성공");
-    				}else{
-    					alert("마감 실패");
-    				}
-    				location.reload();
-    			},error:function(){
-    				console.log("상품 마감 오류");
-    			}
-    		});
+    		if(confirm("정말 마감하시겠습니까?")){
+        		$.ajax({
+        			url:"/closeItem.do",
+        			data:{itemNo:itemNo},
+        			type:"post",
+        			dataType:"json",
+        			success:function(data){
+        				if(data>0){
+        					console.log("마감성공");
+        				}else{
+        					alert("마감 실패");
+        				}
+        				location.reload();
+        			},error:function(){
+        				console.log("상품 마감 오류");
+        			}
+        		});
+    		}
     	};
     	
     	function deleteItem(itemNo){
     		event.stopPropagation();
-    		$.ajax({
-    			url:"/deleteItem.do",
-    			data:{itemNo:itemNo},
-    			type:"post",
-    			dataType:"json",
-    			success:function(data){
-    				if(data>0){
-    					console.log("삭제성공");
-    				}else{
-    					alert("삭제 실패");
-    				}
-    				location.reload();
-    			},error:function(){
-    				console.log("상품 삭제 오류");
-    			}
-    		});
-    	};
+    		if(confirm("삭제한 상품은 더이상 볼 수 없습니다. 그래도 삭제 하시겠습니까?")){
+    			$.ajax({
+        			url:"/deleteItem.do",
+        			data:{itemNo:itemNo},
+        			type:"post",
+        			dataType:"json",
+        			success:function(data){
+        				if(data>0){
+        					console.log("삭제성공");
+        				}else{
+        					alert("삭제 실패");
+        				}
+        				location.reload();
+        			},error:function(){
+        				console.log("상품 삭제 오류");
+        			}
+        		});
+    		}
+    	}
     </script>
   </head>
   <body>
@@ -265,23 +358,38 @@ prefix="c"%>
       <!-- 여기서부터 작성하시면 됨!!!!!!! -->
         <div class="search-area">
             <div class="search">
-                <form action="/searchItems.do" method="get">
-                    <input id="searchtext" type="text" name="searchValue" placeholder="보고싶은 상품명을 검색해주세요">
+                <form action="/comTourList.do" method="get">
+                	<div>
+		                <select name="regionCountry" id="region-country">
+		                    <option value="default">나라 선택
+							<c:forEach items="${rlist }" var="r">
+							<option value="${r.regionCountry }">${r.regionCountry }
+							</c:forEach>
+		                </select>
+		                <select name="regionNo" id="regionCity">
+							<option value=0>도시 선택
+						</select>
+					</div>
+					<input type="date" name="tourDate">
+                    <input id="searchtext" type="text" name="searchValue" placeholder="보고싶은 상품 또는 지역을 입력해주세요">
                     <input type="submit" value="검색">
                 </form>
             </div>
-            <div class="region">
-                <select id="region-country">
-                    <option value="all">나라선택</option>
-                    <option value="1">한국</option>
-                </select>
-                <select id="refgion-city">
-                    <option value="all">지역선택</option>
-                    <option value="1">서울</option>
-                    <option value="2">부산</option>
-                </select>
-                <button id="makeItem" class="btn btn-primary" style="float:right; margin-right:30px;">상품등록</button>
-            </div>
+        </div>
+        <div>
+        	<div style="display:inline-block;">
+	        	<p>정렬</p>
+	        	<select name="array1">
+	        		<option value="regDate">최신</option>
+	        		<option value="score">별점</option>
+	        		<option value="reserveCnt">예약수</option>
+	       		</select>
+	       		<select name="array2">
+	       			<option value="up">내림차순</option>
+	       			<option value="down">오름차순</option>
+	      		</select>
+      		</div>
+      		<button type="button" id="makeItem" class="btn btn-primary" style="float:right; margin-top:10px;">상품등록</button>
         </div>
         <div class="tourContent">
         </div>
@@ -340,7 +448,6 @@ prefix="c"%>
       $(function () {
         $('[data-toggle="popover"]').popover();
       });
-
       $("#datepicker").datepicker({
         iconsLibrary: "fontawesome",
         icons: {

@@ -38,3 +38,9 @@ section{
 	float: right;
 	margin: 5px;
 }
+.listTitle{
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+	width: 550px;
+}

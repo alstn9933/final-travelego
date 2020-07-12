@@ -1,5 +1,7 @@
 package kr.or.iei.notice.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +9,9 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.google.gson.Gson;
 
 import kr.or.iei.notice.model.service.NoticeService;
 import kr.or.iei.notice.model.vo.Notice;
@@ -78,6 +83,12 @@ public class NoticeController {
 		
 		model.addAttribute("loc", "/noticeList.do?reqPage=1");
 		return "common/msg";
+	}
+	@ResponseBody
+	@RequestMapping(value = "/mainNoticeBox.do",produces = "application/Json;charset=utf-8")
+	public String mainNoticeBox() {
+		List<Notice> list = service.mainNoticeBox();
+		return new Gson().toJson(list);
 	}
 
 }

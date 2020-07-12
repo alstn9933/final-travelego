@@ -1,6 +1,7 @@
 package kr.or.iei.member.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,12 +19,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
 
+import kr.or.iei.common.model.vo.mainPhotoRecommed;
 import kr.or.iei.member.model.service.MemberService;
 import kr.or.iei.member.model.vo.Company;
 import kr.or.iei.member.model.vo.MailSend;
 import kr.or.iei.member.model.vo.Member;
 import kr.or.iei.member.model.vo.SendPwMail;
 import kr.or.iei.recommend.model.vo.Recommend;
+import kr.or.iei.tour.model.vo.TourVO;
 
 @Controller
 public class MemberController {
@@ -47,14 +50,17 @@ public class MemberController {
 		Member member = service.loginMember(m);
 		if (member != null) {
 			Company company = service.checkCompanyId(member);
-			if(company != null) {
+			System.out.println(member.getMemberLevel());
+			if(company != null && company.getJoinConfirm()==1) {
+				System.out.println(company.getJoinConfirm());
 				session.setAttribute("company", company);
 				session.setAttribute("member", member);
-				model.addAttribute("msg", "환연합니다!");
 				model.addAttribute("loc", "/");
-			}else {
+			}else if(company != null && company.getJoinConfirm()==0) {
+				model.addAttribute("msg","심사가 끝나지 않았습니다.");
+				model.addAttribute("loc","/");
+			}else{
 				session.setAttribute("member", member);
-				model.addAttribute("msg", "환연합니다!");
 				model.addAttribute("loc", "/");
 			}
 		}else {
@@ -199,37 +205,39 @@ public class MemberController {
 		}
 		return "common/msg";
 	}	
-	@RequestMapping("/memberModifiedFrm.do")
-	public String memberModifiedFrm(HttpSession session,Model model) {
-		Member m = (Member) session.getAttribute("member");
-		model.addAttribute("m", m);
-		return "member/memberModiFiedFrm";
-	}
+
 	@RequestMapping("/memberModified.do")
 	public String memberModified(Member m,Model model,HttpSession session) {
-		int result = service.memberModifiedMember(m);
+		int result = 0;
+		if(m.getMemberPw()==null||m.getMemberPw()=="") {
+			 result= service.memberModifiedMember(m);
+		}else {
+			result = service.memberPwModifiedMember(m);
+		}
 		if(result>0) {
+			Member member = service.sessioncheck(m.getMemberId());
 			model.addAttribute("msg", "회원정보 수정완료!");
 			model.addAttribute("loc", "/");
-			session.setAttribute("member", m);
+			session.setAttribute("member", member);
 		}else {
 			model.addAttribute("msg", "에러 : 회원정보수정");
 			model.addAttribute("loc", "/memberModifiedFrm.do");
 		}
 		return "common/msg";
 	}
-	@RequestMapping("/companyModifiedFrm.do")
-	public String companyModifiedFrm(HttpSession session,Model model) {
-		Member m = (Member) session.getAttribute("member");
-		Company cp = (Company) session.getAttribute("company");
-		model.addAttribute("m", m);
-		model.addAttribute("cp", cp);
-		return "member/companyModifiedFrm";
-	}
 	@RequestMapping("/companyModified.do")
 	public String companyModified(Member m,Company cp,Model model,HttpSession session) {
-		int result = service.companyModifiedMember(m,cp);
+		int result =0;
+		if(m.getMemberPw()==null||m.getMemberPw()=="") {
+			result = service.companyModifiedMember(m,cp);			
+		}else {
+			result = service.companyPwModifiedMember(m,cp);
+		}
 		if(result>0) {
+			Member member = service.sessioncheck(m.getMemberId());
+			Company cpy = service.sessionCpMember(cp,m.getMemberId());
+			session.setAttribute("member", member);
+			session.setAttribute("company", cpy);
 			model.addAttribute("msg", "회원정보 수정완료!");
 			model.addAttribute("loc", "/");
 		}else {
@@ -242,8 +250,41 @@ public class MemberController {
 	@RequestMapping(value = "/mainRecommendList.do",produces = "application/json;charset=utf-8")
 	public String mainRocommendList() {
 		List<Recommend>list = service.mainrecommendList();
+		System.out.println(list);
 		return new Gson().toJson(list);
 	}
+	@ResponseBody
+	@RequestMapping(value = "/maintourList.do",produces = "application/json;charset=utf-8")
+	public String mainTourList() {
+		List<mainPhotoRecommed>list = service.mainTourList();
+		return new Gson().toJson(list);
+	}
+	@RequestMapping("/membercheck.do")
+	   public String membercheck(Member m, Company cp, Model model) {
+		 Member selectM = service.selectOneMember(m);
+		 if(selectM!=null) {//입력한 비밀번호 일치
+			 if(selectM.getMemberLevel()==1){   //로그인한 회원의 레벨이 1이면
+	    		  model.addAttribute("m", selectM) ;
+	    		  return "member/memberModiFiedFrm";
+	           }else if(selectM.getMemberLevel()==2){ //로그인한 회원의 레벨이2이면
+	        	   Company cpy = service.sessionCpMember(cp,selectM.getMemberId()); //company정보 select해오기
+	        	   model.addAttribute("m", selectM) ;
+	        	   model.addAttribute("cp", cpy) ;
+	        	   return "member/companyModifiedFrm";
+	           }else {
+	        	   return "redirect:/";
+	           }
+		 }else{ //입력한 비밀번호가 일치하지 않으면
+		        model.addAttribute("msg","비밀번호가 맞지않습니다");
+		        model.addAttribute("loc","/membercheckFrm.do");
+		        return "common/msg";
+		   }
+	    }
+	@RequestMapping("/membercheckFrm.do")
+	public String membercheckFrm() {
+		return "member/membercheck";
+	}
+	
 	
 	
 }

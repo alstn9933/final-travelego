@@ -6,6 +6,7 @@ import lombok.Data;
 
 @Data
 public class Recommend {
+	private int rnum;
 	private int recNo;
 	private String recTitle;
 	private String recContent;
@@ -18,4 +19,8 @@ public class Recommend {
 	private String coords;
 	private String place;
 	private int cnt;
+	private String regionCountry;
+	private String filename;
+	private String filepath;
+	private String order;
 }
