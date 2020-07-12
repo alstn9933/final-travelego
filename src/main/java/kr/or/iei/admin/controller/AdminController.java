@@ -43,91 +43,129 @@ public class AdminController {
 		super();
 		System.out.println("AdminController생성완료");
 	}
-	
-	
 
+	@RequestMapping(value = "/reportFrm.do")
+	public String reportFrm(Report rp, Model model) {
+		if (rp.getBoardClass() != 0) {
 
-	@RequestMapping(value="/reportFrm.do")
-	public String reportFrm(Report rp,Model model) {
-		if(rp.getBoardClass()!=0) {
-			
-			Report rpinfo=service.reportFrm(rp);
+			Report rpinfo = service.reportFrm(rp);
 			rpinfo.setBoardClass(rp.getBoardClass());
 			rpinfo.setBoardNo(rp.getReportNo());
-			model.addAttribute("rp",rpinfo);
+			model.addAttribute("rp", rpinfo);
 			return "admin/reportFrm";
-		}else {
+		} else {
 			return "redirect:/";
 		}
-		
-		
+
 	}
-	
-	@RequestMapping(value="/insertReport.do")
-	public String insertReport(Report rp,Model model) {
+
+	@RequestMapping(value = "/insertReport.do")
+	public String insertReport(Report rp, Model model) {
 		int result = service.insertReport(rp);
 		if (result > 0) {
 			model.addAttribute("msg", "정상적으로 신고 되셨습니다.");
-			model.addAttribute("loc","/loginFrm.do");
+			model.addAttribute("loc", "/loginFrm.do");
 		} else {
 			model.addAttribute("msg", "회원가입 오류. 관리자와 상의하세요.");
-			model.addAttribute("loc","/");
+			model.addAttribute("loc", "/");
 		}
-		return "common/msg";	// /WEB-INF/views/common/msg.jsp
+		return "common/msg"; // /WEB-INF/views/common/msg.jsp
 	}
 
-	
+	/**
+	 * 지역관리
+	 * 
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping(value = "/spot_managenet.do")
-	public String spot_managenet(Model model) {
-		ArrayList<Region> rList = service.regionList();
-		model.addAttribute("rList", rList);
-		return "admin/spot_managenet";
+	public String spot_managenet(Model model, HttpSession session) {
+		Member membercheck = (Member) session.getAttribute("member");
+		if (membercheck != null) {
+			if (membercheck.getMemberLevel() == 3) {
+				ArrayList<Region> rList = service.regionList();
+				model.addAttribute("rList", rList);
+				return "admin/spot_managenet";
+			} else {
+				return "redirect:/";
+			}
+		} else {
+			return "redirect:/";
+
+		}
 	}
 
 	/*
-	 * 	@RequestMapping(value = "/memberManagement.do")
-	public String management(Model model,@ModelAttribute("scri") SearchAdmin searchM) {
-
-		ArrayList<Company> cList = service.selectCompanyMember();
-		PageMarker pgm = new PageMarker();
-		pgm.setapg(searchM);
-		pgm.setTotalCount(service.mListCount(searchM));
-		System.out.println(searchM.getKeyword());
-		ArrayList<Member> mList = service.selecMemberList(searchM);
-		model.addAttribute("mList", mList);
-		model.addAttribute("cList", cList);
-		model.addAttribute("pgm", pgm);
-		return "admin/memberManagement";
-
-	}	
+	 * @RequestMapping(value = "/memberManagement.do") public String
+	 * management(Model model,@ModelAttribute("scri") SearchAdmin searchM) {
+	 * 
+	 * ArrayList<Company> cList = service.selectCompanyMember(); PageMarker pgm =
+	 * new PageMarker(); pgm.setapg(searchM);
+	 * pgm.setTotalCount(service.mListCount(searchM));
+	 * System.out.println(searchM.getKeyword()); ArrayList<Member> mList =
+	 * service.selecMemberList(searchM); model.addAttribute("mList", mList);
+	 * model.addAttribute("cList", cList); model.addAttribute("pgm", pgm); return
+	 * "admin/memberManagement";
+	 * 
+	 * }
 	 */
-	
+	/**
+	 * 질의 응갑 페이지
+	 * 
+	 * @param model
+	 * @param searchQna
+	 * @return
+	 */
 	@RequestMapping(value = "/adminQnaList.do")
-	public String admin_QNA(Model model ,@ModelAttribute("scri") SearchAdmin searchQna) {
-		
-		ArrayList<QNA> qnaList = service.qnaList(searchQna);
-		PageMarker pgm = new PageMarker();
-		pgm.setapg(searchQna);
-		pgm.setTotalCount(service.qnaListCount(searchQna));
-		model.addAttribute("pgm",pgm);
-		model.addAttribute("qnaList", qnaList);
-		return "admin/adminQnaList";
+	public String admin_QNA(Model model, @ModelAttribute("scri") SearchAdmin searchQna, HttpSession session) {
+		Member membercheck = (Member) session.getAttribute("member");
+		if (membercheck != null) {
+			if (membercheck.getMemberLevel() == 3) {
+				ArrayList<QNA> qnaList = service.qnaList(searchQna);
+				PageMarker pgm = new PageMarker();
+				pgm.setapg(searchQna);
+				pgm.setTotalCount(service.qnaListCount(searchQna));
+				model.addAttribute("pgm", pgm);
+				model.addAttribute("qnaList", qnaList);
+				return "admin/adminQnaList";
+			} else {
+				return "redirect:/";
+			}
+		} else {
+			return "redirect:/";
+		}
 	}
 
-	
+	/**
+	 * 신고 리스트 보는 곳
+	 * 
+	 * @param rp
+	 * @param model
+	 * @return
+	 */
+
 	@RequestMapping(value = "/reportList.do")
-	public String reportList(Model model,@ModelAttribute("scri") SearchAdmin searchRe) {
-		
-		PageMarker pgm = new PageMarker();
-		pgm.setapg(searchRe);
-		pgm.setTotalCount(service.reListCount(searchRe));
-		ArrayList<Report> reList = service.reList(searchRe);
-		// 페이징 처리때문에 여기 바꿔줘야 함
-		ArrayList<Member> mList = service.selectCustomerMember();
-		model.addAttribute("reList", reList);
-		model.addAttribute("mList", mList);
-		model.addAttribute("pgm", pgm);
-		return "admin/reportList";
+	public String reportList(Model model, @ModelAttribute("scri") SearchAdmin searchRe, HttpSession session) {
+		Member membercheck = (Member) session.getAttribute("member");
+		if (membercheck != null) {
+			if (membercheck.getMemberLevel() == 3) {
+				PageMarker pgm = new PageMarker();
+				pgm.setapg(searchRe);
+				pgm.setTotalCount(service.reListCount(searchRe));
+				ArrayList<Report> reList = service.reList(searchRe);
+				// 페이징 처리때문에 여기 바꿔줘야 함
+				ArrayList<Member> mList = service.selectCustomerMember();
+				model.addAttribute("reList", reList);
+				model.addAttribute("mList", mList);
+				model.addAttribute("pgm", pgm);
+				return "admin/reportList";
+			} else {
+				return "redirect:/";
+			}
+		} else {
+			return "redirect:/";
+		}
+
 	}
 
 	@RequestMapping(value = "/qnaAnswer.do")
@@ -139,7 +177,6 @@ public class AdminController {
 
 	@RequestMapping(value = "/question_answer.do")
 	public String questionAnswer(QNA q, HttpSession session) {
-		System.out.println(q.getAskDate());
 		int result = service.qnaAnswer(q);
 		if (result > 0) {
 			session.setAttribute("q", q);
@@ -154,17 +191,27 @@ public class AdminController {
 	}
 
 	@RequestMapping(value = "/memberManagement.do")
-	public String management(Model model,@ModelAttribute("scri") SearchAdmin searchM) {
+	public String management(Model model, @ModelAttribute("scri") SearchAdmin searchM, HttpSession session) {
 
-		ArrayList<Company> cList = service.selectCompanyMember();
-		PageMarker pgm = new PageMarker();
-		pgm.setapg(searchM);
-		pgm.setTotalCount(service.mListCount(searchM));
-		ArrayList<Member> mList = service.selecMemberList(searchM);
-		model.addAttribute("mList", mList);
-		model.addAttribute("cList", cList);
-		model.addAttribute("pgm", pgm);
-		return "admin/memberManagement";
+		Member membercheck = (Member) session.getAttribute("member");
+		// 이 아이디를 말하는거야~?
+		if (membercheck != null) {
+			if (membercheck.getMemberLevel() == 3) {
+				ArrayList<Company> cList = service.selectCompanyMember();
+				PageMarker pgm = new PageMarker();
+				pgm.setapg(searchM);
+				pgm.setTotalCount(service.mListCount(searchM));
+				ArrayList<Member> mList = service.selecMemberList(searchM);
+				model.addAttribute("mList", mList);
+				model.addAttribute("cList", cList);
+				model.addAttribute("pgm", pgm);
+				return "admin/memberManagement";
+			} else {
+				return "redirect:/";
+			}
+		} else {
+			return "redirect:/";
+		}
 
 	}
 
@@ -244,7 +291,7 @@ public class AdminController {
 		List list = null;
 		list = service.middleList(rg);
 		System.out.println(list);
-		
+
 		return new Gson().toJson(list);
 	}
 
@@ -285,27 +332,27 @@ public class AdminController {
 				String onlyFilename = originalFileName;
 				// 확장자 -> .txt
 				String extension = originalFileName.substring(originalFileName.lastIndexOf("."));
-				
+
 				String filepath = onlyFilename;
-				
+
 				String fullpath = savePath + filepath;
-				
+
 				byte[] bytes = file.getBytes();
-				
+
 				BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(new File(fullpath)));
 				bos.write(bytes);
 				bos.close();
 				System.out.println("파일 업로드 완료");
-				
+
 //				pt.setFilename(originalFileName);
 //				rg.setFilepath("/upload/images/region/");
 				rg.setFilename(filepath);
 				System.out.println(filepath);
-				//플경로 넣어야 하고
-				//가져올때도 풀경로 불러와야함
+				// 플경로 넣어야 하고
+				// 가져올때도 풀경로 불러와야함
 				int regionResult = service.insertRegion(rg);
-				//region_no 파일명이랑 맞추면 테이블 안쓰고 이미지 region_no=파일명이랑 맞추면
-				//파일
+				// region_no 파일명이랑 맞추면 테이블 안쓰고 이미지 region_no=파일명이랑 맞추면
+				// 파일
 //				int photoResult = service.insertPhoto(pt);
 				System.out.println("지역삽입" + regionResult);
 
