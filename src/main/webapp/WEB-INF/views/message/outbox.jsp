@@ -73,6 +73,8 @@
 <script src="/src/js/bootstrap/popper.min.js"></script>
 <script src="/src/js/bootstrap/bootstrap-4.5.0.js"></script>
 <script>
+</script>
+<script>
 	$(".deleteIcon")
 			.click(
 					function(event) {

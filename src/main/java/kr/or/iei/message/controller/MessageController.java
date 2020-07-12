@@ -33,6 +33,45 @@ public class MessageController {
 	@Qualifier("alarmHandler")
 	alarmHandler handler;
 
+	@ResponseBody
+	@RequestMapping(value = "/acceptInvite.do", produces = "text/html;charset=utf-8")
+	public String acceptInvite(HttpSession session, int tripNo) {
+		
+		Member member = (Member) session.getAttribute("member");
+		
+		int result = service.acceptInvite(member, tripNo);
+		
+		return String.valueOf(result);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/rejectInvite.do", produces = "text/html;charset=utf-8")
+	public String rejectInvite(HttpSession session, String receiverId, int tripNo) {
+		
+		Member member = (Member) session.getAttribute("member");
+		
+		int result = service.rejectInvite(member, receiverId, tripNo);
+		
+		return String.valueOf(result);
+	}
+	
+	
+	@ResponseBody
+	@RequestMapping(value = "/invite.do", produces = "text/html;charset=utf-8")
+	public String inviteMember(HttpSession session, String receiver, int tripNo) {
+		
+		Member member = (Member) session.getAttribute("member");				
+		
+		int result = service.inviteTripMember(member, receiver, tripNo);
+		
+		return String.valueOf(result);
+	}
+	
+	@RequestMapping("/testView.do")
+	public String test() {
+		return "message/inviteView";
+	}
+	
 	@RequestMapping("/view.do")
 	public String messageView(HttpSession session, String messageNo, Model model) {
 
