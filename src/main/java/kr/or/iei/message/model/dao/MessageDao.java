@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import kr.or.iei.member.model.vo.Member;
 import kr.or.iei.message.model.vo.Message;
+import kr.or.iei.tripboard.model.vo.TripBoardMyTripVO;
 
 @Repository("messageDao")
 public class MessageDao {
@@ -91,6 +92,18 @@ public class MessageDao {
 
 	public String selectMemberNick(String memberId) {
 		return session.selectOne("message.checkMemberNick", memberId);
+	}
+
+	public TripBoardMyTripVO selectMyTrip(int tripNo) {
+		return session.selectOne("message.selectMyTrip", tripNo);
+	}
+
+	public int insertTripMember(HashMap<String, String> map) {
+		return session.insert("message.insertTripMember", map);
+	}
+
+	public int checkTripMember(HashMap<String, String> map) {
+		return session.selectOne("message.checkTripMember",map);
 	}
 	
 }

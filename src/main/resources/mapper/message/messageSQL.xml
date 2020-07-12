@@ -192,5 +192,25 @@
 			member_nickname
 		from member
 		where member_id = #{_parameter}
+	</select>
+	<select id="selectMyTrip" parameterType="_int" resultType="boardMyTrip">
+		select 
+			region_no as regionNo, 
+			trip_no as tripNo, 
+			to_char(begin_date, 'yyyy. mm. dd.')||' ~ '||to_char(end_date, 'yyyy. mm. dd.') as tripDate,
+			floor(end_date - begin_date) as tripDay, 
+			region_country||'-'||region_city as regionName 
+		from my_trip 
+		join region using(region_no) 
+		where trip_no = #{_parameter}
+	</select>
+	<insert id="insertTripMember" parameterType="map">
+		insert into trip_member values(
+			#{tripNo}, {memberId}
+		)		
+	</insert>
+	<select id="checkTripMember" parameterType="map">
+		select count(*) from trip_member
+		where trip_no = #{tripNo} and member_id = #{memberId}
 	</select>	
 </mapper>
