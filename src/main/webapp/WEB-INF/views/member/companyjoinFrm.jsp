@@ -394,6 +394,7 @@
 							success : function(data) {
 								mailCode = data;
 								alert("이메일을 송신했습니다.");
+								$("#emailBtn").hide();
 								checkArr[8] = true;
 								var min = $("#min");
 								var sec = $("#sec");
@@ -417,6 +418,7 @@
 											$("#sec").remove();
 											$("#col").remove();
 											mailCode="";
+											$("#emailBtn").show();
 											checkArr[8] = false;
 										}else{
 											min.html(Number($("#min").html()-1));
@@ -456,6 +458,7 @@
 			$("#col").remove();
 			$("#emailCode").remove();
 			$("#emailCodeBtn").remove();
+			$("#emailBtn").hide();
 			clearInterval(emailCodeTime);
 			checkArr[8] = true;
 			checkArr[9] = true;
