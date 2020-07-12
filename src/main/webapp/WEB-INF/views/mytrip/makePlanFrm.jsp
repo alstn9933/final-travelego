@@ -778,14 +778,14 @@ prefix="c"%>
 			$(document).on("click","button[name=invite]",function(){
 				var currValIs = $("input[name=currValIs]").val();
 				var popUrl = "/invitePopup.do?currValIs="+currValIs;
-				var popOption = "width=650px, height=550px, resizable=no, location=no, top=300px, left=300px;";
+				var popOption = "width=500px, height=200px, resizable=no, location=0, menubar=0, top=100px, left=1000";
 				var windowObj = window.open(popUrl,"타이틀들어갈제목 ",popOption);
 			});
 			
 			$(document).on("click","button[name=addSpot]",function(){
 			    var num = $(this).val();
 				var popUrl ="/mapPopup.do?spotValue="+num;
-			    var popOption = "width=650px, height=550px, resizable=no, location=no, top=300px, left=300px;";
+			    var popOption = "width=650px, height=550px, resizable=no, location=no, top=100px, left=400px";
 			    var windowObj = window.open(popUrl,"타이틀들어갈제목 ",popOption); 
 			});
 			
