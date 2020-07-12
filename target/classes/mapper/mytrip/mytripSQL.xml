@@ -59,9 +59,66 @@
 			and trip_order=1
 	</select>
 	<insert id="addMemoFirst" parameterType="tripDetail">
-		insert into trip_detail values(#{tripNo},#{tripDate},1,null,#{tripContent},null)
+		insert into trip_detail values(#{tripNo},#{tripDate},1,#{tripSpot},#{tripContent},null)
 	</insert>
 	<insert id="addMemo" parameterType="tripDetail">
-		insert into trip_detail values(#{tripNo},#{tripDate},(select max(trip_order) from trip_detail where trip_no=#{tripNo} and trip_date=#{tripDate})+1,null,#{tripContent},null)
+		insert into trip_detail values(#{tripNo},#{tripDate},(select max(trip_order) from trip_detail where trip_no=#{tripNo} and trip_date=#{tripDate})+1,#{tripSpot},#{tripContent},null)
 	</insert>
+	<select id="tripOrderIs" parameterType="tripDetail" resultType="tripDetail">
+		select max(trip_order) as tripOrder from trip_detail where trip_no=#{tripNo} and trip_date=#{tripDate}
+	</select>
+	<select id="selectMytrip" parameterType="int" resultType="mytrip">
+		select 
+		    trip_no as tripNo, 
+		    region_no as regionNo, 
+		    begin_date as beginDate,
+		    end_date as endDate
+		from my_trip 
+		where trip_no=#{tripNoIs}
+	</select>
+	<select id="selectDateList" parameterType="int" resultType="tripDetail">
+		select
+		    trip_no as tripNo,
+		    trip_date as tripDate,
+		    trip_order as tripOrder,
+		    trip_spot as tripSpot,
+		    trip_content as tripContent,
+		    coords
+		from trip_detail 
+		where trip_no=#{tripNoIs} 
+		order by trip_date,trip_order
+	</select>
+	<delete id="deleteMemo" parameterType="tripDetail">
+		delete from trip_detail where trip_date=#{tripDate} and trip_order=#{tripOrder} and trip_no=#{tripNo}
+	</delete>
+	<update id="sortMemo" parameterType="tripDetail">
+		update trip_detail 
+		set trip_order=trip_order-1 
+		where trip_date=#{tripDate} and trip_order>#{tripOrder} and trip_no=#{tripNo}
+	</update>
+	<update id="changeOrder1" parameterType="tripDetail">
+		update trip_detail
+		set trip_order=0
+		where trip_no=#{tripNo} and trip_date=#{tripDate} and trip_order=#{tripOrder}
+	</update>
+	<update id="changeOrder2" parameterType="tripDetail">
+		update trip_detail
+		set trip_order=trip_order-1
+		where trip_no=#{tripNo} and trip_date=#{tripDate} and trip_order=#{tripOrder}
+	</update>
+	<update id="changeOrder3" parameterType="tripDetail">
+		update trip_detail
+		set trip_order=#{tripOrder}
+		where trip_no=#{tripNo} and trip_date=#{tripDate} and trip_order=0
+	</update>
+	<update id="changeOrder4" parameterType="tripDetail">
+		update trip_detail
+		set trip_order=trip_order+1
+		where trip_no=#{tripNo} and trip_date=#{tripDate} and trip_order=#{tripOrder}
+	</update>
+	<select id="selectNickname" parameterType="String" resultType="String">
+		select member_id as memberId
+		from member
+		where member_nickname = #{_parameter}
+	</select>
 </mapper>

@@ -198,10 +198,14 @@
 					if(data[i].filename == null){
 						html += "<div class="+"imgsDiv"+"><img class="+"recommendimg"+" src="+"src/imgs/header/"+"rogo2.png"+"></img></div>";
 					}else{
-					html += "<div class="+"imgsDiv"+"><img class="+"recommendimg"+" src="+"upload/images/recommend/"+data[i].filename+"></img></div>";						
+					html += "<div class="+"imgsDiv"+"><img class="+"recommendimg"+" src="+data[i].filename+"></img></div>";						
 					}
 					html += "<a href="+"/recDetail.do?recNo="+data[i].recNo+"><div><div class='Stringdelete'>"+data[i].recTitle+"</div></div></a>";
+					if(data[i].recWriter==null){
+					html += "<div class='writerDiv'><span id='sid'>탈퇴회원</span><br><div class='readDiv'><i class='fas fa-book-reader'></i>"+data[i].readCount+"</div></div></div>";
+					}else{						
 					html += "<div class='writerDiv'><span id='sid'>"+data[i].recWriter+"</span><br><div class='readDiv'><i class='fas fa-book-reader'></i>"+data[i].readCount+"</div></div></div>";
+					}
 				}
 				$("#sub-content1").append(html);
 			},

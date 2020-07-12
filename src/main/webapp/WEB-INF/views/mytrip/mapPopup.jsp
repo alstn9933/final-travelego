@@ -65,13 +65,23 @@
 	        <div id="pagination"></div>
 	    </div>
 	  </div>
-	  <button type="button" name="addrValue">주소값전달</button>
+	  <!-- <button type="button" name="spotValue" id="spotValue">주소값전달</button> -->
+	  <input type="text" name="spotValue" value="${spotValue }">
 
 
 <script>
-
-	$(document).on("click","button[name=addrValue]",function(){
-		$(opener.document).find("input[name=receiveAddr]").val($(this).val());
+	$(document).on("click","li",function(){
+		//$(opener.document).find("input[name=receiveAddr]").val("되나");
+		var receivePlace = $(this).children().last().children().eq(0).text();
+		var receiveAddr = $(this).children().last().children().eq(1).text();
+		//window.opener.asdf = 'asdf';
+		$(opener.document).find("input[name=receivePlace]").val(receivePlace);
+		$(opener.document).find("div[name=receivePlace]").text(receivePlace);
+		$(opener.document).find("input[name=receiveAddr]").val(receiveAddr);
+		$(opener.document).find("div[name=receiveAddr]").text(receiveAddr);
+		$(opener.document).find("input[name=placeAddr]").val(receivePlace+","+receiveAddr);
+		$(opener.document).find("input[name=currDate]").val($("input[name=spotValue]").val());
+		window.opener.currDate = $("input[name=spotValue]").val();
 		window.close();
 	});
 

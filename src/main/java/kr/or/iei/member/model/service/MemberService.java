@@ -108,6 +108,34 @@ public class MemberService {
 		return (List<mainPhotoRecommed>) dao.maintourList(map);
 		
 	}
+	public Member sessioncheck(String memberId) {
+		return dao.sessioncheck(memberId);
+	}
+	public Member modifycheckMember(Member m) {
+		return dao.modifyMembercheck(m);
+	}
+	public Company sessionCpMember(Company cp, String memberId) {
+		cp.setCompanyId(memberId);
+		return dao.sessionCp(cp);
+	}
+
+	public Member selectOneMember(Member m) {
+		return dao.selectOneMember(m);
+	}
+	public int memberPwModifiedMember(Member m) {
+		return dao.memberPwModifiedMember(m);
+	}
+	public int companyPwModifiedMember(Member m, Company cp) {
+		int result = dao.memberPwModifiedMember(m);
+		cp.setCompanyId(m.getMemberId());
+		if(result>0) {
+			result = dao.companyModifiedMember(cp);
+			if(result>0) {
+				return result;
+			}
+		}
+		return 0;
+	}
 
 
 }

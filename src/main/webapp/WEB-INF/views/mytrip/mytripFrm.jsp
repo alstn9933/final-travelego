@@ -86,17 +86,26 @@ prefix="c"%>
 		</ul>
 		<div class="box1">
 			<div class="newOne">
-				<a href="<c:url value='/makePlanFrm.do' />">새 일정 만들기</a>
+				<a href="<c:url value='/makePlanFrm.do?tripNoIs=0' />">새 일정 만들기</a>
 			</div>
 		</div>
 		<div class="listDiv">
 			<table border="1">
+				
 				<c:forEach items="${list }" var="list">
+					
 					<tr>
-						<td>${list.tripNo }</td>
+						<td>
+							<form action="/makePlanFrm.do?tripNoIs=${list.tripNo }">
+								<input type="hidden" name="tripNoIs" value="${list.tripNo }">
+								<button type="submit">${list.tripNo }</button>
+							</form>
+						</td>
 						<td>${list.memberId }</td>
 					</tr>
+					
 				</c:forEach>
+				
 			</table>
 		</div>
       </div>

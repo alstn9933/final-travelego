@@ -33,7 +33,6 @@ public class MytripController {
 	@Autowired
 	@Qualifier("mytripService")
 	private MytripService service;
-	private JsonElement tripNo;
 
 	@RequestMapping(value = "/mytripFrm.do")
 	public String mytripFrm(HttpSession session, Model model) {
@@ -57,9 +56,24 @@ public class MytripController {
 	}
 
 	@RequestMapping(value = "/makePlanFrm.do")
-	public String makePlanFrm(Model model) {
+	public String makePlanFrm(Model model, int tripNoIs) {
 		ArrayList<Region> regionList = service.regionList();
 		model.addAttribute("regionList",regionList);
+		model.addAttribute("tripNoIs",tripNoIs);
+		if(tripNoIs==0) {
+			System.out.println("0임!!!");
+		}else {
+			Mytrip mytrip = service.selectMytrip(tripNoIs);
+			int regionNoIs = mytrip.getRegionNo();
+			String beginDateIs = mytrip.getBtrans();
+			String endDateIs = mytrip.getEtrans();
+			model.addAttribute("regionNoIs",regionNoIs);
+			model.addAttribute("beginDateIs",beginDateIs);
+			model.addAttribute("endDateIs",endDateIs);
+			
+			ArrayList<TripDetail> detailList = service.selectDateList(tripNoIs);
+			model.addAttribute("detailList",detailList);
+		}
 		return "mytrip/makePlanFrm";
 	}
 
@@ -95,10 +109,7 @@ public class MytripController {
 			result = service.insertTripMember(tripMember);
 			if(result>0) {
 				System.out.println("추가까지성공"); 
-				//currValIs = service.currValIs();
-				//mytrip.setTripNo(tripNo);
-				//System.out.println(currValIs);
-				//model.addAttribute("currValIs",currValIs);
+				
 				ArrayList<Mytrip> tripNo = service.currValIs();
 				if (tripNo.isEmpty()) {
 					return "0";
@@ -117,43 +128,137 @@ public class MytripController {
 	}
 	
 	@ResponseBody
-	@RequestMapping(value="/addMemo.do")
-	public String addMemo(int tripNo, String tripDate, String tripContent) {
+	@RequestMapping(value="/addMemo.do", produces = "application/json;charset=utf-8")
+	public String addMemo(int tripNo, String tripDate, String tripContent, String tripSpot) {
 		System.out.println(tripContent);
 		TripDetail tripDetail = new TripDetail();
 		tripDetail.setTripNo(tripNo);
 		tripDetail.setTripDate(tripDate);
+		System.out.println(111);
 		System.out.println(tripDate);
+		System.out.println(tripContent);
+		System.out.println(tripSpot);
+		System.out.println(222);
 		tripDetail.setTripContent(tripContent);
-		
+		tripDetail.setTripSpot(tripSpot);
 		TripDetail tdExist = service.ifExist(tripDetail);
-		if(tdExist == null) {
-			System.out.println("널임");
-			int result = service.addMemoFirst(tripDetail);
-		} else {
-			System.out.println("널 아님");
-			int result = service.addMemo(tripDetail);
+		
+		if(tripSpot=="" && tripContent=="") {
+			
+		}else {
+			if(tdExist == null) {
+				int result = service.addMemoFirst(tripDetail);
+			} else {
+				int result = service.addMemo(tripDetail);
+			}
 		}
 		
-		return null;
 		
-//		System.out.println(111);
-//		System.out.println(tripDate);
-//		System.out.println(tripNo);
-//		System.out.println(2222);
-//		TripDetail tripDetail = new TripDetail();
-//		//tripDate.format(thisDate);
-//		System.out.println(333);
-//		System.out.println(tripDate);
-//		System.out.println(444);
-//		tripDetail.setTripNo(tripNo);
-//		tripDetail.setTripDate(tripDate);
-//		return null;
+		TripDetail tripOrder = service.tripOrderIs(tripDetail);
+		if (tripOrder==null) {
+			System.out.println("tripOrderIs실패");
+			return "0";
+		} else {
+			System.out.println("tripOrderIs성공");
+			return new Gson().toJson(tripOrder);
+		}
+		
 	}
 	
 	@RequestMapping(value="/mapPopup.do")
-	public String mapPopup() {
+	public String mapPopup(Model model, String spotValue) {
+		model.addAttribute("spotValue",spotValue);
 		return "mytrip/mapPopup";
 	}
 
+	@ResponseBody
+	@RequestMapping(value="/deleteMemo.do", produces = "application/json;charset=utf-8")
+	public String deleteMemo(int tripNo, int tripOrder, String tripDate) {
+		TripDetail tripDetail = new TripDetail();
+		tripDetail.setTripOrder(tripOrder);
+		tripDetail.setTripDate(tripDate);
+		tripDetail.setTripNo(tripNo);
+		int result = service.deleteMemo(tripDetail);
+		if(result>0) {
+			System.out.println("메모지우기성공");
+			result = service.sortMemo(tripDetail);
+		}else {
+			System.out.println("메모지우기실패");
+		}
+		
+		ArrayList<TripDetail> orderList = service.selectDateList(tripNo);
+		return new Gson().toJson(orderList);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/changeOrder.do")
+	public String changeOrder(int tripNo, String tripDate, int saveValue1, String saveValue2, String saveValue3, String saveValue4, int prevValue1, String prevValue2, String prevValue3, String prevValue4) {
+		//0으로 맞춰줄 전에거
+		TripDetail tripDetail1 = new TripDetail();
+		tripDetail1.setTripNo(tripNo);
+		tripDetail1.setTripDate(tripDate);
+		tripDetail1.setTripOrder(prevValue1);
+		int result = service.changeOrder1(tripDetail1);
+		if(result>0) {
+			TripDetail tripDetail2 = new TripDetail();
+			tripDetail2.setTripNo(tripNo);
+			tripDetail2.setTripDate(tripDate);
+			tripDetail2.setTripOrder(saveValue1);
+			result = service.changeOrder2(tripDetail2);
+			if(result>0) {
+				System.out.println("정렬거의성공");
+				result = service.changeOrder3(tripDetail2);
+				if(result>0) {
+					System.out.println("정렬성공");
+				}
+			}
+		}
+		
+		return null;
+	}
+	
+	
+	@ResponseBody
+	@RequestMapping(value="/changeOrder2.do")
+	public String changeOrder2(int tripNo, String tripDate, int saveValue1, String saveValue2, String saveValue3, String saveValue4, int prevValue1, String prevValue2, String prevValue3, String prevValue4) {
+		//0으로 맞춰줄 전에거
+		TripDetail tripDetail1 = new TripDetail();
+		tripDetail1.setTripNo(tripNo);
+		tripDetail1.setTripDate(tripDate);
+		tripDetail1.setTripOrder(prevValue1);
+		int result = service.changeOrder1(tripDetail1);
+		if(result>0) {
+			TripDetail tripDetail2 = new TripDetail();
+			tripDetail2.setTripNo(tripNo);
+			tripDetail2.setTripDate(tripDate);
+			tripDetail2.setTripOrder(saveValue1);
+			result = service.changeOrder4(tripDetail2);
+			if(result>0) {
+				System.out.println("정렬거의성공");
+				result = service.changeOrder3(tripDetail2);
+				if(result>0) {
+					System.out.println("정렬성공");
+				}
+			}
+		}
+		
+		return null;
+	}
+	
+	@RequestMapping(value="/invitePopup.do")
+	public String invitePopup(Model model, int currValIs) {
+		model.addAttribute("currValIs",currValIs);
+		return "mytrip/invite";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/invite.do")
+	public String invite(int tripNo, String memberNickname) {
+		String memberId = service.selectNickname(memberNickname);
+		System.out.println(memberId);
+		//System.out.println(tripNo);
+		
+		return "0";
+	}
+	
 }

@@ -59,6 +59,44 @@ public class MytripDao {
 		return sqlSession.insert("mytrip.addMemo",tripDetail);
 	}
 
-	
+	public TripDetail tripOrderIs(TripDetail tripDetail) {
+		return sqlSession.selectOne("mytrip.tripOrderIs",tripDetail);
+	}
+
+	public Mytrip selectMytrip(int tripNoIs) {
+		return sqlSession.selectOne("mytrip.selectMytrip",tripNoIs);
+	}
+
+	public List<TripDetail> selectDateList(int tripNoIs) {
+		return sqlSession.selectList("mytrip.selectDateList",tripNoIs);
+	}
+
+	public int deleteMemo(TripDetail tripDetail) {
+		return sqlSession.delete("mytrip.deleteMemo",tripDetail);
+	}
+
+	public int sortMemo(TripDetail tripDetail) {
+		return sqlSession.update("mytrip.sortMemo",tripDetail);
+	}
+
+	public int changeOrder1(TripDetail tripDetail1) {
+		return sqlSession.update("mytrip.changeOrder1",tripDetail1);
+	}
+
+	public int changeOrder2(TripDetail tripDetail2) {
+		return sqlSession.update("mytrip.changeOrder2",tripDetail2);
+	}
+
+	public int changeOrder3(TripDetail tripDetail2) {
+		return sqlSession.update("mytrip.changeOrder3",tripDetail2);
+	}
+
+	public int changeOrder4(TripDetail tripDetail2) {
+		return sqlSession.update("mytrip.changeOrder4",tripDetail2);
+	}
+
+	public String selectNickname(String memberNickname) {
+		return sqlSession.selectOne("mytrip.selectNickname",memberNickname);
+	}
 	
 }
