@@ -76,7 +76,9 @@ prefix="c"%>
       </div>
       <div class="btn_area">
         <div>
-          <button id="toList" type="button" class="btn btn-primary">목록으로</button>
+          <button id="toList" type="button" class="btn btn-primary">
+            목록으로
+          </button>
         </div>
         <div>
           <button type="button" class="btn btn-danger" id="deleteBtn">
@@ -92,6 +94,69 @@ prefix="c"%>
   <script src="/src/js/jquery/jquery-3.5.1.js"></script>
   <script src="/src/js/bootstrap/popper.min.js"></script>
   <script src="/src/js/bootstrap/bootstrap-4.5.0.js"></script>
+  <c:if test="${sessionScope.member.memberId != message.messageSender }">
+    <script>
+      $("#inviteAccept").click(function () {
+        const tripNo = $(this).attr("tripNo");
+
+        $.ajax({
+          url: "/message/acceptInvite.do",
+          type: "POST",
+          data: { tripNo: tripNo },
+          success: function (data) {
+            if (data == "-1") {
+              alert("이미 수락한 초대입니다.");
+            } else if (data == "1") {
+              if (
+                confirm(
+                  "초대가 수락되었습니다.\r\n일정만들기 페이지로 이동할까요?"
+                )
+              ) {
+                opener.location.href = "/makePlanFrm.do?tripNoIs=" + tripNo;
+                self.close();
+              }
+            }
+          },
+          error: function () {
+            console.log("서버 접속에 실패했습니다.");
+          },
+        });
+      });
+
+      $("#inviteReject").click(function () {
+        const tripNo = $(this).attr("tripNo");
+        const receiverId = $(this).attr("receiver");
+        if (confirm("초대 거절 메시지를 발송하시겠습니까?")) {
+          $.ajax({
+            url: "/message/rejectInvite.do",
+            type: "POST",
+            data: { receiverId: receiverId, tripNo: tripNo },
+            success: function (data) {
+              if (data == "1") {
+                alert("거절 메시지를 발송하였습니다.");
+              } else if (data == "-1") {
+                alert("이미 수락한 초대입니다.");
+              }
+            },
+            error: function () {
+              console.log("메시지 발송에 실패");
+            },
+          });
+        }
+      });
+    </script>
+  </c:if>
+  <c:if test="${sessionScope.member.memberId == message.messageSender }">
+    <script>
+      $("#inviteAccept").click(function () {
+        alert("초대받은 사람에게만 허용된 기능입니다.");
+      });
+
+      $("#inviteReject").click(function () {
+        alert("초대받은 사람에게만 허용된 기능입니다.");
+      });
+    </script>
+  </c:if>
   <script>
     $("#responseBtn").click(function () {
       location.href = "/message/write.do?receiver=${message.messageReceiver}";
@@ -103,12 +168,12 @@ prefix="c"%>
       }
     });
 
-    $("#toList").click(function(){
+    $("#toList").click(function () {
       const toGo = $("#messageTarget").html();
-      if(toGo == "from."){
-        location.href="/message/inbox.do";
+      if (toGo == "from.") {
+        location.href = "/message/inbox.do";
       } else {
-        location.href="/message/outbox.do";
+        location.href = "/message/outbox.do";
       }
     });
   </script>

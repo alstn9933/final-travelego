@@ -73,13 +73,6 @@
 <script src="/src/js/bootstrap/popper.min.js"></script>
 <script src="/src/js/bootstrap/bootstrap-4.5.0.js"></script>
 <script>
-	$("#inviteAccept").click(function(){
-		alert("초대받은 사람에게만 허용된 기능입니다.");
-	});
-
-	$("#rejectInvite").click(function(){
-		alert("초대받은 사람에게만 허용된 기능입니다.");
-	});
 </script>
 <script>
 	$(".deleteIcon")

@@ -206,10 +206,10 @@
 	</select>
 	<insert id="insertTripMember" parameterType="map">
 		insert into trip_member values(
-			#{tripNo}, {memberId}
+			#{tripNo}, #{memberId}
 		)		
 	</insert>
-	<select id="checkTripMember" parameterType="map">
+	<select id="checkTripMember" parameterType="map" resultType="_int">
 		select count(*) from trip_member
 		where trip_no = #{tripNo} and member_id = #{memberId}
 	</select>	

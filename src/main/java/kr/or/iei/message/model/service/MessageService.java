@@ -333,35 +333,46 @@ public class MessageService {
 	public int inviteTripMember(Member member, String receiver, int tripNo) {
 
 		String receiverId = dao.getMemberId(receiver);
+
 		int result = 0;
 
 		if (receiverId == null) {
 			result = -1;
 		} else {
-			TripBoardMyTripVO trip = dao.selectMyTrip(tripNo);
+			HashMap<String, String> map = new HashMap<String, String>();
+			map.put("tripNo", String.valueOf(tripNo));
+			map.put("memberId", receiverId);
 
-			if (trip != null) {
-				StringBuilder sb = new StringBuilder();
-				sb.append("<div class='invite_area'>");
-				sb.append("<div class='invite_content'>");
-				sb.append("<span>[" + member.getMemberNickname() + "]님께서</span>");
-				sb.append("<span>" + trip.getRegionName() + " (" + trip.getTripDate() + ")</span>");
-				sb.append("<span>여행 일정 만들기에 초대하셨습니다.</span></div>");
-				sb.append("<div class='invite_btn'>");
-				sb.append("<button type='button' class='btn btn-outline-primary' id='inviteAccept' tripNo='" + tripNo
-						+ "'>");
-				sb.append("수락</button>");
-				sb.append("<button type='button' class='btn btn-outline-danger' id='inviteReject' tripNo='" + tripNo
-						+ "' receiver='" + member.getMemberId() + "'>");
-				sb.append("거절</button></div></div>");
+			result = dao.checkTripMember(map);
+			if (result == 1) {
+				result = -2;
+			} else {
 
-				Message message = new Message();
-				message.setMessageReceiver(receiverId);
-				message.setMessageSender(member.getMemberId());
-				message.setMessageTitle("[" + member.getMemberNickname() + "] 님의 여행 일정 초대가 도착했습니다.");
-				message.setMessageContent(sb.toString());
+				TripBoardMyTripVO trip = dao.selectMyTrip(tripNo);
 
-				result = dao.insertMessage(message);
+				if (trip != null) {
+					StringBuilder sb = new StringBuilder();
+					sb.append("<div class='invite_area'>");
+					sb.append("<div class='invite_content'>");
+					sb.append("<span>[" + member.getMemberNickname() + "]님께서</span>");
+					sb.append("<span>" + trip.getRegionName() + " (" + trip.getTripDate() + ")</span>");
+					sb.append("<span>여행 일정 만들기에 초대하셨습니다.</span></div>");
+					sb.append("<div class='invite_btn'>");
+					sb.append("<button type='button' class='btn btn-outline-primary' id='inviteAccept' tripNo='"
+							+ tripNo + "'>");
+					sb.append("수락</button>");
+					sb.append("<button type='button' class='btn btn-outline-danger' id='inviteReject' tripNo='" + tripNo
+							+ "' receiver='" + member.getMemberId() + "'>");
+					sb.append("거절</button></div></div>");
+
+					Message message = new Message();
+					message.setMessageReceiver(receiverId);
+					message.setMessageSender(member.getMemberId());
+					message.setMessageTitle("[" + member.getMemberNickname() + "] 님의 여행 일정 초대가 도착했습니다.");
+					message.setMessageContent(sb.toString());
+
+					result = dao.insertMessage(message);
+				}
 			}
 		}
 
@@ -387,17 +398,24 @@ public class MessageService {
 
 	public int rejectInvite(Member member, String receiverId, int tripNo) {
 
-		TripBoardMyTripVO trip = dao.selectMyTrip(tripNo);
-		int result = 0;
-		if (trip != null) {
-			Message message = new Message();
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("memberId", member.getMemberId());
+		map.put("tripNo", String.valueOf(tripNo));
+		int result = dao.checkTripMember(map);
+		if (result == 1) {
+			result = -1;
+		} else {
+			TripBoardMyTripVO trip = dao.selectMyTrip(tripNo);
+			if (trip != null) {
+				Message message = new Message();
 
-			message.setMessageReceiver(receiverId);
-			message.setMessageSender(member.getMemberId());
-			message.setMessageTitle("[" + member.getMemberNickname() + "] 님께서 여행 일정 초대를 거절하셨습니다.");
-			message.setMessageContent(member.getMemberNickname() + "님께서<br/>" + trip.getRegionName() + " ("
-					+ trip.getTripDate() + ") 일정의 초대를 거절하셨습니다.");
-			result = dao.insertMessage(message);
+				message.setMessageReceiver(receiverId);
+				message.setMessageSender(member.getMemberId());
+				message.setMessageTitle("[" + member.getMemberNickname() + "] 님께서 여행 일정 초대를 거절하셨습니다.");
+				message.setMessageContent(member.getMemberNickname() + "님께서<br/>" + trip.getRegionName() + " ("
+						+ trip.getTripDate() + ") 일정의 초대를 거절하셨습니다.");
+				result = dao.insertMessage(message);
+			}
 		}
 
 		return result;
