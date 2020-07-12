@@ -251,14 +251,14 @@ public class MytripController {
 		return "mytrip/invite";
 	}
 	
+	@ResponseBody
 	@RequestMapping(value="/invite.do")
-	public String invite(HttpSession session, int tripNo, String memberNickname) {
-		Member member = (Member)session.getAttribute("member");
+	public String invite(int tripNo, String memberNickname) {
 		String memberId = service.selectNickname(memberNickname);
 		System.out.println(memberId);
 		//System.out.println(tripNo);
 		
-		return null;
+		return "0";
 	}
 	
 }
