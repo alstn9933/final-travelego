@@ -50,9 +50,9 @@ public class MemberController {
 		Member member = service.loginMember(m);
 		if (member != null) {
 			Company company = service.checkCompanyId(member);
-			System.out.println(company.getJoinConfirm());
 			System.out.println(member.getMemberLevel());
 			if(company != null && company.getJoinConfirm()==1) {
+				System.out.println(company.getJoinConfirm());
 				session.setAttribute("company", company);
 				session.setAttribute("member", member);
 				model.addAttribute("loc", "/");

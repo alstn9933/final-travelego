@@ -233,7 +233,7 @@ public class TripBoardController {
 			MultipartHttpServletRequest multiFile, @RequestParam MultipartFile upload){
 		OutputStream out = null;
 		PrintWriter printWriter = null;
-
+		System.out.println("이미지 업로드 호출");
 		// 인코딩
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("text/html;charset=utf-8");
@@ -250,18 +250,20 @@ public class TripBoardController {
 			// 이미지 경로 생성
 			String path = request.getSession().getServletContext().getRealPath("/upload/images/tripboard/sub");
 			String ckUploadPath = path + "/" + filepath;
-
+			
+			System.out.println("파일 작성 시작");
+			
 			out = new FileOutputStream(new File(ckUploadPath));
 			out.write(bytes);
 			out.flush(); // outputStram에 저장된 데이터를 전송하고 초기화
-
+			System.out.println("파일 작성 완료");
 			printWriter = response.getWriter(); 
 			String fileUrl = "/tripboard/ckImgSubmit.do?filepath=" + filepath; // 작성화면
 
 			// 업로드시 메시지 출력
 			printWriter.println("{\"filename\" : \"" + fileName + "\", \"uploaded\" : 1, \"url\":\"" + fileUrl + "\"}");
 			printWriter.flush();
-
+			System.out.println("메시지 출력 완료");
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {

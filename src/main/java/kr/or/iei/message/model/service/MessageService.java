@@ -24,7 +24,7 @@ public class MessageService {
 	public InboxPageData selectSendMessageList(Member member) {
 
 		Message msg = new Message();
-		msg.setMessageSender(member.getMemberNickname());
+		msg.setMessageSender(member.getMemberId());
 
 		ArrayList<Message> list = (ArrayList<Message>) dao.selectMsgList(msg);
 
@@ -38,7 +38,7 @@ public class MessageService {
 	public InboxPageData selectReceiveMessageList(Member member) {
 
 		Message msg = new Message();
-		msg.setMessageReceiver(member.getMemberNickname());
+		msg.setMessageReceiver(member.getMemberId());
 
 		ArrayList<Message> list = (ArrayList<Message>) dao.selectMsgList(msg);
 		int unchkCount = dao.countUncheckMsg(msg.getMessageReceiver());

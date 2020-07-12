@@ -1,24 +1,30 @@
 package kr.or.iei.together.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.socket.TextMessage;
+import org.springframework.web.socket.WebSocketSession;
 
 import com.google.gson.Gson;
 
+import kr.or.iei.common.TogetherWSHandler;
 import kr.or.iei.common.model.vo.Region;
 import kr.or.iei.member.model.service.MemberService;
 import kr.or.iei.member.model.vo.Member;
 import kr.or.iei.together.model.service.TogetherService;
 import kr.or.iei.together.model.vo.MainPageDTO;
 import kr.or.iei.together.model.vo.TogetherBoardVO;
+import kr.or.iei.together.model.vo.TogetherCommentListVO;
 import kr.or.iei.together.model.vo.TogetherCommentVO;
 
 @Controller
@@ -29,7 +35,16 @@ public class TogetherController {
 	TogetherService service;
 	
 	@Autowired
-	MemberService memberService;
+	@Qualifier("togetherWSHandler")
+	TogetherWSHandler wsHandler;
+	
+	@ResponseBody
+	@RequestMapping(value = "/asyncLoadNew.do", produces = "application/json;charset=utf-8")
+	public String asyncLoadNew(int boardNo[]) {
+		ArrayList<TogetherBoardVO> list = service.selectBoardList(boardNo);
+
+		return new Gson().toJson(list);
+	}
 	
 	@RequestMapping(value = "/singleView.do")
 	public String singleView(int boardNo, Model model) {
@@ -38,6 +53,22 @@ public class TogetherController {
 		
 		model.addAttribute("board",vo);
 		return "together/view";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/modComment.do", produces = "text/html;charset=utf-8")
+	public String asyncModifyComment(TogetherCommentVO comment) {
+		int result = service.updateComment(comment);
+		
+		return String.valueOf(result);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/deleteComment.do", produces = "text/html;charset=utf-8")
+	public String asyncDeleteComment(int commentNo) {
+		int result = service.deleteComment(commentNo);
+		
+		return String.valueOf(result);
 	}
 	
 	@ResponseBody
@@ -93,8 +124,8 @@ public class TogetherController {
 	@ResponseBody
 	@RequestMapping(value = "/asyncCommentLoad.do", produces = "application/json;charset=utf-8")
 	public String asyncCommentLoad(int boardNo) {
-		ArrayList<TogetherCommentVO> list = service.selectCommentList(boardNo);
-		return new Gson().toJson(list);
+		TogetherCommentListVO listVo = service.selectCommentList(boardNo);
+		return new Gson().toJson(listVo);
 	}
 	
 	@ResponseBody
@@ -130,9 +161,8 @@ public class TogetherController {
 	@ResponseBody
 	@RequestMapping(value = "/write.do", produces = "text/html;charset=utf-8")
 	public String boardWrite(TogetherBoardVO board) {
-		System.out.println("글쓰기 호출");
 		int result = service.insertBoard(board);
-		System.out.println(result);
+		wsHandler.sendInsertAlarm(board.getTogetherNo());
 		return String.valueOf(result);
 	}
 	
@@ -144,30 +174,4 @@ public class TogetherController {
 		return new Gson().toJson(list);
 	}
 	
-	@RequestMapping("/open.do")
-	public String test(HttpServletRequest request) {
-		
-		return "together/main";
-	}
-	
-	@RequestMapping("/join.do")
-	public String join(String userId) {
-		
-		Member member = new Member();
-		member.setMemberId(userId);
-		member.setMemberPw("1234");
-		member.setMemberName(userId);
-		member.setMemberNickname(userId);
-		member.setPhone("0102345678");
-		member.setEmail(userId);
-		member.setMemberLevel(1);
-		member.setGender("M");
-		int result = memberService.joinMember(member);
-		
-		if(result >0) {			
-			return "together/main";
-		}else {
-			return null;
-		}
-	}
 }

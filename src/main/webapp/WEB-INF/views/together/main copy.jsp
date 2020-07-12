@@ -157,7 +157,7 @@ prefix="c"%>
                   </tr>
                   <tr class="comment_content_area">
                     <td>
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                      Lorem ip sum dolor sit amet, consectetur adipiscing elit,
                       sed do eiusmod tempor incididunt ut labore et dolore magna
                       aliqua. Ut enim ad minim veniam, quis nostrud exercitation
                       ullamco laboris nisi ut aliquip ex ea commodo consequat.
@@ -171,7 +171,7 @@ prefix="c"%>
               </div>
             </div>
             <div class="strech_area">
-              <i class="fas fa-angle-down"></i>
+              <i class="fas fa-angle-down"> </i>
             </div>
           </div>
         </div>
