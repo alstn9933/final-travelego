@@ -259,6 +259,13 @@ prefix="c"%>
 		}
 		.starR1.on{background-position:0 0;}
 		.starR2.on{background-position:-12px 0;}
+/* 		#confirm{
+			background-color: #37cca6 ;
+			border-color: #37cca6;
+		}
+		#confirm:hover{
+			background-color: #37cca6 ;
+		} */
     </style>
   </head>
   <body>

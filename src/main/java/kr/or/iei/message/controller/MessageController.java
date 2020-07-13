@@ -33,6 +33,50 @@ public class MessageController {
 	@Qualifier("alarmHandler")
 	alarmHandler handler;
 
+	
+	// 수정
+	@ResponseBody
+	@RequestMapping(value = "/acceptInvite.do", produces = "text/html;charset=utf-8")
+	public String acceptInvite(HttpSession session, int tripNo) {
+		
+		Member member = (Member) session.getAttribute("member");
+		
+		int result = service.acceptInvite(member, tripNo);
+		
+		return String.valueOf(result);
+	}
+	
+	
+	// 수정
+	@ResponseBody
+	@RequestMapping(value = "/rejectInvite.do", produces = "text/html;charset=utf-8")
+	public String rejectInvite(HttpSession session, String receiverId, int tripNo) {
+		
+		Member member = (Member) session.getAttribute("member");
+		
+		int result = service.rejectInvite(member, receiverId, tripNo);
+		
+		return String.valueOf(result);
+	}
+	
+	
+	// 수정
+	@ResponseBody
+	@RequestMapping(value = "/invite.do", produces = "text/html;charset=utf-8")
+	public String inviteMember(HttpSession session, String receiver, int tripNo) {
+		
+		Member member = (Member) session.getAttribute("member");				
+		
+		int result = service.inviteTripMember(member, receiver, tripNo);
+		
+		return String.valueOf(result);
+	}
+	
+	@RequestMapping("/testView.do")
+	public String test() {
+		return "message/inviteView";
+	}
+	
 	@RequestMapping("/view.do")
 	public String messageView(HttpSession session, String messageNo, Model model) {
 
@@ -94,7 +138,8 @@ public class MessageController {
 		if (receiver != null) {
 			String memberId = service.selectMemberId(receiver);
 			if(memberId != null) {
-				model.addAttribute("receiver", receiver);				
+				model.addAttribute("receiverNick", receiver);	
+				model.addAttribute("receiver",memberId);
 			} else {
 				model.addAttribute("msg","상대방을 조회할 수 없습니다.");
 				model.addAttribute("loc","/");
@@ -107,9 +152,10 @@ public class MessageController {
 	@RequestMapping("/writeById.do")
 	public String messageWriteById(String memberId, Model model) {
 		if (memberId != null) {
-			String receiver = service.selectMemberNick(memberId);
-			if(receiver != null) {
-				model.addAttribute("receiver", receiver);				
+			String receiverNick = service.selectMemberNick(memberId);
+			if(receiverNick != null) {
+				model.addAttribute("receiverNick", receiverNick);
+				model.addAttribute("receiver",memberId);
 			} else {
 				model.addAttribute("msg","상대방을 조회할 수 없습니다.");
 				model.addAttribute("loc","/");
@@ -147,7 +193,7 @@ public class MessageController {
 
 	@RequestMapping("/send.do")
 	public String messageSend(Message m, Model model) {
-
+		
 		int result = service.insertMessage(m);
 		if (result > 0) {
 			model.addAttribute("msg", "메세지를 전송하였습니다.");
@@ -176,8 +222,8 @@ public class MessageController {
 	@ResponseBody
 	@RequestMapping(value = "/checkId.do", produces = "text/html;charset=utf-8")
 	public String checkId(String receiver) {
-		int result = service.checkMemberId(receiver);
-		return String.valueOf(result);
+		String result = service.checkMemberId(receiver);
+		return result;
 	}
 
 	@RequestMapping("/deleteAllReadMessage.do")

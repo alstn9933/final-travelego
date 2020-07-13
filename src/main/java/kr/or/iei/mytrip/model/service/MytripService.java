@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import kr.or.iei.common.model.vo.Region;
 import kr.or.iei.mytrip.model.dao.MytripDao;
 import kr.or.iei.mytrip.model.vo.Mytrip;
+import kr.or.iei.mytrip.model.vo.RegionData;
 import kr.or.iei.mytrip.model.vo.TripDetail;
 import kr.or.iei.mytrip.model.vo.TripMember;
 
@@ -42,8 +43,8 @@ public class MytripService {
 		return dao.insertTripMember(tripMember);
 	}
 
-	public List<TripMember> selectTripList(TripMember tripMember) {
-		return dao.selectTripList(tripMember);
+	public List<RegionData> selectTripList(String memberId) {
+		return dao.selectTripList(memberId);
 	}
 	
 	public ArrayList<Mytrip> currValIs() {
@@ -103,6 +104,7 @@ public class MytripService {
 	public String selectNickname(String memberNickname) {
 		return dao.selectNickname(memberNickname);
 	}
+
 
 
 	 

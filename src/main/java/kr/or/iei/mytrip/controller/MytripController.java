@@ -25,6 +25,7 @@ import kr.or.iei.common.model.vo.Region;
 import kr.or.iei.member.model.vo.Member;
 import kr.or.iei.mytrip.model.service.MytripService;
 import kr.or.iei.mytrip.model.vo.Mytrip;
+import kr.or.iei.mytrip.model.vo.RegionData;
 import kr.or.iei.mytrip.model.vo.TripDetail;
 import kr.or.iei.mytrip.model.vo.TripMember;
 
@@ -37,11 +38,24 @@ public class MytripController {
 	@RequestMapping(value = "/mytripFrm.do")
 	public String mytripFrm(HttpSession session, Model model) {
 		Member member = (Member)session.getAttribute("member");
-		TripMember tripMember = new TripMember();
-		tripMember.setMemberId(member.getMemberId());
-		List<TripMember> list = service.selectTripList(tripMember);
+		String memberId = member.getMemberId();
+		/*
+		 * TripMember tripMember = new TripMember();
+		 * tripMember.setMemberId(member.getMemberId());
+		 */
+		List<RegionData> list = service.selectTripList(memberId);
+		//List<TripMember> list = service.selectTripList(tripMember);
 		model.addAttribute("list",list);
+		
+		
 		return "mytrip/mytripFrm";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/loadImg.do")
+	public String loadImg(HttpSession session) {
+		
+		return null;
 	}
 
 	@RequestMapping(value = "/insertTrip.do")

@@ -37,7 +37,7 @@
 	  	 left join (select count(*) as cnt , board_no
 	  	 			from liked where board_class = 2 group by board_no)rlist
 	  	 			on (rec_no = board_no))
-	  	 join photo on (recNo = board_no) order by recNo desc)fin
+	  	 join photo on (recNo = board_no and board_class=2) order by recNo desc)fin
          where rownum between #{start} and #{end}
 
   </select>
@@ -47,7 +47,7 @@
   		rec_no as recNo,
   		filepath
   	from recommend_board
-  	full join photo on (rec_no = board_no)
+  	full join photo on (rec_no = board_no and board_class=2)
 	<!-- where board_class=2 -->
   </select>
   
@@ -182,7 +182,7 @@
   	insert ALL into RECOMMEND_BOARD values
 	  	(rec_seq.nextval,#{recTitle},#{recContent},#{recWriter},default,sysdate,#{regionNo},#{recCategory},#{place},#{coords})
 		into photo values
-		(photo_seq.nextval,1,rec_seq.nextval,#{p},#{p})
+		(photo_seq.nextval,2,rec_seq.nextval,#{p},#{p})
 		 select * from dual
   </insert>
   
