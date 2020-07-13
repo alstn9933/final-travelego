@@ -134,6 +134,7 @@ prefix="c"%>
       </div>
       <aside style="display: none;">
         <div>
+          <c:if test="${not empty sessionScope.member && sessionScope.member.memberLevel==1}">
           <button
             type="button"
             class="btn btn-primary"
@@ -143,6 +144,7 @@ prefix="c"%>
           >
             글쓰기
           </button>
+        </c:if>
           <div class="side_area">
             <div class="search_tab">
               <div class="selected_tab">

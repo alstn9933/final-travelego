@@ -109,11 +109,13 @@ $("#inputRegion").keyup(function (event) {
   }
 });
 
-$("#inputRegion").on("search focusout", function (event) {
+$("#inputRegion").on("search", function (event) {
   $(".list-group").children().remove();
   event.preventDefault();
   return false;
 });
+
+$(document).on("click", ".list-group > li", listClick);
 
 function listClick() {
   $("#inputRegion").val($(this).html());
