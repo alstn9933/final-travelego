@@ -137,10 +137,42 @@ main .admin_sidebar {
 		font-size: 18px;
 	}
 }
+
+ .deletePage {
+
+        width: 100px;
+        height: 30px;
+        background-color: #37cca6;
+
+        border: none;
+
+        color: #fff;
+
+      
+
+        text-align: center;
+
+        text-decoration: none;
+
+        display: inline-block;
+
+        font-size: 15px;
+
+       text-align:  center;
+        border-radius: 10px;
+        cursor: pointer;
+
+    }
+
+    .deletePage:hover {
+        background-color: orangered;
+    }
+
+
 </style>
 <script>
 	$(function() {
-				$("#activeStop").click(function() {
+				$(".activeStop").click(function() {
 					var activeStop = $(this).attr("data-id");
 					var confirmOk = confirm("회원 활동이 정지 됩니다.진행하시겠습니까?");
 					if (confirmOk == true) {
@@ -290,7 +322,7 @@ main .admin_sidebar {
 						<c:forEach items="${reList}" var="r">
 							<tr>
 								<td>${r.reportNo}</td>
-								<td>${r.reportCategory}<br> <input type="button"
+								<td>${r.reportCategory}<br> <input type="button" style="color:red"
 									value="상세페이지 이동" data-id="${r.reportNo }" id="reportlPage"
 									onclick="movePage(${r.boardNo},${r.boardClass });">
 								</td>
@@ -322,12 +354,12 @@ main .admin_sidebar {
 									<c:if test="${m.memberId eq r.reportedMember}">
 										<c:if test="${m.memberLevel gt 0 }">
 											<td class="reportedMem">${r.reportedMember}<br> <input
-												type="button" name="memberStop" id="activeStop" value="정지"
+												type="button" name="memberStop" id="activeStop" value="정지" class="activeStop"
 												data-id="${r.reportedMember}"></td>
 										</c:if>
 										<c:if test="${ m.memberLevel lt 0 }">
-											<td class="reportedMem">${r.reportedMember }<br> 정지
-												회원
+											<td class="reportedMem" >${r.reportedMember }<br>
+											<p style="color:red; font-size:15x;"> 정지 회원</p>
 											</td>
 										</c:if>
 									</c:if>
