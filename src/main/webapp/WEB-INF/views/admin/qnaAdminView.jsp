@@ -195,7 +195,7 @@ main .admin_sidebar {
 					<c:if test="${empty q.qnaAnswer }">
 						<div>
 							답변 :
-							<textarea rows="5" cols="50" style="resize: none;"
+							<textarea rows="5" cols="50" style="resize: none;margin-left:154px;"
 								name="qnaAnswer"> </textarea>
 						</div>
 						<br>

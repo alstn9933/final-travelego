@@ -31,7 +31,7 @@
 						<div class="col-xl-4 col-lg-4 d-none d-lg-block">
 							<div
 								class="social_wrap d-flex align-items-center justify-content-end">
-								<c:if test="${sessionScope.member.memberId == 'admin'}">
+								<c:if test="${sessionScope.member.memberLevel ==3}">
 									<div class="col-xl-2 col-lg-6">
 										<div class="main-menu  d-none d-lg-block">
 											<nav>
@@ -39,7 +39,7 @@
 													<ul class="submenu">
 														<li><a href="#"><i class="fas fa-tools"></i></i></a>
 															<ul class="submenu">
-																<li><a href="destination_details.html">관리자 페이지</a>
+																<li><a href="memberManagement.do">관리자 페이지</a>
 																</li>
 															</ul></li>
 													</ul>
@@ -111,7 +111,7 @@
 					type : "register",
 					memberId : memberId
 
-				};
+				};				
 				ws.send(JSON.stringify(msg));
 			}
 
@@ -130,6 +130,7 @@
 				ws.send(JSON.stringify(msg));
 				console.log("웹소켓 연결종료.");
 			};
+
 		};
 
 		$(function() {

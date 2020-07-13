@@ -34,14 +34,19 @@ $(".modal-body tr").click(function () {
       let tripDate = data[0].tripDate;
       for (let i = 0; i < data.length; i++) {
         if (i == 0) {
-          tripRoute += "1일차 : " + data[i].tripSpot;
+          tripRoute +=
+            "1일차 : " +
+            data[i].tripSpot.substring(0, data[i].tripSpot.indexOf(","));
         } else {
           if (tripDate == data[i].tripDate) {
             tripRoute += " - ";
           } else {
             tripRoute += "\n" + data[i].tripDate + "일차 : ";
           }
-          tripRoute += data[i].tripSpot;
+          tripRoute += data[i].tripSpot.substring(
+            0,
+            data[i].tripSpot.indexOf(",")
+          );
         }
 
         tripDate = data[i].tripDate;
