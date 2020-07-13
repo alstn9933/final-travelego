@@ -151,6 +151,7 @@ ${board.tripRoute}</textarea
               class="btn btn-outline-danger"
               id="reportBtn"
               boardNum="${board.tripBoardNo}"
+              boardClass="3"
             >
               <i class="fas fa-exclamation-circle"></i>
             </button>
@@ -337,6 +338,14 @@ ${board.tripRoute}</textarea
     <c:if test="${not empty sessionScope.member.memberId}">
       <script src="/src/js/tripboard/like.js"></script>
       <script>
+        $("#reportBtn").click(function () {
+          const boardNo = $(this).attr("boardNum");
+          const boardClass = $(this).attr("boardClass");
+          if (confirm("게시글을 신고하시겠습니까?")) {
+            location.href =
+              "/reportFrm.do?boardNo=" + boardNo + "&boardClass=" + boardClass;
+          }
+        });
         $("#modBtn").click(function () {
           location.href =
             "/tripboard/modifyFrm.do?boardNum=" + $(this).attr("boardNum");

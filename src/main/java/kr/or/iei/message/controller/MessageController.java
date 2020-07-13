@@ -33,6 +33,8 @@ public class MessageController {
 	@Qualifier("alarmHandler")
 	alarmHandler handler;
 
+	
+	// 수정
 	@ResponseBody
 	@RequestMapping(value = "/acceptInvite.do", produces = "text/html;charset=utf-8")
 	public String acceptInvite(HttpSession session, int tripNo) {
@@ -44,6 +46,8 @@ public class MessageController {
 		return String.valueOf(result);
 	}
 	
+	
+	// 수정
 	@ResponseBody
 	@RequestMapping(value = "/rejectInvite.do", produces = "text/html;charset=utf-8")
 	public String rejectInvite(HttpSession session, String receiverId, int tripNo) {
@@ -56,6 +60,7 @@ public class MessageController {
 	}
 	
 	
+	// 수정
 	@ResponseBody
 	@RequestMapping(value = "/invite.do", produces = "text/html;charset=utf-8")
 	public String inviteMember(HttpSession session, String receiver, int tripNo) {
@@ -133,7 +138,8 @@ public class MessageController {
 		if (receiver != null) {
 			String memberId = service.selectMemberId(receiver);
 			if(memberId != null) {
-				model.addAttribute("receiver", receiver);				
+				model.addAttribute("receiverNick", receiver);	
+				model.addAttribute("receiver",memberId);
 			} else {
 				model.addAttribute("msg","상대방을 조회할 수 없습니다.");
 				model.addAttribute("loc","/");
@@ -186,7 +192,7 @@ public class MessageController {
 
 	@RequestMapping("/send.do")
 	public String messageSend(Message m, Model model) {
-
+		
 		int result = service.insertMessage(m);
 		if (result > 0) {
 			model.addAttribute("msg", "메세지를 전송하였습니다.");
@@ -215,8 +221,8 @@ public class MessageController {
 	@ResponseBody
 	@RequestMapping(value = "/checkId.do", produces = "text/html;charset=utf-8")
 	public String checkId(String receiver) {
-		int result = service.checkMemberId(receiver);
-		return String.valueOf(result);
+		String result = service.checkMemberId(receiver);
+		return result;
 	}
 
 	@RequestMapping("/deleteAllReadMessage.do")

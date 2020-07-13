@@ -44,7 +44,11 @@
 		)
 	</insert>
 	<select id="selectOneMessage" parameterType="_int" resultType="msg">
-		select
+		select 
+		t.*,
+		(select member_nickname from member where member_id = messageSender) as senderNick,
+		(select member_nickname from member where member_id = messageReceiver) as receiverNick		
+		from (select
 			message_no as messageNo,
 			message_sender as messageSender,
 			message_receiver as messageReceiver,
@@ -52,8 +56,8 @@
 			send_date as sendDate,
 			message_check as messageCheck,
 			delete_level as deleteLevel
-		from message
-		where message_no = #{_parameter}
+		from message		
+		where message_no = #{_parameter}) t	
 	</select>
 	<select id="countAllMsg" parameterType="member" resultType="_int">
 		select

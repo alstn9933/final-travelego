@@ -111,7 +111,7 @@
 					type : "register",
 					memberId : memberId
 
-				};
+				};				
 				ws.send(JSON.stringify(msg));
 			}
 
@@ -130,6 +130,7 @@
 				ws.send(JSON.stringify(msg));
 				console.log("웹소켓 연결종료.");
 			};
+
 		};
 
 		$(function() {

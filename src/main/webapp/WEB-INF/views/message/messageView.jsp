@@ -63,13 +63,13 @@ prefix="c"%>
         <c:if test="${sessionScope.member.memberId != message.messageSender }">
           <div>
             <span id="messageTarget">from.</span>
-            <span id="sender">${message.messageSender}</span>
+            <span id="sender">${message.senderNick}</span>
           </div>
         </c:if>
         <c:if test="${sessionScope.member.memberId == message.messageSender }">
           <div>
             <span id="messageTarget">To.</span>
-            <span id="sender">${message.messageReceiver}</span>
+            <span id="sender">${message.receiverNick}</span>
           </div>
         </c:if>
         <span id="send_date">${message.sendDate}</span>
@@ -159,7 +159,7 @@ prefix="c"%>
   </c:if>
   <script>
     $("#responseBtn").click(function () {
-      location.href = "/message/write.do?receiver=${message.messageReceiver}";
+      location.href = "/message/write.do?receiver=${message.senderNick}";
     });
 
     $("#deleteBtn").click(function () {

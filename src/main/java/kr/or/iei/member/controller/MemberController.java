@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
 
+import kr.or.iei.common.alarmHandler;
 import kr.or.iei.common.model.vo.mainPhotoRecommed;
 import kr.or.iei.member.model.service.MemberService;
 import kr.or.iei.member.model.vo.Company;
@@ -33,6 +34,9 @@ public class MemberController {
 	@Autowired
 	@Qualifier("memberService")
 	private MemberService service;
+	
+	@Autowired
+	private alarmHandler handler;
 
 	public MemberController() {
 		super();
@@ -72,6 +76,8 @@ public class MemberController {
 
 	@RequestMapping("/logout.do")
 	public String logoutMember(HttpSession session) {
+		Member member = (Member) session.getAttribute("member");
+		handler.removeMemberSession(member.getMemberId());
 		session.invalidate();
 		return "redirect:/";
 
