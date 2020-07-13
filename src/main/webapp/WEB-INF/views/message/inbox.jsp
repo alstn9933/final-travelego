@@ -60,7 +60,7 @@
 					<div>
 						<a href="/message/write.do?receiver=${msg.messageSender}"
 							id="sender" data-toggle="tooltip" data-placement="right"
-							title="답장하기">${msg.messageSender }</a> <span>${msg.sendDate }</span>
+							title="답장하기">${msg.senderNick }</a> <span>${msg.sendDate }</span>
 					</div>
 				</td>
 				<td class="delete_icon_area"><i class="far fa-trash-alt deleteIcon"></i></td>
