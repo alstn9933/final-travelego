@@ -77,8 +77,6 @@
 	float: left;
 	margin-bottom: 30px;
     margin-right: 10px;
-
-	
 }
 .itemimgsDiv,.imgsDiv{
 	width:250px;
@@ -103,6 +101,9 @@
 }
 .itemDate{
 	margin-left: 10px;
+}
+.itemDate>a{
+	overflow: hidden;
 }
 .writerDiv{
 	float: right;
