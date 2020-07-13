@@ -11,12 +11,12 @@ $(document).on("keyup", ".autosize", function (event) {
   }
 });
 
-$(document).on("mouseenter mouseleave", ".content", toggleStrech);
+// $(document).on("mouseenter mouseleave", ".content", toggleStrech);
 $(document).on("click", ".content", contentClick);
 
-function toggleStrech() {
-  $(this).find(".stretch_area").slideToggle(100);
-}
+// function toggleStrech() {
+//   $(this).find(".stretch_area").slideToggle(100);
+// }
 
 function contentClick() {
   if (!$(this).hasClass("open_content")) {
