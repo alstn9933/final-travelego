@@ -47,8 +47,9 @@ public class TripBoardService {
 
 	@Transactional
 	public int insertBoard(HttpSession session, MultipartFile file, TripBoardVO board) {
-		
 
+		board.setTripBoardTitle("["+board.getTripDays()+"] "+board.getTripBoardTitle());
+		
 		int result = dao.insertBoard(board);
 		
 		

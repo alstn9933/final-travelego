@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import kr.or.iei.common.model.vo.Region;
 import kr.or.iei.mytrip.model.vo.Mytrip;
+import kr.or.iei.mytrip.model.vo.RegionData;
 import kr.or.iei.mytrip.model.vo.TripDetail;
 import kr.or.iei.mytrip.model.vo.TripMember;
 
@@ -38,8 +39,8 @@ public class MytripDao {
 		return sqlSession.insert("mytrip.insertTripMember",tripMember);
 	}
 
-	public List<TripMember> selectTripList(TripMember tripMember) {
-		return sqlSession.selectList("mytrip.selectTripList",tripMember);
+	public List<RegionData> selectTripList(String memberId) {
+		return sqlSession.selectList("mytrip.selectTripList",memberId);
 	}
 	
 	
@@ -59,6 +60,44 @@ public class MytripDao {
 		return sqlSession.insert("mytrip.addMemo",tripDetail);
 	}
 
-	
+	public TripDetail tripOrderIs(TripDetail tripDetail) {
+		return sqlSession.selectOne("mytrip.tripOrderIs",tripDetail);
+	}
+
+	public Mytrip selectMytrip(int tripNoIs) {
+		return sqlSession.selectOne("mytrip.selectMytrip",tripNoIs);
+	}
+
+	public List<TripDetail> selectDateList(int tripNoIs) {
+		return sqlSession.selectList("mytrip.selectDateList",tripNoIs);
+	}
+
+	public int deleteMemo(TripDetail tripDetail) {
+		return sqlSession.delete("mytrip.deleteMemo",tripDetail);
+	}
+
+	public int sortMemo(TripDetail tripDetail) {
+		return sqlSession.update("mytrip.sortMemo",tripDetail);
+	}
+
+	public int changeOrder1(TripDetail tripDetail1) {
+		return sqlSession.update("mytrip.changeOrder1",tripDetail1);
+	}
+
+	public int changeOrder2(TripDetail tripDetail2) {
+		return sqlSession.update("mytrip.changeOrder2",tripDetail2);
+	}
+
+	public int changeOrder3(TripDetail tripDetail2) {
+		return sqlSession.update("mytrip.changeOrder3",tripDetail2);
+	}
+
+	public int changeOrder4(TripDetail tripDetail2) {
+		return sqlSession.update("mytrip.changeOrder4",tripDetail2);
+	}
+
+	public String selectNickname(String memberNickname) {
+		return sqlSession.selectOne("mytrip.selectNickname",memberNickname);
+	}
 	
 }

@@ -26,6 +26,12 @@ prefix="c"%>
     </nav>
     <section>
       <form action="/message/send.do" method="POST">
+        <input
+          type="hidden"
+          name="messageReceiver"
+          value="${receiver}"
+          id="inputReceiverId"
+        />
         <div class="receiver_area form-group">
           <label for="inputReceiver">받는 사람</label>
           <span id="receiverAlert" style="display: none;"
@@ -34,17 +40,17 @@ prefix="c"%>
           <c:if test="${not empty receiver }">
             <input
               type="text"
-              name="messageReceiver"
+              name="receiverNick"
               id="inputReceiver"
               class="form-control"
-              value="${receiver}"
+              value="${receiverNick}"
               readonly
             />
           </c:if>
           <c:if test="${empty receiver }">
             <input
               type="text"
-              name="messageReceiver"
+              name="receiverNick"
               id="inputReceiver"
               class="form-control"
               placeholder="쪽지를 보낼 상대방의 닉네임을 입력하세요."
@@ -104,7 +110,7 @@ prefix="c"%>
           type: "POST",
           data: { receiver: receiver },
           success: function (data) {
-            if (data == "0") {
+            if (data == "") {
               $("#inputReceiver").focus();
               $("#receiverAlert").show();
               $("#inputContent").attr(
@@ -113,10 +119,12 @@ prefix="c"%>
               );
               $("#inputContent").val("");
               $("#inputContent").attr("disabled", true);
+              $("#inputReceiverId").val("");
             } else {
               $("#receiverAlert").hide();
               $("#inputContent").attr("placeholder", "내용을 입력하세요");
               $("#inputContent").removeAttr("disabled");
+              $("#inputReceiverId").val(data);
             }
           },
           error: function () {},

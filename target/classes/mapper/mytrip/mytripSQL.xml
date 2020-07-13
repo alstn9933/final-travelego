@@ -24,6 +24,7 @@
 		where region_city like '%'||#{_parameter}||'%' or region_country like '%'||#{_parameter}||'%'
 		order by regionCountry,regionCity
 	</select>
+	
 	<insert id="setMytrip" parameterType="mytrip">
 		insert into my_trip values(
 			my_trip_seq.nextval,#{regionNo},#{beginDate},#{endDate}
@@ -34,12 +35,15 @@
 			my_trip_seq.currval,#{memberId}
 		)
 	</insert>
-	<select id="selectTripList" parameterType="tripMember" resultType="tripMember">
+	<select id="selectTripList" parameterType="String" resultType="regionData">
 		select
-			trip_no as tripNo,
-			member_id as memberId
-		from trip_member 
-		where member_id=#{memberId}
+		    r.region_no as regionNo,
+		    r.region_country as regionCountry,
+		    r.region_city as regionCity,
+		    r.filename,
+		    t.trip_no as tripNo
+		from my_trip m,trip_member t,region r
+		where m.trip_no=t.trip_no and m.region_no=r.region_no and t.member_id=#{_parameter}
 	</select>
 	<select id="currValIs" resultType="mytrip">
 		select my_trip_seq.currval as tripNo from my_trip
@@ -59,9 +63,66 @@
 			and trip_order=1
 	</select>
 	<insert id="addMemoFirst" parameterType="tripDetail">
-		insert into trip_detail values(#{tripNo},#{tripDate},1,null,#{tripContent},null)
+		insert into trip_detail values(#{tripNo},#{tripDate},1,#{tripSpot},#{tripContent},null)
 	</insert>
 	<insert id="addMemo" parameterType="tripDetail">
-		insert into trip_detail values(#{tripNo},#{tripDate},(select max(trip_order) from trip_detail where trip_no=#{tripNo} and trip_date=#{tripDate})+1,null,#{tripContent},null)
+		insert into trip_detail values(#{tripNo},#{tripDate},(select max(trip_order) from trip_detail where trip_no=#{tripNo} and trip_date=#{tripDate})+1,#{tripSpot},#{tripContent},null)
 	</insert>
+	<select id="tripOrderIs" parameterType="tripDetail" resultType="tripDetail">
+		select max(trip_order) as tripOrder from trip_detail where trip_no=#{tripNo} and trip_date=#{tripDate}
+	</select>
+	<select id="selectMytrip" parameterType="int" resultType="mytrip">
+		select 
+		    trip_no as tripNo, 
+		    region_no as regionNo, 
+		    begin_date as beginDate,
+		    end_date as endDate
+		from my_trip 
+		where trip_no=#{tripNoIs}
+	</select>
+	<select id="selectDateList" parameterType="int" resultType="tripDetail">
+		select
+		    trip_no as tripNo,
+		    trip_date as tripDate,
+		    trip_order as tripOrder,
+		    trip_spot as tripSpot,
+		    trip_content as tripContent,
+		    coords
+		from trip_detail 
+		where trip_no=#{tripNoIs} 
+		order by trip_date,trip_order
+	</select>
+	<delete id="deleteMemo" parameterType="tripDetail">
+		delete from trip_detail where trip_date=#{tripDate} and trip_order=#{tripOrder} and trip_no=#{tripNo}
+	</delete>
+	<update id="sortMemo" parameterType="tripDetail">
+		update trip_detail 
+		set trip_order=trip_order-1 
+		where trip_date=#{tripDate} and trip_order>#{tripOrder} and trip_no=#{tripNo}
+	</update>
+	<update id="changeOrder1" parameterType="tripDetail">
+		update trip_detail
+		set trip_order=0
+		where trip_no=#{tripNo} and trip_date=#{tripDate} and trip_order=#{tripOrder}
+	</update>
+	<update id="changeOrder2" parameterType="tripDetail">
+		update trip_detail
+		set trip_order=trip_order-1
+		where trip_no=#{tripNo} and trip_date=#{tripDate} and trip_order=#{tripOrder}
+	</update>
+	<update id="changeOrder3" parameterType="tripDetail">
+		update trip_detail
+		set trip_order=#{tripOrder}
+		where trip_no=#{tripNo} and trip_date=#{tripDate} and trip_order=0
+	</update>
+	<update id="changeOrder4" parameterType="tripDetail">
+		update trip_detail
+		set trip_order=trip_order+1
+		where trip_no=#{tripNo} and trip_date=#{tripDate} and trip_order=#{tripOrder}
+	</update>
+	<select id="selectNickname" parameterType="String" resultType="String">
+		select member_id as memberId
+		from member
+		where member_nickname = #{_parameter}
+	</select>
 </mapper>

@@ -42,6 +42,7 @@
    		<typeAlias type="kr.or.iei.common.model.vo.mainPhotoRecommed" alias="mpr"/>
 		<typeAlias type="kr.or.iei.tripboard.model.vo.TripBoardMyTripVO" alias="boardMyTrip"/>
 		<typeAlias type="kr.or.iei.tripboard.model.vo.TripBoardVO" alias="tripBoardVO"/>
+		<typeAlias type="kr.or.iei.mytrip.model.vo.RegionData" alias="regionData"/>
 
 	</typeAliases>
 	

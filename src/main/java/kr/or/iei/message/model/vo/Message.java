@@ -14,4 +14,6 @@ public class Message {
 	private int messageCheck;
 	private int deleteLevel;
 	private String messageTitle;
+	private String senderNick;
+	private String receiverNick;
 }
