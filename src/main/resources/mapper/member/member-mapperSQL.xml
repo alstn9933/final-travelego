@@ -78,12 +78,10 @@
     r.rec_title as recTitle,
     r.rec_writer as recWriter,
     r.read_count as readCount,
-    nvl(filename,null) as filename,
-    nvl(filepath,null) as filepath,
-    board_class
+    p.filename as filename,
+    p.filepath as filepath
     from RECOMMEND_BOARD r 
-    left join (select * from photo where board_class = 2) p  
-    on(p.board_no=r.rec_no)
+    left join photo p on (r.rec_no=p.board_no and board_class = 2)
     order by read_count desc )n)where rnum between #{start} and #{end}
    
  </select>

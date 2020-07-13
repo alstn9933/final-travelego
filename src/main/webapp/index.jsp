@@ -30,7 +30,16 @@
 <link rel="stylesheet" href="/src/css/main/web_default.css" />
 <link rel="stylesheet" href="/src/css/main/index.css" />
 <title>Travelego</title>
-<style></style>
+<style>
+	.hotItem:hover{
+		cursor: pointer;
+		box-shadow: 3px 3px 5px lightgray;
+	}
+	.hotpickcher:hover{
+		cursor: pointer;
+		box-shadow: 3px 3px 5px lightgray;
+	}
+</style>
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
@@ -87,7 +96,7 @@
 		<div class="main-content3">
 			<p class="p1">Tour</p>
 		<div class="sub-content5" id="sub-content5"></div>
-		<div class="sub-content6"><a href="/tourList.do">게시물 보러가기</a></div>
+		<div class="sub-content6"><a href="/tourList.do">투어 상품 보러가기</a></div>
 		
 		</div>
 		<br>
@@ -194,11 +203,11 @@
 				console.log(data);
 				html = "";
 				for(var i=0;i<data.length;i++){
-					html += "<div class="+"hotpickcher"+">";
-					if(data[i].filename == null){
+					html += "<div class="+"hotpickcher"+" onclick='recommendView("+data[i].recNo+");'>";
+					if(data[i].filepath == null){
 						html += "<div class="+"imgsDiv"+"><img class="+"recommendimg"+" src="+"src/imgs/header/"+"rogo2.png"+"></img></div>";
 					}else{
-					html += "<div class="+"imgsDiv"+"><img class="+"recommendimg"+" src="+data[i].filename+"></img></div>";						
+					html += "<div class="+"imgsDiv"+"><img class="+"recommendimg"+" src="+data[i].filepath+"></img></div>";						
 					}
 					html += "<a href="+"/recDetail.do?recNo="+data[i].recNo+"><div><div class='Stringdelete'>"+data[i].recTitle+"</div></div></a>";
 					if(data[i].recWriter==null){
@@ -214,6 +223,10 @@
 			}
 		});
 	});
+	
+	function recommendView(recNo){
+		location.href="/recDetail.do?reqPage=1&recNo="+recNo;
+	}
 
 	//trip 게시판
 	$(function(){
@@ -223,9 +236,9 @@
 			success : function(data) {
 				html = "";	
 				for(var i=0;i<data.length;i++){
-					html += "<div class="+"hotItem"+"><div class="+"itemimgsDiv"+">";
+					html += "<div class="+"hotItem"+" onclick='itemView("+data[i].itemNo+");'><div class="+"itemimgsDiv"+">";
 					html += "<img class="+"tourimg"+" src="+"/upload/images/tour/thumnail/"+data[i].filepath+"></img></div>";
-					html += "<div class='itemDate'><a href="+"/tourView.do?itemNo="+data[i].itemNo+"><div class='itrmp3'>"+data[i].itemTitle+"</div></a></div>";
+					html += "<div class='itemDate'><div class='itrmp3'>"+data[i].itemTitle+"</div></div>";
 					html += "<div class='itemDate2'><span id='sitem'><i class='fas fa-won-sign'></i>"+data[i].itemPrice+"</span><br>";
 					html += "<span id="+"itemscore"+"><i class='far fa-star'></i>"+data[i].score+"</span></div></div>";
 			
@@ -238,6 +251,10 @@
 			}
 		});
 	});
+	
+	function itemView(itemNo){
+			location.href="/tourView.do?itemNo="+itemNo;
+	};
 	/*
 		$(function() {
 			$('[data-toggle="popover"]').popover();
