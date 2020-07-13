@@ -142,17 +142,15 @@ prefix="c"%>
       			<input type="hidden" name="detailList" value="${detailList.tripContent }">
       		</c:forEach>
       		<button type="button" name="testBtn">test용버튼</button>
-      		<input type="text" name="tripNoIs" value="${tripNoIs }">
-      		<input type="text" name="regionNoIs" value="${regionNoIs }">
-      		<input type="text" name="beginDateIs" value="${beginDateIs }">
-      		<input type="text" name="endDateIs" value="${endDateIs }">
-	      <div>
-				<input type="text" name="placeAddr"><br>
-				<input type="text" name="receivePlace"><br>
-				<input type="text" name="receiveAddr"><br>
-				<div id="map" style="width:100%;height:350px;"></div>
-				<button type="button" name="addPlace">경로만들기</button>
-			</div>
+      		<input type="hidden" name="tripNoIs" value="${tripNoIs }">
+      		<input type="hidden" name="regionNoIs" value="${regionNoIs }">
+      		<input type="hidden" name="beginDateIs" value="${beginDateIs }">
+      		<input type="hidden" name="endDateIs" value="${endDateIs }">
+			<input type="hidden" name="placeAddr"><br>
+			<input type="hidden" name="receivePlace"><br>
+			<input type="hidden" name="receiveAddr"><br>
+			<div id="map" style="width:100%;height:350px;"></div>
+			<button type="button" name="addPlace">경로만들기</button>
 				
 	      	<input type="text" id="datePicker">
 	      	<div id="tt">

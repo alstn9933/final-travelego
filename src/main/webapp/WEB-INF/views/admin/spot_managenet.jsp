@@ -32,87 +32,86 @@
 	<!-- 웹 콘텐츠는 section 태그 안에 작성을 해주세요!-->
 	<section>
 		<style>
-<!-- 이미지 업로드 css -->
-        .filebox input[type="file"] {
-            position: absolute;
-            width: 1px;
-            height: 1px;
-            padding: 0;
-            margin: -1px;
-            overflow: hidden;
-            clip: rect(0, 0, 0, 0);
-            border: 0;
-        }
+<!--
+이미지 업로드 css -->.filebox input[type="file"] {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	border: 0;
+}
 
-        .filebox label {
-            display: inline-block;
-            padding: .5em .75em;
-            color: #999;
-            font-size: inherit;
-            line-height: normal;
-            vertical-align: middle;
-            background-color: #fdfdfd;
-            cursor: pointer;
-            border: 1px solid #ebebeb;
-            border-bottom-color: #e2e2e2;
-            border-radius: .25em;
-        }
+.filebox label {
+	display: inline-block;
+	padding: .5em .75em;
+	color: #999;
+	font-size: inherit;
+	line-height: normal;
+	vertical-align: middle;
+	background-color: #fdfdfd;
+	cursor: pointer;
+	border: 1px solid #ebebeb;
+	border-bottom-color: #e2e2e2;
+	border-radius: .25em;
+}
 
-        /* named upload */
-        .filebox .upload-name {
-            display: inline-block;
-            padding: .5em .75em;
-            font-size: inherit;
-            font-family: inherit;
-            line-height: normal;
-            vertical-align: middle;
-            background-color: #f5f5f5;
-            border: 1px solid #ebebeb;
-            border-bottom-color: #e2e2e2;
-            border-radius: .25em;
-            -webkit-appearance: none;
-            /* 네이티브 외형 감추기 */
-            -moz-appearance: none;
-            appearance: none;
-        }
+/* named upload */
+.filebox .upload-name {
+	display: inline-block;
+	padding: .5em .75em;
+	font-size: inherit;
+	font-family: inherit;
+	line-height: normal;
+	vertical-align: middle;
+	background-color: #f5f5f5;
+	border: 1px solid #ebebeb;
+	border-bottom-color: #e2e2e2;
+	border-radius: .25em;
+	-webkit-appearance: none;
+	/* 네이티브 외형 감추기 */
+	-moz-appearance: none;
+	appearance: none;
+}
 
-        /* imaged preview */
-        .filebox .upload-display {
-            margin-bottom: 5px;
-        }
+/* imaged preview */
+.filebox .upload-display {
+	margin-bottom: 5px;
+}
 
-        @media(min-width: 768px) {
-            .filebox .upload-display {
-                display: inline-block;
-                margin-right: 5px;
-                margin-bottom: 0;
-            }
-        }
+@media ( min-width : 768px) {
+	.filebox .upload-display {
+		display: inline-block;
+		margin-right: 5px;
+		margin-bottom: 0;
+	}
+}
 
-        .filebox .upload-thumb-wrap {
-            display: inline-block;
-            width: 54px;
-            padding: 2px;
-            vertical-align: middle;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            background-color: #fff;
-        }
+.filebox .upload-thumb-wrap {
+	display: inline-block;
+	width: 54px;
+	padding: 2px;
+	vertical-align: middle;
+	border: 1px solid #ddd;
+	border-radius: 5px;
+	background-color: #fff;
+}
 
-        .filebox .upload-display img {
-            display: block;
-            max-width: 100%;
-            width: 100% \9;
-            height: auto;
-        }
+.filebox .upload-display img {
+	display: block;
+	max-width: 100%;
+	width: 100% \9;
+	height: auto;
+}
 
-        .filebox.bs3-primary label {
-            color: #fff;
-            background-color: #337ab7;
-            border-color: #2e6da4;
-        }		
-		
-		
+.filebox.bs3-primary label {
+	color: #fff;
+	background-color: #337ab7;
+	border-color: #2e6da4;
+}
+
 .admin_page {
 	padding-top: 100px;
 	padding-left: 100px;
@@ -180,8 +179,35 @@ main .admin_sidebar {
 	}
 }
 
+#delRegion {
+	width: 50px;
+	height: 30px;
+	margin-left: 100px;
+	border: none;
+	color: black;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 15px;
+	text-align: center;
+	border-radius: 10px;
+	cursor: pointer;
+}
 
-
+#addSubmit {
+	width: 100px;
+	height: 30px;
+	margin-left: 100px;
+	border: none;
+	color: black;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 15px;
+	text-align: center;
+	border-radius: 10px;
+	cursor: pointer;
+}
 </style>
 		<script>
 			$(function() {
@@ -358,55 +384,85 @@ main .admin_sidebar {
 			})
 		</script>
 		<script>
-		
-      $(document).ready(function(){
-   var fileTarget = $('.filebox .upload-hidden');
+			$(document)
+					.ready(
+							function() {
+								var fileTarget = $('.filebox .upload-hidden');
 
-    fileTarget.on('change', function(){
-        if(window.FileReader){
-            // 파일명 추출
-            var filename = $(this)[0].files[0].name;
-        } 
+								fileTarget
+										.on(
+												'change',
+												function() {
+													if (window.FileReader) {
+														// 파일명 추출
+														var filename = $(this)[0].files[0].name;
+													}
 
-        else {
-            // Old IE 파일명 추출
-            var filename = $(this).val().split('/').pop().split('\\').pop();
-        };
+													else {
+														// Old IE 파일명 추출
+														var filename = $(this)
+																.val().split(
+																		'/')
+																.pop().split(
+																		'\\')
+																.pop();
+													}
+													;
 
-        $(this).siblings('.upload-name').val(filename);
-    });
+													$(this).siblings(
+															'.upload-name')
+															.val(filename);
+												});
 
-    //preview image 
-    var imgTarget = $('.preview-image .upload-hidden');
+								//preview image 
+								var imgTarget = $('.preview-image .upload-hidden');
 
-    imgTarget.on('change', function(){
-        var parent = $(this).parent();
-        parent.children('.upload-display').remove();
+								imgTarget
+										.on(
+												'change',
+												function() {
+													var parent = $(this)
+															.parent();
+													parent.children(
+															'.upload-display')
+															.remove();
 
-        if(window.FileReader){
-            //image 파일만
-            if (!$(this)[0].files[0].type.match(/image\//)) return;
-            
-            var reader = new FileReader();
-            reader.onload = function(e){
-                var src = e.target.result;
-                parent.prepend('<div class="upload-display"><div class="upload-thumb-wrap"><img src="'+src+'" class="upload-thumb"></div></div>');
-            }
-            reader.readAsDataURL($(this)[0].files[0]);
-        }
+													if (window.FileReader) {
+														//image 파일만
+														if (!$(this)[0].files[0].type
+																.match(/image\//))
+															return;
 
-        else {
-            $(this)[0].select();
-            $(this)[0].blur();
-            var imgSrc = document.selection.createRange().text;
-            parent.prepend('<div class="upload-display"><div class="upload-thumb-wrap"><img class="upload-thumb"></div></div>');
+														var reader = new FileReader();
+														reader.onload = function(
+																e) {
+															var src = e.target.result;
+															parent
+																	.prepend('<div class="upload-display"><div class="upload-thumb-wrap"><img src="'+src+'" class="upload-thumb"></div></div>');
+														}
+														reader
+																.readAsDataURL($(this)[0].files[0]);
+													}
 
-            var img = $(this).siblings('.upload-display').find('img');
-            img[0].style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(enable='true',sizingMethod='scale',src=\""+imgSrc+"\")";        
-        }
-    });
-});
-    </script>
+													else {
+														$(this)[0].select();
+														$(this)[0].blur();
+														var imgSrc = document.selection
+																.createRange().text;
+														parent
+																.prepend('<div class="upload-display"><div class="upload-thumb-wrap"><img class="upload-thumb"></div></div>');
+
+														var img = $(this)
+																.siblings(
+																		'.upload-display')
+																.find('img');
+														img[0].style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(enable='true',sizingMethod='scale',src=\""
+																+ imgSrc
+																+ "\")";
+													}
+												});
+							});
+		</script>
 		<script>
 			$(function() {
 				$("#regionCountry").keyup(function() {
@@ -468,14 +524,16 @@ main .admin_sidebar {
 					<span class="hid"> 국가 : <input type="text"
 						name="regionCountry" id="regionCountry" value="" onkeyup><br>
 					</span> 도시 : <input type="text" name="regionCity" id="regionCity"><br>
-					
-				<div class="filebox bs3-primary preview-image">
-					    <input class="upload-name" value="파일선택" disabled="disabled" style="width: 200px;">
-					      <label for="addFile" style="margin-top:10px">업로드</label>
-					<input type="file" name="file" id="addFile" class="upload-hidden" style="display:none;" >
-					 </div>
-					<br>
-					<input type="submit" value="추가히기" style="margin-left:100px;">
+
+					<div class="filebox bs3-primary preview-image">
+						<input class="upload-name" value="파일선택" disabled="disabled"
+							style="width: 200px;"> <label for="addFile"
+							style="margin-top: 10px">업로드</label> <input type="file"
+							name="file" id="addFile" class="upload-hidden"
+							style="display: none;">
+					</div>
+					<br> <input type="submit" value="추가히기"
+						style="margin-left: 100px;" id="addSubmit">
 				</form>
 				<button id="delRegion" style="display: none;">삭제</button>
 				<br> <br>
