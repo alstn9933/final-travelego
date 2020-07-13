@@ -1,13 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js" />
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js" />
 <script
 	src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <!-- 부트스트랩 -->
@@ -25,27 +24,33 @@
 		<div class="joincontent">
 			<h1>회원정보 수정</h1>
 			<hr>
+			<form action="/memberModified.do" method="post">
 			<div class="textdiv">
-				<form action="/memberModified.do" method="post">
 					<label id="lId" for="memberId" class="col-lg-2 control-label">아이디</label>
 					<div class="col-lg-6">
 						<input type="text" class="form-control" name="memberId"
 							id="memberId" data-rule-required="true" value="${m.memberId }"
 							readonly> <br> <span id="sId"></span>
 					</div>
-					<br> <label for="memberPw" class="col-lg-2 control-label">패스워드</label>
+					<br> 
+					<div class="btn_wrapper">
+						<button type="button" id="pwChangeBtn" class="btn btn-primary">비밀번호 변경</button>
+					</div>
+					<div class="pass_wrapper" style="display: none;">
+					<label for="memberPw" class="col-lg-2 control-label">새 비밀번호</label>
 					<div class="col-lg-6">
 						<input type="password" class="form-control" id="memberPw"
-							name="memberPw" data-rule-required="true"><br>
+							name="memberPw" data-rule-required="true" placeholder="새 비밀번호"><br>
 						<span id="sPw"></span>
 					</div>
 					<br> <label id="lPwRe" for="memberPwRe"
-						class="col-lg-2 control-label">패스워드 확인</label>
+						class="col-lg-2 control-label">새 비밀번호 확인</label>
 					<div class="col-lg-6">
 						<input type="password" class="form-control" id="memberPwRe"
-							placeholder="패스워드 확인" ><br> <span
+							placeholder="새 비밀번호 확인" ><br> <span
 							id="sPwRe"></span>
 					</div>
+				</div>
 					<br> <label id="lName" for="memberName"
 						class="col-lg-2 control-label">이름</label>
 					<div class="col-lg-6	">
@@ -98,34 +103,49 @@
 	<input type="hidden" name="memberLevel" id="memberLevel" value="${m.memberLevel }" >
 </body>
 <script>
+	$("#pwChangeBtn").click(function(){
+		$(".pass_wrapper").slideToggle();
+		$(this).hide();
+	});
+
 	var mailCode = "";
 	var regExp = "";
 	var checkArr = [ true, true, true, true, true, true ];
-	$("#memberPw").keyup(function(event) {
-		regExp = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$/;
+
+	$(function(){
+		$("#memberPw").keyup(function(event) {
+			regExp = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$/;
+			if($("#memberPw").val()==""){
+				$("#sPw").html("");
+				checkArr[0] = true;
+			} else {
+				if (regExp.test($("#memberPw").val())) {
+					$("#lPW").css("color", "green");
+					$("#sPw").html("생성 가능한 비밀번호 입니다.");
+					$("#sPw").css("color", "green");
+					checkArr[0] = true;
+				} else {
+					$("#sPw").html("비밀번호 규격을 맞춰주세요<br>(8~15글자 특수문자,대/소문자,숫자 15글자 이내)");
+					$("#sPw").css("color", "red");
+					$("#lPW").css("color", "red");
+					$("#memberPw").focus();
+					checkArr[0] = false;
+				}
+			}
 		pwrecheck();
-							if (regExp.test($("#memberPw").val())) {
-								$("#lPW").css("color", "green");
-								$("#sPw").html("생성 가능한 비밀번호 입니다.");
-								$("#sPw").css("color", "green");
-								checkArr[0] = true;
-							} else {
-								$("#sPw").html("비밀번호 규격을 맞춰주세요<br>(8~15글자 특수문자,대/소문자,숫자 15글자 이내)");
-								$("#sPw").css("color", "red");
-								$("#lPW").css("color", "red");
-								$("#memberPw").focus();
-								checkArr[0] = false;
-							}
-	});	
-	$("#memberPwRe").keyup(function() {
-		pwrecheck();
-		
+		});	
+		$("#memberPwRe").keyup(function() {
+			pwrecheck();
+			
+		});
 	});
+	
 	function pwrecheck(){
 		if ($("#memberPwRe").val() == "") {
-			$("#sPwRe").html("비밀번호를 입력해주세요.");
-			$("#sPwRe").css("color", "red");
-			checkArr[1] = false;
+			// $("#sPwRe").html("비밀번호를 입력해주세요.");
+			// $("#sPwRe").css("color", "red");
+			$("#sPwRe").html("");
+			checkArr[1] = true;
 		} else {
 			if ($("#memberPw").val() == $("#memberPwRe").val()) {
 				$("#sPwRe").html("비밀번호가 일치합니다.");
