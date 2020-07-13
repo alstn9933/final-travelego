@@ -152,9 +152,10 @@ public class MessageController {
 	@RequestMapping("/writeById.do")
 	public String messageWriteById(String memberId, Model model) {
 		if (memberId != null) {
-			String receiver = service.selectMemberNick(memberId);
-			if(receiver != null) {
-				model.addAttribute("receiver", receiver);				
+			String receiverNick = service.selectMemberNick(memberId);
+			if(receiverNick != null) {
+				model.addAttribute("receiverNick", receiverNick);
+				model.addAttribute("receiver",memberId);
 			} else {
 				model.addAttribute("msg","상대방을 조회할 수 없습니다.");
 				model.addAttribute("loc","/");
