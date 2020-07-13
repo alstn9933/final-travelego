@@ -320,9 +320,7 @@
 	</update>
 	<insert id="insertReport" parameterType="report">
 		insert into report values
-		(report_seq.nextval,#{reportCategory},#{reportContent},sysdate,#{boardClass},#{boardNo},#{reportedMember},#{reportMember})
-		
-		
+		(report_seq.nextval,#{reportCategory},#{reportContent},sysdate,#{boardClass},#{boardNo},#{reportedMember},#{reportWriter})
 	</insert>
 
 </mapper>
