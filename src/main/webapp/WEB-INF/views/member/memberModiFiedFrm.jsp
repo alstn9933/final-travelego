@@ -44,7 +44,7 @@
 						<span id="sPw"></span>
 					</div>
 					<br> <label id="lPwRe" for="memberPwRe"
-						class="col-lg-2 control-label">새 비밀번호 확인</label>
+						class="col-lg-3 control-label">새 비밀번호 확인</label>
 					<div class="col-lg-6">
 						<input type="password" class="form-control" id="memberPwRe"
 							placeholder="새 비밀번호 확인" ><br> <span
@@ -95,6 +95,7 @@
 			<div class="divBtn" id="divBtn">
 				<button id="modifyBtn" type="submit" class="btn btn-primary">회원정보
 					수정</button>
+					<button id="quitBtn" type="button" class="btn btn-danger">회원 탈퇴</button>
 			</div>
 			</form>
 		</div>
@@ -103,6 +104,26 @@
 	<input type="hidden" name="memberLevel" id="memberLevel" value="${m.memberLevel }" >
 </body>
 <script>
+
+	//회원 탈퇴 펑션
+	$("#quitBtn").click(function(){
+		const memberId = $("#memberId").val();
+		if(confirm("회원 탈퇴를 하시면 복구가 불가능합니다.\r\n정말 탈퇴하시겠습니까?")){
+		$.ajax({
+			url : "/memberDelete.do",
+			type : "POST",
+			data : {memberId : memberId},
+			success : function(data){
+				location.href="/logout.do";
+			},
+			error : function(){
+				console.log("서버 접속에 실패하였습니다.");
+			}
+		});
+		}
+	});
+
+	// 패스워드 변경란을 표시해주기 위한 버튼 펑션
 	$("#pwChangeBtn").click(function(){
 		$(".pass_wrapper").slideToggle();
 		$(this).hide();

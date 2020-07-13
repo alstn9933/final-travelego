@@ -101,7 +101,7 @@
 
 .filebox .upload-display img {
 	display: block;
-	max-width: 100%;
+	max-width: 150%;
 	width: 100% \9;
 	height: auto;
 }
@@ -163,7 +163,7 @@ main .admin_sidebar {
 
 #Contents {
 	padding: 16px;
-	margin-left: 250px;
+	margin-left: 50px;
 }
 
 .dd .ddTitle .ddTitleText img {
@@ -208,6 +208,21 @@ main .admin_sidebar {
 	border-radius: 10px;
 	cursor: pointer;
 }
+#citySel{
+	margin-top:10px;
+}
+#Contents{
+background-color: #E2E2E2;
+width: 500px;
+height: 450px;
+}
+
+@media screen and (max-width: 1000px) {
+	#mySidebar {
+		display: none;
+	}
+}
+
 </style>
 		<script>
 			$(function() {
@@ -335,7 +350,7 @@ main .admin_sidebar {
 																.append("<option value='insertCity' id='insertCity' >----도시 직접 입력---</option>");
 														$("#delRegion").hide();
 													} else {
-														addOption = "<option value='' title='선택'>--도시를 선택해주세요--</option>";
+														addOption = "<option value='' title='선택'>--- 도시를 선택해주세요 ---</option>";
 
 														citySelect
 																.append("<option value='insert' >----도시 직접 입력---</option>");
@@ -494,16 +509,16 @@ main .admin_sidebar {
 
 			<div id="mySidebar" class="admin_sidebar">
 				<a href="/memberManagement.do?reqPage=1"><span
-					class="admin_title"></span>회원 관리</a></span><a href="/spot_managenet.do"><span><span
-						class="admin_title">여행지 관리</span><br></a> <a
-					href="/adminQnaList.do" /><span class="admin_QA">회원문의사항</span><br>
+					class="admin_title">회원 관리</span></a><a href="/spot_managenet.do"><span
+						class="admin_title" style="color:black">여행지 관리</span><br></a> <a
+					href="/adminQnaList.do" ><span class="admin_QA">회원문의사항</span></a><br>
 				<a href="/reportList.do"><span class="admin_title">신고글 관리</span></a>
 			</div>
-			<div id="Contents">
+			<div id="Contents" style="float:right;">
 				<!-- 국가 추가 -->
 				<select name="countrySelect" id="countrySelect"
-					style="width: 300px;">
-					<option value="선택된국가가 없습니다" selected>--국가를 선택해주세요--</option>
+					style="width: 400px; height: 50px;">
+					<option value="선택된국가가 없습니다" selected>--- 국가를 선택해주세요 ---</option>
 					<c:forEach items="${rList}" var="con">
 						<option value="${con.regionCountry }">${con.regionCountry}</option>
 					</c:forEach>
@@ -522,8 +537,11 @@ main .admin_sidebar {
 					style="display: none;" name="addRegion" action="/insertCity.do"
 					onsubmit='return frmsubmit();'>
 					<span class="hid"> 국가 : <input type="text"
-						name="regionCountry" id="regionCountry" value="" onkeyup><br>
-					</span> 도시 : <input type="text" name="regionCity" id="regionCity"><br>
+						name="regionCountry" id="regionCountry" value="" onkeyup>
+					</span> 
+					<br>
+					
+					도시 : <input type="text" name="regionCity" id="regionCity"style="margin-top:10px;"><br>
 
 					<div class="filebox bs3-primary preview-image">
 						<input class="upload-name" value="파일선택" disabled="disabled"
@@ -537,6 +555,15 @@ main .admin_sidebar {
 				</form>
 				<button id="delRegion" style="display: none;">삭제</button>
 				<br> <br>
+				</div>
+				<div>
+			
+				1.국가와 지역을 둘 다 추가 하는 기능이 있습니다.
+				2.지역만 추가 하시고 싶으 실 경우 국가 선택 후 지역 추가 하기 버튼을 눌러 주시면 됩니다.
+				3.지역을 삭제 하시고 싶으시다면 국가 선택 후 삭제 하시고 싶은 지역 선택 후 삭제 버튼을 눌러 주시면 됩니다.
+				4.
+			
+				</div>
 	</section>
 
 	<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
