@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import kr.or.iei.common.model.vo.Region;
 import kr.or.iei.mytrip.model.vo.Mytrip;
+import kr.or.iei.mytrip.model.vo.RegionData;
 import kr.or.iei.mytrip.model.vo.TripDetail;
 import kr.or.iei.mytrip.model.vo.TripMember;
 
@@ -38,8 +39,8 @@ public class MytripDao {
 		return sqlSession.insert("mytrip.insertTripMember",tripMember);
 	}
 
-	public List<TripMember> selectTripList(TripMember tripMember) {
-		return sqlSession.selectList("mytrip.selectTripList",tripMember);
+	public List<RegionData> selectTripList(String memberId) {
+		return sqlSession.selectList("mytrip.selectTripList",memberId);
 	}
 	
 	

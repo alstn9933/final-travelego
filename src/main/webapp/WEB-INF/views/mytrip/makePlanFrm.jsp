@@ -163,7 +163,9 @@ prefix="c"%>
 	      			</tr>
 	      			<c:forEach items="${regionList }" var="regionList">
 						<tr>
-							<td>${regionList.filename }</td><input type='hidden' value="${regionList.regionNo }">
+							<td>
+								<input type="hidden" name="regionFilename" value="${regionList.filename }"></td>
+							<input type='hidden' value="${regionList.regionNo }">
 							<td>${regionList.regionCity }</td>
 							<td>${regionList.regionCountry }</td>
 						</tr>
@@ -190,7 +192,7 @@ prefix="c"%>
 		var endDateIs = $("input[name=endDateIs]").val();
 		
 		$(document).ready(function(){
-			
+			regionImg();
 			if(tripNoIs==0){
 				console.log("0임");
 				if(tripNoIs==0){
@@ -241,10 +243,19 @@ prefix="c"%>
 						$(".divFloat2:eq("+i+")").children().eq(1).css("margin-bottom","10px");
 					}
 				}
+				
 			}
 				
 			
 		});
+		
+		function regionImg(){
+			for(var i=0; i<$("input[name=regionFilename]").length; i++){
+				var regionFilename = $("input[name=regionFilename]")[i].value;
+				var img = $("<img src='/upload/images/region/"+regionFilename+"' width='50' height='50'>");
+				$("input[name=regionFilename]").eq(i).before(img);
+			}
+		}
 		
 		$(document).on("click",".upBtn",function(){
 			var saveValue1 = $(this).parent().parent().children().eq(0).children().eq(1).text();
@@ -608,24 +619,7 @@ prefix="c"%>
 	    	
 	    		
 	    	}
-			/* positions.push($("input[name=receiveAddr]").val());
-			var test = await getCode($("input[name=receiveAddr]").val());
-			coords.push(test);
-			removeMarker();
-			linePath.push(test); */
 			
-			
-			
-			
-			
-			
-			//var polyline.setMap(null);
-			//console.log(positions);
-			// 주소-좌표 변환 객체를 생성합니다
-			//var geocoder =   new kakao.maps.services.Geocoder();
-			/* var polyline = new kakao.maps.Polyline(null);
-			
-			polyline.setMap(null); */
 			
 				for(var i=0; i<positions.length; i++){
 					var am = addMarker(coords[i],i);
@@ -914,13 +908,14 @@ prefix="c"%>
 						html += "<tr><th>사진</th><th>도시</th><th>나라</th></tr>"
 						if(data!="0"){
 						for(var i=0; i<data.length; i++){
-							html += "<tr><td>"+data[i].filename+"</td>";
+							html += "<tr><td><input type='hidden' name='regionFilename' value='"+data[i].filename+"'></td>";
 							html += "<input type='hidden' value='"+data[i].regionNo+"'>";
 							html += "<td>"+data[i].regionCity+"</td>";
 							html += "<td>"+data[i].regionCountry+"</td></tr>";
 						}
 						$("table>tbody").append(html);
 						}
+						regionImg();
 					},
 					error : function(){
 						console.log("ajax통신 실패");

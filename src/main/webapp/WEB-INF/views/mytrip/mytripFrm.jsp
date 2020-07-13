@@ -38,8 +38,9 @@ prefix="c"%>
 				minSlides: 1,
 				maxSlides: 3,
 				slideWidth: 300,
-				slideHeight: 300,
-				slideMargin: 10
+				slideHeight: 600,
+				slideMargin: 10,
+				touchEnabled : (navigator.maxTouchPoints > 0)//bxslider오류로 a태그반영안돼서 추가
 			});
 		});
 	</script>
@@ -64,6 +65,46 @@ prefix="c"%>
         	background-color: lightpink;
         	margin-top: 10px;
         }
+        .bxDiv{
+        	/* box-shadow: 0;
+        	border: 0px; */
+        }
+        .bxslider{
+        	padding-left: 50px;
+        	padding-right: 50px;
+        }
+        .bxslider li{
+        	width: 300;
+        	height: 400;
+            margin: 0 auto;
+        }
+        .bxslider li div{
+        	text-align:center;
+			margin: 0 auto;
+        	align-items:center; /* 위아래 기준 중앙정렬 */
+			justify-content:center; /* 좌우 기준 중앙정렬 */
+        }
+        .imgDiv{
+        	width: 200px;
+        	height: 200px;
+        }
+        .bxslider li div:nth-child(1) img{
+        	width: 100%;
+        	height: 100%;
+        	border-radius: 70%;
+        	object-fit: cover;
+        	
+			margin: 0 auto;
+        }
+        .bxslider-inner {
+			vertical-align: middle;
+			display: inline-block;
+		} 
+		.bxslider li div:nth-child(2){
+			margin: 0 auto;
+			height: 50px;
+			line-height: 50px;
+		}
     </style>
   </head>
   <body>
@@ -73,24 +114,28 @@ prefix="c"%>
     <section>
       <!-- 여기서부터 작성하시면 됨!!!!!!! -->
       <div>
-      	<form action="/insertTrip.do" method="post">
-			지역 : <input type="text" name="regionNo"><br>
-			<input type="submit" value="확인용버튼">
-		</form>
-		<ul class="bxslider">
-			<li>슬라이더111</li>
-			<li>슬라이더222</li>
-			<li>슬라이더333</li>
-			<li>슬라이더444</li>
-			<li>슬라이더555</li>
+      	<div class="bxDiv">
+		<ul class="bxslider bxslider-inner">
+			<c:forEach items="${list }" var="list">
+				<li>
+					<div class="imgDiv">
+						<input type="hidden" name="tripLink" value="${list.tripNo }">
+						<input type="hidden" name="regionFilename" value="${list.filename }">
+					</div>
+					<div>${list.regionCountry } / ${list.regionCity }</div>
+				</li>
+					
+				</c:forEach>
 		</ul>
+		</div>
+		<button type="button" name="testBtn"></button>
 		<div class="box1">
 			<div class="newOne">
 				<a href="<c:url value='/makePlanFrm.do?tripNoIs=0' />">새 일정 만들기</a>
 			</div>
 		</div>
 		<div class="listDiv">
-			<table border="1">
+			<%-- <table border="1">
 				
 				<c:forEach items="${list }" var="list">
 					
@@ -106,11 +151,46 @@ prefix="c"%>
 					
 				</c:forEach>
 				
-			</table>
+			</table> --%>
 		</div>
       </div>
     </section>
-
+	<script>
+		$(document).ready(function(){
+			mytripLink();
+		});
+	
+		/* $(document).on("click","button[name=testBtn]",function(){
+			/* var noArr = [];
+			for(var i=0; i<$("input[name=tripLink]").length; i++){
+				noArr.push($("input[name=tripLink]").eq(i).val());
+			}
+			console.log(noArr);
+			
+			$.ajax({
+				url : "/loadImg.do",
+				success : function(){
+					
+				},
+				error : function(){
+					console.log("loadImg아작스실패")
+				}
+			});
+		}); */
+		
+		function mytripLink(){
+			for(var i=0; i<$("input[name=tripLink]").length; i++){
+				var tripLink = $("input[name=tripLink]")[i].value;
+				var aHref = "<c:url value='/makePlanFrm.do?tripNoIs="+tripLink+"' />";
+				var regionFilename = $("input[name=regionFilename]")[i].value;
+				var img = "<img src='/upload/images/region/"+regionFilename+"'/>";
+				//$("input[name=tripLink]").eq(i).prev().before(img);
+				$("input[name=tripLink]").eq(i).before("<a href='"+aHref+"'>"+img+"</a>");
+				//$("input[name=tripLink]").eq(i).before("<a href='/makePlanFrm.do?tripNoIs="+tripLink+"'>"+tripLink+"</a>");
+				/* <a href="<c:url value='/makePlanFrm.do?tripNoIs=0' />">새 일정 만들기</a> */
+			}
+		}
+	</script>
 	
 
     <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>

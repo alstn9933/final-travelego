@@ -24,6 +24,7 @@
 		where region_city like '%'||#{_parameter}||'%' or region_country like '%'||#{_parameter}||'%'
 		order by regionCountry,regionCity
 	</select>
+	
 	<insert id="setMytrip" parameterType="mytrip">
 		insert into my_trip values(
 			my_trip_seq.nextval,#{regionNo},#{beginDate},#{endDate}
@@ -34,12 +35,15 @@
 			my_trip_seq.currval,#{memberId}
 		)
 	</insert>
-	<select id="selectTripList" parameterType="tripMember" resultType="tripMember">
+	<select id="selectTripList" parameterType="String" resultType="regionData">
 		select
-			trip_no as tripNo,
-			member_id as memberId
-		from trip_member 
-		where member_id=#{memberId}
+		    r.region_no as regionNo,
+		    r.region_country as regionCountry,
+		    r.region_city as regionCity,
+		    r.filename,
+		    t.trip_no as tripNo
+		from my_trip m,trip_member t,region r
+		where m.trip_no=t.trip_no and m.region_no=r.region_no and t.member_id=#{_parameter}
 	</select>
 	<select id="currValIs" resultType="mytrip">
 		select my_trip_seq.currval as tripNo from my_trip
