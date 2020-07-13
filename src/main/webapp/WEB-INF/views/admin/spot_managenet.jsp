@@ -335,7 +335,7 @@ main .admin_sidebar {
 																.append("<option value='insertCity' id='insertCity' >----도시 직접 입력---</option>");
 														$("#delRegion").hide();
 													} else {
-														addOption = "<option value='' title='선택'>--도시를 선택해주세요--</option>";
+														addOption = "<option value='' title='선택'>--- 도시를 선택해주세요 ---</option>";
 
 														citySelect
 																.append("<option value='insert' >----도시 직접 입력---</option>");
@@ -503,7 +503,7 @@ main .admin_sidebar {
 				<!-- 국가 추가 -->
 				<select name="countrySelect" id="countrySelect"
 					style="width: 300px;">
-					<option value="선택된국가가 없습니다" selected>--국가를 선택해주세요--</option>
+					<option value="선택된국가가 없습니다" selected>--- 국가를 선택해주세요 ---</option>
 					<c:forEach items="${rList}" var="con">
 						<option value="${con.regionCountry }">${con.regionCountry}</option>
 					</c:forEach>
@@ -522,8 +522,11 @@ main .admin_sidebar {
 					style="display: none;" name="addRegion" action="/insertCity.do"
 					onsubmit='return frmsubmit();'>
 					<span class="hid"> 국가 : <input type="text"
-						name="regionCountry" id="regionCountry" value="" onkeyup><br>
-					</span> 도시 : <input type="text" name="regionCity" id="regionCity"><br>
+						name="regionCountry" id="regionCountry" value="" onkeyup>
+					</span> 
+					<br>
+					
+					도시 : <input type="text" name="regionCity" id="regionCity"style="margin-top:10px;"><br>
 
 					<div class="filebox bs3-primary preview-image">
 						<input class="upload-name" value="파일선택" disabled="disabled"
