@@ -60,8 +60,7 @@ prefix="c"%>
       <div style="font-size:30px; font-weight: bold; margin-bottom:20px;">${sessionScope.member.memberNickname }</div>
     <br>
     <div>
-        <div>${sessionScope.member.memberNickname } 님의 다음 여행</div>
-        <div>계획된 여행이 없습니다. 일정을 추가해보세요.</div>
+        <div>${sessionScope.member.memberNickname }</div>
     </div>
     </div>
     <table>
