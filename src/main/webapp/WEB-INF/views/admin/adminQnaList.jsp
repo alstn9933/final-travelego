@@ -139,7 +139,6 @@ main .admin_sidebar {
 		display: none;
 	}
 }
-
 </style>
 
 <body>
@@ -147,12 +146,13 @@ main .admin_sidebar {
 		<link rel="stylesheet"
 			href="https://fonts.googleapis.com/icon?family=Material+Icons" />
 
-		<div id="mySidebar" class="admin_sidebar">
+	<div id="mySidebar" class="admin_sidebar">
 			<a href="/memberManagement.do?reqPage=1"><span
-				class="admin_title" >회원 관리</span></a><a
-				href="spot_managenet.do"><span class="admin_title">여행지
-						관리</span></a> <a href="/adminQnaList.do" ><span class="admin_QA" style="color: black">회원문의사항</span></a>
-			<a href="reportList.do"><span class="admin_title">신고글 관리</span></a>
+				class="admin_title"></span>회원 관리</a><a href="/spot_managenet.do"><span
+				class="admin_title">여행지 관리</span></a> <a
+				href="/adminQnaList.do"><span class="admin_QA" >회원문의사항</span></a> <a
+				href="/reportList.do"><span class="admin_title"
+				> 신고글 관리</span></a>
 		</div>
 		<!-- 1.문의글 보여줄 것
 		  	 2.보여줄때 답변이 있으면-답변완료 뜨게하기 QA값이 있으면 답변 완료 
