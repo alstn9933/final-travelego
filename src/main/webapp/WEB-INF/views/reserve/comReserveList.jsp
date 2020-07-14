@@ -306,8 +306,16 @@ prefix="c"%>
     				html+="<tr>";
 					html+="<td>"+data[i].reserveNo+"</td>";
 					html+="<td><span id='title'>"+data[i].itemTitle+"</span></td>";
-					html+="<td>"+data[i].memberName+"</td>";
-					html+="<td>"+data[i].phone+"</td>";
+					if(data[i].memberName==null){
+						html+="<td>탈퇴회원</td>";
+					}else{
+						html+="<td>"+data[i].memberName+"</td>";
+					}
+					if(data[i].phone==null){
+						html+="<td>탈퇴회원</td>";
+					}else{
+						html+="<td>"+data[i].phone+"</td>";
+					}
 					html+="<td>"+data[i].tourDate+"</td>";
 					html+="<td>"+data[i].tourTime+"시</td>";
 					html+="<td>"+data[i].personCount+"명</td>";

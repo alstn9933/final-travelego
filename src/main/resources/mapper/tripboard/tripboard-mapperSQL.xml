@@ -61,7 +61,7 @@
 				trip_board_title as tripBoardTitle, 
 				trip_board_content as tripBoardContent, 
 				trip_route as tripRoute, 
-				trip_board_writer as tripBoardWriter, 
+				nvl(trip_board_writer,'탈퇴회원') as tripBoardWriter, 
 				to_char(trip_board_date,'yyyy. mm. dd.') as tripBoardDate, 
 				to_char(trip_board_date,'hh24:mi') as tripBoardTime, 
 				read_count as readCount, 
@@ -83,7 +83,7 @@
 			trip_board_title as tripBoardTitle, 
 			trip_board_content as tripBoardContent, 
 			trip_route as tripRoute, 
-			trip_board_writer as tripBoardWriter, 
+			nvl(trip_board_writer,'탈퇴회원') as tripBoardWriter, 
 			to_char(trip_board_date,'yyyy. mm. dd.') as tripBoardDate, 
 			to_char(trip_board_date,'hh24:mi') as tripBoardTime, 
 			read_count as readCount, 
@@ -119,11 +119,13 @@
 			comment_level as commentLevel,
 			board_no as boardNo,
 			comment_writer as commentWriter,
+			nvl(member_nickname,'탈퇴회원') as commentNick,
 			comment_content as commentContent,
 			ref_comment as refComment,			
 			to_char(comment_date,'yyyy. mm. dd.') as commentDate, 
 			to_char(comment_date,'hh24:mi') as commentTime
 		from board_comment
+		left join member on(comment_writer = member_id) 
 		where board_class = 5 and board_no = #{_parameter}
 	</select>
 	<insert id="insertComment" parameterType="togetherComment">
@@ -182,7 +184,7 @@
 				trip_board_title as tripBoardTitle, 
 				trip_board_content as tripBoardContent, 
 				trip_route as tripRoute, 
-				trip_board_writer as tripBoardWriter, 
+				nvl(trip_board_writer,'탈퇴회원') as tripBoardWriter, 
 				to_char(trip_board_date,'yyyy. mm. dd.') as tripBoardDate, 
 				to_char(trip_board_date,'hh24:mi') as tripBoardTime, 
 				read_count as readCount, 

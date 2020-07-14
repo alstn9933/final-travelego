@@ -32,87 +32,86 @@
 	<!-- 웹 콘텐츠는 section 태그 안에 작성을 해주세요!-->
 	<section>
 		<style>
-<!-- 이미지 업로드 css -->
-        .filebox input[type="file"] {
-            position: absolute;
-            width: 1px;
-            height: 1px;
-            padding: 0;
-            margin: -1px;
-            overflow: hidden;
-            clip: rect(0, 0, 0, 0);
-            border: 0;
-        }
+<!--
+이미지 업로드 css -->.filebox input[type="file"] {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	border: 0;
+}
 
-        .filebox label {
-            display: inline-block;
-            padding: .5em .75em;
-            color: #999;
-            font-size: inherit;
-            line-height: normal;
-            vertical-align: middle;
-            background-color: #fdfdfd;
-            cursor: pointer;
-            border: 1px solid #ebebeb;
-            border-bottom-color: #e2e2e2;
-            border-radius: .25em;
-        }
+.filebox label {
+	display: inline-block;
+	padding: .5em .75em;
+	color: #999;
+	font-size: inherit;
+	line-height: normal;
+	vertical-align: middle;
+	background-color: #fdfdfd;
+	cursor: pointer;
+	border: 1px solid #ebebeb;
+	border-bottom-color: #e2e2e2;
+	border-radius: .25em;
+}
 
-        /* named upload */
-        .filebox .upload-name {
-            display: inline-block;
-            padding: .5em .75em;
-            font-size: inherit;
-            font-family: inherit;
-            line-height: normal;
-            vertical-align: middle;
-            background-color: #f5f5f5;
-            border: 1px solid #ebebeb;
-            border-bottom-color: #e2e2e2;
-            border-radius: .25em;
-            -webkit-appearance: none;
-            /* 네이티브 외형 감추기 */
-            -moz-appearance: none;
-            appearance: none;
-        }
+/* named upload */
+.filebox .upload-name {
+	display: inline-block;
+	padding: .5em .75em;
+	font-size: inherit;
+	font-family: inherit;
+	line-height: normal;
+	vertical-align: middle;
+	background-color: #f5f5f5;
+	border: 1px solid #ebebeb;
+	border-bottom-color: #e2e2e2;
+	border-radius: .25em;
+	-webkit-appearance: none;
+	/* 네이티브 외형 감추기 */
+	-moz-appearance: none;
+	appearance: none;
+}
 
-        /* imaged preview */
-        .filebox .upload-display {
-            margin-bottom: 5px;
-        }
+/* imaged preview */
+.filebox .upload-display {
+	margin-bottom: 5px;
+}
 
-        @media(min-width: 768px) {
-            .filebox .upload-display {
-                display: inline-block;
-                margin-right: 5px;
-                margin-bottom: 0;
-            }
-        }
+@media ( min-width : 768px) {
+	.filebox .upload-display {
+		display: inline-block;
+		margin-right: 5px;
+		margin-bottom: 0;
+	}
+}
 
-        .filebox .upload-thumb-wrap {
-            display: inline-block;
-            width: 54px;
-            padding: 2px;
-            vertical-align: middle;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            background-color: #fff;
-        }
+.filebox .upload-thumb-wrap {
+	display: inline-block;
+	width: 54px;
+	padding: 2px;
+	vertical-align: middle;
+	border: 1px solid #ddd;
+	border-radius: 5px;
+	background-color: #fff;
+}
 
-        .filebox .upload-display img {
-            display: block;
-            max-width: 100%;
-            width: 100% \9;
-            height: auto;
-        }
+.filebox .upload-display img {
+	display: block;
+	max-width: 150%;
+	width: 100% \9;
+	height: auto;
+}
 
-        .filebox.bs3-primary label {
-            color: #fff;
-            background-color: #337ab7;
-            border-color: #2e6da4;
-        }		
-		
-		
+.filebox.bs3-primary label {
+	color: #fff;
+	background-color: #337ab7;
+	border-color: #2e6da4;
+}
+
 .admin_page {
 	padding-top: 100px;
 	padding-left: 100px;
@@ -164,7 +163,7 @@ main .admin_sidebar {
 
 #Contents {
 	padding: 16px;
-	margin-left: 250px;
+	margin-left: 50px;
 }
 
 .dd .ddTitle .ddTitleText img {
@@ -180,7 +179,49 @@ main .admin_sidebar {
 	}
 }
 
+#delRegion {
+	width: 50px;
+	height: 30px;
+	margin-left: 100px;
+	border: none;
+	color: black;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 15px;
+	text-align: center;
+	border-radius: 10px;
+	cursor: pointer;
+}
 
+#addSubmit {
+	width: 100px;
+	height: 30px;
+	margin-left: 100px;
+	border: none;
+	color: black;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 15px;
+	text-align: center;
+	border-radius: 10px;
+	cursor: pointer;
+}
+#citySel{
+	margin-top:10px;
+}
+#Contents{
+background-color: #E2E2E2;
+width: 360px;
+height: 400px;
+}
+
+@media screen and (max-width: 1000px) {
+	#mySidebar {
+		display: none;
+	}
+}
 
 </style>
 		<script>
@@ -309,7 +350,7 @@ main .admin_sidebar {
 																.append("<option value='insertCity' id='insertCity' >----도시 직접 입력---</option>");
 														$("#delRegion").hide();
 													} else {
-														addOption = "<option value='' title='선택'>--도시를 선택해주세요--</option>";
+														addOption = "<option value='' title='선택'>--- 도시를 선택해주세요 ---</option>";
 
 														citySelect
 																.append("<option value='insert' >----도시 직접 입력---</option>");
@@ -358,55 +399,85 @@ main .admin_sidebar {
 			})
 		</script>
 		<script>
-		
-      $(document).ready(function(){
-   var fileTarget = $('.filebox .upload-hidden');
+			$(document)
+					.ready(
+							function() {
+								var fileTarget = $('.filebox .upload-hidden');
 
-    fileTarget.on('change', function(){
-        if(window.FileReader){
-            // 파일명 추출
-            var filename = $(this)[0].files[0].name;
-        } 
+								fileTarget
+										.on(
+												'change',
+												function() {
+													if (window.FileReader) {
+														// 파일명 추출
+														var filename = $(this)[0].files[0].name;
+													}
 
-        else {
-            // Old IE 파일명 추출
-            var filename = $(this).val().split('/').pop().split('\\').pop();
-        };
+													else {
+														// Old IE 파일명 추출
+														var filename = $(this)
+																.val().split(
+																		'/')
+																.pop().split(
+																		'\\')
+																.pop();
+													}
+													;
 
-        $(this).siblings('.upload-name').val(filename);
-    });
+													$(this).siblings(
+															'.upload-name')
+															.val(filename);
+												});
 
-    //preview image 
-    var imgTarget = $('.preview-image .upload-hidden');
+								//preview image 
+								var imgTarget = $('.preview-image .upload-hidden');
 
-    imgTarget.on('change', function(){
-        var parent = $(this).parent();
-        parent.children('.upload-display').remove();
+								imgTarget
+										.on(
+												'change',
+												function() {
+													var parent = $(this)
+															.parent();
+													parent.children(
+															'.upload-display')
+															.remove();
 
-        if(window.FileReader){
-            //image 파일만
-            if (!$(this)[0].files[0].type.match(/image\//)) return;
-            
-            var reader = new FileReader();
-            reader.onload = function(e){
-                var src = e.target.result;
-                parent.prepend('<div class="upload-display"><div class="upload-thumb-wrap"><img src="'+src+'" class="upload-thumb"></div></div>');
-            }
-            reader.readAsDataURL($(this)[0].files[0]);
-        }
+													if (window.FileReader) {
+														//image 파일만
+														if (!$(this)[0].files[0].type
+																.match(/image\//))
+															return;
 
-        else {
-            $(this)[0].select();
-            $(this)[0].blur();
-            var imgSrc = document.selection.createRange().text;
-            parent.prepend('<div class="upload-display"><div class="upload-thumb-wrap"><img class="upload-thumb"></div></div>');
+														var reader = new FileReader();
+														reader.onload = function(
+																e) {
+															var src = e.target.result;
+															parent
+																	.prepend('<div class="upload-display"><div class="upload-thumb-wrap"><img src="'+src+'" class="upload-thumb"></div></div>');
+														}
+														reader
+																.readAsDataURL($(this)[0].files[0]);
+													}
 
-            var img = $(this).siblings('.upload-display').find('img');
-            img[0].style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(enable='true',sizingMethod='scale',src=\""+imgSrc+"\")";        
-        }
-    });
-});
-    </script>
+													else {
+														$(this)[0].select();
+														$(this)[0].blur();
+														var imgSrc = document.selection
+																.createRange().text;
+														parent
+																.prepend('<div class="upload-display"><div class="upload-thumb-wrap"><img class="upload-thumb"></div></div>');
+
+														var img = $(this)
+																.siblings(
+																		'.upload-display')
+																.find('img');
+														img[0].style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(enable='true',sizingMethod='scale',src=\""
+																+ imgSrc
+																+ "\")";
+													}
+												});
+							});
+		</script>
 		<script>
 			$(function() {
 				$("#regionCountry").keyup(function() {
@@ -438,16 +509,16 @@ main .admin_sidebar {
 
 			<div id="mySidebar" class="admin_sidebar">
 				<a href="/memberManagement.do?reqPage=1"><span
-					class="admin_title"></span>회원 관리</a></span><a href="/spot_managenet.do"><span><span
-						class="admin_title">여행지 관리</span><br></a> <a
-					href="/adminQnaList.do" /><span class="admin_QA">회원문의사항</span><br>
+					class="admin_title" >회원 관리</span></a><a href="/spot_managenet.do"><span
+						class="admin_title" style="color: black" >여행지 관리</span><br></a> <a
+					href="/adminQnaList.do" ><span class="admin_QA">회원문의사항</span></a>
 				<a href="/reportList.do"><span class="admin_title">신고글 관리</span></a>
 			</div>
-			<div id="Contents">
+			<div id="Contents" style="float:right;">
 				<!-- 국가 추가 -->
 				<select name="countrySelect" id="countrySelect"
-					style="width: 300px;">
-					<option value="선택된국가가 없습니다" selected>--국가를 선택해주세요--</option>
+					style="width: 300px; height: 40px;">
+					<option value="선택된국가가 없습니다" selected>--- 국가를 선택해주세요 ---</option>
 					<c:forEach items="${rList}" var="con">
 						<option value="${con.regionCountry }">${con.regionCountry}</option>
 					</c:forEach>
@@ -466,19 +537,35 @@ main .admin_sidebar {
 					style="display: none;" name="addRegion" action="/insertCity.do"
 					onsubmit='return frmsubmit();'>
 					<span class="hid"> 국가 : <input type="text"
-						name="regionCountry" id="regionCountry" value="" onkeyup><br>
-					</span> 도시 : <input type="text" name="regionCity" id="regionCity"><br>
-					
-				<div class="filebox bs3-primary preview-image">
-					    <input class="upload-name" value="파일선택" disabled="disabled" style="width: 200px;">
-					      <label for="addFile" style="margin-top:10px">업로드</label>
-					<input type="file" name="file" id="addFile" class="upload-hidden" style="display:none;" >
-					 </div>
+						name="regionCountry" id="regionCountry" value="" onkeyup>
+					</span> 
 					<br>
-					<input type="submit" value="추가히기" style="margin-left:100px;">
+					
+					도시 : <input type="text" name="regionCity" id="regionCity"style="margin-top:10px;"><br>
+
+					<div class="filebox bs3-primary preview-image">
+						<input class="upload-name" value="파일선택" disabled="disabled"
+							style="width: 160px;"> <label for="addFile"
+							style="margin-top: 10px">업로드</label> <input type="file"
+							name="file" id="addFile" class="upload-hidden"
+							style="display: none;">
+					</div>
+					<br> <input type="submit" value="추가히기"
+						style="margin-left: 100px; border:1px solid black" id="addSubmit">
 				</form>
 				<button id="delRegion" style="display: none;">삭제</button>
 				<br> <br>
+				
+				</div>
+				<br>
+				<div>
+				<pr>
+				1.국가와 지역을 둘 다 추가 하는 기능이 있습니다.<br><br>
+				2.지역만 추가 하시고 싶으 실 경우 국가 선택 후 지역 추가 하기 버튼을<br> &nbsp;&nbsp;눌러 
+				   주시면 됩니다.<br><br>
+				3.지역을 삭제 하시고 싶으시다면 국가 선택 후 삭제 하시고 싶은 지역 선택 후 <br> &nbsp;&nbsp;&nbsp;삭제 버튼을 눌러 주시면 됩니다.
+				<pr>
+				</div>
 	</section>
 
 	<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>

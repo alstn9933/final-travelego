@@ -45,13 +45,12 @@ public class AdminController {
 	}
 
 	@RequestMapping(value = "/reportFrm.do")
-	public String reportFrm(Report rp, Model model) {
-		if (rp.getBoardClass() != 0) {
-
-			Report rpinfo = service.reportFrm(rp);
-			rpinfo.setBoardClass(rp.getBoardClass());
-			rpinfo.setBoardNo(rp.getReportNo());
-			model.addAttribute("rp", rpinfo);
+	public String reportFrm(Report r, Model model) {
+		if (r.getBoardClass() != 0) {
+			Report rpinfo = service.reportFrm(r);
+			rpinfo.setBoardClass(r.getBoardClass());
+			rpinfo.setBoardNo(r.getBoardNo());
+			model.addAttribute("r", rpinfo);
 			return "admin/reportFrm";
 		} else {
 			return "redirect:/";
@@ -60,8 +59,8 @@ public class AdminController {
 	}
 
 	@RequestMapping(value = "/insertReport.do")
-	public String insertReport(Report rp, Model model) {
-		int result = service.insertReport(rp);
+	public String insertReport(Report r, Model model) {
+		int result = service.insertReport(r);
 		if (result > 0) {
 			model.addAttribute("msg", "정상적으로 신고 되셨습니다.");
 			model.addAttribute("loc", "/loginFrm.do");

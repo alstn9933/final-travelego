@@ -26,19 +26,21 @@
 	</insert>
 	<select id="selectBoardList" parameterType="map" resultType="together">
 		select * from (
-			select t.*, rownum as rnum
+			select t.*, rownum as rnum,
+			(select member_nickname from member where member_id = together_writer) as togetherWriter
   		      from(
     	        select 
 					together_no as togetherNo,
 					together_title as togetherTitle,
 					together_content as togetherContent,
-					together_writer as togetherWriter,
+					together_writer,
 					region_country as regionCountry,
 					region_city as regionCity,
 					to_char(together_date,'hh24:mi') as writeTime,
 		            to_char(together_date,'yyyy. mm. dd.') as togetherDate
 				from together_board
 				join region using(region_no) order by together_no) t
+				left join member on(member_id = together_writer)
         ) where rnum between #{start} and #{end} order by rnum desc
 	</select>
 	<select id="selectTotalCount" resultType="_int">
@@ -76,7 +78,7 @@
 	<select id="selectCommentList" parameterType="_int" resultType="togetherComment">
 		select
 			comment_no as commentNo,
-			member_nickname as commentWriter,
+			nvl(member_nickname,'탈퇴회원') as commentWriter,
 			comment_content as commentContent,
 			to_char(comment_date,'hh24:mi') as commentTime,
             to_char(comment_date,'yyyy. mm. dd.') as commentDate

@@ -133,6 +133,12 @@ main .admin_sidebar {
 	border-bottom: 1px solid gray;
 	padding: 8px;
 }
+
+@media screen and (max-width: 1000px) {
+	#mySidebar {
+		display: none;
+	}
+}
 </style>
 
 <body>
@@ -140,12 +146,13 @@ main .admin_sidebar {
 		<link rel="stylesheet"
 			href="https://fonts.googleapis.com/icon?family=Material+Icons" />
 
-		<div id="mySidebar" class="admin_sidebar">
+	<div id="mySidebar" class="admin_sidebar">
 			<a href="/memberManagement.do?reqPage=1"><span
-				class="admin_title"></span>회원 관리</a></span><a href="spot_managenet.do"><span><span
-					class="admin_title">여행지 관리</span><br></a> <a
-				href="/adminQnaList.do" /><span class="admin_QA">회원문의사항</span><br>
-			<a href="reportList.do"><span class="admin_title">신고글 관리</span></a>
+				class="admin_title"></span>회원 관리</a><a href="/spot_managenet.do"><span
+				class="admin_title">여행지 관리</span></a> <a
+				href="/adminQnaList.do" style="color: black"><span class="admin_QA" >회원문의사항</span></a> <a
+				href="/reportList.do"><span class="admin_title"
+				> 신고글 관리</span></a>
 		</div>
 		<!-- 1.문의글 보여줄 것
 		  	 2.보여줄때 답변이 있으면-답변완료 뜨게하기 QA값이 있으면 답변 완료 
@@ -153,9 +160,10 @@ main .admin_sidebar {
 		  	 4.페이징 처리--오전안에 끝내기-->
 		<div name="qnaContainer">
 			<form role="form" method="get">
-			
-			<div class="search" style="padding-left:710px;margin-bottom:10px;">
-					<select name="searchType"  style="width:100px;height:29px;">
+
+				<div class="search"
+					style="padding-left: 710px; margin-bottom: 10px;">
+					<select name="searchType" style="width: 100px; height: 29px;">
 						<option value="n"
 							<c:out value="${searchQna.searchType == null ? 'selected' : ''}"/>>선택</option>
 						<option value="qnaTitle"
@@ -217,12 +225,12 @@ main .admin_sidebar {
 						<a href="adminQnaList.do${pgm.makeSearch(pgm.endPage + 1)}">다음</a>
 					</c:if>
 				</div>
-				
-			</form>
-			</div>
-		</div>
 
-		<br>
+			</form>
+		</div>
+	</div>
+
+	<br>
 
 
 
@@ -271,7 +279,7 @@ main .admin_sidebar {
 	<script src="/src/js/header/scrollIt.js"></script>
 	<script src="/src/js/header/jquery.scrollUp.min.js"></script>
 	<script src="/src/js/header/wow.min.js"></script>
-<!-- 	<script src="/src/js/header/nice-select.min.js"></script> -->
+	<!-- 	<script src="/src/js/header/nice-select.min.js"></script> -->
 	<script src="/src/js/header/jquery.slicknav.min.js"></script>
 	<script src="/src/js/header/jquery.magnific-popup.min.js"></script>
 	<script src="/src/js/header/plugins.js"></script>

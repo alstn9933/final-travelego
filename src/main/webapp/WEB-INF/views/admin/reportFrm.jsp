@@ -71,32 +71,32 @@ table.table2 td {
 									
 								<c:if test="${r.boardClass eq 1 }">
 									<td>내 여행
-										<input type="hidden" name="boardClass " size=20 
-									value="신고할 게시판">
+										<input type="hidden" name="boardClass" size=20 
+									value="1">
 									</td>
 								</c:if>
 								<c:if test="${r.boardClass eq 2 }">
 									<td>추천게시판
-									<input type="hidden" name="boardClass " size=20 
-									value="신고할 게시판">
+									<input type="hidden" name="boardClass" size=20 
+									value="2">
 									</td>
 								</c:if>
 								<c:if test="${r.boardClass eq 3 }">
 									<td>동행구하기
-									<input type="hidden" name="boardClass " size=20 
-									value="신고할 게시판">
+									<input type="hidden" name="boardClass" size=20 
+									value="3">
 									</td>
 								</c:if>
 								<c:if test="${r.boardClass eq 4 }">
 									<td>투어티켓
-									<input type="hidden" name="boardClass " size=20 
-									value="신고할 게시판">
+									<input type="hidden" name="boardClass" size=20 
+									value="4">
 									</td>
 								</c:if>
 								<c:if test="${r.boardClass eq 5 }">
 									<td>일정 게시판
-									<input type="hidden" name="boardClass " size=20 
-									value="신고할 게시판">
+									<input type="hidden" name="boardClass" size=20 
+									value="5">
 									</td>
 								</c:if>
 									
@@ -108,7 +108,8 @@ table.table2 td {
 								<td>피신고자</td>
 								<td><input type=text name="reportedMember" size=20
 									readonly value="${r.reportedMember }"> 
-									<input type="hidden" name="reportWriter">
+									<input type="hidden" name="reportWriter" value="${sessionScope.member.memberId }">
+									<input type="hidden" name="boardNo" value="${r.boardNo }">
 								</td>
 							</tr>
 

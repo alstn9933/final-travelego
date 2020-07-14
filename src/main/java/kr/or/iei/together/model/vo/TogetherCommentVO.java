@@ -13,4 +13,5 @@ public class TogetherCommentVO {
 	private int refComment;
 	private String commentDate;
 	private String commentTime;
+	private String commentNick;
 }

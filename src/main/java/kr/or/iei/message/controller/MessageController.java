@@ -142,7 +142,7 @@ public class MessageController {
 				model.addAttribute("receiver",memberId);
 			} else {
 				model.addAttribute("msg","상대방을 조회할 수 없습니다.");
-				model.addAttribute("loc","/");
+				model.addAttribute("loc","/message/inbox.do");
 				return "common/msg";
 			}
 		}
@@ -158,7 +158,7 @@ public class MessageController {
 				model.addAttribute("receiver",memberId);
 			} else {
 				model.addAttribute("msg","상대방을 조회할 수 없습니다.");
-				model.addAttribute("loc","/");
+				model.addAttribute("loc","/message/inbox.do");
 				return "common/msg";
 			}
 		}
