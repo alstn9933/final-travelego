@@ -502,7 +502,7 @@ height: 400px;
 
 			}
 		</script>
-
+        <section>
 		<div class="admin_page">
 			<link rel="stylesheet"
 				href="https://fonts.googleapis.com/icon?family=Material+Icons" />
