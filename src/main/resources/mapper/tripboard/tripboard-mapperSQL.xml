@@ -118,12 +118,14 @@
 			comment_no as commentNo,
 			comment_level as commentLevel,
 			board_no as boardNo,
-			nvl(comment_writer,'탈퇴회원') as commentWriter,
+			comment_writer as commentWriter,
+			nvl(member_nickname,'탈퇴회원') as commentNick,
 			comment_content as commentContent,
 			ref_comment as refComment,			
 			to_char(comment_date,'yyyy. mm. dd.') as commentDate, 
 			to_char(comment_date,'hh24:mi') as commentTime
 		from board_comment
+		left join member on(comment_writer = member_id) 
 		where board_class = 5 and board_no = #{_parameter}
 	</select>
 	<insert id="insertComment" parameterType="togetherComment">
