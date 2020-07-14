@@ -57,13 +57,16 @@ public class NotificationController {
 	public int sendMessge(String sender, String receiver) {
 		int count = service.insertsendMessge(sender, receiver);
 		if (count > 0) {
-			WebSocketSession ws = handler.getMemberSession(receiver);
-			if(ws!=null) {
+			WebSocketSession ws = handler.getMemberSession(receiver);	
+			
+			if(ws!=null && ws.isOpen()) {
+				System.out.println("ws 널 아님");
 				try {
 					ws.sendMessage(new TextMessage(String.valueOf(count)));
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
+				
 			}
 			count = 1;
 		} else if (count < 0) {
@@ -77,7 +80,7 @@ public class NotificationController {
 		int count = service.inserttogether(sender,receiver);
 		if(count>0) {
 			WebSocketSession ws = handler.getMemberSession(receiver);
-			if(ws!=null) {
+			if(ws!=null &&ws.isOpen()) {
 				try {
 					ws.sendMessage(new TextMessage(String.valueOf(count)));
 				} catch (IOException e) {
@@ -97,7 +100,7 @@ public class NotificationController {
 		int count = service.inserttourcancel(receiver);
 		if(count>0) {
 			WebSocketSession ws = handler.getMemberSession(receiver);
-			if(ws!=null) {
+			if(ws!=null &&ws.isOpen()) {
 				try {
 					ws.sendMessage(new TextMessage(String.valueOf(count)));
 				} catch (IOException e) {

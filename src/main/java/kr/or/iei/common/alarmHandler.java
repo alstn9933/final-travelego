@@ -3,6 +3,9 @@ package kr.or.iei.common;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -41,6 +44,7 @@ public class alarmHandler extends TextWebSocketHandler {
 		}else if(type.equals("exit")) {
 			String memberId = element.getAsJsonObject().get("memberId").getAsString();
 			userSessionMap.remove(memberId);
+			System.out.println(memberId + ": 웹소켓 종료, 세션 제거");			
 		}else {
 			String target = element.getAsJsonObject().get("target").getAsString();
 			String msg = element.getAsJsonObject().get("msg").getAsString();
@@ -51,13 +55,27 @@ public class alarmHandler extends TextWebSocketHandler {
 		}
 	}
 	
-	public WebSocketSession getMemberSession(String memberId) {				
+	public WebSocketSession getMemberSession(String memberId) {			
 		return userSessionMap.get(memberId);
+	}
+	
+	public void removeMemberSession(String memberId) {
+		userSessionMap.remove(memberId);
+		System.out.println("웹소켓 세션 제거 : " + memberId);
 	}
 	
 	@Override
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
-		System.out.println("연결 종료!");
+		
+//		Set<String> keys = userSessionMap.keySet();
+//		
+//		for(String memberId : keys) {
+//			if(userSessionMap.get(memberId).equals(session)) {
+//				System.out.println(memberId+"님의 세션 제거");
+//				userSessionMap.remove(memberId);
+//			}
+//		}
+		
 		webSessions.remove(session);
 	}
 }

@@ -83,7 +83,9 @@ main .admin_sidebar {
 #Contents {
 	transition: margin-left 0.5s;
 	padding: 16px;
-	margin-left: 350px;
+	margin-left: 150px;
+	background-color: #E2E2E2;
+	width: 700px;
 	
 }
 
@@ -98,7 +100,7 @@ main .admin_sidebar {
 #bot{
 	margin-top:100px;
 	margin-bottom:50px;
-	margin-left:150px;
+	margin-left:250px;
 }
 
 
@@ -195,7 +197,7 @@ main .admin_sidebar {
 					<c:if test="${empty q.qnaAnswer }">
 						<div>
 							답변 :
-							<textarea rows="5" cols="50" style="resize: none;"
+							<textarea rows="5" cols="50" style="resize: none;margin-left:154px;"
 								name="qnaAnswer"> </textarea>
 						</div>
 						<br>

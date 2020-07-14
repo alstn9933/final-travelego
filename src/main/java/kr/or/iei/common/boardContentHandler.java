@@ -25,7 +25,7 @@ public class boardContentHandler {
 	@Pointcut("execution(* kr.or.iei.together.model.dao.TogetherDao.*Board(kr.or.iei.together.model.vo.TogetherBoardVO,..))")
 	public void insertBoardPointcut() {}
 	
-	@Pointcut("execution(* kr.or.iei.together.model.dao.*Dao.insert*(kr.or.iei.together.model.vo.TogetherCommentVO,..))")
+	@Pointcut("execution(* kr.or.iei.together.model.dao.*Dao.*Comment(kr.or.iei.together.model.vo.TogetherCommentVO,..))")
 	public void insertCommentPointcut() {}
 	
 	@Around("selectMsgPointcut()")

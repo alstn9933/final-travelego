@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
 
+import kr.or.iei.common.alarmHandler;
 import kr.or.iei.common.model.vo.mainPhotoRecommed;
 import kr.or.iei.member.model.service.MemberService;
 import kr.or.iei.member.model.vo.Company;
@@ -33,6 +34,9 @@ public class MemberController {
 	@Autowired
 	@Qualifier("memberService")
 	private MemberService service;
+	
+	@Autowired
+	private alarmHandler handler;
 
 	public MemberController() {
 		super();
@@ -49,10 +53,13 @@ public class MemberController {
 	public String loginMember(Member m, HttpSession session, Model model) {
 		Member member = service.loginMember(m);
 		if (member != null) {
+			if(member.getMemberLevel()<0) {
+				model.addAttribute("msg", "정지된 계정입니다. 관리자에게 문의하세요.");
+				model.addAttribute("loc", "/loginFrm.do");
+			}else if(member.getMemberLevel()>0){
 			Company company = service.checkCompanyId(member);
-			System.out.println(company.getJoinConfirm());
-			System.out.println(member.getMemberLevel());
 			if(company != null && company.getJoinConfirm()==1) {
+				System.out.println(company.getJoinConfirm());
 				session.setAttribute("company", company);
 				session.setAttribute("member", member);
 				model.addAttribute("loc", "/");
@@ -63,15 +70,18 @@ public class MemberController {
 				session.setAttribute("member", member);
 				model.addAttribute("loc", "/");
 			}
+			}
 		}else {
 			model.addAttribute("msg", "회원정보가 일치하지 않습니다.");
-			model.addAttribute("loc", "loginFrm.do");
+			model.addAttribute("loc", "/loginFrm.do");
 		}
 		return "common/msg";
 	}
 
 	@RequestMapping("/logout.do")
 	public String logoutMember(HttpSession session) {
+		Member member = (Member) session.getAttribute("member");
+		handler.removeMemberSession(member.getMemberId());
 		session.invalidate();
 		return "redirect:/";
 
@@ -250,7 +260,6 @@ public class MemberController {
 	@RequestMapping(value = "/mainRecommendList.do",produces = "application/json;charset=utf-8")
 	public String mainRocommendList() {
 		List<Recommend>list = service.mainrecommendList();
-		System.out.println(list);
 		return new Gson().toJson(list);
 	}
 	@ResponseBody

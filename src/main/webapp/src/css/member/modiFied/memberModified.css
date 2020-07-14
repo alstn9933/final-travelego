@@ -1,52 +1,64 @@
 @charset "UTF-8";
-.joincontent{
-	padding-top:100px;
-	padding-left:100px;
-	width: 900px;
-	margin: 0 auto;
+.joincontent {
+  padding-top: 100px;
+  padding-left: 100px;
+  width: 900px;
+  margin: 0 auto;
 }
-.joincontent>div{
-	margin-left: 120px;
+.joincontent > div {
+  margin-left: 120px;
 }
-.joincontent>label{
-	margin-left: 200px;
+.joincontent > label {
+  margin-left: 200px;
 }
-.divBtn{
-	width: 900px;
-	text-align: left;
-	
+.divBtn {
+  width: 900px;
+  text-align: left;
 }
-.divBtn>button{
-	margin: 30px;
+.divBtn > button {
+  margin: 30px;
 }
-#emailBtn,#emailCodeBtn,#idchk,#Nicknamechk,#idchk{
-	width:80px;
-	height:50px;
-	font-size : 12px;
-	float: right;
-	
+#emailBtn,
+#emailCodeBtn,
+#idchk,
+#Nicknamechk,
+#idchk {
+  width: 80px;
+  height: 50px;
+  font-size: 12px;
+  float: right;
 }
-.joincontent input{
-	display: inline-block;
-}
-
-.col-lg-5{
-	width : 60%;
+.joincontent input {
+  display: inline-block;
 }
 
-@media (min-width: 992px){
 .col-lg-5 {
-	max-width:100%;
-}
+  width: 60%;
 }
 
-.col-lg-5 input{
-	width : 300px;
+@media (min-width: 992px) {
+  .col-lg-5 {
+    max-width: 100%;
+  }
 }
-#modifyBtn{
-	margin-left: 50px;
-	width: 250px;
+
+.col-lg-5 input {
+  width: 300px;
 }
-h1{
-	text-align: left;
+#modifyBtn {
+  margin-left: 50px;
+  width: 250px;
+}
+h1 {
+  text-align: left;
+}
+
+#pwChangeBtn {
+  margin-top: 10px;
+  margin-left: 15px;
+  cursor: pointer;
+}
+
+button {
+  cursor: pointer;
 }

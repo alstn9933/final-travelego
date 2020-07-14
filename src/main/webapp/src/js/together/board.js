@@ -13,10 +13,9 @@ $(document).on("keyup", ".autosize", function (event) {
 
 $(document).on("mouseenter mouseleave", ".content", toggleStrech);
 $(document).on("click", ".content", contentClick);
-$(document).on("click", ".show_comment", showComment);
 
 function toggleStrech() {
-  $(this).find(".stretch_area").slideToggle();
+  $(this).find(".stretch_area").slideToggle(100);
 }
 
 function contentClick() {
@@ -106,4 +105,8 @@ $("#mainSearch").on("submit", function (e) {
     },
   });
   e.preventDefault();
+});
+
+$("#rollBackBtn").click(function () {
+  location.href = "/together/main.do";
 });

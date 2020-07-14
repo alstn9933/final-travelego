@@ -54,7 +54,7 @@ prefix="c"%>
             </div>
             <div class="trip_date_area">
               <span>여행 기간</span>
-              <span>0박 2일</span>
+              <span>${board.tripDays}</span>
             </div>
             <div class="input_title_area">
               <span>제목</span>
@@ -151,6 +151,7 @@ ${board.tripRoute}</textarea
               class="btn btn-outline-danger"
               id="reportBtn"
               boardNum="${board.tripBoardNo}"
+              boardClass="3"
             >
               <i class="fas fa-exclamation-circle"></i>
             </button>
@@ -336,6 +337,27 @@ ${board.tripRoute}</textarea
     <script src="/src/js/tripboard/comment.js"></script>
     <c:if test="${not empty sessionScope.member.memberId}">
       <script src="/src/js/tripboard/like.js"></script>
+      <script>
+        $("#reportBtn").click(function () {
+          const boardNo = $(this).attr("boardNum");
+          const boardClass = $(this).attr("boardClass");
+          if (confirm("게시글을 신고하시겠습니까?")) {
+            location.href =
+              "/reportFrm.do?boardNo=" + boardNo + "&boardClass=" + boardClass;
+          }
+        });
+        $("#modBtn").click(function () {
+          location.href =
+            "/tripboard/modifyFrm.do?boardNum=" + $(this).attr("boardNum");
+        });
+
+        $("#delBtn").click(function () {
+          if (confirm("게시글을 삭제하시겠습니까?")) {
+            location.href =
+              "/tripboard/delete.do?boardNum=" + $(this).attr("boardNum");
+          }
+        });
+      </script>
     </c:if>
     <script>
       $("#goListBtn").click(function () {

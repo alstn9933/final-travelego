@@ -33,7 +33,10 @@
 							id="memberId" data-rule-required="true" value="${m.memberId }"
 							readonly> <br> <span id="sId"></span>
 					</div>
-					<br> <label for="memberPw" class="col-lg-2 control-label">패스워드</label>
+					<br> 
+					<div class="btn_wrapper"><button type="button" id="pwChangeBtn" class="btn btn-primary">비밀번호 변경</button></div>
+					<div class="pass_wrapper">
+					<label for="memberPw" class="col-lg-2 control-label">패스워드</label>
 					<div class="col-lg-6">
 						<input type="password" class="form-control" id="memberPw"
 							name="memberPw" data-rule-required="true" ><br>
@@ -46,6 +49,7 @@
 							placeholder="패스워드 확인" ><br> <span
 							id="sPwRe"></span>
 					</div>
+				</div>
 					<br> <label id="lName" for="memberName"
 						class="col-lg-2 control-label">이름</label>
 					<div class="col-lg-6	">
@@ -114,13 +118,22 @@
 	<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
 </body>
 <script>
+
+	$("#pwChangeBtn").click(function(){
+		$(".pass_wrapper").slideToggle();
+		$(this).hide();
+	});
 	var mailCode = "";
 	var regExp = "";
 	var checkArr = [ true, true, true, true, true, true, true, true ];
 	$("#memberPw").keyup(function(event) {
 		regExp = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$/;
-		pwrecheck();
-							if (regExp.test($("#memberPw").val())) {
+		if($("#memberPw").val()==""){
+			
+			$("#sPw").html("");
+				checkArr[0] = true;
+		} else {			
+			if (regExp.test($("#memberPw").val())) {
 								$("#lPW").css("color", "green");
 								$("#sPw").html("생성 가능한 비밀번호 입니다.");
 								$("#sPw").css("color", "green");
@@ -132,22 +145,31 @@
 								$("#memberPw").focus();
 								checkArr[0] = false;
 							}
+		}
+		pwrecheck();
 	});	
 	$("#memberPwRe").keyup(function() {
 		pwrecheck();
 		
 	});
-	function pwrecheck(){
-		if ($("#memberPw").val() == $("#memberPwRe").val()) {
-			$("#sPwRe").html("비밀번호가 일치합니다.");
-			$("#sPwRe").css("color", "green");
-			$("#lPwRe").css("color", "green");
+	function pwrecheck(){		
+		if ($("#memberPwRe").val() == "") {
+			// $("#sPwRe").html("비밀번호를 입력해주세요.");
+			// $("#sPwRe").css("color", "red");
+			$("#sPwRe").html("");
 			checkArr[1] = true;
 		} else {
-			$("#memberPwRe").focus();
-			$("#sPwRe").html("비밀번호가 일치하지 않습니다.");
-			$("#sPwRe").css("color", "red");
-			checkArr[1] = false;
+			if ($("#memberPw").val() == $("#memberPwRe").val()) {
+				$("#sPwRe").html("비밀번호가 일치합니다.");
+				$("#sPwRe").css("color", "green");
+				$("#lPwRe").css("color", "green");
+				checkArr[1] = true;
+			} else {
+				$("#memberPwRe").focus();
+				$("#sPwRe").html("비밀번호가 일치하지 않습니다.");
+				$("#sPwRe").css("color", "red");
+				checkArr[1] = false;
+			}
 		}
 	}
 	$("#memberName").change(function() {

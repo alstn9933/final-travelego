@@ -2,15 +2,19 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="message">
 	<select id="selectMsgList" parameterType="msg" resultType="msg">
-		select
+	select t.*,
+		nvl((select member_nickname from member where member_id = messageSender),'탈퇴회원') as senderNick,
+		nvl((select member_nickname from member where member_id = messageReceiver),'탈퇴회원') as receiverNick
+		from		
+		(select
 			message_no as messageNo,
-			message_sender as messageSender,
 			message_receiver as messageReceiver,
+			message_sender as messageSender,
 			message_content as messageContent,
 			send_date as sendDate,
 			message_check as messageCheck,
 			delete_level as deleteLevel
-		from message		
+		from message
 		<if test="messageReceiver != null">
 		where delete_level in (0,2)
 		and message_receiver = #{messageReceiver}		
@@ -22,7 +26,7 @@
 		and message_check = 1
 		</if>
 		</if>
-		order by message_no desc
+		order by message_no desc) t
 	</select>
 	<insert id="insertMessage" parameterType="msg">
 		insert into message values(
@@ -36,7 +40,11 @@
 		)
 	</insert>
 	<select id="selectOneMessage" parameterType="_int" resultType="msg">
-		select
+		select 
+		t.*,
+		nvl((select member_nickname from member where member_id = messageSender),'탈퇴회원') as senderNick,
+		nvl((select member_nickname from member where member_id = messageReceiver),'탈퇴회원') as receiverNick		
+		from (select
 			message_no as messageNo,
 			message_sender as messageSender,
 			message_receiver as messageReceiver,
@@ -44,8 +52,8 @@
 			send_date as sendDate,
 			message_check as messageCheck,
 			delete_level as deleteLevel
-		from message
-		where message_no = #{_parameter}
+		from message		
+		where message_no = #{_parameter}) t	
 	</select>
 	<select id="countAllMsg" parameterType="member" resultType="_int">
 		select
@@ -184,5 +192,25 @@
 			member_nickname
 		from member
 		where member_id = #{_parameter}
+	</select>
+	<select id="selectMyTrip" parameterType="_int" resultType="boardMyTrip">
+		select 
+			region_no as regionNo, 
+			trip_no as tripNo, 
+			to_char(begin_date, 'yyyy. mm. dd.')||' ~ '||to_char(end_date, 'yyyy. mm. dd.') as tripDate,
+			floor(end_date - begin_date) as tripDay, 
+			region_country||'-'||region_city as regionName 
+		from my_trip 
+		join region using(region_no) 
+		where trip_no = #{_parameter}
+	</select>
+	<insert id="insertTripMember" parameterType="map">
+		insert into trip_member values(
+			#{tripNo}, #{memberId}
+		)		
+	</insert>
+	<select id="checkTripMember" parameterType="map" resultType="_int">
+		select count(*) from trip_member
+		where trip_no = #{tripNo} and member_id = #{memberId}
 	</select>	
 </mapper>

@@ -8,6 +8,5 @@ public class TripBoardMyTripVO {
 	private int tripNo;
 	private String tripDate;
 	private int tripDay;
-	private String regionName;
-	
+	private String regionName;	
 }

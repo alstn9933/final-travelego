@@ -2,6 +2,10 @@ $("#submitBtn").click(function () {
   $("#writeForm").submit();
 });
 
+$("#modalCancel").click(function () {
+  cleanWriteForm();
+});
+
 $("#writeForm").submit(function (e) {
   const postData = $(this).serializeArray();
   const formUrl = $(this).attr("action");
@@ -29,7 +33,7 @@ $("#writeForm").submit(function (e) {
 
 function cleanWriteForm() {
   $("#writeForm").attr("action", "/together/write.do");
-  $("#togetherNo").val("");
+  $("#togetherNo").val(0);
   $("#regionNo").val("");
   $("#inputRegion").val("");
   $("#inputTitle").val("");
@@ -105,11 +109,13 @@ $("#inputRegion").keyup(function (event) {
   }
 });
 
-$("#inputRegion").on("search focusout", function (event) {
+$("#inputRegion").on("search", function (event) {
   $(".list-group").children().remove();
   event.preventDefault();
   return false;
 });
+
+$(document).on("click", ".list-group > li", listClick);
 
 function listClick() {
   $("#inputRegion").val($(this).html());

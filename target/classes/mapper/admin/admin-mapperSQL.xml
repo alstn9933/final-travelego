@@ -235,7 +235,7 @@
 	<update id="qnaAnswer" parameterType="qna">
 		update qna set
 		qna_answer=#{qnaAnswer},
-		answer_date=sysdate
+		answer_date=SYSDATE
 		where qna_No=#{qnaNo}
 	</update>
 
@@ -314,13 +314,13 @@
 	</delete>
 	<update id="updateAnswer" parameterType="qna">
 		update qna set
-		qna_answer=#{qnaAnswer} where qna_no=#{qnaNo}
+		qna_answer=#{qnaAnswer},
+		ask_date = sysdate 
+		where qna_no=#{qnaNo}
 	</update>
 	<insert id="insertReport" parameterType="report">
 		insert into report values
-		(report_seq.nextval,#{reportCategory},#{reportContent},sysdate,#{boardClass},#{boardNo},#{reportedMember},#{reportMember})
-		
-		
+		(report_seq.nextval,#{reportCategory},#{reportContent},sysdate,#{boardClass},#{boardNo},#{reportedMember},#{reportWriter})
 	</insert>
 
 </mapper>

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import kr.or.iei.common.model.vo.Region;
 import kr.or.iei.mytrip.model.dao.MytripDao;
 import kr.or.iei.mytrip.model.vo.Mytrip;
+import kr.or.iei.mytrip.model.vo.RegionData;
 import kr.or.iei.mytrip.model.vo.TripDetail;
 import kr.or.iei.mytrip.model.vo.TripMember;
 
@@ -42,8 +43,8 @@ public class MytripService {
 		return dao.insertTripMember(tripMember);
 	}
 
-	public List<TripMember> selectTripList(TripMember tripMember) {
-		return dao.selectTripList(tripMember);
+	public List<RegionData> selectTripList(String memberId) {
+		return dao.selectTripList(memberId);
 	}
 	
 	public ArrayList<Mytrip> currValIs() {
@@ -62,6 +63,49 @@ public class MytripService {
 	public int addMemo(TripDetail tripDetail) {
 		return dao.addMemo(tripDetail);
 	}
+
+	public TripDetail tripOrderIs(TripDetail tripDetail) {
+		return dao.tripOrderIs(tripDetail);
+	}
+
+	public Mytrip selectMytrip(int tripNoIs) {
+		return dao.selectMytrip(tripNoIs);
+	}
+
+	public ArrayList<TripDetail> selectDateList(int tripNoIs) {
+		List detailList = dao.selectDateList(tripNoIs);
+		return (ArrayList<TripDetail>)detailList;
+	}
+
+	public int deleteMemo(TripDetail tripDetail) {
+		return dao.deleteMemo(tripDetail);
+	}
+
+	public int sortMemo(TripDetail tripDetail) {
+		return dao.sortMemo(tripDetail);
+	}
+
+	public int changeOrder1(TripDetail tripDetail1) {
+		return dao.changeOrder1(tripDetail1);
+	}
+
+	public int changeOrder2(TripDetail tripDetail2) {
+		return dao.changeOrder2(tripDetail2);
+	}
+
+	public int changeOrder3(TripDetail tripDetail2) {
+		return dao.changeOrder3(tripDetail2);
+	}
+	
+	public int changeOrder4(TripDetail tripDetail2) {
+		return dao.changeOrder4(tripDetail2);
+	}
+
+	public String selectNickname(String memberNickname) {
+		return dao.selectNickname(memberNickname);
+	}
+
+
 
 	 
 

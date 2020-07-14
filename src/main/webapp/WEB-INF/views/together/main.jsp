@@ -32,9 +32,9 @@ prefix="c"%>
     <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
     <section>
       <div class="board">
-        <div class="notify_area">
-          <span>새 글이 있습니다.</span>
-          <span id="newCount">+2</span>
+        <div class="notify_area" style="display: none;">
+          <span>새 글이 있습니다. </span>
+          <span id="newCount">+0</span>
         </div>
         <div class="content_area">
           <c:forEach items="${list}" var="board" varStatus="status" >
@@ -134,6 +134,7 @@ prefix="c"%>
       </div>
       <aside style="display: none;">
         <div>
+          <c:if test="${not empty sessionScope.member && sessionScope.member.memberLevel==1}">
           <button
             type="button"
             class="btn btn-primary"
@@ -143,6 +144,7 @@ prefix="c"%>
           >
             글쓰기
           </button>
+        </c:if>
           <div class="side_area">
             <div class="search_tab">
               <div class="selected_tab">
@@ -226,6 +228,7 @@ prefix="c"%>
                   name="togetherWriter"
                   value="${sessionScope.member.memberId}"
                 />
+                <input type="hidden" name="" value="${sessionScope.member.memberNickname}" id="inputMemberNick">
                 <input type="hidden" name="togetherNo" id="togetherNo" value="0">
                 <input type="hidden" name="regionNo" id="regionNo" />
                 <label for="inputRegion" class="col-form-label">지역</label>
@@ -271,6 +274,7 @@ prefix="c"%>
                 type="button"
                 class="btn btn-secondary"
                 data-dismiss="modal"
+                id="modalCancel"
               >
                 취소
               </button>
@@ -314,6 +318,7 @@ prefix="c"%>
     <script src="/src/js/together/aside.js"></script>
     <script src="/src/js/together/write.js"></script>
     <script src="/src/js/together/boardScrollLoad.js"></script>
+    <script src="/src/js/together/websocket.js"></script>
     <script>
     </script>
     <script>

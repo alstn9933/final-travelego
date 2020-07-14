@@ -298,8 +298,9 @@ main .admin_sidebar {
 #pageNavi>* {
 	margin: 10px;
 }
-#mButton{
-cursor: pointer;
+
+#mButton {
+	cursor: pointer;
 }
 
 @media screen and (max-height: 450px) {
@@ -310,6 +311,107 @@ cursor: pointer;
 		font-size: 18px;
 	}
 }
+
+.memberDelete {
+	width: 50px;
+	height: 30px;
+	background-color: white;
+	border: 1px solid orangered;
+	color: orangered;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 15px;
+	text-align: center;
+	border-radius: 10px;
+	cursor: pointer;
+}
+
+.memberDelete:hover {
+	background-color: orangered;
+	color: white;
+}
+
+.memberRestore {
+	width: 50px;
+	height: 30px;
+	background-color: white;
+	border: none;
+	color: black;
+	border: 1px solid #4B89DC;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 15px;
+	text-align: center;
+	border-radius: 10px;
+	cursor: pointer;
+}
+
+.memberRestore:hover {
+	background-color: #4B89DC;
+	color: white;
+}
+
+.memberStop {
+	width: 50px;
+	height: 30px;
+	border: 1px solid #E6E671;
+	background: white; color : black;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 15px;
+	text-align: center;
+	border-radius: 10px;
+	cursor: pointer;
+	color: black;
+}
+
+.memberStop:hover {
+	background-color: #E6E671;
+	color: white;
+}
+
+.companyStop {
+	width: 50px;
+	height: 30px;
+	border: 1px solid #E6E671;
+	background: white;
+	color: black;
+	text-align: center;
+	display: inline-block;
+	font-size: 15px;
+	text-align: center;
+	border-radius: 10px;
+	cursor: pointer;
+}
+
+.companyStop:hover {
+	background-color: #E6E671;
+}
+.memberConfirm{
+	width: 100%;
+	height: 30px;
+	background-color:white;
+	border: 1px solid orangered;
+	text-align: center;
+	display: inline-block;
+	font-size: 15px;
+	text-align: center;
+	border-radius: 10px;
+	cursor: pointer;
+}
+.memberConfirm:hover{
+		background-color: #orangered;
+}
+
+
+@media screen and (max-width: 1000px) {
+	#mySidebar {
+		display: none;
+	}
+}
 </style>
 <!-- 게시글 스타일 -->
 
@@ -317,13 +419,16 @@ cursor: pointer;
 	<div class="admin_page">
 		<link rel="stylesheet"
 			href="https://fonts.googleapis.com/icon?family=Material+Icons" />
-
-		<div id="mySidebar" class="admin_sidebar">
-			<a href="/memberManagement.do"><span class="admin_title"></span>회원
-				관리</a></span><a href="/spot_managenet.do"></span><span class="admin_title">여행지
-					관리</span><br></a> <a href="/adminQnaList.do" /><span class="admin_QA">회원문의사항</span><br>
-			<a href="/reportList.do" /><span class="admin_title">신고글 관리</span></a>
-		</div>
+			<link rel="stylesheet"
+				href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+			<div class="admin_page">
+			<div id="mySidebar" class="admin_sidebar">
+				<a href="/memberManagement.do?reqPage=1"><span
+					class="admin_title" style="color: black">회원 관리</span></a><a href="/spot_managenet.do"><span
+						class="admin_title" >여행지 관리</span><br></a> <a
+					href="/adminQnaList.do" ><span class="admin_QA">회원문의사항</span></a>
+				<a href="/reportList.do"><span class="admin_title">신고글 관리</span></a>
+			</div>
 
 
 		<div id="member_container">
@@ -332,7 +437,7 @@ cursor: pointer;
 				<div name="memberTable">
 					<div class="search"
 						style="padding-left: 710px; margin-bottom: 10px;">
-						
+
 						<select name="searchType" style="width: 100px; height: 29px;">
 							<option value="n"
 								<c:out value="${searchM.searchType == null ? 'selected' : ''}"/>>선택</option>
@@ -346,7 +451,7 @@ cursor: pointer;
 							value="${searchM.keyword}" />
 
 						<button id="searchBtn" type="button">검색</button>
-					
+
 					</div>
 
 					<table id="user-table" style="font-size: 0.85rem;">
@@ -369,19 +474,19 @@ cursor: pointer;
 								<td>${m.email }</td>
 
 								<c:if test="${m.memberLevel eq 1}">
-									<td id="modifyMember">일반 회원 <br> <input type="button" id="mButton"
-										name="memberStop" class="memberStop" value="정지"
+									<td id="modifyMember">일반 회원 <br> <input type="button"
+										id="mButton" name="memberStop" class="memberStop" value="정지"
 										data-id="${m.memberId}">
 									</td>
 									<td>해당 사항 없음</td>
 								</c:if>
 
 								<c:if test="${m.memberLevel eq -1}">
-									<td id="modifyMember">정지 회원 <br> <input type="button"  id="mButton"
-										name="memberRecycle" class="memberRestore" value="복구"
-										data-id="${m.memberId}"> <input type="button"
-										name="memberDelete" class="memberDelete" value="탈퇴"
-										data-id="${m.memberId}">
+									<td id="modifyMember">정지 회원 <br> <input type="button"
+										id="mButton" name="memberRecycle" class="memberRestore"
+										value="복구" data-id="${m.memberId}"> <input
+										type="button" name="memberDelete" class="memberDelete"
+										value="제명" data-id="${m.memberId}">
 									</td>
 									<td>해당 사항 없음</td>
 								</c:if>
@@ -393,8 +498,8 @@ cursor: pointer;
 
 
 								<c:if test="${m.memberLevel eq 2}">
-									<td id="modifyMember">법인 회원 <br> <input type="button"  id="mButton"
-										name="companyStop" class="companyStop" value="정지"
+									<td id="modifyMember">법인 회원 <br> <input type="button"
+										id="mButton" name="companyStop" class="companyStop" value="정지"
 										data-id="${m.memberId}"></td>
 
 
@@ -404,8 +509,8 @@ cursor: pointer;
 											승인 완료 
 										</c:if>
 												<c:if test="${c.joinConfirm eq 0}">
-													<input type="button" name="allow" class="memberConfirm"  id="mButton"
-														value="미승인 회원" data-id="${c.companyId}"
+													<input type="button" name="allow" class="memberConfirm"
+														id="mButton" value="미승인 회원" data-id="${c.companyId}"
 														style="color: red;">
 
 												</c:if>
@@ -414,10 +519,10 @@ cursor: pointer;
 								</c:if>
 								<c:if test="${m.memberLevel eq -2}">
 									<td>법인회원<br> <input type="button"
-										name="memberRecycle" class="memberRestore" value="복구"  id="mButton"
-										data-id="${m.memberId}"> <input type="button"
-										name="memberDelete" class="memberDelete" value="탈퇴"  id="mButton"
-										data-id="${m.memberId}"></td>
+										name="memberRecycle" class="memberRestore" value="복구"
+										id="mButton" data-id="${m.memberId}"> <input
+										type="button" name="memberDelete" class="memberDelete"
+										value="제명" id="mButton" data-id="${m.memberId}"></td>
 									<td><c:forEach items="${cList }" var="c">
 											<c:if test="${m.memberId eq c.companyId }">
 												<c:if test="${c.joinConfirm eq 1}">
@@ -425,7 +530,7 @@ cursor: pointer;
 										</c:if>
 												<c:if test="${c.joinConfirm eq 0}">
 													<input type="button" name="allow" class="memberConfirm"
-														value="미승인 회원" data-id="${c.companyId}"  id="mButton"
+														value="미승인 회원" data-id="${c.companyId}" id="mButton"
 														style="color: red;">
 												</c:if>
 											</c:if>
