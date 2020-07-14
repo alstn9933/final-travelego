@@ -76,15 +76,15 @@
 	</update>
 	<select id="selectReserve" parameterType="reserve" resultType="reserve">
 		select r.reserve_no as reserveNo, t.item_title as itemTitle, r.member_id as memberId, m.member_name as memberName, m.phone as phone, r.tour_date as tourDate, r.tour_time as tourTime, r.person_count as personCount, r.pay_date as payDate, r.total_pay as totalPay, r.status as status
-		from tour_reserve r join member m on(m.member_id=r.member_id) join tour t on(t.item_no=r.item_no) 
-		where t.member_id=#{memberId} 
+		from tour_reserve r left join member m on(r.member_id=m.member_id) join tour t on(t.item_no=r.item_no)
+		where t.member_id=#{memberId}
 		<if test="itemNo!='' || itemNo!=0">
 			and r.item_no=#{itemNo}
 		</if>
-		<if test="memberName!=''">
+		<if test="memberName!='%%'">
 			and m.member_name like #{memberName}
 		</if>
-		<if test="phone!=''">
+		<if test="phone!='%%'">
 			and m.phone like #{phone}
 		</if>
 		<if test="tourDate!=''">

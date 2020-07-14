@@ -186,8 +186,12 @@ ${board.tripRoute}</textarea
               <c:forEach items="${commentList}" var="comment">
                 <c:if test="${comment.refComment == 0}">
                   <tr class="comment_writer_area">
-                    <th scope="row" class="comment_writer">
-                      ${comment.commentWriter }
+                    <th
+                      scope="row"
+                      class="comment_writer"
+                      nick="${comment.commentNick }"
+                    >
+                      ${comment.commentNick }
                     </th>
                     <td class="comment_date">
                       <div>${comment.commentDate }</div>
@@ -236,8 +240,12 @@ ${board.tripRoute}</textarea
                 <c:forEach items="${commentList }" var="reply">
                   <c:if test="${comment.commentNo == reply.refComment }">
                     <tr class="comment_writer_area reply">
-                      <th scope="row" class="comment_writer">
-                        ${reply.commentWriter }
+                      <th
+                        scope="row"
+                        class="comment_writer"
+                        nick="${comment.commentNick }"
+                      >
+                        ${reply.commentNick }
                       </th>
                       <td class="comment_date">
                         <div>${reply.commentDate }</div>
@@ -338,6 +346,16 @@ ${board.tripRoute}</textarea
     <c:if test="${not empty sessionScope.member.memberId}">
       <script src="/src/js/tripboard/like.js"></script>
       <script>
+        $(document).on("click", ".writer_area > span:eq(1)", function () {
+          const memberNick = $(this).html();
+          sendMessageByNick(memberNick);
+        });
+
+        $(document).on("click", ".comment_writer", function () {
+          const memberNick = $(this).attr("nick");
+          sendMessageByNick(memberNick);
+        });
+
         $("#reportBtn").click(function () {
           const boardNo = $(this).attr("boardNum");
           const boardClass = $(this).attr("boardClass");
