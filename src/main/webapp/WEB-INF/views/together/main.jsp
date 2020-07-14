@@ -70,7 +70,7 @@ prefix="c"%>
                     <span>${board.togetherWriter}</span>
                   </div>
                   <c:if
-                    test="${sessionScope.member.memberId == board.togetherWriter }"
+                    test="${sessionScope.member.memberNickname == board.togetherWriter }"
                   >
                     <div class="board_btn">
                       <button
@@ -96,7 +96,7 @@ prefix="c"%>
                   <div>
                     <i class="far fa-comment-dots"></i>
                     <span>댓글</span>
-                    <span id="commentCount">(0)</span>
+                    <span class="commentCount">(0)</span>
                   </div>
                   <div><i class="fas fa-angle-down"></i></div>
                 </div>

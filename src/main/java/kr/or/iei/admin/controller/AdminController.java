@@ -63,7 +63,7 @@ public class AdminController {
 		int result = service.insertReport(r);
 		if (result > 0) {
 			model.addAttribute("msg", "정상적으로 신고 되셨습니다.");
-			model.addAttribute("loc", "/loginFrm.do");
+			model.addAttribute("loc", "/");
 		} else {
 			model.addAttribute("msg", "회원가입 오류. 관리자와 상의하세요.");
 			model.addAttribute("loc", "/");

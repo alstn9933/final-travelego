@@ -2,6 +2,7 @@ function loadContent(data) {
   if (data.length != 0) {
     $("#lastContent").removeAttr("id");
     const memberId = $("input[name=togetherWriter]").val();
+    const memberNick = $("#inputMemberNick").val();
     for (let i = 0; i < data.length; i++) {
       const content = document.createElement("div");
       if (i == data.length - 1) {
@@ -81,6 +82,7 @@ function loadContent(data) {
 
       const commentSpan2 = document.createElement("span");
       commentSpan2.innerHTML = "(0)";
+      commentSpan2.className = "commentCount";
       commentDiv1.append(commentSpan2);
 
       const commentDiv2 = document.createElement("div");
@@ -119,14 +121,13 @@ function loadContent(data) {
 
       const stretchArea = document.createElement("div");
       stretchArea.className = "stretch_area";
-      stretchArea.style = "display:none;";
       content.append(stretchArea);
 
       const stretchIcon = document.createElement("i");
       stretchIcon.className = "fas fa-angle-down";
       stretchArea.append(stretchIcon);
 
-      if (memberId == data[i].togetherWriter) {
+      if (memberNick == data[i].togetherWriter) {
         const boardBtnDiv = document.createElement("div");
         boardBtnDiv.className = "board_btn";
 
@@ -148,8 +149,6 @@ function loadContent(data) {
       }
 
       $(".content_area").append(content);
-      $(".content").off();
-      $(".content").on("mouseenter mouseleave", toggleStrech);
     }
   }
   $(".loading_area").hide();

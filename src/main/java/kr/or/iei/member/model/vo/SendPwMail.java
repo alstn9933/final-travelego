@@ -40,7 +40,7 @@ public class SendPwMail {
 					msg.setSubject("Travelego 비밀번호 재설정.","UTF-8");
 					//각 컴퓨터 마다 호스트가 다르기때문에 각컴퓨터에서 확인시  localhost 변경 필 
 					msg.setContent("<h1>안녕하세요. Travelego입니다.</h1>"
-							+ "<a href='http://localhost/pwChange.do?memberId="+memberId+"&timeDate="+timeDate+"'>비밀번호 변경페이지로 이동</a>"
+							+ "<a href='http://192.168.10.30/pwChange.do?memberId="+memberId+"&timeDate="+timeDate+"'>비밀번호 변경페이지로 이동</a>"
 							+ "<br>비밀번호페이지는 약 5분간 사용이 가능하며 그이외에는 비밀번호 변경이 불가합니다."
 							+ "<br>이용해주셔서 감사합니다.","text/html;charset=UTF-8");
 					Transport.send(msg);
