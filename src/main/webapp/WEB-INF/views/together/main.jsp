@@ -114,7 +114,7 @@ prefix="c"%>
                   </table>
                 </div>
               </div>
-              <div class="stretch_area" style="display: none;">
+              <div class="stretch_area">
                 <i class="fas fa-angle-down"></i>
               </div>
             </div>

@@ -99,3 +99,8 @@ section > div {
 .mod_comment_area > td:last-of-type > div > button:first-of-type {
   margin-bottom: 10px;
 }
+
+.writer_area > span:last-of-type:hover {
+  cursor: pointer;
+  color: rgb(0, 86, 179);
+}
