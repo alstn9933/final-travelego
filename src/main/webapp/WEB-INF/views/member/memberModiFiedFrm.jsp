@@ -174,7 +174,6 @@
 				$("#lPwRe").css("color", "green");
 				checkArr[1] = true;
 			} else {
-				$("#memberPwRe").focus();
 				$("#sPwRe").html("비밀번호가 일치하지 않습니다.");
 				$("#sPwRe").css("color", "red");
 				checkArr[1] = false;

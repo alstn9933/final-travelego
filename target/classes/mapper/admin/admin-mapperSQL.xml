@@ -235,7 +235,7 @@
 	<update id="qnaAnswer" parameterType="qna">
 		update qna set
 		qna_answer=#{qnaAnswer},
-		answer_date=SYSDATE
+		answer_date=sysdate
 		where qna_No=#{qnaNo}
 	</update>
 

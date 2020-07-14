@@ -256,6 +256,7 @@ main .admin_sidebar {
 				if(boardClass==2){
 					location.href="/recDetail.do?reqPage=1&recNo="+boardNo
 				}if(boardClass==3){
+					//동행-도형
 					location.href="'/together/singleView.do?boardNo="+boardNo
 				}if(boardClass==5){
 					location.href="/tripboard/view.do?tripBoardNo="+boardNo

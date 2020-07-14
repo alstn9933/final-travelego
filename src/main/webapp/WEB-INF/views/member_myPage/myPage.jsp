@@ -59,15 +59,11 @@ prefix="c"%>
       <div style="width:80%; margin:0 auto;">
       <div style="font-size:30px; font-weight: bold; margin-bottom:20px;">${sessionScope.member.memberNickname }</div>
     <br>
-    <div>
-        <div>${sessionScope.member.memberNickname } 님의 다음 여행</div>
-        <div>계획된 여행이 없습니다. 일정을 추가해보세요.</div>
-    </div>
     </div>
     <table>
     	<c:if test="${sessionScope.member.memberLevel eq 1 }">
         <tr>
-            <th><a href="#">&nbsp;&nbsp;내 일정</a></th>
+            <th><a href="/mytripFrm.do">&nbsp;&nbsp;내 일정</a></th>
         </tr>
         <tr>
             <th><a href="/boardList.do?board=0&reqPage=1">&nbsp;&nbsp;내가 쓴 게시글</a></th>
@@ -94,10 +90,7 @@ prefix="c"%>
         </tr>
         </c:if>
         <tr>
-            <th><a href="">&nbsp;&nbsp;내 정보</a></th>
-        </tr>
-        <tr>
-            <th><a href="/membercheckFrm.do">&nbsp;&nbsp;내 정보 변경</a></th>
+            <th><a href="/membercheckFrm.do">&nbsp;&nbsp;정보 변경</a></th>
         </tr>
     </table>
     </section>
