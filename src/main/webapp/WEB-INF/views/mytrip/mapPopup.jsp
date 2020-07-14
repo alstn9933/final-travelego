@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>지도 팝업</title>
 <script type="text/javascript" src="http://code.jquery.com/jquery-3.3.1.js"></script>
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c6a06442e34483b47b4ab9ad0c820edd&libraries=services"></script>
 <style>
