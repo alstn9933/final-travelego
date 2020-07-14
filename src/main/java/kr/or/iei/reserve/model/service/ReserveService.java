@@ -93,7 +93,7 @@ public class ReserveService {
 		Member m = (Member)session.getAttribute("member");
 		int result = dao.cancelReserve(reserveNo);
 		if(result>0) {
-			if(m!= null && m.getMemberLevel()==2 && m.getMemberId()!=memberId) {
+			if(m!= null && m.getMemberLevel()==2 && m.getMemberId()!=memberId && !memberId.equals("undefined")) {
 				result = ncontroller.tourcancel(memberId);
 			}
 		}
