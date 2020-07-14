@@ -64,17 +64,17 @@ prefix="c"%>
             margin-left: 600px;
         }
         button[name=invite]{
-            position: absolute;
-            margin-bottom: 20px;
-            margin-right: 100px;
-            float:right;
+            width: 100px;
         }
         #makeBtn{
-            position: absolute;
         	background-color: gray;
+        	margin-top: 20px;
+        	width: 100px;
+        }
+        .btnDiv{
             float:right;
-            margin-top: 50px;
             margin-right: 100px;
+            margin-top: 150px;
         }
         #dateList{
         	margin-top: 200px;
@@ -147,7 +147,7 @@ prefix="c"%>
         .divFloat2>div:nth-child(3){
             border-radius: 5px;
             min-height: 30px;
-            background-color: lightgray;
+            background-color: #f0f0f0;
             line-height: 30px;
         }
         .divFloat3{
@@ -193,8 +193,8 @@ prefix="c"%>
         	font-weight: 900;
         }
         dpDiv{
-            width: 300px;
-            height: 500px;
+            width: 1500px;
+            height: 300px;
             margin-left: 50px;
             overflow: auto;
         }
@@ -215,8 +215,16 @@ prefix="c"%>
         th:nth-child(3){
             width:150px;
         }
-        
-        <th width="70px;" height="50px;" line-height="50px;">사진</th><th width="150px;">도시</th><th width="150px;">나라</th>
+        #map{
+            margin-top: 20px;
+            margin: 0 auto;
+        }
+        .divSort{
+            height: 400px;
+        }
+        .divHide{
+        	display:none;
+        }
     </style>
   </head>
   <body>
@@ -246,33 +254,35 @@ prefix="c"%>
 			<input type="hidden" name="receiveAddr"><br>
 			<button type="button" name="addPlace">경로만들기</button>
 			
-	      	
-	      	<div id="tt">
-	      		<input type="text" name="regionCity" placeholder="도시명/나라명"><br>
-	      		<table id="regionTable">
-	      			<tr>
-	      				<th width="70px;" height="50px;" line-height="50px;">사진</th><th width="150px;">도시</th><th width="150px;">나라</th>
-	      			</tr>
-	      			<c:forEach items="${regionList }" var="regionList">
-						<tr>
-							<td>
-								<input type="hidden" name="regionFilename" value="${regionList.filename }"></td>
-							<input type='hidden' value="${regionList.regionNo }">
-							<td>${regionList.regionCity }</td>
-							<td>${regionList.regionCountry }</td>
-						</tr>
-					</c:forEach>
-	      		</table>
-	      	</div>
+	      	<div class="divSort">
+		      	<div id="tt">
+		      		<input type="text" name="regionCity" placeholder="도시명/나라명"><br>
+		      		<table id="regionTable">
+		      			<tr>
+		      				<th width="70px;" height="50px;" line-height="50px;">사진</th><th width="150px;">도시</th><th width="150px;">나라</th>
+		      			</tr>
+		      			<c:forEach items="${regionList }" var="regionList">
+							<tr>
+								<td>
+									<input type="hidden" name="regionFilename" value="${regionList.filename }"></td>
+								<input type='hidden' value="${regionList.regionNo }">
+								<td>${regionList.regionCity }</td>
+								<td>${regionList.regionCountry }</td>
+							</tr>
+						</c:forEach>
+		      		</table>
+		      	</div>
 	      	<div class="dpDiv"><input type="text" id="datePicker"></div>
-	      	<div id="map" style="width:100%;height:350px;"></div>
+		      	<div class="btnDiv"><button type="button" name="invite">초대하기</button><br>
+			    <button type="button" id="makeBtn">일정 만들기</button></div>
+		    </div>
+	      	<div id="map" style="width:90%;height:500px;"></div>
 	      
 	      <br><br><br>
 	      <input type="hidden" name="cityValue"><br>
 	      <input type="hidden" name="countryValue"><br>
 	      <input type="hidden" name="regionNo"><br>
-	      <button type="button" name="invite">초대팝업</button><br>
-		  <button type="button" id="makeBtn">일정 만들기</button><br>
+	      
 		  <input type="hidden" name="currValIs"><br>
 	      <div id="dateList">
 	      		
@@ -287,10 +297,10 @@ prefix="c"%>
 		var endDateIs = $("input[name=endDateIs]").val();
 		
 		$(document).ready(function(){
-			$("#map").hide();
 			regionImg();
 			if(tripNoIs==0){
 				console.log("0임");
+				$("button[name=invite]").attr("disabled",true);
 				if(tripNoIs==0){
 					mouseoverEvent = 1;
 				}
@@ -308,6 +318,15 @@ prefix="c"%>
 				$("#dateList").append("<button type='button' name='editBtn'>편집하기</button>");
 				$("#dateList").append(inputDateValue());
 				$("input[name=currValIs]").attr("value",$("input[name=tripNoIs]").val());
+				$("button[name=invite]").attr("disabled",false);
+				if($(".divFloat2").children().eq(0).text()==""){
+					$(".divFloat2").children().eq(0).css("display","none");
+					$(".divFloat2").children().eq(1).css("display","none");
+				}
+				if($(".divFloat2").children().eq(2).text()==""){
+					$(".divFloat2").children().eq(2).css("display","none");
+					$(".divFloat2").children().eq(2).css("background-color","white");
+				}
 			}
 		});
 		
@@ -879,13 +898,13 @@ prefix="c"%>
 		});
 		
 		
-		$("#regionTable tr").hover(function(){
+		/* $("#regionTable tr").hover(function(){
 			if($(this).children().eq(0).text()!="사진"){
 				$(this).css("background-color","aquamarine");
 			}
 		},function(){
             $(this).css("background-color","lightgray");
-        });
+        }); */
 			
 		
 	
@@ -976,13 +995,20 @@ prefix="c"%>
 						}
 						$("button[name=addPlace]").trigger("click");
 						placeOrder();
-						if($(".divFloat2").children().eq(0).text()==""){
-							$(".divFloat2").children().eq(0).css("display","none");
-							$(".divFloat2").children().eq(1).css("display","none");
-						}
-						if($(".divFloat2").children().eq(2).text()==""){
-							$(".divFloat2").children().eq(2).css("display","none");
-							$(".divFloat2").children().eq(2).css("background-color","white");
+						for(var i=0; i<$(".divFloat2").length; i++){
+							
+						
+							if($(".divFloat2:eq("+i+")").children().eq(0).text()==""){
+								/* $(".divFloat2").children().eq(0).css("display","none");
+								$(".divFloat2").children().eq(1).css("display","none"); */
+								$(".divFloat2:eq("+i+")").children().eq(0).addClass("divHide");
+								$(".divFloat2:eq("+i+")").children().eq(1).addClass("divHide");
+							}
+							if($(".divFloat2:eq("+i+")").children().eq(2).text()==""){
+								/*$(".divFloat2:eq("+i+")").children().eq(2).css("display","none");
+								$(".divFloat2").children().eq(2).css("background-color","white"); */
+								$(".divFloat2:eq("+i+")").children().eq(2).addClass("divHide");
+							}
 						}
 					},
 					error : function(){
@@ -1029,6 +1055,7 @@ prefix="c"%>
 									$("button[name=addMemo]").attr("value",datArrFormat);
 								}
 							} */
+							$("button[name=invite]").attr("disabled",false);
 							console.log("아작스성공!!!!!!!!");
 						},
 						error : function(){

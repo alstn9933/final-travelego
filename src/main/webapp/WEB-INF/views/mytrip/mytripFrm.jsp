@@ -51,7 +51,17 @@ prefix="c"%>
 			width: 1000px;
             height: 400px;
             background-color:lightgray;
+            position: relative;
+            z-index: 1;
+            margin-top: 200px;
+            margin-bottom: 200px;
 		}
+        .box1>img{
+            position: absolute;
+            width:100%;
+            height:100%;
+            z-index:2;
+        }
         .newOne{
             width: 150px;
             height: 50px;
@@ -62,6 +72,8 @@ prefix="c"%>
             text-align: center;
             line-height: 50px;
             border-radius: 30px;
+            position: absolute;
+            z-index: 3;
         }
         .newOne:hover{
             background-color:aquamarine;
@@ -146,8 +158,9 @@ prefix="c"%>
 		</div>
 		<div class="box1">
 			<div class="newOne">
-				<a href="<c:url value='/makePlanFrm.do?tripNoIs=0' />">새 일정 만들기 >><img src="/upload/images/mytrip/jeju.jpg"></a>
+				<a href="<c:url value='/makePlanFrm.do?tripNoIs=0' />">새 일정 만들기 >></a>
 			</div>
+            <img src="/upload/images/mytrip/jeju.jpg">
 		</div>
       </div>
     </section>

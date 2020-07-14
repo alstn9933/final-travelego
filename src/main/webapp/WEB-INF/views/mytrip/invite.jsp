@@ -12,8 +12,8 @@ prefix="c"%>
     ></script>
   </head>
   <body>
-    <input type="hidden" name="tripNo" value="${currValIs }" />
-    <input type="text" name="memberNickname" /><br />
+    <input type="hidden" name="tripNo" value="${currValIs }" /><br>
+         닉네임 : <input type="text" name="memberNickname" /><br /><br>
     <button type="button" name="okBtn">초대하기</button>
     <button type="button" name="cancelBtn">닫기</button>
     <script>
