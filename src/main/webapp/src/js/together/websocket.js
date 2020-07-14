@@ -121,6 +121,7 @@ $(document).on("click", ".notify_area", function () {
 
           const commentSpan2 = document.createElement("span");
           commentSpan2.innerHTML = "(0)";
+          commentSpan2.className = "commentCount";
           commentDiv1.append(commentSpan2);
 
           const commentDiv2 = document.createElement("div");
@@ -159,7 +160,6 @@ $(document).on("click", ".notify_area", function () {
 
           const stretchArea = document.createElement("div");
           stretchArea.className = "stretch_area";
-          stretchArea.style = "display:none;";
           content.append(stretchArea);
 
           const stretchIcon = document.createElement("i");
