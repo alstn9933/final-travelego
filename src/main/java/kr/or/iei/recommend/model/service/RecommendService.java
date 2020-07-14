@@ -291,6 +291,7 @@ public class RecommendService {
 		map.put("regionNo", rec.getRegionNo());
 		map.put("coords", rec.getCoords());
 		map.put("place", rec.getPlace());
+		map.put("p",p);
 		System.out.println(rec.getRecNo());
 		int result2 = 0;
 		int result = dao.updateRec(map);

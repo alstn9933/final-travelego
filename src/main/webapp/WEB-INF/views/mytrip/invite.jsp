@@ -5,7 +5,7 @@ prefix="c"%>
 <html>
   <head>
     <meta charset="UTF-8" />
-    <title>Insert title here</title>
+    <title>초대하기 팝업</title>
     <script
       type="text/javascript"
       src="http://code.jquery.com/jquery-3.3.1.js"

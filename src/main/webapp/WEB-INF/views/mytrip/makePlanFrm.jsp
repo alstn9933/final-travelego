@@ -465,6 +465,21 @@ prefix="c"%>
 						
 						placeOrder();
 						$("button[name=addPlace]").trigger("click");
+						for(var i=0; i<$(".divFloat2").length; i++){
+							
+							
+							if($(".divFloat2:eq("+i+")").children().eq(0).text()==""){
+								/* $(".divFloat2").children().eq(0).css("display","none");
+								$(".divFloat2").children().eq(1).css("display","none"); */
+								$(".divFloat2:eq("+i+")").children().eq(0).addClass("divHide");
+								$(".divFloat2:eq("+i+")").children().eq(1).addClass("divHide");
+							}
+							if($(".divFloat2:eq("+i+")").children().eq(2).text()==""){
+								/*$(".divFloat2:eq("+i+")").children().eq(2).css("display","none");
+								$(".divFloat2").children().eq(2).css("background-color","white"); */
+								$(".divFloat2:eq("+i+")").children().eq(2).addClass("divHide");
+							}
+						}
 					},
 					error : function(){
 						console.log("0으로순서변경실패");
@@ -527,6 +542,22 @@ prefix="c"%>
 						this2.remove();
 						
 						placeOrder();
+						for(var i=0; i<$(".divFloat2").length; i++){
+							
+							
+							if($(".divFloat2:eq("+i+")").children().eq(0).text()==""){
+								/* $(".divFloat2").children().eq(0).css("display","none");
+								$(".divFloat2").children().eq(1).css("display","none"); */
+								$(".divFloat2:eq("+i+")").children().eq(0).addClass("divHide");
+								$(".divFloat2:eq("+i+")").children().eq(1).addClass("divHide");
+							}
+							if($(".divFloat2:eq("+i+")").children().eq(2).text()==""){
+								/*$(".divFloat2:eq("+i+")").children().eq(2).css("display","none");
+								$(".divFloat2").children().eq(2).css("background-color","white"); */
+								$(".divFloat2:eq("+i+")").children().eq(2).addClass("divHide");
+							}
+						}
+						$("button[name=addPlace]").trigger("click");
 					},
 					error : function(){
 						console.log("0으로순서변경실패");
@@ -535,7 +566,6 @@ prefix="c"%>
 			}else{
 				//$(this).parent().parent().parent().prev().children().last().before();
 			}
-			$("button[name=addPlace]").trigger("click");
 		});
 		
 		$(document).on("click",".deleteBtn",function(){
@@ -566,12 +596,13 @@ prefix="c"%>
 					}
 					
 					placeOrder();
+					$("button[name=addPlace]").trigger("click");
 				},
 				error : function(){
 					console.log("메모지우기실패");
 				}
 			});
-			$("button[name=addPlace]").trigger("click");
+			
 		});
 		
 		$(document).on("click","button[name=editBtn]",function(){

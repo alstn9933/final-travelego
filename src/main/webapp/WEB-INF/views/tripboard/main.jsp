@@ -68,7 +68,7 @@ prefix="c"%>
             </i>
             <a href="/tripboard/view.do?tripBoardNo=${b.tripBoardNo}">
               <div>
-                <span>대한민국 - 제주도</span>
+                <span>${b.regionName}</span>
                 <div>
                   <i class="far fa-thumbs-up"></i>
                   <span>${b.likeCount}</span>
