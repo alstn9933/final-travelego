@@ -282,7 +282,7 @@
 				<!-- form이 제출되면서 페이지가 바뀌지 않게 하기 위해 return false; -->
 					<form onsubmit="searchPlaces(); return false; showMapList();">
 						<input type="text" id="keyword" size="100" name="place"
-							placeholder="추천하는 장소를 입력하세요" style="width:50%;" required>
+							placeholder="추천하는 장소를 입력하세요 ex)제주도 맛집, 서울 핫플레이스" style="width:50%;" required>
 						<button type="submit">검색하기</button>
 					</form>
 				</div>
@@ -307,7 +307,7 @@
 				<select id="regionCountry" name="regionCountry" class="custom-select custom-select-sm" style="width:150px;">
 					<!-- <option value="국내" style="font-weight: bold">국내</option>
 					<optgroup label="해외"> -->
-					<option value="지역선택">지역선택(필수)</option>
+					<option value="지역선택" id="selectR">지역선택(필수)</option>
 						<c:forEach items="${country}" var="r">
 							<option value="${r.regionCountry }">${r.regionCountry }</option>
 						</c:forEach>
@@ -369,6 +369,7 @@
 				function searchPlaces() {
 					if($("#keyword").val() == ""){
 						alert("검색어를 입력하세요");
+						
 					}else{
 					$(".map_wrap").css("display","block");
 					var keyword = document.getElementById('keyword').value;
@@ -642,6 +643,11 @@
 					alert("본문을 입력하세요");
 					return false;
 				} */
+				if($("#selectR").val() == "지역선택"){
+					alert("지역을 선택하세요");
+					return false;
+				}
+				
 				checkPhoto = $("#cont").find("iframe").contents().find("img").eq(0);
 				mainPhoto = $("#cont").find("iframe").contents().find("img").eq(0).attr("src");
 				console.log(checkPhoto);
@@ -655,6 +661,8 @@
 					return true;
 				}
 			});
+			
+		
 		</script>
 		<!-- JS here -->
 		<script src="/src/js/header/vendor/modernizr-3.5.0.min.js"></script>
@@ -695,6 +703,10 @@
 					rightIcon : "_$tag___________________________$tag__",
 				},
 			});
+			
+			if($("#selectR").val() == "지역선택"){
+				
+			}
 		</script>
 </body>
 </html>
