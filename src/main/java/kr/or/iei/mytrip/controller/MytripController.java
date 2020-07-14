@@ -142,6 +142,55 @@ public class MytripController {
 	}
 	
 	@ResponseBody
+	@RequestMapping(value = "/updateArr.do", produces = "application/json;charset=utf-8")
+	public String updateArr(HttpSession session, Model model, Date[] sendArr, int regionNo, int currValIs) {
+//		ArrayList<TripDetail> detailList = service.selectDateList(currValIs);//삭제 전 저장
+//		for(int i=0; i<detailList.size(); i++) {
+//			System.out.println(detailList);
+//		}
+//		int result = service.deleteData(currValIs);
+//		if(result>0) {
+//			System.out.println("성~~~~~~~~공");
+//		}
+//		Date beginDate = sendArr[0];
+//		Date endDate = sendArr[sendArr.length-1];
+//		Mytrip mytrip = new Mytrip();
+//		mytrip.setRegionNo(regionNo);
+//		mytrip.setBeginDate(beginDate);
+//		mytrip.setEndDate(endDate);
+//		mytrip.setTripNo(currValIs);
+//		System.out.println(regionNo);
+//		TripMember tripMember = new TripMember();
+//		Member member = (Member)session.getAttribute("member");
+//		tripMember.setMemberId(member.getMemberId());
+//		System.out.println(tripMember.getMemberId());
+//		result = service.setMytrip2(mytrip);
+//		if(result>0) {
+//			model.addAttribute("msg","생성성공");
+//			System.out.println("생성성공");
+//			result = 0;
+//			result = service.insertTripMember(tripMember);
+//			if(result>0) {
+//				System.out.println("추가까지성공"); 
+//				
+//				ArrayList<Mytrip> tripNo = service.currValIs();
+//				if (tripNo.isEmpty()) {
+//					return "0";
+//				} else {
+//					return new Gson().toJson(tripNo);
+//				}
+//			}else { 
+//				System.out.println("추가는실패"); 
+//				return null;
+//			}
+//		}else {
+//			System.out.println("생성실패");
+//		}
+		return null;
+	}
+	
+	
+	@ResponseBody
 	@RequestMapping(value="/addMemo.do", produces = "application/json;charset=utf-8")
 	public String addMemo(int tripNo, String tripDate, String tripContent, String tripSpot) {
 		System.out.println(tripContent);

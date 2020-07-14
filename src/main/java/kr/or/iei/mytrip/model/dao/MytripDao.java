@@ -34,6 +34,10 @@ public class MytripDao {
 	public int setMytrip(Mytrip mytrip) {
 		return sqlSession.insert("mytrip.setMytrip",mytrip);
 	}
+	
+	public int setMytrip2(Mytrip mytrip) {
+		return sqlSession.insert("mytrip.setMytrip2",mytrip);
+	}
 
 	public int insertTripMember(TripMember tripMember) {
 		return sqlSession.insert("mytrip.insertTripMember",tripMember);
@@ -98,6 +102,10 @@ public class MytripDao {
 
 	public String selectNickname(String memberNickname) {
 		return sqlSession.selectOne("mytrip.selectNickname",memberNickname);
+	}
+
+	public int deleteData(int currValIs) {
+		return sqlSession.delete("mytrip.deleteData",currValIs);
 	}
 	
 }

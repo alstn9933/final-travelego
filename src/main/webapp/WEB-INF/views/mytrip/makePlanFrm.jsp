@@ -32,95 +32,191 @@ prefix="c"%>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker3.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker3.standalone.min.css">
     
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;900&display=swap" rel="stylesheet">
     
     <title>Travelego</title>
     <style>
+        .upBtn>img,.downBtn>img,.deleteBtn>img{
+            width: 95%;
+            height: 95%;
+            object-fit: contain
+        }
+    	section div{
+    		font-family: 'Rubik', sans-serif;
+            font-weight: 400;
+    	}
+        button{
+            border: 1px solid black;
+            border-radius: 5px;
+            height: 40px;
+            font-family: 'Rubik', sans-serif;
+            font-weight: 400;
+        }
         #datePicker{
-            float: left;
+            margin-left: 100px;
         }
         #tt{
             float: left;
             margin-left: 100px;
+            overflow: auto;
         }
         #regionValue{
             margin-left: 600px;
         }
+        button[name=invite]{
+            position: absolute;
+            margin-bottom: 20px;
+            margin-right: 100px;
+            float:right;
+        }
         #makeBtn{
+            position: absolute;
         	background-color: gray;
+            float:right;
+            margin-top: 50px;
+            margin-right: 100px;
         }
         #dateList{
         	margin-top: 200px;
-        	background-color: lightpink;
-        	width: 1200px;
-        	height: 1500px;
+        	background-color: lightgrey;
+        	width: 100%;
+        	height: 100%
+        }
+        #dataList>div:nth-child(1){
+            width: 60%;
+            height: 150px;
+            margin-left: 300px;
         }
         textarea{
         	width: 300px;
-        	height: 50px;
+        	height: 80px;
         	resize: none;
+            margin-left: 30px;
+        }
+        .divClass{
+            margin-left: 100px;
+            margin-bottom: 30px;
+            box-shadow: 0 0 5px #ccc;
         }
         .divFloat1{
-            width: 30px;
+            width: 50px;
             height: 50px;
             display:inline-block;
+            margin-bottom: 50px;
+            float:left;
+        }
+        .divFloat1>div:nth-child(1){
+            border-radius: 70%;
+            width: 40px;
+            height: 40px;
+            text-align: center;
+            line-height: 40px;
+            display: block;
+            font-size: 20px;
+            font-weight: 600;
+            
+        }
+        .placeColor{
+            background-color: aquamarine;
+        }
+        .divFloat1>div:nth-child(2){
+            display: none;
         }
         .divFloat2{
-            border: 1px solid black;
             display:inline-block;
-            width: 300px;
+            width: 40%;
             padding: 10px;
+            border-radius: 5px;
+            background-color: white;
+            box-shadow: 5 5 10px #ccc;
+            position: absolute;
+            float: left;
         }
         .divFloat2>div:nth-child(1){
             font-weight: 900;
             font-size: 20px;
+            height: 25px;
+            line-height: 25px;
         }
         .divFloat2>div:nth-child(2){
             color: gray;
-            font-size: 10px;
+            font-size: 15px;
+            height: 20px;
+            line-height: 20px;
         }
         .divFloat2>div:nth-child(3){
-            
-            border: 1px solid black;
             border-radius: 5px;
+            min-height: 30px;
+            background-color: lightgray;
+            line-height: 30px;
         }
         .divFloat3{
-            border: 1px solid black;
             display:inline-block;
+            float:left;
+            position: relative;
+            margin-left: 800px;
         }
-        .divFloat3>div:nth-child(1){
-            border: 1px solid black;
+        .divFloat3>div{
             width: 50px;
             height: 50px;
-            margin-left: 10px;
-            display:inline-block;
-        }
-        .divFloat3>div:nth-child(2){
-            border: 1px solid black;
-            width: 50px;
-            height: 50px;
-            margin-left: 10px;
-            display:inline-block;
-        }
-        .divFloat3>div:nth-child(3){
-            border: 1px solid black;
-            width: 50px;
-            height: 50px;
-            margin-left: 10px;
+            margin-left: 20px;
+            margin-top: 20px;
             display:inline-block;
         }
         button[name=addSpot]{
         	float: left;
+            margin-left: 150px;
         }
        	.spotDiv{
        		float: left;
        		border: 1px solid black;
-       		width: 200px;
+       		width: 400px;
        		height: 80px;
+            margin-left: 30px;
        	}
        	.divClass{
        		overflow:hidden;
        	}
-
+        button[name=addPlace]{
+            display: none;
+        }
+        button[name=editBtn]{
+            margin-left: 150px;
+            margin-bottom: 50px;
+            margin-top: 50px;
+            background-color:aquamarine;
+        }
+        #regionTable tr{
+            background-color:lightgray;
+        }
+        h1{
+        	font-weight: 900;
+        }
+        dpDiv{
+            width: 300px;
+            height: 500px;
+            margin-left: 50px;
+            overflow: auto;
+        }
+        button[name=addBtn]{
+            margin-left: 30px;
+        }
+        button[name=cancelBtn]{
+            margin-left: 10px;
+        }
+        th:nth-child(1){
+            width:70px;
+            height:50px;
+            line-height:50px;
+        }
+        th:nth-child(2){
+            width:150px;
+        }
+        th:nth-child(3){
+            width:150px;
+        }
+        
+        <th width="70px;" height="50px;" line-height="50px;">사진</th><th width="150px;">도시</th><th width="150px;">나라</th>
     </style>
   </head>
   <body>
@@ -134,14 +230,13 @@ prefix="c"%>
     <section>
       <!-- 여기서부터 작성하시면 됨!!!!!!! -->
       <c:if test="${not empty sessionScope.member }">
-      		<button type="button" name="invite">초대팝업</button>
+      		<h1>일정 만들기</h1>
       		<c:forEach items="${detailList }" var="detailList">
       			<input type="hidden" name="detailList" value="${detailList.tripDate }">
       			<input type="hidden" name="detailList" value="${detailList.tripOrder }">
       			<input type="hidden" name="detailList" value="${detailList.tripSpot }">
       			<input type="hidden" name="detailList" value="${detailList.tripContent }">
       		</c:forEach>
-      		<button type="button" name="testBtn">test용버튼</button>
       		<input type="hidden" name="tripNoIs" value="${tripNoIs }">
       		<input type="hidden" name="regionNoIs" value="${regionNoIs }">
       		<input type="hidden" name="beginDateIs" value="${beginDateIs }">
@@ -149,15 +244,14 @@ prefix="c"%>
 			<input type="hidden" name="placeAddr"><br>
 			<input type="hidden" name="receivePlace"><br>
 			<input type="hidden" name="receiveAddr"><br>
-			<div id="map" style="width:100%;height:350px;"></div>
 			<button type="button" name="addPlace">경로만들기</button>
-				
-	      	<input type="text" id="datePicker">
+			
+	      	
 	      	<div id="tt">
 	      		<input type="text" name="regionCity" placeholder="도시명/나라명"><br>
-	      		<table border="1" id="regionTable">
+	      		<table id="regionTable">
 	      			<tr>
-	      				<th>사진</th><th>도시</th><th>나라</th>
+	      				<th width="70px;" height="50px;" line-height="50px;">사진</th><th width="150px;">도시</th><th width="150px;">나라</th>
 	      			</tr>
 	      			<c:forEach items="${regionList }" var="regionList">
 						<tr>
@@ -170,13 +264,16 @@ prefix="c"%>
 					</c:forEach>
 	      		</table>
 	      	</div>
+	      	<div class="dpDiv"><input type="text" id="datePicker"></div>
+	      	<div id="map" style="width:100%;height:350px;"></div>
 	      
 	      <br><br><br>
-	      <input type="text" name="cityValue"><br>
-	      <input type="text" name="countryValue"><br>
-	      <input type="text" name="regionNo"><br>
-		  <button type="button" id="makeBtn">버튼</button><br>
-		  <input type="text" name="currValIs"><br>
+	      <input type="hidden" name="cityValue"><br>
+	      <input type="hidden" name="countryValue"><br>
+	      <input type="hidden" name="regionNo"><br>
+	      <button type="button" name="invite">초대팝업</button><br>
+		  <button type="button" id="makeBtn">일정 만들기</button><br>
+		  <input type="hidden" name="currValIs"><br>
 	      <div id="dateList">
 	      		
 	      </div>
@@ -190,6 +287,7 @@ prefix="c"%>
 		var endDateIs = $("input[name=endDateIs]").val();
 		
 		$(document).ready(function(){
+			$("#map").hide();
 			regionImg();
 			if(tripNoIs==0){
 				console.log("0임");
@@ -203,7 +301,7 @@ prefix="c"%>
 				$("input[name=regionNo]").attr("value",regionNoIs);
 				cityValue=1;
 				if(dat1Copy!=""&&cityValue!=""){
-					$("#makeBtn").css("background-color","blue");
+					$("#makeBtn").css("background-color","aquamarine");
 					$("#makeBtn").attr("disabled",false);
 				}
 				dateFunc();
@@ -213,7 +311,21 @@ prefix="c"%>
 			}
 		});
 		
-		$(document).on("mouseover","section",function(){
+		/* var mapValue = 0
+		$(document).on("click","button[name=mapShow]",function(){
+			if(mapValue==0){
+				$("#map").show();
+				$("#map").val() = "지도닫기";
+				mapValue = 1;
+			}else{
+				$("#map").hide();
+				mapValue = 0;
+				$("#map").val() = "지도보기";
+			}
+		}); */
+		
+		$(document).on("mouseover","body",function(){
+			placeOrder();
 			if(mouseoverEvent==0){
 				for(var j=0; j<$("button[name=addMemo]").length; j++){
 					for(var i=0; i<$("input[name=detailList]").length; i++){
@@ -241,9 +353,23 @@ prefix="c"%>
 						$(".divFloat2:eq("+i+")").children().eq(1).css("margin-bottom","10px");
 					}
 				}
-				
+				$("button[name=addPlace]").trigger("click");
 			}
-				
+			/* 
+			for(var i=1; i<$("#dataList").children().length; i++){
+				$("#dataList").children().eq(i).children().eq(0).css("mergin-left","130px");
+			} */
+			for(var i=0; i<$("button[name=addMemo]").length; i++){
+				$("button[name=addMemo]").eq(i).css("margin-left","150px");//버튼
+				$("button[name=addMemo]").parent().eq(i).children().eq(0).css("margin-left","150px");//날짜
+				$("button[name=addMemo]").parent().eq(i).children().eq(0).css("font-weight","600");//날짜
+				$("button[name=addMemo]").parent().eq(i).css("min-height","150px");//큰틀
+			}
+			/* for(var i=0; i<$(".divFloat3").length; i++){
+				var centerHeight = $(".divFloat3").eq(i).prev().css("height");
+				$(".divFloat3").eq(i).css("height",centerHeight*1.5);
+				$(".divFloat3").eq(i).css("line-height",centerHeight*1.5);
+			} */
 			
 		});
 		
@@ -252,6 +378,19 @@ prefix="c"%>
 				var regionFilename = $("input[name=regionFilename]")[i].value;
 				var img = $("<img src='/upload/images/region/"+regionFilename+"' width='50' height='50'>");
 				$("input[name=regionFilename]").eq(i).before(img);
+			}
+		}
+		
+		function placeOrder(){
+			var count = 1;
+			for(var i=0; i<$(".divFloat2").length; i++){
+				$(".divFloat1:eq("+i+")").children().eq(0).text("");
+				$(".divFloat1:eq("+i+")").children().eq(0).removeClass("placeColor");
+				if($(".divFloat2:eq("+i+")").children().eq(0).text()!=""){
+					$(".divFloat1:eq("+i+")").children().eq(0).text(count);
+					$(".divFloat1:eq("+i+")").children().eq(0).addClass("placeColor");
+					count++;
+				}
 			}
 		}
 		
@@ -297,12 +436,16 @@ prefix="c"%>
 						html += "<div class='divClass'><div class='divFloat1'><div></div><div>"+prevValue1+"</div></div>";
 						html += "<div class='divFloat2'><div>"+saveValue2+"</div><div>"+saveValue3+"</div>";
 						html += "<div>"+saveValue4+"</div></div>";
-						html += "<div class='divFloat3'><div class='upBtn'>위로</div><div class='downBtn'>아래로</div>";
-						html += "<div class='deleteBtn'>삭제</div></div></div>";
+						html += "<div class='divFloat3'><div class='upBtn'><img src='/upload/images/mytrip/upBtn.png'></div>";
+						html += "<div class='downBtn'><img src='/upload/images/mytrip/downBtn.png'></div>";
+						html += "<div class='deleteBtn'><img src='/upload/images/mytrip/deleteBtn.png'></div></div></div>";
 						this1.before(html);
 						this3.remove();
 						this4.append("<div>"+saveValue1+"</div>");
 						this2.remove();
+						
+						placeOrder();
+						$("button[name=addPlace]").trigger("click");
 					},
 					error : function(){
 						console.log("0으로순서변경실패");
@@ -311,7 +454,6 @@ prefix="c"%>
 			}else{
 				//$(this).parent().parent().parent().prev().children().last().before();
 			}
-			$("button[name=addPlace]").trigger("click");
 		});
 		
 		
@@ -357,12 +499,15 @@ prefix="c"%>
 						html += "<div class='divClass'><div class='divFloat1'><div></div><div>"+prevValue1+"</div></div>";
 						html += "<div class='divFloat2'><div>"+saveValue2+"</div><div>"+saveValue3+"</div>";
 						html += "<div>"+saveValue4+"</div></div>";
-						html += "<div class='divFloat3'><div class='upBtn'>위로</div><div class='downBtn'>아래로</div>";
-						html += "<div class='deleteBtn'>삭제</div></div></div>";
+						html += "<div class='divFloat3'><div class='upBtn'><img src='/upload/images/mytrip/upBtn.png'></div>";
+						html += "<div class='downBtn'><img src='/upload/images/mytrip/downBtn.png'></div>";
+						html += "<div class='deleteBtn'><img src='/upload/images/mytrip/deleteBtn.png'></div></div></div>";
 						this1.after(html);
 						this3.remove();
 						this4.append("<div>"+saveValue1+"</div>");
 						this2.remove();
+						
+						placeOrder();
 					},
 					error : function(){
 						console.log("0으로순서변경실패");
@@ -400,6 +545,8 @@ prefix="c"%>
 					for(var i=0; i<data.length-1; i++){
 						$(".divFloat1:eq("+i+")").append("<div>"+data[i].tripOrder+"</div>");
 					}
+					
+					placeOrder();
 				},
 				error : function(){
 					console.log("메모지우기실패");
@@ -412,7 +559,9 @@ prefix="c"%>
 			if($("button[name=editBtn]").val()==""){
 				for(var i=0; i<$(".divClass").length; i++){
 					var html = "";
-					html += "<div class='divFloat3'><div class='upBtn'>위로</div><div class='downBtn'>아래로</div><div class='deleteBtn'>삭제X</div></div>";
+					html += "<div class='divFloat3'><div class='upBtn'><img src='/upload/images/mytrip/upBtn.png'></div>";
+					html += "<div class='downBtn'><img src='/upload/images/mytrip/downBtn.png'></div>";
+					html += "<div class='deleteBtn'><img src='/upload/images/mytrip/deleteBtn.png'></div></div>";
 					$(".divClass:eq("+i+")").append(html);
 				}
 				$("button[name=editBtn]").attr("value","1");
@@ -426,20 +575,6 @@ prefix="c"%>
 				$("button[name=addMemo]").css("display","block");
 			}
 			
-		});
-		
-		$(document).on("click","button[name=testBtn]",function(){
-			for(var i=0; i<$(".divClass").length; i++){
-	    		if($(".divFloat2:eq("+i+")").children().eq(1).text()!="undefined"){
-	    			positions.push($(".divFloat2:eq("+i+")").children().eq(1).text());
-	    			//var test = await getCode($(".divFloat2:eq("+i+")").children().eq(1).text());
-	    			//coords.push(test);
-	    			//linePath.push(test);
-	    			
-	    		}
-	    	
-	    	}
-			console.log(positions);
 		});
 		
 		
@@ -477,6 +612,7 @@ prefix="c"%>
 		        	datSet = dat2;
 		        	dat2 = dat1;
 		        	dat1 = datSet; 
+		        	$("#datePicker").datepicker().datepicker("setDate",arr[1],arr[0]);
 		        }
 		        dat1.setDate(dat1.getDate()+3);
 		        dat1.setDate(dat1.getDate()-3);
@@ -485,6 +621,7 @@ prefix="c"%>
 		        dat1.setMonth(dat1.getMonth()-1);
 		        dat2.setMonth(dat2.getMonth()-1);
 		        dat1Copy = new Date(dat1);
+		        saveDatArr = datArr;
 		        datArr = new Array();
 		        while(true){
 		        	var datPush = new Date(dat1);
@@ -516,7 +653,7 @@ prefix="c"%>
 		        }
 		        
 		        if(dat1Copy!=""&&cityValue!=""){
-					$("#makeBtn").css("background-color","blue");
+					$("#makeBtn").css("background-color","aquamarine");
 					$("#makeBtn").attr("disabled",false);
 				}else{
 					$("#makeBtn").css("background-color","gray");
@@ -679,6 +816,7 @@ prefix="c"%>
 						        strokeStyle: 'solid' // 선의 스타일입니다
 						    });
 						    polyline.setMap(map);
+						
 	    });
 					
 				
@@ -718,39 +856,39 @@ prefix="c"%>
 		var cityValue="";
 		var countryValue="";
 		var datArr;
+		var saveDatArr;
 		var currDate;
 		
 		$(document).on("click","#regionTable tr",function(){//동적으로 생성된 태그에 이벤트 적용
-			//regionNo = $(this).children(input type=hidden).val();
-			regionNo = $(this).children().eq(1).val();
-			cityValue = $(this).children().eq(2).text();
-			countryValue = $(this).children().eq(3).text();
-			$("input[name=cityValue]").attr("value",cityValue);
-			$("input[name=countryValue]").attr("value",countryValue);
-			$("input[name=regionNo]").attr("value",regionNo);
-			//console.log(dat1Copy+"ddd");
-			if(dat1Copy!=""){
-				//$("#makeBtn").attr("disabled",true);
-				$("#makeBtn").css("background-color","blue");
-				$("#makeBtn").attr("disabled",false);
-			}else{
-				$("#makeBtn").css("background-color","gray");
-				$("#makeBtn").attr("disabled",true);
-			}
-		});
-		
-		/* $(document).on("change","#datePicker",function(){
-			$("#dataList").children().remove();
-			if(dat1Copy!=""){
-				for(var i=0; i<datArr.length; i++){
-					$("#dateList").append("<input type='text' name='datArr[]' value=''>");
-					$("#dateList").children().last().attr("value",datArr[i]);
+			if($(this).children().eq(0).text()!="사진"){
+				regionNo = $(this).children().eq(1).val();
+				cityValue = $(this).children().eq(2).text();
+				countryValue = $(this).children().eq(3).text();
+				$("input[name=cityValue]").attr("value",cityValue);
+				$("input[name=countryValue]").attr("value",countryValue);
+				$("input[name=regionNo]").attr("value",regionNo);
+				if(dat1Copy!=""){
+					$("#makeBtn").css("background-color","aquamarine");
+					$("#makeBtn").attr("disabled",false);
+				}else{
+					$("#makeBtn").css("background-color","gray");
+					$("#makeBtn").attr("disabled",true);
 				}
 			}
-		}); */
+            
+		});
 		
 		
+		$("#regionTable tr").hover(function(){
+			if($(this).children().eq(0).text()!="사진"){
+				$(this).css("background-color","aquamarine");
+			}
+		},function(){
+            $(this).css("background-color","lightgray");
+        });
+			
 		
+	
 		$(function(){
 		
 			$(document).on("click","button[name=addMemo]",function(){
@@ -836,16 +974,19 @@ prefix="c"%>
 							to.before(html);
 							to.remove();
 						}
-						
-						
+						$("button[name=addPlace]").trigger("click");
+						placeOrder();
+						if($(".divFloat2").children().eq(0).text()==""){
+							$(".divFloat2").children().eq(0).css("display","none");
+							$(".divFloat2").children().eq(1).css("display","none");
+						}
+						if($(".divFloat2").children().eq(2).text()==""){
+							$(".divFloat2").children().eq(2).css("display","none");
+							$(".divFloat2").children().eq(2).css("background-color","white");
+						}
 					},
 					error : function(){
 						console.log("addmemo아작스실패");
-						console.log(tripDate);
-						console.log(tripNo);
-						console.log(tripContent);
-						console.log(tripSpot);
-						console.log(to);
 					}
 				});
 			});
@@ -859,39 +1000,66 @@ prefix="c"%>
 			});
 			
 			$("#makeBtn").click(function(){
-				var form = {
-						"sendArr":datArr,
-						"regionNo":regionNo
-				}
-				$.ajax({
-					url : "/makeMytrip.do",
-					type : "POST",
-					data : form,
-					traditional : true,
-					success : function(data){
-						//inputDateValue();
-						$("input[name=currValIs]").attr("value",data[0].tripNo);
-						$("input[name=tripNoIs]").attr("value",data[0].tripNo);
-						$("#dateList").append("<button type='button' name='editBtn'>편집하기</button>");
-						$("#dateList").append(inputDateValue());
-						/* var datArrFormat;
-						for(var i=0; i<datArr.length; i++){
-							if(datArr[i].getMonth()<10){
-								datArrFormat = datArr[i].getFullYear()+"/0"+datArr[i].getMonth()+"/"+datArr[i].getDate();
-								$("button[name=addSpot]").attr("value",datArrFormat);
-								$("button[name=addMemo]").attr("value",datArrFormat);
-							}else{
-								datArrFormat = datArr[i].getFullYear()+"/"+datArr[i].getMonth()+"/"+datArr[i].getDate();
-								$("button[name=addSpot]").attr("value",datArrFormat);
-								$("button[name=addMemo]").attr("value",datArrFormat);
-							}
-						} */
-						console.log("아작스성공!!!!!!!!");
-					},
-					error : function(){
-						console.log("ajax통신 실패222");
+				var regionNo = $("input[name=regionNo]").val();
+				if($("input[name=tripNoIs]").val()==0){
+					var form = {
+								"sendArr":datArr,
+								"regionNo":regionNo
 					}
-				});
+					$.ajax({
+						url : "/makeMytrip.do",
+						type : "POST",
+						data : form,
+						traditional : true,
+						success : function(data){
+							//inputDateValue();
+							$("input[name=currValIs]").attr("value",data[0].tripNo);
+							$("input[name=tripNoIs]").attr("value",data[0].tripNo);
+							$("#dateList").append("<button type='button' name='editBtn'>편집하기</button>");
+							$("#dateList").append(inputDateValue());
+							/* var datArrFormat;
+							for(var i=0; i<datArr.length; i++){
+								if(datArr[i].getMonth()<10){
+									datArrFormat = datArr[i].getFullYear()+"/0"+datArr[i].getMonth()+"/"+datArr[i].getDate();
+									$("button[name=addSpot]").attr("value",datArrFormat);
+									$("button[name=addMemo]").attr("value",datArrFormat);
+								}else{
+									datArrFormat = datArr[i].getFullYear()+"/"+datArr[i].getMonth()+"/"+datArr[i].getDate();
+									$("button[name=addSpot]").attr("value",datArrFormat);
+									$("button[name=addMemo]").attr("value",datArrFormat);
+								}
+							} */
+							console.log("아작스성공!!!!!!!!");
+						},
+						error : function(){
+							console.log("ajax통신 실패222");
+						}
+					});
+				}else{
+					console.log("이제수정버튼");
+					
+					var currValIs = $("input[name=currValIs]").val();
+					console.log(regionNo);
+					var form = {
+							"sendArr":saveDatArr,
+							"regionNo":regionNo,
+							"currValIs":currValIs
+					}
+					
+					$.ajax({
+						url : "/updateArr.do",
+						data : form,
+						success : function(){
+							
+						},
+						error : function(){
+							
+						}
+						
+					});
+					
+					
+				}
 			});
 			
 			$("input[name=regionCity]").keyup(function(){
@@ -911,7 +1079,7 @@ prefix="c"%>
 							html += "<td>"+data[i].regionCity+"</td>";
 							html += "<td>"+data[i].regionCountry+"</td></tr>";
 						}
-						$("table>tbody").append(html);
+						$("#regionTable>tbody").append(html);
 						}
 						regionImg();
 					},
@@ -936,8 +1104,7 @@ prefix="c"%>
 			format : "yyyy-mm-dd", // 달력에서 클릭시 표시할 값 형식
 			language : "kr",
 			todayHighlight : true,
-			multidate : true,
-			todayBtn : true
+			multidate : true
 		});
 		
 	    $("#datePicker").on("change",function(){
