@@ -36,7 +36,7 @@ function contentClick() {
       type: "POST",
       data: { togetherNo: togetherNo },
       success: function (data) {
-        content.find("#commentCount").html("(" + data.commentCount + ")");
+        content.find(".commentCount").html("(" + data.commentCount + ")");
       },
       error: function () {
         alert("게시글 조회에 실패하였습니다.");
@@ -56,7 +56,7 @@ function openContentClick(event) {
   const content = $(this).parent();
   content.removeClass();
   content.addClass("content");
-  content.on("mouseenter mouseleave", toggleStrech);
+//  content.on("mouseenter mouseleave", toggleStrech);
   content.on("click", contentClick);
 }
 
