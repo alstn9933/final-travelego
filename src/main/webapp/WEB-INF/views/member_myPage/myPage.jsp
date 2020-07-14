@@ -59,9 +59,6 @@ prefix="c"%>
       <div style="width:80%; margin:0 auto;">
       <div style="font-size:30px; font-weight: bold; margin-bottom:20px;">${sessionScope.member.memberNickname }</div>
     <br>
-    <div>
-        <div>${sessionScope.member.memberNickname }</div>
-    </div>
     </div>
     <table>
     	<c:if test="${sessionScope.member.memberLevel eq 1 }">
