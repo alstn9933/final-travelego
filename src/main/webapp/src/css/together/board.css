@@ -343,3 +343,9 @@ form button {
   font-size: 14px;
   color: #575757;
 }
+
+.board_writer > span:hover,
+.comment_writer:hover {
+  cursor: pointer;
+  color: rgb(0, 86, 179);
+}
