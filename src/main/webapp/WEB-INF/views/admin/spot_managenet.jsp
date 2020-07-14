@@ -288,12 +288,12 @@ height: 400px;
 									},
 
 									success : function(result) {//성공하면 값 받기 리스트로 넘겨받기
-										if (result == "2" or result=="1") {
+										if (result == "2" || result=="1") {
 
 											alert("삭제 성공");
 											location.reload();
 										} else {
-											alert("살제실패");
+											alert("삭제 실패");
 										}
 									},
 									error : function(data) {
