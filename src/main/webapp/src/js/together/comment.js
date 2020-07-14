@@ -154,11 +154,11 @@ function submitComment() {
 
 function showComment() {
   const commentNum = $(this)
-    .find("#commentCount")
+    .find(".commentCount")
     .html()
     .slice(
-      $(this).find("#commentCount").html().indexOf("(") + 1,
-      $(this).find("#commentCount").html().indexOf(")")
+      $(this).find(".commentCount").html().indexOf("(") + 1,
+      $(this).find(".commentCount").html().indexOf(")")
     );
 
   const icon = $(this).find(".fa-angle-down");
