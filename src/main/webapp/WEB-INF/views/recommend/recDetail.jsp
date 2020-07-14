@@ -430,7 +430,7 @@
 		
 		$(".report").click(function(){
 			var recNo = ${rec.recNo};
-			location.href="/";
+			location.href="/reportFrm.do?boardClass=2&boardNo="+recNo;
 		});
 	</script>
 	<script>
