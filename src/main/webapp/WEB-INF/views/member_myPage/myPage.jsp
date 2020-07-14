@@ -63,7 +63,7 @@ prefix="c"%>
     <table>
     	<c:if test="${sessionScope.member.memberLevel eq 1 }">
         <tr>
-            <th><a href="#">&nbsp;&nbsp;내 일정</a></th>
+            <th><a href="/mytripFrm.do">&nbsp;&nbsp;내 일정</a></th>
         </tr>
         <tr>
             <th><a href="/boardList.do?board=0&reqPage=1">&nbsp;&nbsp;내가 쓴 게시글</a></th>

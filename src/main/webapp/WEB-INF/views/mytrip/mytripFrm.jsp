@@ -48,22 +48,31 @@ prefix="c"%>
     <title>Travelego</title>
     <style>
 		.box1{
-			width: 500px;
-            height: 300px;
-            border: 1px solid black;
+			width: 1000px;
+            height: 400px;
             background-color:lightgray;
 		}
         .newOne{
             width: 150px;
-            height: 30px;
+            height: 50px;
             border: 1px solid black;
-            background-color: deepskyblue;
+            background-color: darkgray;
+            color: white;
+            margin-left: 80%;
+            text-align: center;
+            line-height: 50px;
+            border-radius: 30px;
         }
-        .listDiv{
-        	width: 500px;
-        	height: 500px;
-        	background-color: lightpink;
-        	margin-top: 10px;
+        .newOne:hover{
+            background-color:aquamarine;
+        }
+        .newOne>a{
+        	display: block;
+        	font-weight: 700;
+        	border-radius: 20%;
+        }
+        .newOne>a{
+            color: black;
         }
         .bxDiv{
         	/* box-shadow: 0;
@@ -105,6 +114,12 @@ prefix="c"%>
 			height: 50px;
 			line-height: 50px;
 		}
+		.bxTitle{
+			font-size: 30px;
+			font-weight: 900;
+			margin-bottom: 50px;
+		}
+        
     </style>
   </head>
   <body>
@@ -114,6 +129,7 @@ prefix="c"%>
     <section>
       <!-- 여기서부터 작성하시면 됨!!!!!!! -->
       <div>
+      	<div class="bxTitle">내 일정 목록</div>
       	<div class="bxDiv">
 		<ul class="bxslider bxslider-inner">
 			<c:forEach items="${list }" var="list">
@@ -128,30 +144,10 @@ prefix="c"%>
 				</c:forEach>
 		</ul>
 		</div>
-		<button type="button" name="testBtn"></button>
 		<div class="box1">
 			<div class="newOne">
-				<a href="<c:url value='/makePlanFrm.do?tripNoIs=0' />">새 일정 만들기</a>
+				<a href="<c:url value='/makePlanFrm.do?tripNoIs=0' />">새 일정 만들기 >><img src="/upload/images/mytrip/jeju.jpg"></a>
 			</div>
-		</div>
-		<div class="listDiv">
-			<%-- <table border="1">
-				
-				<c:forEach items="${list }" var="list">
-					
-					<tr>
-						<td>
-							<form action="/makePlanFrm.do?tripNoIs=${list.tripNo }">
-								<input type="hidden" name="tripNoIs" value="${list.tripNo }">
-								<button type="submit">${list.tripNo }</button>
-							</form>
-						</td>
-						<td>${list.memberId }</td>
-					</tr>
-					
-				</c:forEach>
-				
-			</table> --%>
 		</div>
       </div>
     </section>
@@ -159,24 +155,6 @@ prefix="c"%>
 		$(document).ready(function(){
 			mytripLink();
 		});
-	
-		/* $(document).on("click","button[name=testBtn]",function(){
-			/* var noArr = [];
-			for(var i=0; i<$("input[name=tripLink]").length; i++){
-				noArr.push($("input[name=tripLink]").eq(i).val());
-			}
-			console.log(noArr);
-			
-			$.ajax({
-				url : "/loadImg.do",
-				success : function(){
-					
-				},
-				error : function(){
-					console.log("loadImg아작스실패")
-				}
-			});
-		}); */
 		
 		function mytripLink(){
 			for(var i=0; i<$("input[name=tripLink]").length; i++){
@@ -184,10 +162,7 @@ prefix="c"%>
 				var aHref = "<c:url value='/makePlanFrm.do?tripNoIs="+tripLink+"' />";
 				var regionFilename = $("input[name=regionFilename]")[i].value;
 				var img = "<img src='/upload/images/region/"+regionFilename+"'/>";
-				//$("input[name=tripLink]").eq(i).prev().before(img);
 				$("input[name=tripLink]").eq(i).before("<a href='"+aHref+"'>"+img+"</a>");
-				//$("input[name=tripLink]").eq(i).before("<a href='/makePlanFrm.do?tripNoIs="+tripLink+"'>"+tripLink+"</a>");
-				/* <a href="<c:url value='/makePlanFrm.do?tripNoIs=0' />">새 일정 만들기</a> */
 			}
 		}
 	</script>

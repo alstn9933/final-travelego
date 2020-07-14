@@ -24,10 +24,14 @@
 		where region_city like '%'||#{_parameter}||'%' or region_country like '%'||#{_parameter}||'%'
 		order by regionCountry,regionCity
 	</select>
-	
 	<insert id="setMytrip" parameterType="mytrip">
 		insert into my_trip values(
 			my_trip_seq.nextval,#{regionNo},#{beginDate},#{endDate}
+		)
+	</insert>
+	<insert id="setMytrip2" parameterType="mytrip">
+		insert into my_trip values(
+			#{tripNo},#{regionNo},#{beginDate},#{endDate}
 		)
 	</insert>
 	<insert id="insertTripMember" parameterType="tripMember">
@@ -125,4 +129,7 @@
 		from member
 		where member_nickname = #{_parameter}
 	</select>
+	<delete id="deleteData" parameterType="int">
+		delete from my_trip where trip_no=#{_parameter}
+	</delete>
 </mapper>

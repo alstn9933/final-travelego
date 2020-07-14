@@ -64,7 +64,7 @@
 																class="far fa-user userIcon"></i></a>
 															<ul class="submenu">
 																<li><a href="/myPage.do">마이페이지</a></li>
-																<li><a href="/mytripFrm.do">일정만들기</a></li>
+																<li><a href="<c:url value='/makePlanFrm.do?tripNoIs=0' />">일정만들기</a></li>
 																<li><a href="javascript:void(0)" id="openInbox">쪽지함</a></li>
 															</ul></li>
 													</ul>
