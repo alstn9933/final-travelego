@@ -123,9 +123,10 @@ main .admin_sidebar {
 	padding: 16px;
 	margin-left: 250px;
 }
-#reportlPage{
+
+#reportlPage {
 	background-color: white;
-	border:0.5px;
+	border: 0.5px;
 	cursor: pointer;
 }
 
@@ -138,37 +139,30 @@ main .admin_sidebar {
 	}
 }
 
- .deletePage {
+.deletePage {
+	width: 100px;
+	height: 30px;
+	background-color: #37cca6;
+	border: none;
+	color: #fff;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 15px;
+	text-align: center;
+	border-radius: 10px;
+	cursor: pointer;
+}
 
-        width: 100px;
-        height: 30px;
-        background-color: #37cca6;
+.deletePage:hover {
+	background-color: orangered;
+}
 
-        border: none;
-
-        color: #fff;
-
-      
-
-        text-align: center;
-
-        text-decoration: none;
-
-        display: inline-block;
-
-        font-size: 15px;
-
-       text-align:  center;
-        border-radius: 10px;
-        cursor: pointer;
-
-    }
-
-    .deletePage:hover {
-        background-color: orangered;
-    }
-
-
+@media screen and (max-width: 1000px) {
+	#mySidebar {
+		display: none;
+	}
+}
 </style>
 <script>
 	$(function() {
@@ -256,12 +250,11 @@ main .admin_sidebar {
 				$(".modalReported").text(reportedMem);
 			
 			}
-		
 			
 			function movePage(boardNo,boardClass){
 				console.log(boardNo,boardClass)
 				if(boardClass==2){
-					location.href="/recDetail.do?recNo="+boardNo
+					location.href="/recDetail.do?reqPage=1&recNo="+boardNo
 				}if(boardClass==3){
 					location.href="'/together/singleView.do?boardNo="+boardNo
 				}if(boardClass==5){
@@ -280,7 +273,8 @@ main .admin_sidebar {
 				class="admin_title"></span>회원 관리</a><a href="/spot_managenet.do"><span
 				class="admin_title">여행지 관리</span><br></a> <a
 				href="/adminQnaList.do"><span class="admin_QA">회원문의사항</span></a> <a
-				href="/reportList.do"><span class="admin_title">신고글 관리</span></a>
+				href="/reportList.do"><span class="admin_title"
+				style="color: black"> 신고글 관리</span></a>
 		</div>
 
 
@@ -322,8 +316,9 @@ main .admin_sidebar {
 						<c:forEach items="${reList}" var="r">
 							<tr>
 								<td>${r.reportNo}</td>
-								<td>${r.reportCategory}<br> <input type="button" style="color:red"
-									value="상세페이지 이동" data-id="${r.reportNo }" id="reportlPage"
+								<td>${r.reportCategory}<br> <input type="button"
+									style="color: red" value="상세페이지 이동" data-id="${r.reportNo }"
+									id="reportlPage"
 									onclick="movePage(${r.boardNo},${r.boardClass });">
 								</td>
 								<td><input class="reportContent" type="hidden"
@@ -331,7 +326,7 @@ main .admin_sidebar {
 									<button type="button" onclick="reportContent(this);"
 										id="${r.reportNo}" data-toggle="modal"
 										data-target="#exampleModal"
-										style="background-color: white; cursor:pointer; border: 0.2em; outline: 0.1;">상세보기</button></td>
+										style="background-color: white; cursor: pointer; border: 0.2em; outline: 0.1;">상세보기</button></td>
 								<!--  *BOARD_CLASS 1:MY_TRIP 2:RECOMMEND_BOARD 3:TOGETHER_BOARD 4:TOUR 5:TRIP_BOARD*/ 상세 주소 찾고, 넣기-->
 								<c:if test="${r.boardClass eq 1 }">
 									<td>내 여행</td>
@@ -354,24 +349,24 @@ main .admin_sidebar {
 									<c:if test="${m.memberId eq r.reportedMember}">
 										<c:if test="${m.memberLevel gt 0 }">
 											<td class="reportedMem">${r.reportedMember}<br> <input
-												type="button" name="memberStop" id="activeStop" value="정지" class="activeStop"
-												data-id="${r.reportedMember}"></td>
+												type="button" name="memberStop" id="activeStop" value="정지"
+												class="activeStop" data-id="${r.reportedMember}"></td>
 										</c:if>
 										<c:if test="${ m.memberLevel lt 0 }">
-											<td class="reportedMem" >${r.reportedMember }<br>
-											<p style="color:red; font-size:15x;"> 정지 회원</p>
+											<td class="reportedMem">${r.reportedMember }<br>
+												<p style="color: red; font-size: 15x;">정지 회원</p>
 											</td>
 										</c:if>
 									</c:if>
 								</c:forEach>
 								<td>${r.reportDate }</td>
 								<c:if test="${r.boardClass eq r.boardNo }">
-								<td><input type="button" name="delete" value="게시글 삭제"
-									class="deletePage" data-id="${r.boardClass}"></td>
+									<td><input type="button" name="delete" value="게시글 삭제"
+										class="deletePage" data-id="${r.boardClass}"></td>
 								</c:if>
 								<c:if test="${r.boardClass ne r.boardNo }">
-								<td><input type="button" name="delete" value="게시글 삭제"
-									class="deletePage" data-id="${r.boardClass}"></td>
+									<td><input type="button" name="delete" value="게시글 삭제"
+										class="deletePage" data-id="${r.boardClass}"></td>
 								</c:if>
 							</tr>
 

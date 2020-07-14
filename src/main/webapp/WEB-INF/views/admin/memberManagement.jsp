@@ -405,6 +405,13 @@ main .admin_sidebar {
 .memberConfirm:hover{
 		background-color: #orangered;
 }
+
+
+@media screen and (max-width: 1000px) {
+	#mySidebar {
+		display: none;
+	}
+}
 </style>
 <!-- 게시글 스타일 -->
 
@@ -412,13 +419,16 @@ main .admin_sidebar {
 	<div class="admin_page">
 		<link rel="stylesheet"
 			href="https://fonts.googleapis.com/icon?family=Material+Icons" />
-
-		<div id="mySidebar" class="admin_sidebar">
-			<a href="/memberManagement.do"><span class="admin_title"></span>회원
-				관리</a></span><a href="/spot_managenet.do"></span><span class="admin_title">여행지
-					관리</span><br></a> <a href="/adminQnaList.do" /><span class="admin_QA">회원문의사항</span><br>
-			<a href="/reportList.do" /><span class="admin_title">신고글 관리</span></a>
-		</div>
+			<link rel="stylesheet"
+				href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+			<div class="admin_page">
+			<div id="mySidebar" class="admin_sidebar">
+				<a href="/memberManagement.do?reqPage=1"><span
+					class="admin_title" style="color: black">회원 관리</span></a><a href="/spot_managenet.do"><span
+						class="admin_title" >여행지 관리</span><br></a> <a
+					href="/adminQnaList.do" ><span class="admin_QA">회원문의사항</span></a>
+				<a href="/reportList.do"><span class="admin_title">신고글 관리</span></a>
+			</div>
 
 
 		<div id="member_container">

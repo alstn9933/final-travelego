@@ -97,7 +97,7 @@ prefix="c"%>
             <th><a href="">&nbsp;&nbsp;내 정보</a></th>
         </tr>
         <tr>
-            <th><a href="#">&nbsp;&nbsp;비밀번호 변경</a></th>
+            <th><a href="/membercheckFrm.do">&nbsp;&nbsp;내 정보 변경</a></th>
         </tr>
     </table>
     </section>
