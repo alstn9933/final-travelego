@@ -286,7 +286,7 @@ main .admin_sidebar {
 #Contents {
 	transition: margin-left 0.5s;
 	padding: 16px;
-	margin-left: 250px;
+	margin-left: 150px;
 }
 
 #pageNavi {
@@ -434,7 +434,7 @@ main .admin_sidebar {
 		<div id="member_container">
 
 			<form role="form" method="get">
-				<div name="memberTable">
+				<div name="memberTable" >
 					<div class="search"
 						style="padding-left: 710px; margin-bottom: 10px;">
 

@@ -213,8 +213,8 @@ main .admin_sidebar {
 }
 #Contents{
 background-color: #E2E2E2;
-width: 500px;
-height: 450px;
+width: 360px;
+height: 400px;
 }
 
 @media screen and (max-width: 1000px) {
@@ -509,15 +509,15 @@ height: 450px;
 
 			<div id="mySidebar" class="admin_sidebar">
 				<a href="/memberManagement.do?reqPage=1"><span
-					class="admin_title" style="color: black">회원 관리</span></a><a href="/spot_managenet.do"><span
-						class="admin_title" >여행지 관리</span><br></a> <a
+					class="admin_title" >회원 관리</span></a><a href="/spot_managenet.do"><span
+						class="admin_title" style="color: black" >여행지 관리</span><br></a> <a
 					href="/adminQnaList.do" ><span class="admin_QA">회원문의사항</span></a>
 				<a href="/reportList.do"><span class="admin_title">신고글 관리</span></a>
 			</div>
 			<div id="Contents" style="float:right;">
 				<!-- 국가 추가 -->
 				<select name="countrySelect" id="countrySelect"
-					style="width: 400px; height: 50px;">
+					style="width: 300px; height: 40px;">
 					<option value="선택된국가가 없습니다" selected>--- 국가를 선택해주세요 ---</option>
 					<c:forEach items="${rList}" var="con">
 						<option value="${con.regionCountry }">${con.regionCountry}</option>
@@ -545,24 +545,26 @@ height: 450px;
 
 					<div class="filebox bs3-primary preview-image">
 						<input class="upload-name" value="파일선택" disabled="disabled"
-							style="width: 200px;"> <label for="addFile"
+							style="width: 160px;"> <label for="addFile"
 							style="margin-top: 10px">업로드</label> <input type="file"
 							name="file" id="addFile" class="upload-hidden"
 							style="display: none;">
 					</div>
 					<br> <input type="submit" value="추가히기"
-						style="margin-left: 100px;" id="addSubmit">
+						style="margin-left: 100px; border:1px solid black" id="addSubmit">
 				</form>
 				<button id="delRegion" style="display: none;">삭제</button>
 				<br> <br>
+				
 				</div>
+				<br>
 				<div>
-			
-				1.국가와 지역을 둘 다 추가 하는 기능이 있습니다.
-				2.지역만 추가 하시고 싶으 실 경우 국가 선택 후 지역 추가 하기 버튼을 눌러 주시면 됩니다.
-				3.지역을 삭제 하시고 싶으시다면 국가 선택 후 삭제 하시고 싶은 지역 선택 후 삭제 버튼을 눌러 주시면 됩니다.
-				4.
-			
+				<pr>
+				1.국가와 지역을 둘 다 추가 하는 기능이 있습니다.<br><br>
+				2.지역만 추가 하시고 싶으 실 경우 국가 선택 후 지역 추가 하기 버튼을<br> &nbsp;&nbsp;눌러 
+				   주시면 됩니다.<br><br>
+				3.지역을 삭제 하시고 싶으시다면 국가 선택 후 삭제 하시고 싶은 지역 선택 후 <br> &nbsp;&nbsp;&nbsp;삭제 버튼을 눌러 주시면 됩니다.
+				<pr>
 				</div>
 	</section>
 
