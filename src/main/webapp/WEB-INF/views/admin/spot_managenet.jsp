@@ -293,7 +293,7 @@ height: 400px;
 											alert("삭제 성공");
 											location.reload();
 										} else {
-											alert("살제실패");
+											alert("삭제실패");
 										}
 									},
 									error : function(data) {

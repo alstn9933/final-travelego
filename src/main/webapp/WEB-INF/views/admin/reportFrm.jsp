@@ -116,7 +116,7 @@ table.table2 td {
 
 							<tr>
 								<td>신고 제목</td>
-								<td><input type="text" name="reportCategory" size=60 class="reportTitle" onkeyup="chkword(this,17)" placeholder="제목을 입력하세요 17자 미만"></td>
+								<td><input type="text" name="reportCategory" size=60 class="reportTitle" onkeyup="chkword(this,20)" placeholder="제목을 입력하세요 20자 미만"></td>
 							</tr>
 
 							<tr>
