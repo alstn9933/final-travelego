@@ -232,7 +232,9 @@
 			<span><i class="far fa-heart like" style="display:none; float:right; font-size: 40px;"></i></span>
 			<span><i class="fas fa-heart dislike" style="float:right; font-size: 40px;"></i></span>
 			</c:if>
+			<c:if test="${not empty sessionScope.member }">
 			<span><i class="fas fa-exclamation-circle report" style="float:right; font-size: 40px; margin-right:20px;"></i></span>
+			</c:if>
 		</div>
 		<hr>
 		
@@ -430,7 +432,7 @@
 		
 		$(".report").click(function(){
 			var recNo = ${rec.recNo};
-			location.href="/";
+			location.href="/reportFrm.do?boardClass=2&boardNo="+recNo;
 		});
 	</script>
 	<script>
