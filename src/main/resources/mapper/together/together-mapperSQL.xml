@@ -76,7 +76,7 @@
 	<select id="selectCommentList" parameterType="_int" resultType="togetherComment">
 		select
 			comment_no as commentNo,
-			member_nickname as commentWriter,
+			nvl(member_nickname,'탈퇴회원') as commentWriter,
 			comment_content as commentContent,
 			to_char(comment_date,'hh24:mi') as commentTime,
             to_char(comment_date,'yyyy. mm. dd.') as commentDate

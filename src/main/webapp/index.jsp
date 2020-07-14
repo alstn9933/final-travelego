@@ -89,7 +89,7 @@
 			<div  class="sub-content1"id="sub-content1">
 			</div>
 			<br><br>
-			<div class="sub-content2"><a href="/recommendList.do">게시물 보러가기</a></div>
+			<div class="sub-content2"><a href="/recommendList.do?reqPage=1">게시물 보러가기</a></div>
 		</div>
 		
 		<br>
