@@ -151,7 +151,7 @@ ${board.tripRoute}</textarea
               class="btn btn-outline-danger"
               id="reportBtn"
               boardNum="${board.tripBoardNo}"
-              boardClass="3"
+              boardClass="5"
             >
               <i class="fas fa-exclamation-circle"></i>
             </button>
