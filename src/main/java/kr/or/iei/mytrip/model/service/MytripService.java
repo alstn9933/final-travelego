@@ -38,6 +38,10 @@ public class MytripService {
 	public int setMytrip(Mytrip mytrip) {
 		return dao.setMytrip(mytrip);
 	}
+	
+	public int setMytrip2(Mytrip mytrip) {
+		return dao.setMytrip2(mytrip);
+	}
 
 	public int insertTripMember(TripMember tripMember) {
 		return dao.insertTripMember(tripMember);
@@ -103,6 +107,10 @@ public class MytripService {
 
 	public String selectNickname(String memberNickname) {
 		return dao.selectNickname(memberNickname);
+	}
+
+	public int deleteData(int currValIs) {
+		return dao.deleteData(currValIs);
 	}
 
 

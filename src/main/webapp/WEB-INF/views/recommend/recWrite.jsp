@@ -643,7 +643,7 @@
 					alert("본문을 입력하세요");
 					return false;
 				} */
-				if($("#selectR").val() == "지역선택"){
+				if($("#regionCountry").val()=="지역선택"){
 					alert("지역을 선택하세요");
 					return false;
 				}
